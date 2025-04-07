@@ -1,1 +1,1 @@
-hdrtk n3tiha 2/10
+hdrtk n3tiha 10/10

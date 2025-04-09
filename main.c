@@ -15,6 +15,8 @@ int	ft_strcmp(char *line, char *str)
 			return (0);
 		i++;
 	}
+	if (line[i] || str[i])
+		return (0);
 	return (1);
 }
 
@@ -22,17 +24,25 @@ int main(void)
 {
 	char	*cwd;
 	char	*cmd;
-	size_t	size;
+	// size_t	size;
 
 	cwd = NULL;
 	cmd = NULL;
-	size = 1024;
-	cmd = readline("prompt>$ ");
-	cwd = getcwd(cwd, size);
-	if (!cwd || !cmd)
-		return (1);
-	if (ft_strcmp(cmd, "pwd"))
-		printf("\nprompt>$ %s", cwd);
-	free (cmd);
+	// size = 1024;
+	cwd = getcwd(cwd, 100);
+	while (1)
+	{
+		cmd = readline("prompt>$ ");
+		if (!cwd || !cmd)
+			return (1);
+		if (ft_strcmp(cmd, "pwd"))
+		{
+			printf("prompt>$ %s", cwd);
+			free (cmd);
+			break;
+		}
+		free (cmd);
+	}
+	free (cwd);
 	return (0);
 }

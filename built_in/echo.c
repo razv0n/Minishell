@@ -38,7 +38,7 @@ void	ft_echo(char **arg)
 	i = 1;
 	if (ft_strcmp(arg[1], "-n"))
 	{
-		i = 2; //here i checked if there is a '-n' flag so i can skip it otherwise i write it
+		i = 2; //here i checked if there is a '-n' flag so i can skip newline otherwise i write it
 		nl = 1;
 	}
 	while (arg[i])
@@ -50,9 +50,12 @@ void	ft_echo(char **arg)
 		printf("\n");
 }
 
+// #include <unistd.h>
 int main()
 {
 	char *arg[] = {"echo", "-n", "i want to go", NULL};
+	// if (execve(arg[0], arg, NULL) == -1)
+	// 	printf("error\n");
 	ft_echo(arg);
 	return (0);
 }

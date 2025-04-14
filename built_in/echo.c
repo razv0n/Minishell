@@ -14,7 +14,7 @@
 
 //i considered that the struct has a double pointer containing the cmd and it's arguments
 //i didn't check if echo is valid or not
-
+// hi youness this is moncef: i ve decided that we should work with a linked list Lets assume we have the input: echo -n "msg1""msg2""msg3" we will split this into a linked list in our case we ignore spaces inside quotes so each word becomes a node in the list you should loop through the list to find the echo command and recognize that its the command we need to handl the command is always expected to come first also everything after echo should be considered as one argument
 int	ft_strcmp(char *arg, char *str)
 {
 	int	i;

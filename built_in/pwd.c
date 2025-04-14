@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
-#include <unistd.h>
-#include <stdio.h>
+#include "../minishell.h"
 
 void	ft_pwd(void)
 {

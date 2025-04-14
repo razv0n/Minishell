@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   chng_dir.c                                         :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/12 18:20:48 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/12 18:21:03 by yezzemry         ###   ########.fr       */
+/*   Created: 2025/04/14 10:38:43 by yezzemry          #+#    #+#             */
+/*   Updated: 2025/04/14 10:40:53 by yezzemry         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-void	ft_cd(char **arg)
-{
-	if (chdir(arg[1]) == -1)
-		write (2, "An error has occured while changing directory\n", 46);
-}
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <signal.h>
+# include <readline/readline.h>
 
-#include <fcntl.h>
-int	main()
-{
-	char s[100];
-	printf("%s\n", getcwd(s, 100));
-	char *arg[] = {"cd", "../", NULL};
-	ft_cd(arg);
-	open("youness", O_RDONLY | O_CREAT, 0777);
-	printf("%s\n", getcwd(s, 100));
-	return (0);
-}
+#endif

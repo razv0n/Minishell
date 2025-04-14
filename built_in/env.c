@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "../minishell.h"
 
 //We should have something that holds the env variable such as a dbl ptr in the struct
 

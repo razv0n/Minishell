@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
-#include <stdio.h>
+#include "../minishell.h"
 
 //i considered that the struct has a double pointer containing the cmd and it's arguments
 //i didn't check if echo is valid or not
@@ -50,7 +49,6 @@ void	ft_echo(char **arg)
 		printf("\n");
 }
 
-// #include <unistd.h>
 int main()
 {
 	char *arg[] = {"echo", "-n", "i want to go", NULL};

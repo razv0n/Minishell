@@ -1,4 +1,5 @@
 #include "../minishell.h"
+void    ft_export(char **env, int i);
 
 int	ft_strcmp(char *line, char *str)
 {
@@ -28,10 +29,13 @@ void	ft_exit(int ext_st)
 	exit (ext_st);
 }
 
-int main(void)
+int main(int ac, char **av, char **env)
 {
+	(void)ac;
+	(void)av;
 	char	*cwd;
 	char	*cmd;
+	int	i;
 
 	cwd = NULL;
 	cmd = NULL;
@@ -51,6 +55,13 @@ int main(void)
 			free (cwd);
 			free (cmd);
 			ft_exit(0);
+		}
+		else if (ft_strcmp(cmd, "export"))
+		{
+			i = 0;
+			while (env[i])
+				i++;
+			ft_export(env, i);
 		}
 		free (cmd);
 	}

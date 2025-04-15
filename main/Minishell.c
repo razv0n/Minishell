@@ -13,7 +13,7 @@ int main (int ac , char **av, char **env)
         line = readline("$> ");
         if (!line)
             return (1);
-        check_syntax(line);
+        check_quotes(line);
         free(line);
     }
     return (0);

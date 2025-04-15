@@ -1,5 +1,5 @@
 NAME = minishell
-FUNC = 
+FUNC = main/Minishell.c
 
 
 

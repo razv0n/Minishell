@@ -1,44 +1,48 @@
 #include "../Minishell.h"
 
-void    hash(char *line) //* check hash # if we found it we dont care about quotes for example $> #sdf '""       - > this is not a syntax error
-{
-    int i;
-    char *tmp;
-
-    i = 0;
-    while (line[i]) //*  ls# this is syntax error
-    {
-        if (line[0] == '#' || ((line[i] == ' ' || line[i] <= '\t') && line[i + 1] == '#'))
-        {
-            tmp = line;
-            line = ft_substr(line, i, ft_strlen(line));
-            free(tmp);
-            break;
-        }
-        i++;
-    }
-}
-
 void check_quotes (char *line)
 {
     int i;
     int j;
-    char *stack;
+    char stack[3];
+    bool single_quote;
+    bool double_quote;
 
-    stack = malloc(ft_strlen(line) / 2); //! stack algo
+    single_quote = false;
+    double_quote = false;
     i = 0;
     j = 0;
+    stack[2] = '\0';
     while (line[i])
     {
-        if (line[i] == '\'')
+        if (line[i] == '\'' && !double_quote)
         {
-            stack[j] = line[i]; //
+            single_quote = true;
+            stack[j] = line[i];
+            if (j && stack[j - 1] == '\'')
+            {
+                ft_bzero(stack, 3);
+                single_quote = false;
+                j = -1;
+            }
             j++;
         }
-        else if (line[i] == '"')
+        else if (line[i] == '"' && !single_quote)
         {
-
+            double_quote = true;
+            stack[j] = line[i];
+            if (j && stack[j - 1] == '"')
+            {
+                ft_bzero(stack, 3);
+                double_quote = false;
+                j = -1;
+            }
             j++;
         }
+        i++;
+    }
+    if (stack[0])
+    {
+        printf("Syntax error\n");
     }
 }

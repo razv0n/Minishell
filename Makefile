@@ -1,8 +1,8 @@
 NAME = minishell
-FUNC = 
+FUNC = pars/hach.c main/Minishell.c 
 
 
 
 
 
-all :  $() $(NAME)
+all : $(NAME)

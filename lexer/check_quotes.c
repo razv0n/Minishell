@@ -1,9 +1,16 @@
-#include "../Minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_quotes.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/17 11:13:17 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/04/18 11:46:38 by mfahmi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// "|" ">" "<" ">>" "<<" "$" -> sp character "test the allow function"
-// cmd
-// word
-// argument
+#include "../Minishell.h"
 
 void check_quotes (char *line)
 {
@@ -92,3 +99,14 @@ bool quotes_in_split(char quotes)
     else
         return false;
 }
+// void check_pipe_error(char *line)
+// {
+//     int i;
+
+//     i = 0;
+//     if (line[i] == '|')
+//         printf("syntax error\n");
+//     i = ft_strlen(line) - 1; // check if the pipe is 
+//     if (line[i] == '|')
+//         printf("syntax error\n");
+// }

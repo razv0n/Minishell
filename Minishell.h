@@ -6,12 +6,16 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdbol.h>
+#include <stdbool.h>
 #include "libft/libft.h"
+
 typedef struct t_node
 {
-    char **content;
+    char *content;
     struct t_node *next;
-};
+    struct t_node *prev;
+}t_list;
 
+void    check_quotes (char *line);
+bool    quotes_in_split(char quotes);
 #endif

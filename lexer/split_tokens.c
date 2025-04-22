@@ -18,7 +18,7 @@ void    split_arg(char *line, ft_list *head)
     int i;
     ft_list *node; //?-> u should declare the head
 
-    words = ft_split(line, ' '); // should not work with split >> << > < |
+    words = ft_split(line, ' '); //? should not work with split >> << > < |
     i = 0;
     if (!words)
         exit(1);

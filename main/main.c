@@ -13,7 +13,11 @@ int main (int ac , char **av, char **env)
         line = readline("$> ");
         if (!line)
             return (1);
+<<<<<<< HEAD:main/main.c
         lexer(line);
+=======
+        check_quotes(line);
+>>>>>>> 334ee0b09d095d24d02c9084791f944557a698ff:main/Minishell.c
         free(line);
     }
     return (0);

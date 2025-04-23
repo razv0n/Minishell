@@ -1,19 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pars.c                                             :+:      :+:    :+:   */
+/*   allocate_data.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/23 11:58:53 by mfahmi           ###   ########.fr       */
+/*   Created: 2025/04/23 11:25:24 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/04/23 11:26:11 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Minishell.h"
+#include "Minishell.h"
 
-void    pars(char *line , t_list *head)
-{
-    check_quotes(line);
-    split_arg(line, head);
-}
+void allocate ()

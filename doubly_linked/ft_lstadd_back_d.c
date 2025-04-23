@@ -6,11 +6,11 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:24:57 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/23 10:18:18 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/23 12:00:09 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../Minishell.h"
 
 void	ft_lstadd_back_d(t_list **start, t_list *new)
 {
@@ -27,7 +27,7 @@ void	ft_lstadd_back_d(t_list **start, t_list *new)
 	while (help->next != NULL)
 		help = help->next;
 	help->next = new;
-    new->perv = help;
+    new->prev = help;
 }
 /*int main ()
 {

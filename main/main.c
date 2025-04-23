@@ -1,10 +1,22 @@
 #include "../Minishell.h"
 
-void print_stack()
+void print_stack(t_list *head)
+{
+    if (!head)
+        return ;
+    while (head)
+    {
+        printf("head->countent %s",head->content);
+        head = head->next;
+    }
+}
+
 int main (int ac , char **av, char **env)
 {
     char *line;
+    t_list *head;
 
+    head = NULL;
     if (ac != 1)
     {
         printf ("minishell cannot run this\n");
@@ -15,7 +27,8 @@ int main (int ac , char **av, char **env)
         line = readline("╭━━[\033[1;36mminishell\033[0m]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮\n╰──➤");
         if (!line)
             return (1);
-        pars(line);
+        pars(line ,head);
+        print_stack(head);
         free(line);
     }
     return (0);

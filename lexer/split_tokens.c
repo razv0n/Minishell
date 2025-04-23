@@ -6,20 +6,18 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 0000/04/17 11:56:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/23 10:50:38 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/23 12:09:05 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Minishell.h"
+#include "../Minishell.h"
 
-void    split_arg(char *line, ft_list *head)
+void    split_arg(char *line, t_list *head)
 {
     char **words;
     int i;
-    ft_list *node;
+    t_list *node;
 
-
-    words = ft_split(line); //? should not work with split >> << > < |
     i = 0;
     words = ft_split_tokens(line);
     if (!words)
@@ -29,11 +27,10 @@ void    split_arg(char *line, ft_list *head)
         node = ft_lstnew_d(words[i]);
         if (!node)
         {
-            ft_lstclear(head);
-            fr_mem_split(words);
+            fr_mem_split(sizeof(words) / sizeof(words[0]), words);
             exit(1);
         }
-        ft_lsadd_back_d(&head, node);
+        ft_lstadd_back_d(&head, node);
         i++;
     }
 }

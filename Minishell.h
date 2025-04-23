@@ -16,18 +16,20 @@ enum e_type
     TYPE_HEREDOC,
     TYPE_APPEND,
 };//* this enum for type of token
-typedef struct t_node
-{
-    char *content;
-    int type;
-    struct t_node *next;
-    struct t_node *prev;
-}t_list; // this is for parsing
+// typedef struct t_list
+// {
+//     char *content;
+//     int type;
+//     struct t_list *next;
+//     struct t_list *prev;
+// }t_list; // this is for parsing
 void    check_quotes (char *line);
 bool    quotes_in_split(char quotes);
 char	**fr_mem_split(int index, char **result);
-void    check_error(char *line);
+void    pars(char *line, t_list *head);
+char	**ft_split_tokens(char const *s);
 void	ft_lstadd_front_d(t_list **lst, t_list *new);
 void	ft_lstadd_back_d(t_list **start, t_list *new);
 t_list	*ft_lstnew_d(void *content);
+void    split_arg(char *line, t_list *head);
 #endif

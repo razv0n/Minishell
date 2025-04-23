@@ -6,11 +6,11 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:08:26 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/23 10:18:24 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/23 11:59:49 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../Minishell.h"
 
 void	ft_lstadd_front_d(t_list **lst, t_list *new)
 {

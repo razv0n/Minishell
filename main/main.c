@@ -17,6 +17,7 @@ int main (int ac , char **av, char **env)
     t_list *head;
 
     head = NULL;
+    (void) av;
     if (ac != 1)
     {
         printf ("minishell cannot run this\n");

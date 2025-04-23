@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/23 10:22:19 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/23 15:41:48 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,6 @@ static int	count_word(char const *str)
 	return (count);
 }
 
-char	**fr_mem_split(int index, char **result)
-{
-	while (index >= 0)
-	{
-		free(result[index]);
-		index--;
-	}
-	free (result);
-	return (NULL);
-}
 static char	*get_next_word(char const **s, char **result, int index)
 {
 	int			lenght;
@@ -102,8 +92,8 @@ static char	*get_next_word(char const **s, char **result, int index)
 		while (check_metacharacter(**s) && **s != '\0')
 			(*s)++;
 	}
-	if (*start == '\'' || *start == '"')
-		start++;
+	if (**s == '\'' || **s == '"')
+		(*s)++;
 	lenght = *s - start;
 	result[index] = malloc ((lenght + 1) * sizeof(char));
 	if (!result[index])
@@ -141,15 +131,15 @@ char	**ft_split_tokens(char const *s)
 	result[i] = NULL;
 	return (result);
 }
-int main (int ac , char **av)
-{
-//      // char **sp = ft_split("#test#hello", '#');
-//      // char **sp = ft_split("#hhfe#banana#boom#." , '#');
-//       //char **sp = ft_split("booomlike" , ' ');
-     char **sp = ft_split_tokens(av[1]);
-     int i;
-	 //char **sp = ft_split(",,,,,,," , ',');
-	 for (i = 0; sp[i] ; i++)
-          printf("%s\n",sp[i]);
-	fr_mem_split(i,sp);
-}
+// int main (int ac , char **av)
+// {
+// //      // char **sp = ft_split("#test#hello", '#');
+// //      // char **sp = ft_split("#hhfe#banana#boom#." , '#');
+// //       //char **sp = ft_split("booomlike" , ' ');
+//      char **sp = ft_split_tokens(av[1]);
+//      int i;
+// 	 //char **sp = ft_split(",,,,,,," , ',');
+// 	 for (i = 0; sp[i] ; i++)
+//           printf("%s\n",sp[i]);
+// 	fr_mem_split(i,sp);
+// }

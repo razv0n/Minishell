@@ -23,6 +23,7 @@
 typedef struct t_node
 {
     char *content;
+    int type;
     struct t_node *next;
     struct t_node *prev;
 }   t_list;

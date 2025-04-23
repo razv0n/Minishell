@@ -52,9 +52,9 @@ void	ft_echo(char **arg)
 
 int main()
 {
-	char *arg[] = {"echo", "-n", "i want to go", NULL};
-	// if (execve(arg[0], arg, NULL) == -1)
-	// 	printf("error\n");
-	ft_echo(arg);
+	char *arg[] = {"echo", "-nnnnn", "i want to go      ", NULL};
+	execve("/usr/bin/echo", arg, NULL);
+	printf("error\n");
+	// ft_echo(arg);
 	return (0);
 }

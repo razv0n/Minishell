@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:13:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/23 10:28:06 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:04:53 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void check_quotes (char *line)
     single_quotes = false;
     i = 0;
     j = 0;
-    stack[2] = '\0';
+    ft_bzero(stack, 3);
     while (line[i])
     {
         if (line[i] == '\'' && !double_quotes)

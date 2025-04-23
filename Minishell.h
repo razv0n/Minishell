@@ -26,10 +26,12 @@ enum e_type
 void    check_quotes (char *line);
 bool    quotes_in_split(char quotes);
 char	**fr_mem_split(int index, char **result);
-void    pars(char *line, t_list *head);
+void    pars(char *line, t_list **head);
 char	**ft_split_tokens(char const *s);
 void	ft_lstadd_front_d(t_list **lst, t_list *new);
 void	ft_lstadd_back_d(t_list **start, t_list *new);
 t_list	*ft_lstnew_d(void *content);
-void    split_arg(char *line, t_list *head);
+void    split_arg(char *line, t_list **head);
+int     check_metacharacter(const char  *c);
+void    print_stack(t_list *head);// for testing
 #endif

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/23 15:41:48 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:02:04 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ bool check_metacharcter_skip(const char *c, size_t *i)
 		return (1);
 	return (0);
 }
-bool check_metacharacter(char c)
+int check_metacharacter(const char  *c)
 {
-    if (c == '|' || c == '>' || c == '<')
+	if((*c == '>' && *(c + 1) == '>') || (*c == '<' && *(c + 1) == '<'))
+		return (2);
+    if (*c == '|' || *c == '>' || *c == '<')
         return (1);
     return (0);
 }
@@ -82,14 +84,16 @@ static char	*get_next_word(char const **s, char **result, int index)
 		while (**s != ab && **s != '\0')
 			(*s)++;
 	}
-	else if (!check_metacharacter(**s))
+	else if (!check_metacharacter(*s))
 	{
-		while (((!check_metacharacter(**s)) && !(**s >= 9 && **s <= 13)) &&  **s != ' ' && **s != '\0')
+		while (((!check_metacharacter(*s)) && !(**s >= 9 && **s <= 13)) &&  **s != ' ' && **s != '\0')
 			(*s)++;
 	}
 	else
 	{
-		while (check_metacharacter(**s) && **s != '\0')
+		if (check_metacharacter(*s) == 2)
+			*s += 2;
+		else
 			(*s)++;
 	}
 	if (**s == '\'' || **s == '"')

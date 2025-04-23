@@ -25,4 +25,9 @@ typedef struct t_node
 }t_list; // this is for parsing
 void    check_quotes (char *line);
 bool    quotes_in_split(char quotes);
+char	**fr_mem_split(int index, char **result);
+void    check_error(char *line);
+void	ft_lstadd_front_d(t_list **lst, t_list *new);
+void	ft_lstadd_back_d(t_list **start, t_list *new);
+t_list	*ft_lstnew_d(void *content);
 #endif

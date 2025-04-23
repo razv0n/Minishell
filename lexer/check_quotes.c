@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:13:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/18 11:46:38 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/23 10:28:06 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,7 @@ void check_quotes (char *line)
             stack[j] = line[i];
             if (j != 0  && stack[j - 1] == '\'')
             {
-                while (j >= 0)
-                {
-                    stack[j] = '\0';
-                    j--;
-                }
+                ft_bzero(stack, 3);
                 j = -1;
                 single_quotes = false;
             }
@@ -49,11 +45,7 @@ void check_quotes (char *line)
             stack[j] = line[i];
             if (j != 0 && stack[j - 1] == '"')
             {
-                while (j >= 0)
-                {
-                    stack[j] = '\0';
-                    j--;
-                }
+                ft_bzero(stack, 3);
                 j = -1;
                 double_quotes = false;
             }
@@ -99,7 +91,7 @@ bool quotes_in_split(char quotes)
     else
         return false;
 }
-// void check_pipe_error(char *line)
+// void (char *line)
 // {
 //     int i;
 

@@ -1,8 +1,10 @@
 #include "../Minishell.h"
 
+void print_stack()
 int main (int ac , char **av, char **env)
 {
     char *line;
+
     if (ac != 1)
     {
         printf ("minishell cannot run this\n");
@@ -10,14 +12,10 @@ int main (int ac , char **av, char **env)
     }
     while (1)
     {
-        line = readline("$> ");
+        line = readline("╭━━[\033[1;36mminishell\033[0m]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮\n╰──➤");
         if (!line)
             return (1);
-<<<<<<< HEAD:main/main.c
-        lexer(line);
-=======
-        check_quotes(line);
->>>>>>> 334ee0b09d095d24d02c9084791f944557a698ff:main/Minishell.c
+        pars(line);
         free(line);
     }
     return (0);

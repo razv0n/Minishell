@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 0000/04/17 11:56:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/23 10:38:14 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/23 10:50:38 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ void    split_arg(char *line, ft_list *head)
     int i;
     ft_list *node;
 
-<<<<<<< HEAD
-=======
-    words = ft_split(line, ' '); //? should not work with split >> << > < |
->>>>>>> b5c7d7445647f45411ff3d0ef93f3f672976cd83
+
+    words = ft_split(line); //? should not work with split >> << > < |
     i = 0;
     words = ft_split_tokens(line);
     if (!words)

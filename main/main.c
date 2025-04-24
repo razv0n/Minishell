@@ -29,7 +29,7 @@ int main (int ac , char **av, char **env)
         if (!line)
             return (1);
         pars(line ,&head);
-        // print_stack(head); for printig linked list
+        print_stack(head); //for printig linked list
         free(line);
     }
     return (0);

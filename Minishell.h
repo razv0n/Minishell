@@ -23,6 +23,12 @@ enum e_type
 //     struct t_list *next;
 //     struct t_list *prev;
 // }t_list; // this is for parsing
+
+// typedef struct t_info
+// {
+//     char *content;
+//     int type;
+// };
 void    check_quotes (char *line);
 bool    quotes_in_split(char quotes);
 char	**fr_mem_split(int index, char **result);
@@ -33,5 +39,10 @@ void	ft_lstadd_back_d(t_list **start, t_list *new);
 t_list	*ft_lstnew_d(void *content);
 void    split_arg(char *line, t_list **head);
 int     check_metacharacter(const char  *c);
+int     ft_strcmp(char *line, char *str);
+void	ft_lstclear_d(t_list **lst);
+bool	free_print(t_list *head, char **words);
+
+bool    check_error(t_list *head, char **words);
 void    print_stack(t_list *head);// for testing
 #endif

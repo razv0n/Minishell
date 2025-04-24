@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:02:53 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/14 19:03:18 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/04/23 23:06:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Minishell.h"
 
 typedef struct export
 {

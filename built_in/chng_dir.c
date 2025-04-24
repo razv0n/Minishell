@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   chng_dir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:20:48 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/12 18:21:03 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/04/23 23:05:51 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Minishell.h"
 
 void	ft_cd(char **arg)
 {

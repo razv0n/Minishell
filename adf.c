@@ -1,22 +1,6 @@
 #include "../minishell.h"
 void    ft_export(char **env, int i);
 
-int	ft_strcmp(char *line, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] && str[i])
-	{
-		if (line[i] != str[i])
-			return (0);
-		i++;
-	}
-	if (line[i] || str[i])
-		return (0);
-	return (1);
-}
-
 void	handler(int sig)
 {
 	(void)sig;

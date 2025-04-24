@@ -1,5 +1,5 @@
 NAME = minishell
-FUNC = pars/pars.c    allocate_free/free_data.c  main/main.c  doubly_linked/ft_lstadd_back_d.c  doubly_linked/ft_lstadd_front_d.c  doubly_linked/ft_lstnew_d.c lexer/check_quotes.c lexer/split_tokens.c  lexer/utilis.c
+FUNC = syntax_error/error.c pars/pars.c allocate_free/free_data.c  main/main.c  doubly_linked/ft_lstadd_back_d.c  doubly_linked/ft_lstadd_front_d.c  doubly_linked/ft_lstnew_d.c lexer/check_quotes.c lexer/split_tokens.c  lexer/utilis.c
 OBG = $(FUNC:.c=.o)
 LIBFT = libft.a
 LINKING = -lreadline
@@ -38,10 +38,13 @@ $(NAME): $(OBG) $(LIBFT)
 	@echo "$(BLUE)Compiling $<...$(RESET)"
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o : allocate_free/%.c
+%.o : allocate_free syntax_error//%.c
 	@echo "$(BLUE)Compiling $<...$(RESET)"
 	$(CC) $(CFLAGS) -c $< -o $@
 
+%.o : syntax_error//%.c
+	@echo "$(BLUE)Compiling $<...$(RESET)"
+	$(CC) $(CFLAGS) -c $< -o $@
 clean:
 	@echo "$(CYAN)🧹 Cleaning object files...$(RESET)"
 	rm -rf $(OBG)

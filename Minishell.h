@@ -9,12 +9,12 @@
 #include "libft/libft.h"
 enum e_type
 {
-    TYPE_WORD,
-    TYPE_PIPE,
-    TYPE_REDIRECT_IN,
-    TYPE_REDIRECT_OUT,
-    TYPE_HEREDOC,
-    TYPE_APPEND,
+    WORD,
+    PIPE,
+    REDIRECT_IN,
+    REDIRECT_OUT,
+    HEREDOC,
+    APPEND,
 };//* this enum for type of token
 // typedef struct t_list
 // {

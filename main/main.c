@@ -6,16 +6,18 @@ void print_stack(t_list *head)
         // return ;
     while (head)
     {
-        printf("head->countent %s\n",head->content);
+        printf("head->countent %s  head->type %d\n",head->content, head->type);
         head = head->next;
     }
 }
+
 
 int main (int ac , char **av, char **env)
 {
     char *line;
     t_list *head;
 
+    signal(SIGINT, handle_sigint);
     head = NULL;
     (void) av;
     if (ac != 1)
@@ -27,8 +29,12 @@ int main (int ac , char **av, char **env)
     {
         line = readline("╭━━[\033[1;36mminishell\033[0m]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮\n╰──➤");
         if (!line)
+        {
+            printf("exit\n");
             return (1);
-        pars(line ,&head);
+        }
+        add_history(line);
+        pars(line ,&head); // ? dont forget to free the head after using it
         print_stack(head); //for printig linked list
         free(line);
     }

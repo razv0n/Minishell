@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "libft/libft.h"
+#include <signal.h>
+#include<readline/history.h>
+
 enum e_type
 {
     WORD,
@@ -16,19 +19,14 @@ enum e_type
     HEREDOC,
     APPEND,
 };//* this enum for type of token
-// typedef struct t_list
-// {
-//     char *content;
-//     int type;
-//     struct t_list *next;
-//     struct t_list *prev;
-// }t_list; // this is for parsing
 
-// typedef struct t_info
-// {
-//     char *content;
-//     int type;
-// };
+typedef struct t_info
+{
+    char *content;
+    char *stdin;
+    char *stdout;
+}t_info;
+
 void    check_quotes (char *line);
 bool    quotes_in_split(char quotes);
 char	**fr_mem_split(int index, char **result);
@@ -42,7 +40,11 @@ int     check_metacharacter(const char  *c);
 int     ft_strcmp(char *line, char *str);
 void	ft_lstclear_d(t_list **lst);
 bool	free_print(t_list *head, char **words);
-
+void    handle_sigint(int sig);
 bool    check_error(t_list *head, char **words);
-void    print_stack(t_list *head);// for testing
+void    print_stack(t_list *head);// for testing u should remove it
+void    type_tokens(t_list *head);
+bool    is_redirect(char *c);
+bool    is_pipe(char *c);
+bool    check_metacharcter_skip(const char *c, size_t *i);
 #endif

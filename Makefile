@@ -1,5 +1,5 @@
 NAME = minishell
-FUNC = syntax_error/error.c pars/pars.c allocate_free/free_data.c  main/main.c  doubly_linked/ft_lstadd_back_d.c  doubly_linked/ft_lstadd_front_d.c  doubly_linked/ft_lstnew_d.c lexer/check_quotes.c lexer/split_tokens.c  lexer/utilis.c
+FUNC = allocate_free/init_data.c syntax_error/error.c pars/pars.c allocate_free/free_data.c  main/main.c  doubly_linked/ft_lstadd_back_d.c  doubly_linked/ft_lstadd_front_d.c  doubly_linked/ft_lstnew_d.c lexer/check_quotes.c lexer/split_tokens.c  lexer/utilis.c
 OBG = $(FUNC:.c=.o)
 LIBFT = libft.a
 LINKING = -lreadline

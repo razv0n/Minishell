@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/24 18:52:39 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/27 13:43:52 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,3 +31,5 @@ bool	free_print(t_list *head, char **words)
 	ft_lstclear_d(&head);
 	return (true);
 }
+
+// void

@@ -15,11 +15,11 @@ void print_stack(t_list *head)
 int main (int ac , char **av, char **env)
 {
     char *line;
-    t_list *head;
+    t_info *info;
 
     signal(SIGINT, handle_sigint);
-    head = NULL;
     (void) av;
+    info = malloc(sizeof(t_info));
     if (ac != 1)
     {
         printf ("minishell cannot run this\n");
@@ -34,8 +34,8 @@ int main (int ac , char **av, char **env)
             return (1);
         }
         add_history(line);
-        pars(line ,&head); // ? dont forget to free the head after using it
-        print_stack(head); //for printig linked list
+        pars(info, line, env); // ? dont forget to free the head after using it
+        print_stack(info->head_cmd); //for printig linked list
         free(line);
     }
     return (0);

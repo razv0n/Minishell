@@ -6,13 +6,13 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:13:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/24 18:53:09 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/26 16:07:55 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void check_quotes (char *line)
+bool    check_quotes (t_info *info)
 {
     int i;
     int j;
@@ -25,12 +25,12 @@ void check_quotes (char *line)
     i = 0;
     j = 0;
     ft_bzero(stack, 3);
-    while (line[i])
+    while (info->line[i])
     {
-        if (line[i] == '\'' && !double_quotes)
+        if (info->line[i] == '\'' && !double_quotes)
         {
             single_quotes = true;
-            stack[j] = line[i];
+            stack[j] = info->line[i];
             if (j != 0  && stack[j - 1] == '\'')
             {
                 ft_bzero(stack, 3);
@@ -39,10 +39,10 @@ void check_quotes (char *line)
             }
             j++;
         }
-        else if (line[i] == '"' && !single_quotes)
+        else if (info->line[i] == '"' && !single_quotes)
         {
             double_quotes = true;
-            stack[j] = line[i]; 
+            stack[j] = info->line[i];
             if (j != 0 && stack[j - 1] == '"')
             {
                 ft_bzero(stack, 3);
@@ -56,7 +56,9 @@ void check_quotes (char *line)
     if (stack[0])
     {
         printf("syntax error\n");
+        return (true);
     }
+    return (false);
 }
 
 bool quotes_in_split(char quotes)

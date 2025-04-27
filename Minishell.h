@@ -22,20 +22,21 @@ enum e_type
 
 typedef struct t_info
 {
+    t_list *head_env;
+    t_list *head_cmd;
     char *content;
-    char *stdin;
-    char *stdout;
+    char *line;
 }t_info;
 
-void    check_quotes (char *line);
+bool    check_quotes (t_info *info);
 bool    quotes_in_split(char quotes);
 char	**fr_mem_split(int index, char **result);
-void    pars(char *line, t_list **head);
+void    pars(t_info *info, char *line, char **env);
 char	**ft_split_tokens(char const *s);
 void	ft_lstadd_front_d(t_list **lst, t_list *new);
 void	ft_lstadd_back_d(t_list **start, t_list *new);
 t_list	*ft_lstnew_d(void *content);
-void    split_arg(char *line, t_list **head);
+void    split_arg(t_info *info);
 int     check_metacharacter(const char  *c);
 int     ft_strcmp(char *line, char *str);
 void	ft_lstclear_d(t_list **lst);
@@ -47,4 +48,5 @@ void    type_tokens(t_list *head);
 bool    is_redirect(char *c);
 bool    is_pipe(char *c);
 bool    check_metacharcter_skip(const char *c, size_t *i);
+void    init_info(t_info *info, char *line, char **env);
 #endif

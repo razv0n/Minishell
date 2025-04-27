@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/25 10:31:00 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/25 15:16:03 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void handle_sigint(int sig)
     {
         printf("\n");
         rl_on_new_line();
-        rl_replace_line("", 0);
+        rl_replace_line("", 0); //! whene i remove it, it work normaly
         rl_redisplay();
     }
 }

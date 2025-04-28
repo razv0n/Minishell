@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/04/28 09:53:28 by mfahmi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
@@ -27,7 +39,7 @@ typedef struct t_info
     char *content;
     char *line;
 }t_info;
-
+void    cpy_env(char **env, t_info *info);
 bool    check_quotes (t_info *info);
 bool    quotes_in_split(char quotes);
 char	**fr_mem_split(int index, char **result);

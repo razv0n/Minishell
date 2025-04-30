@@ -140,7 +140,7 @@ void	check_access(t_u *utils)
 	{
 		x = add_string(utils->path[i], utils->cmd[0]);
 		if (!x)
-			return ; // handle this error
+			exit(9); // handle this error
 		if (!access(x, F_OK))
 		{
 			if (!access(x, X_OK))
@@ -158,59 +158,66 @@ void	close_fds(int i, int id, int npi)
 {
 	if (!i)
 	{
-		if (!id)
-			close (0);
-		else
+		if (id)
 			close (1);
 	}
-	else
-	{
-		if (!id)
-		{
-			if (npi)
-				close (1);
-		}
-		else
-		{
-			if (npi)
-				close (0);
-		}
-	}
+	// else
+	// {
+	// 	if (!id)
+	// 	{
+	// 		if (npi)
+	// 			close (1);
+	// 	}
+	// 	else
+	// 	{
+	// 		if (npi)
+	// 			close (0);
+	// 	}
+	// }
 }
 
 void	get_path(t_u *utils)
 {
 	int	id;
-	static int	i;
 
 	check_access(utils);
 	id = fork();
 	if (id == -1)
-		return ;
+		exit(8);
 	if (!id)
 	{
-		close_fds(i, id, utils->npi);
+		close_fds(utils->check, id, utils->npi);
 		if (utils->exc)
 			execve(utils->exc, utils->cmd, NULL);
 		execve(utils->cmd[0], utils->cmd, NULL);
-		printf("execve failed\n");
+		write (2, "execve failed\n", 14);
 	}
+	close_fds(utils->check, id, utils->npi);
 	waitpid(id, NULL, 0);
-	close_fds(i, id, utils->npi);
-	if (!i)
-		i++;
+	if (!utils->check)
+		utils->check++;
 	else
-		i = 0;
+		utils->check = 0;
 }
 
 void	open_pipe(t_u *utils)
 {
+	static int	i;
+
+	if (i)
+	{
+		if (dup2(utils->copy, 0) == -1)
+			exit(5);
+		close (utils->copy);
+	}
 	if (utils->npi)
 	{
 		if (pipe(utils->pi) == -1)
-			return ; // handle pipe error
-		if (dup2(utils->pi[0], 0) == -1 || dup2(utils->pi[1], 1) == -1)
-			return ;
+			exit(3); // handle pipe error
+		if (dup2(utils->pi[1], 1) == -1)
+			exit(4);
+		utils->copy = dup(utils->pi[0]);
+		i++;
 		close (utils->pi[0]);
 		close (utils->pi[1]);
 		utils->npi--;
@@ -219,8 +226,13 @@ void	open_pipe(t_u *utils)
 
 void	back_to_normal(t_u *utils)
 {
-	if (dup2(utils->fd_in, 0) == -1 || dup2(utils->fd_out, 1) == -1)
-		return ;
+	if (!utils->check)
+	{
+		if (dup2(utils->fd_in, 0) == -1)
+			exit(10);
+	}
+	if (dup2(utils->fd_out, 1) == -1)
+		exit(11);
 }
 
 void	start_executing(t_list **head, t_u *utils)
@@ -229,7 +241,7 @@ void	start_executing(t_list **head, t_u *utils)
 	{
 		utils->cmd = collecte_cmds(*head, utils);
 		if (!utils->cmd)
-			return ; // handle malloc or other things errors
+			exit(2); // handle malloc or other things errors
 		open_pipe(utils);
 		while ((*head) && ((*head)->type != TYPE_PIPE))
 		{
@@ -249,12 +261,14 @@ void	init_things(t_list **head, t_u *utils)
 {
 	utils->cmd = NULL;
 	utils->exc = NULL;
+	utils->check = 0;
+	utils->copy = 0;
 	utils->npi = count_pipes(*head);
 	utils->fd_in = dup(0);
 	utils->fd_out = dup(1);
 	utils->path = update_path(getenv("PATH"));
 	if (!utils->path || utils->fd_in == -1 || utils->fd_out == -1)
-		return ;
+		exit(1);
 	start_executing(head, utils);
 }
 
@@ -275,7 +289,7 @@ int	main()
 		return (1);
 
 	head = node1;
-	node1->content = "ls";
+	node1->content = "/usr/bin/ls";
 	node1->prev = NULL;
 	node1->type = TYPE_WORD;
 	node1->next = node2;
@@ -298,7 +312,7 @@ int	main()
 	node5->content = "a";
 	node5->prev = node4;
 	node5->type = TYPE_WORD;
-	node5->next = NULL;
+	node5->next = node6;
 
 	node6->content = "|";
 	node6->prev = node5;
@@ -328,8 +342,9 @@ int	main()
 	free (node8);
 }
 
-// ls > test -a | cat -e
+// ls -la | grep a | wc -l
 
+// write 1 : read 0
 // 0 in
 // 1 out
 // 2 err

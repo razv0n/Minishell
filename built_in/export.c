@@ -50,7 +50,7 @@ int	ft_len(char *s, int *sp)
 	return (i);
 }
 
-char	*ft_strdup(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*out;
 	int	i;
@@ -129,27 +129,30 @@ void	add_to_export(xp **head, char *s)
 
 	tmp = *head;
 	ptr = NULL;
-	while (tmp->next)
+	while (tmp)
 	{
-		if (compare(tmp->str + 11, s, 1) > 0)
-			ptr = tmp;
+		if (compare(tmp->str + 11, s, 1) >= 0)
+			break;
+		ptr = tmp;
 		tmp = tmp->next;
 	}
 	node = malloc(sizeof(xp));
 	if (!node)
 		return ;
-	node->str = ft_strdup("declare -x ", s);
+	node->str = ft_strjoin("declare -x ", s);
 	if (!node->str)
 		return ;
 	node->next = NULL;
 	if (ptr)
 	{
-		tmp = ptr->next;
 		ptr->next = node;
 		node->next = tmp;
 	}
 	else
-		tmp->next = node;
+	{
+		node->next = *head;
+		*head = node;
+	}
 }
 
 void	ft_export(char **env, char *s, int i)
@@ -175,7 +178,7 @@ void	ft_export(char **env, char *s, int i)
 			}
 			j++;
 		}
-		tmp = ft_strdup("declare -x ", env[x]);
+		tmp = ft_strjoin("declare -x ", env[x]);
 		create_node(&head, tmp);
 		x++;
 		i++;
@@ -203,6 +206,6 @@ void	ft_export(char **env, char *s, int i)
 // 	i = 0;
 // 	while (env[i])
 // 		i++;
-// 	ft_export(env, "A=3428345", i);
+// 	ft_export(env, "XL=3428345", i);
 // 	return 0;
 // }

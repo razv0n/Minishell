@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/01 18:37:38 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/01 22:25:23 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static int	count_word(char const *str)
 
 	sp = 1;
 	i = 0;
+	check2 = true;
 	if (str[i] == '\0')
 		return (0);
 	count = 0;

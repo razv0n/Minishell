@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/27 13:43:22 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/01 16:46:56 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,10 @@ void    cpy_env(char **env, t_info *info)
 void    pars(t_info *info, char *line , char **env)
 {
     init_info(info, line, env); // copy env to linked list
-    if (!check_quotes(info))
+    if (!check_quotes_error(info))
     {
         split_arg(info);
         type_tokens(info->head_cmd);
+        expand(info);
     }
 }

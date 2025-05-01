@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/27 16:04:18 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/01 16:30:45 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void print_stack(t_list *head)
         // return ;
     while (head)
     {
-        printf("head->countent %s  head->type %d\n",head->content, head->type);
+        printf("\nhead->countent [%s]  head->type %d\n",head->content, head->type);
         head = head->next;
     }
 }
@@ -45,7 +45,8 @@ int main (int ac , char **av, char **env)
             printf("exit\n");
             return (1);
         }
-        add_history(line);
+        if(line[0])
+            add_history(line);
         pars(info, line, env); // ? dont forget to free the head after using it
         print_stack(info->head_cmd); //for printig linked list
         free(line);

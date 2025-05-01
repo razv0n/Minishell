@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/25 15:16:03 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/01 18:37:38 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,12 @@ int check_metacharacter(const char  *c)
         return (1);
     return (0);
 }
-
+bool	check_quotes(char c)
+{
+	if (c == '\'' || c == '"')
+		return (1);
+	return (0);
+}
 
 static int	count_word(char const *str)
 {
@@ -66,6 +71,8 @@ static int	count_word(char const *str)
 	int			count;
 	bool			sp;
 	bool check;
+	bool quotes;
+	bool check2;
 
 	sp = 1;
 	i = 0;
@@ -75,10 +82,18 @@ static int	count_word(char const *str)
 	while (str[i])
 	{
 		check = check_metacharcter_skip(str, &i);
-		if (!(str[i] >= 9 && str[i] <= 13) && str[i] != ' ' && quotes_in_split(str[i]))
+		quotes = quotes_in_split(str[i]);
+		if (!quotes)
+			check2 = false;
+		if (!(str[i] >= 9 && str[i] <= 13) && str[i] != ' ' && quotes)
 		{
 			if (check == true)
 				sp = 1;
+			if (!check2 && !sp)
+			{
+				sp = 1;
+				check2 =  true;
+			}
 			if (sp == true)
 			{
 				count++;
@@ -104,16 +119,17 @@ static char	*get_next_word(char const **s, char **result, int index)
 	while (((**s >= 9 && **s <= 13) || **s == ' ') && **s != '\0')
 		(*s)++;
 	start = *s;
-	if (**s == '\'' || **s == '"')
+	if (check_quotes(**s))
 	{
 		char ab = **s;
 		(*s)++;
 		while (**s != ab && **s != '\0')
 			(*s)++;
+		(*s)++;
 	}
 	else if (!check_metacharacter(*s))
 	{
-		while (((!check_metacharacter(*s)) && !(**s >= 9 && **s <= 13)) &&  **s != ' ' && **s != '\0')
+		while (((!check_metacharacter(*s)) && !(**s >= 9 && **s <= 13)) &&  **s != ' ' && **s != '\0' && !check_quotes(**s))
 			(*s)++;
 	}
 	else
@@ -123,8 +139,8 @@ static char	*get_next_word(char const **s, char **result, int index)
 		else
 			(*s)++;
 	}
-	if (**s == '\'' || **s == '"')
-		(*s)++;
+	// if (**s == '\'' || **s == '"')
+		// (*s)++;
 	lenght = *s - start;
 	result[index] = malloc ((lenght + 1) * sizeof(char));
 	if (!result[index])

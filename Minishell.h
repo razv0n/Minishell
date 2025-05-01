@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/28 09:53:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/01 16:03:19 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,17 @@ enum e_type
     REDIRECT_OUT,
     HEREDOC,
     APPEND,
+    SINGLE_Q,
+    DOUBLE_Q,
 };//* this enum for type of token
+
+# define ERR_MALLOC	"malloc error\n"
+# define ERR_PIPE	"pipe error\n"
+# define ERR_FORK	"fork error\n"
+
+# define EXT_MALLOC	1
+# define EXT_PIPE	1
+# define EXT_FORK	1
 
 typedef struct t_info
 {
@@ -40,7 +50,7 @@ typedef struct t_info
     char *line;
 }t_info;
 void    cpy_env(char **env, t_info *info);
-bool    check_quotes (t_info *info);
+bool    check_quotes_error (t_info *info);
 bool    quotes_in_split(char quotes);
 char	**fr_mem_split(int index, char **result);
 void    pars(t_info *info, char *line, char **env);
@@ -61,4 +71,7 @@ bool    is_redirect(char *c);
 bool    is_pipe(char *c);
 bool    check_metacharcter_skip(const char *c, size_t *i);
 void    init_info(t_info *info, char *line, char **env);
+bool	check_quotes(char c);
+void    expand(t_info *info);
+
 #endif

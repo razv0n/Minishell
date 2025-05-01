@@ -6,13 +6,13 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:13:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/26 16:07:55 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/04/30 15:33:20 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-bool    check_quotes (t_info *info)
+bool    check_quotes_error (t_info *info)
 {
     int i;
     int j;

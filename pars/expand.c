@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/01 21:44:44 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/02 06:44:04 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void    expand(t_info *info)
     wich_quote = 0;
     while (content)
     {
-        if (content->content[0] == '$' && !content->content[1] && content->next)
+        if (content->content[0] == '$' && !content->content[1] && content->next && check_quotes(content->next->content[0]))
         {
             next_node = content->next;
             remove_node(&info->head_cmd, content);

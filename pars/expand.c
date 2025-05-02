@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/02 17:18:02 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/02 21:58:24 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,7 @@ void	ft_lstdelone(t_list *lst, void (*del) (void*))
 	free (lst);
 }
 
-void remove_node (t_list **head, t_list *remove)
-{
-    if (remove->prev)
-    {
-        remove->prev->next = remove->next;
-        remove->next->prev = remove->prev;
-    }
-    else
-    {
-        *head = (*head)->next;
-        (*head)->prev = NULL;
-    }
-    ft_lstdelone(remove, free);
-}
+
 short    remove_quotes(char **str)
 {
     int lenght;
@@ -152,9 +139,9 @@ void    expand(t_info *info)
 
     i = 0;
     content = info->head_cmd;
-    wich_quote = 0;
     while (content)
     {
+        wich_quote = 0;
         if (content->content[0] == '$' && !content->content[1] && content->next && check_quotes(content->next->content[0]))
         {
             next_node = content->next;

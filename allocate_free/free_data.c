@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/02 06:56:16 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/02 20:44:14 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ void ft_free()
 {}
 
 
-void *ft_malloc(void *ptr, size_t size)
-{
-	ptr = malloc(sizeof(ptr) * size);
-	if (!ptr)
-	{
-		perror(ERR_MALLOC);
-		ft_free();
-		exit(1);
-	}
-}
+// void *ft_malloc(void *ptr, size_t size)
+// {
+// 	ptr = malloc(sizeof(ptr) * size);
+// 	if (!ptr)
+// 	{
+// 		perror(ERR_MALLOC);
+// 		ft_free();
+// 		exit(1);
+// 	}
+// }

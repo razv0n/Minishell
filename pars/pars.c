@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/01 16:46:56 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/02 21:21:09 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ void    pars(t_info *info, char *line , char **env)
         split_arg(info);
         type_tokens(info->head_cmd);
         expand(info);
+        remove_the_null(&info->head_cmd);
     }
 }

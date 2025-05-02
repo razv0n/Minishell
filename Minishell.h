@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/01 16:03:19 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/02 21:01:51 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,7 @@ bool    check_metacharcter_skip(const char *c, size_t *i);
 void    init_info(t_info *info, char *line, char **env);
 bool	check_quotes(char c);
 void    expand(t_info *info);
+void remove_node (t_list **head, t_list *remove);
+void remove_the_null(t_list **head);
 
 #endif

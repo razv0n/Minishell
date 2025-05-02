@@ -1,0 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/13 21:15:28 by yezzemry          #+#    #+#             */
+/*   Updated: 2025/04/23 23:06:02 by mfahmi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../Minishell.h"
+
+//We should have something that holds the env variable such as a dbl ptr in the struct
+
+void	ft_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+}
+
+int	main(int ac, char **av, char **env)
+{
+	ft_env(env);
+	return 0;
+}

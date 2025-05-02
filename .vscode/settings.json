@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "unistd.h": "c",
+        "stat.h": "c",
+        "stdio.h": "c"
+    },
+    "terminal.integrated.cwd": ""
+}

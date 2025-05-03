@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 
+
 int main()
 {
     // char *cwd;
@@ -10,8 +11,8 @@ int main()
     // getcwd(cwd, 200);
     // free (cwd);
     // return 0;
-    char *x = readline("test ");
+    // char *x = readline("test ");
     // (void)x;
-    free (x);
+    // free (x);
     return 0;
 }

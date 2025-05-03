@@ -54,11 +54,14 @@ int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	char	cwd[1024];
+	char	*cwd;
 	char	*cmd;
 	int	i;
 
-	if (!getcwd(cwd, 1024))
+	cwd = NULL;
+	cmd = NULL;
+	cwd = getcwd(cwd, 1024);
+	if (!cwd)
 		return (1);
 	signal(SIGINT, handler);
 	while (1)

@@ -154,13 +154,13 @@ void	check_access(t_u *utils)
 	}
 }
 
-void	close_fds(int i, int id, int npi)
-{
-	if (!i)
-	{
-		if (id)
-			close (1);
-	}
+// void	close_fds(int id)
+// {
+	// if (!i)
+	// {
+	// if (id)
+	// 	close (1);
+	// }
 	// else
 	// {
 	// 	if (!id)
@@ -174,7 +174,7 @@ void	close_fds(int i, int id, int npi)
 	// 			close (0);
 	// 	}
 	// }
-}
+// }
 
 void	get_path(t_u *utils)
 {
@@ -186,18 +186,13 @@ void	get_path(t_u *utils)
 		exit(8);
 	if (!id)
 	{
-		close_fds(utils->check, id, utils->npi);
 		if (utils->exc)
-			execve(utils->exc, utils->cmd, NULL);
+		execve(utils->exc, utils->cmd, NULL);
 		execve(utils->cmd[0], utils->cmd, NULL);
 		write (2, "execve failed\n", 14);
 	}
-	close_fds(utils->check, id, utils->npi);
+	close(1);
 	waitpid(id, NULL, 0);
-	if (!utils->check)
-		utils->check++;
-	else
-		utils->check = 0;
 }
 
 void	open_pipe(t_u *utils)
@@ -226,7 +221,7 @@ void	open_pipe(t_u *utils)
 
 void	back_to_normal(t_u *utils)
 {
-	if (!utils->check)
+	if (!utils->npi)
 	{
 		if (dup2(utils->fd_in, 0) == -1)
 			exit(10);
@@ -249,7 +244,11 @@ void	start_executing(t_list **head, t_u *utils)
 				redirection((*head)->content, (*head)->type);
 			*head = (*head)->next;
 		}
+		// fprintf(stderr, "1\n");
+		// sleep (15);
 		get_path(utils);
+		// fprintf(stderr, "2\n");
+		// sleep (15);
 		free (utils->cmd);
 		back_to_normal(utils);
 		if (*head)
@@ -261,7 +260,7 @@ void	init_things(t_list **head, t_u *utils)
 {
 	utils->cmd = NULL;
 	utils->exc = NULL;
-	utils->check = 0;
+	// utils->check = 0;
 	utils->copy = 0;
 	utils->npi = count_pipes(*head);
 	utils->fd_in = dup(0);
@@ -289,7 +288,7 @@ int	main()
 		return (1);
 
 	head = node1;
-	node1->content = "/usr/bin/ls";
+	node1->content = "ls";
 	node1->prev = NULL;
 	node1->type = TYPE_WORD;
 	node1->next = node2;
@@ -329,7 +328,10 @@ int	main()
 	node8->type = TYPE_WORD;
 	node8->next = NULL;
 
+	// printf("%d\n", getpid());
 	init_things(&head, utils);
+	close (utils->fd_in);
+	close (utils->fd_out);
 
 	free (utils);
 	free (node1);

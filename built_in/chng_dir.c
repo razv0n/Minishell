@@ -15,7 +15,11 @@
 void	ft_cd(char **arg)
 {
 	if (chdir(arg[1]) == -1)
+	{
 		write (2, "An error has occured while changing directory\n", 46);
+		return ;
+	}
+	// should change in export and env from here
 }
 
 #include <fcntl.h>
@@ -23,9 +27,9 @@ int	main()
 {
 	char s[100];
 	printf("%s\n", getcwd(s, 100));
-	char *arg[] = {"cd", "../", NULL};
+	char *arg[] = {"cd", "/home/yezzemry/Desktop/youness_br", NULL};
 	ft_cd(arg);
-	open("youness", O_RDONLY | O_CREAT, 0777);
+	// open("youness", O_RDONLY | O_CREAT, 0777);
 	printf("%s\n", getcwd(s, 100));
 	return (0);
 }

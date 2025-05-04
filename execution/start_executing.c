@@ -71,7 +71,7 @@ char	**update_path(char *s)
 
 	if (!s)
 		return (NULL);
-	path = ft_split(s, ':', ' ');
+	path = ft_split(s, ':');
 	if (!path)
 		return (NULL);
 	i = 0;

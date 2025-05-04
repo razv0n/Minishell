@@ -6,21 +6,21 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/04 10:31:25 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/04 14:14:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include <readline/readline.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "../libft/libft.h"
-#include <signal.h>
-#include<readline/history.h>
+# include <readline/readline.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include "../libft/libft.h"
+# include <signal.h>
+# include <readline/history.h>
 
 enum e_type
 {
@@ -42,6 +42,25 @@ enum e_type
 # define EXT_PIPE	1
 # define EXT_FORK	1
 
+typedef struct utils
+{
+	char	**path;
+	char	**cmd;
+	char	*exc;
+	int	check;
+	int	copy;
+	int	npi;
+	int	pi[2];
+	int	fd_in;
+	int	fd_out;
+}	t_u;
+
+typedef struct export
+{
+	char *str;
+	struct export *next;
+}	xp;
+
 typedef struct t_info
 {
     t_u     *utils;
@@ -50,7 +69,7 @@ typedef struct t_info
     t_list  *head_cmd;
     char *content;
     char *line;
-}t_info;
+}	t_info;
 
 t_list	*ft_lstnew_d(void *content);
 int     ft_strcmp(char *line, char *str);
@@ -79,5 +98,6 @@ void    remove_node (t_list **head, t_list *remove);
 void    remove_the_null(t_list **head);
 char	**fr_mem_split(int index, char **result);
 char	**ft_split_tokens(char const *s);
+void	redirection(char *str, int cdt);
 
 #endif

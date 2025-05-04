@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:13:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/04/30 15:33:20 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/04 10:25:13 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ bool quotes_in_split(char quotes)
     }
     else if (quotes == '"' && !single_quotes_b)
     {
-         double_quotes_b = true;
+        double_quotes_b = true;
         double_quotes++;
         if (double_quotes == 2)
         {

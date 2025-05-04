@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   absolute_path.c                                    :+:      :+:    :+:   */
+/*   start_executing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/23 10:27:22 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/05/03 21:12:01 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,7 @@ void	start_executing(t_list **head, t_u *utils)
 
 void	init_things(t_list **head, t_u *utils)
 {
-	utils->cmd = NULL;
+	utils->cmd = NULL; // the command
 	utils->exc = NULL;
 	// utils->check = 0;
 	utils->copy = 0;

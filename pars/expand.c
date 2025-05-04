@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/02 21:58:24 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/04 14:30:29 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void    expand_2(char **str, int wich_quote)
     if (wich_quote == SINGLE_Q) 
         return;
     i = 0;
-    prev = NULL;
+    prev = NULL; //this
     buffer[1] = '\0';
     while(str_tmp[i])
     {

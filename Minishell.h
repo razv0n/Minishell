@@ -18,9 +18,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "libft/libft.h"
+#include "../libft/libft.h"
 #include <signal.h>
-#include<readline/history.h>
+#include <readline/history.h>
 
 enum e_type
 {
@@ -41,6 +41,15 @@ enum e_type
 # define EXT_MALLOC	1
 # define EXT_PIPE	1
 # define EXT_FORK	1
+
+// typedef struct s_list
+// {
+//     char                *content;
+//     struct s_list        *next;
+//     struct s_list        *prev;
+//     int                 type;
+//     bool                joined; // this is for joining the strings
+// }        t_list;
 
 typedef struct t_info
 {

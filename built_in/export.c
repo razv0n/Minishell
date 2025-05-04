@@ -177,10 +177,10 @@ void	ft_export(char **env, char *s, int i)
 	head = NULL;
 	i = 0;
 	x = 0;
-	while (env[i + 1])
+	while (env[i])
 	{
 		j = i + 1;
-		while (env[j + 1])
+		while (env[j])
 		{
 			if (compare(env[i], env[j], 0) > 0)
 			{

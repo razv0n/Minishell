@@ -6,9 +6,11 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/01 22:25:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/04 13:59:50 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../Minishell.h"
 
 #include "../Minishell.h"
 
@@ -64,6 +66,12 @@ bool	check_quotes(char c)
 		return (1);
 	return (0);
 }
+bool	is_whitespace(char c)
+{
+	if ((c >= 9 && c <= 13) || c == ' ')
+		return (1);
+	return (0);
+}
 
 static int	count_word(char const *str)
 {
@@ -86,7 +94,7 @@ static int	count_word(char const *str)
 		quotes = quotes_in_split(str[i]);
 		if (!quotes)
 			check2 = false;
-		if (!(str[i] >= 9 && str[i] <= 13) && str[i] != ' ' && quotes)
+		if (!is_whitespace(str[i]) && quotes)
 		{
 			if (check == true)
 				sp = 1;
@@ -117,7 +125,7 @@ static char	*get_next_word(char const **s, char **result, int index)
 
 	start = *s;
 	in = 0;
-	while (((**s >= 9 && **s <= 13) || **s == ' ') && **s != '\0')
+	while ((is_whitespace(**s) && **s != '\0'))
 		(*s)++;
 	start = *s;
 	if (check_quotes(**s))
@@ -130,7 +138,7 @@ static char	*get_next_word(char const **s, char **result, int index)
 	}
 	else if (!check_metacharacter(*s))
 	{
-		while (((!check_metacharacter(*s)) && !(**s >= 9 && **s <= 13)) &&  **s != ' ' && **s != '\0' && !check_quotes(**s))
+		while (((!check_metacharacter(*s)) && !is_whitespace(**s) && **s != '\0' && !check_quotes(**s)))
 			(*s)++;
 	}
 	else

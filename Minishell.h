@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/04 10:31:25 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/04 14:14:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct export
 	char *str;
 	struct export *next;
 }xp;
+
 
 typedef struct t_info
 {

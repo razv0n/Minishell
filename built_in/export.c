@@ -10,20 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-
-typedef struct export
-{
-	char *str;
-	struct export *next;
-}	xp;
+#include "../Minishell.h"
 
 int	compare(char *s1, char *s2, int bl)
 {
 	int	i;
 
 	i = 0;
-	if (bl == 0)
+	if (!bl)
 	{
 		while (s1[i] && s2[i] && s1[i] == s2[i])
 			i++;
@@ -121,6 +115,22 @@ void	create_node(xp **head, char *tmp)
 	}
 }
 
+int	parse_var(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!(s[i] >= 'a' && s[i] <= 'z') && !(s[i] >= 'A' && s[i] <= 'Z')
+		&& !(s[i] == '_'))
+		return (1);
+	while (s[i] && ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
+		|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_') && (s[i] != '='))
+		i++;
+	if (!s[i] || s[i] == '=')
+		return (0);
+	return (1);
+}
+
 void	add_to_export(xp **head, char *s)
 {
 	xp	*tmp;
@@ -129,6 +139,8 @@ void	add_to_export(xp **head, char *s)
 
 	tmp = *head;
 	ptr = NULL;
+	if (parse_var(s))
+		return ;
 	while (tmp)
 	{
 		if (compare(tmp->str + 11, s, 1) >= 0)
@@ -165,10 +177,10 @@ void	ft_export(char **env, char *s, int i)
 	head = NULL;
 	i = 0;
 	x = 0;
-	while (env[i + 1])
+	while (env[i])
 	{
 		j = i + 1;
-		while (env[j + 1])
+		while (env[j])
 		{
 			if (compare(env[i], env[j], 0) > 0)
 			{
@@ -197,15 +209,15 @@ void	ft_export(char **env, char *s, int i)
 	free (head);
 }
 
-// int main(int ac, char **av, char **env)
-// {
-// 	(void)ac;
-// 	(void)av;
-// 	int	i;
+int main(int ac, char **av, char **env)
+{
+	(void)ac;
+	(void)av;
+	int	i;
 
-// 	i = 0;
-// 	while (env[i])
-// 		i++;
-// 	ft_export(env, "XL=3428345", i);
-// 	return 0;
-// }
+	i = 0;
+	while (env[i])
+		i++;
+	ft_export(env, "1hi=", i);
+	return 0;
+}

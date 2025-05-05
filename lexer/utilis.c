@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/04 13:59:50 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/05 12:03:03 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ bool	is_whitespace(char c)
 	return (0);
 }
 
-static int	count_word(char const *str)
+static int	count_word(char *str)
 {
 	size_t		i;
 	int			count;
@@ -117,14 +117,22 @@ static int	count_word(char const *str)
 	return (count);
 }
 
-static char	*get_next_word(char const **s, char **result, int index)
+static char	*get_next_word(char const **s, char **result, int index, t_info *info)
 {
 	int			lenght;
 	int			in;
 	const char	*start;
+	static int	ind = 0;
 
 	start = *s;
 	in = 0;
+	if (is_whitespace(**s))
+	{
+		while (is_whitespace(**s) && **s != '\0')
+			(*s)++;
+	}
+	else if (!check_metacharacter(*s) && !check_metacharacter(*s - 1))
+		info->joind[ind] = true; // check sperator "" '' that is the
 	while ((is_whitespace(**s) && **s != '\0'))
 		(*s)++;
 	start = *s;
@@ -161,10 +169,10 @@ static char	*get_next_word(char const **s, char **result, int index)
 		start++;
 	}
 	result[index][in] = '\0';
-	return (result[index]);
+	return (ind++, result[index]);
 }
 
-char	**ft_split_tokens(char const *s)
+char	**ft_split_tokens(t_info *info)
 {
 	char	**result;
 	int		lenght;
@@ -172,14 +180,16 @@ char	**ft_split_tokens(char const *s)
 
 	if (!s)
 		return (NULL);
-	lenght = count_word(s); // 2
+	lenght = count_word(info->line); // 2
 	result = malloc ((lenght + 1) * sizeof(char *));
+	info->joind = malloc(sizeof(bool) * (lenght));
+	ft_bzero(info->joind, sizeof(bool) * lenght);
 	if (!result)
 		return (NULL);
 	i = 0;
 	while (i < lenght)
 	{
-		result[i] = get_next_word (&s, result, i);
+		result[i] = get_next_word (&info->line, result, i, info);
 		if (!result)
 			return (fr_mem_split(i, result));
 		i++;

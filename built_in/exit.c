@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 21:26:42 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/13 21:26:52 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:32:22 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Minishell.h"
 
 // Here we need the exit status cuz we will need it to terminate with it the process
 // EOF will be treated by readline func

@@ -6,13 +6,11 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/03 21:12:01 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/05 11:30:51 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-void	redirection(char *str, int cdt);
-char	**ft_split(char const *s, char c, char a);
+#include "../Minishell.h"
 
 void	free_all(char **path)
 {
@@ -73,7 +71,7 @@ char	**update_path(char *s)
 
 	if (!s)
 		return (NULL);
-	path = ft_split(s, ':', ' ');
+	path = ft_split(s, ':');
 	if (!path)
 		return (NULL);
 	i = 0;
@@ -94,7 +92,7 @@ int	count_pipes(t_list *head)
 	i = 0;
 	while (head)
 	{
-		if (head->type == TYPE_PIPE)
+		if (head->type == PIPE)
 			i++;
 		head = head->next;
 	}
@@ -109,9 +107,9 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 
 	i = 0;
 	tmp = head;
-	while (head && (head->type != TYPE_PIPE))
+	while (head && (head->type != PIPE))
 	{
-		if (head->type == TYPE_WORD)
+		if (head->type == WORD)
 			i++;
 		head = head->next;
 	}
@@ -120,9 +118,9 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 		return (NULL);
 	i = 0;
 	head = tmp;
-	while (head && (head->type != TYPE_PIPE))
+	while (head && (head->type != PIPE))
 	{
-		if (head->type == TYPE_WORD)
+		if (head->type == WORD)
 			cmd[i++] = head->content;
 		head = head->next;
 	}
@@ -154,13 +152,13 @@ void	check_access(t_u *utils)
 	}
 }
 
-void	close_fds(int i, int id, int npi)
-{
-	if (!i)
-	{
-		if (id)
-			close (1);
-	}
+// void	close_fds(int id)
+// {
+	// if (!i)
+	// {
+	// if (id)
+	// 	close (1);
+	// }
 	// else
 	// {
 	// 	if (!id)
@@ -174,9 +172,9 @@ void	close_fds(int i, int id, int npi)
 	// 			close (0);
 	// 	}
 	// }
-}
+// }
 
-void	get_path(t_u *utils)
+void	get_path(t_u *utils, int *wt, int i)
 {
 	int	id;
 
@@ -186,18 +184,14 @@ void	get_path(t_u *utils)
 		exit(8);
 	if (!id)
 	{
-		close_fds(utils->check, id, utils->npi);
 		if (utils->exc)
 			execve(utils->exc, utils->cmd, NULL);
 		execve(utils->cmd[0], utils->cmd, NULL);
 		write (2, "execve failed\n", 14);
 	}
-	close_fds(utils->check, id, utils->npi);
-	waitpid(id, NULL, 0);
-	if (!utils->check)
-		utils->check++;
-	else
-		utils->check = 0;
+	close(1);
+	wt[i] = id;
+	// waitpid(id, NULL, 0);
 }
 
 void	open_pipe(t_u *utils)
@@ -226,7 +220,9 @@ void	open_pipe(t_u *utils)
 
 void	back_to_normal(t_u *utils)
 {
-	if (!utils->check)
+	// if (dup2(utils->fd_in, 0) == -1 || dup2(utils->fd_out, 1) == -1)
+	// 		exit(10);
+	if (!utils->npi)
 	{
 		if (dup2(utils->fd_in, 0) == -1)
 			exit(10);
@@ -235,123 +231,134 @@ void	back_to_normal(t_u *utils)
 		exit(11);
 }
 
-void	start_executing(t_list **head, t_u *utils)
+void	start_executing(t_list *head, t_u *utils)
 {
-	while (*head)
+	int	wt[utils->npi + 1];
+	int	i;
+
+	i = 0;
+	while (head)
 	{
-		utils->cmd = collecte_cmds(*head, utils);
+		utils->cmd = collecte_cmds(head, utils);
 		if (!utils->cmd)
 			exit(2); // handle malloc or other things errors
 		open_pipe(utils);
-		while ((*head) && ((*head)->type != TYPE_PIPE))
+		while (head && (head->type != PIPE))
 		{
-			if ((*head)->type != TYPE_WORD)
-				redirection((*head)->content, (*head)->type);
-			*head = (*head)->next;
+			if (head->type != WORD)
+				redirection(head->content, head->type);
+			head = head->next;
 		}
-		get_path(utils);
-		free (utils->cmd);
+		get_path(utils, wt, i);
+		i++;
 		back_to_normal(utils);
-		if (*head)
-			*head = (*head)->next;
+		free (utils->cmd);
+		if (head)
+			head = head->next;
+	}
+	while (i >= 0)
+	{
+		waitpid(wt[i], NULL, 0);
+		i--;
 	}
 }
 
-void	init_things(t_list **head, t_u *utils)
+void	init_things(t_info *info, t_list *head)
 {
-	utils->cmd = NULL; // the command
-	utils->exc = NULL;
-	utils->check = 0;
-	utils->copy = 0;
-	utils->npi = count_pipes(*head);
-	utils->fd_in = dup(0);
-	utils->fd_out = dup(1);
-	utils->path = update_path(getenv("PATH"));
-	if (!utils->path || utils->fd_in == -1 || utils->fd_out == -1)
+	info->utils = malloc(sizeof(t_u));
+	if (!info->utils)
+		return ; //handle error
+	info->utils->cmd = NULL; // the command
+	info->utils->exc = NULL;
+	info->utils->copy = 0;
+	info->utils->npi = count_pipes(head);
+	info->utils->fd_in = dup(0);
+	info->utils->fd_out = dup(1);
+	info->utils->path = update_path(getenv("PATH"));
+	if (!info->utils->path || info->utils->fd_in == -1 || info->utils->fd_out == -1)
 		exit(1);
-	start_executing(head, utils);
+	start_executing(head, info->utils);
+	// utils->cmd = NULL; // the command
+	// utils->exc = NULL;
+	// utils->copy = 0;
+	// utils->npi = count_pipes(head);
+	// utils->fd_in = dup(0);
+	// utils->fd_out = dup(1);
+	// utils->path = update_path(getenv("PATH"));
+	// if (!utils->path || utils->fd_in == -1 || utils->fd_out == -1)
+	// 	exit(1);
+	// start_executing(head, utils);
 }
 
-int	main()
-{
-	t_u	*utils = malloc(sizeof(t_u));
-	t_list	*head = NULL;
-	t_list	*node1 = malloc(sizeof(t_list));
-	t_list	*node2 = malloc(sizeof(t_list));
-	t_list	*node3 = malloc(sizeof(t_list));
-	t_list	*node4 = malloc(sizeof(t_list));
-	t_list	*node5 = malloc(sizeof(t_list));
-	t_list	*node6 = malloc(sizeof(t_list));
-	t_list	*node7 = malloc(sizeof(t_list));
-	t_list	*node8 = malloc(sizeof(t_list));
-	if (!utils || !node1 || !node2 || !node3 
-		|| !node4 || !node5 || !node6 || !node7 || !node8)
-		return (1);
+// int	main()
+// {
+// 	t_u	*utils = malloc(sizeof(t_u));
+// 	t_list	*head = NULL;
+// 	t_list	*node1 = malloc(sizeof(t_list));
+// 	t_list	*node2 = malloc(sizeof(t_list));
+// 	t_list	*node3 = malloc(sizeof(t_list));
+// 	t_list	*node4 = malloc(sizeof(t_list));
+// 	t_list	*node5 = malloc(sizeof(t_list));
+// 	t_list	*node6 = malloc(sizeof(t_list));
+// 	t_list	*node7 = malloc(sizeof(t_list));
+// 	t_list	*node8 = malloc(sizeof(t_list));
+// 	if (!utils || !node1 || !node2 || !node3 
+// 		|| !node4 || !node5 || !node6 || !node7 || !node8)
+// 		return (1);
 
-	head = node1;
-	node1->content = "/usr/bin/ls";
-	node1->prev = NULL;
-	node1->type = TYPE_WORD;
-	node1->next = node2;
+// 	head = node1;
+// 	node1->content = "sleep";
+// 	node1->prev = NULL;
+// 	node1->type = WORD;
+// 	node1->next = node2;
 
-	node2->content = "-la";
-	node2->prev = node1;
-	node2->type = TYPE_WORD;
-	node2->next = node3;
+// 	node2->content = "5";
+// 	node2->prev = node1;
+// 	node2->type = WORD;
+// 	node2->next = node3;
 
-	node3->content = "|";
-	node3->prev = node2;
-	node3->type = TYPE_PIPE;
-	node3->next = node4;
+// 	node3->content = "|";
+// 	node3->prev = node2;
+// 	node3->type = PIPE;
+// 	node3->next = node4;
 
-	node4->content = "grep";
-	node4->prev = node3;
-	node4->type = TYPE_WORD;
-	node4->next = node5;
+// 	node4->content = "sleep";
+// 	node4->prev = node3;
+// 	node4->type = WORD;
+// 	node4->next = node5;
 
-	node5->content = "a";
-	node5->prev = node4;
-	node5->type = TYPE_WORD;
-	node5->next = node6;
+// 	node5->content = "3";
+// 	node5->prev = node4;
+// 	node5->type = WORD;
+// 	node5->next = NULL;
 
-	node6->content = "|";
-	node6->prev = node5;
-	node6->type = TYPE_PIPE;
-	node6->next = node7;
+// 	node6->content = "|";
+// 	node6->prev = node5;
+// 	node6->type = PIPE;
+// 	node6->next = node7;
 
-	node7->content = "wc";
-	node7->prev = node6;
-	node7->type = TYPE_WORD;
-	node7->next = node8;
+// 	node7->content = "wc";
+// 	node7->prev = node6;
+// 	node7->type = WORD;
+// 	node7->next = node8;
 
-	node8->content = "-l";
-	node8->prev = node7;
-	node8->type = TYPE_WORD;
-	node8->next = NULL;
+// 	node8->content = "-l";
+// 	node8->prev = node7;
+// 	node8->type = WORD;
+// 	node8->next = NULL;
 
-	init_things(&head, utils);
+// 	// printf("%d\n", getpid());
+// 	init_things(head, utils);
+// 	close (utils->fd_in);
+// 	close (utils->fd_out);
 
-	free (utils);
-	free (node1);
-	free (node2);
-	free (node3);
-	free (node4);
-	free (node5);
-	free (node6);
-	free (node7);
-	free (node8);
-}
-
-// ls -la | grep a | wc -l
-
-// write 1 : read 0
-// 0 in
-// 1 out
-// 2 err
-// 3 save in
-// 4 save out
-// 5 -
-
-// open
-// dup2
-// close
+// 	free (utils);
+// 	free (node1);
+// 	free (node2);
+// 	free (node3);
+// 	free (node4);
+// 	free (node5);
+// 	free (node6);
+// 	free (node7);
+// 	free (node8);
+// }

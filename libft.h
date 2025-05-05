@@ -2,6 +2,7 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 typedef struct s_list
 {
@@ -9,7 +10,7 @@ typedef struct s_list
 	struct s_list		*next;
     struct s_list		*prev;
     int                 type;
-    bool                joined; // this is for joining the strings
+    bool                *joined; // this is for joining the strings
 }		t_list;
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstnew(void *content);

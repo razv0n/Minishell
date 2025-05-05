@@ -3,19 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   chng_dir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:20:48 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/12 18:21:03 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:32:44 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Minishell.h"
 
 void	ft_cd(char **arg)
 {
 	if (chdir(arg[1]) == -1)
+	{
 		write (2, "An error has occured while changing directory\n", 46);
+		return ;
+	}
+	// should change in export and env from here
 }
 
 #include <fcntl.h>
@@ -23,9 +27,9 @@ int	main()
 {
 	char s[100];
 	printf("%s\n", getcwd(s, 100));
-	char *arg[] = {"cd", "../", NULL};
+	char *arg[] = {"cd", "/home/yezzemry/Desktop/youness_br", NULL};
 	ft_cd(arg);
-	open("youness", O_RDONLY | O_CREAT, 0777);
+	// open("youness", O_RDONLY | O_CREAT, 0777);
 	printf("%s\n", getcwd(s, 100));
 	return (0);
 }

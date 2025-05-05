@@ -1,5 +1,5 @@
 NAME = minishell
-FUNC = pars/expand.c allocate_free/init_data.c syntax_error/error.c pars/pars.c allocate_free/free_data.c  main/main.c  doubly_linked/ft_lstadd_back_d.c  doubly_linked/ft_lstadd_front_d.c  doubly_linked/ft_lstnew_d.c lexer/check_quotes.c lexer/split_tokens.c  lexer/utilis.c
+FUNC = built_in/env.c pars/expand.c allocate_free/init_data.c syntax_error/error.c pars/pars.c allocate_free/free_data.c  main/main.c  doubly_linked/ft_lstadd_back_d.c  doubly_linked/ft_lstadd_front_d.c  doubly_linked/ft_lstnew_d.c lexer/check_quotes.c lexer/split_tokens.c  lexer/utilis.c execution/start_executing.c execution/redirection.c
 OBG = $(FUNC:.c=.o)
 LIBFT = libft.a
 LINKING = -lreadline
@@ -15,7 +15,6 @@ $(NAME): $(OBG) $(LIBFT)
 	@echo "$(BLUE)Compiling project...$(RESET)"
 	$(CC) $(CFLAGS) $^ $(LINKING) -o $(NAME)
 	@echo "$(GREEN)✅ Build Successful!$(RESET)"
-	
 
 %.o : %.c
 	@echo "$(BLUE)Compiling $<...$(RESET)"
@@ -25,6 +24,9 @@ $(NAME): $(OBG) $(LIBFT)
 	@echo "$(BLUE)Compiling $<...$(RESET)"
 	$(CC) $(CFLAGS) -c $< -o $@
 
+%.o : execution/%.c
+	@echo "$(BLUE)Compiling $<...$(RESET)"
+	$(CC) $(CFLAGS) -c $< -o $@
 
 %.o : built_in/%.c
 	@echo "$(BLUE)Compiling $<...$(RESET)"

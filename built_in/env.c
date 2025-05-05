@@ -3,31 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 21:15:28 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/13 21:15:54 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:33:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Minishell.h"
 
 //We should have something that holds the env variable such as a dbl ptr in the struct
 
-void	ft_env(char **env)
+void	ft_env(t_list *head_env)
 {
-	int	i;
-
-	i = 0;
-	while (env[i])
+	if (head_env == NULL)
+		return ;
+	while (head_env)
 	{
-		printf("%s\n", env[i]);
-		i++;
+		printf("%s\n", head_env->content);
+		head_env = head_env->next;
 	}
 }
 
-int	main(int ac, char **av, char **env)
-{
-	ft_env(env);
-	return 0;
-}
+// int	main(int ac, char **av, char **env)
+// {
+// 	ft_env(env);
+// 	return 0;
+// }

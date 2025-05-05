@@ -2,7 +2,10 @@
     "files.associations": {
         "unistd.h": "c",
         "stat.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "format": "c",
+        "chrono": "c",
+        "limits.h": "c"
     },
     "terminal.integrated.cwd": ""
 }

@@ -6,22 +6,23 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/04 14:41:36 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/05 11:33:52 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include <readline/readline.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "libft.h"
-#include <signal.h>
-#include<readline/history.h>
-# include <sys/wait.h>
+# include <readline/readline.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <wait.h>
+# include <stdbool.h>
+# include "libft.h"
+# include <signal.h>
+# include <readline/history.h>
 
 enum e_type
 {
@@ -60,8 +61,7 @@ typedef struct export
 {
 	char *str;
 	struct export *next;
-}xp;
-
+}	xp;
 
 typedef struct t_info
 {
@@ -71,7 +71,7 @@ typedef struct t_info
     t_list  *head_cmd;
     char *content;
     char *line;
-}t_info;
+}	t_info;
 
 t_list	*ft_lstnew_d(void *content);
 int     ft_strcmp(char *line, char *str);
@@ -100,5 +100,10 @@ void    remove_node (t_list **head, t_list *remove);
 void    remove_the_null(t_list **head);
 char	**fr_mem_split(int index, char **result);
 char	**ft_split_tokens(char const *s);
+void	redirection(char *str, int cdt);
+void	init_things(t_info *info, t_list *head);
+// void	init_things(t_list *head, t_u *utils);
+
+void	ft_env(t_list *head_env);
 
 #endif

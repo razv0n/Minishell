@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:09:21 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/16 21:09:46 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:36:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Minishell.h"
 
-int main()
+
+void    ft_unset(t_list *head_env, char *s)
 {
     
 }

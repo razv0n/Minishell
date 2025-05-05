@@ -10,27 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Minishell.h"
 
 void	redirection(char *str, int cdt)
 {
 	int	fd;
 
-	if (cdt == TYPE_APPEND)
+	if (cdt == APPEND)
 	{
 		fd = open(str, O_CREAT | O_APPEND | O_WRONLY);
 		if (dup2(fd, 1) == -1)
 			exit(5);
 		close (fd);
 	}
-	else if (cdt == TYPE_REDIRECT_IN)
+	else if (cdt == REDIRECT_IN)
 	{
 		fd = open(str, O_RDONLY);
 		if (dup2(fd, 0) == -1)
 			exit(6);
 		close (fd);
 	}
-	else if (cdt == TYPE_REDIRECT_OUT)
+	else if (cdt == REDIRECT_OUT)
 	{
 		fd = open(str, O_CREAT | O_TRUNC | O_WRONLY);
 		if (dup2(fd, 1) == -1)

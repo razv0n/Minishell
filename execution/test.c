@@ -6,27 +6,27 @@
 #include <wait.h>
 
 
-// void    handle(int sig)
-// {
-//     (void)sig;
-//     printf("recieved SIGPIPE\n");
-// }
+void    handle(int sig)
+{
+    (void)sig;
+    printf("recieved SIGPIPE\n");
+}
 
-// int main()
-// {
-//     int pi[2];
-//     if (pipe(pi) == -1)
-//         return (1);
-//     signal(SIGPIPE, handle);
-//     int n = 9;
-//     int b = 0;
-//     close (pi[0]);
-//     write (pi[1], &n, sizeof(int));
-//     read (pi[0], &b, sizeof(int));
-//     close (pi[1]);
-//     printf("%d\n", b);
-//     return (0);
-// }
+int main()
+{
+    int pi[2];
+    if (pipe(pi) == -1)
+        return (1);
+    signal(SIGPIPE, handle);
+    int n = 9;
+    int b = 0;
+    write (pi[1], &n, sizeof(int));
+    read (pi[0], &b, sizeof(int));
+    close (pi[0]);
+    close (pi[1]);
+    printf("%d\n", b);
+    return (0);
+}
 
 // int main()
 // {

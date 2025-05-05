@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Minishell.h"
 
 int	compare(char *s1, char *s2, int bl)
 {

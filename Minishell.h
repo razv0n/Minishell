@@ -17,8 +17,10 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
+# include <wait.h>
 # include <stdbool.h>
-# include "../libft/libft.h"
+# include "libft.h"
 # include <signal.h>
 # include <readline/history.h>
 
@@ -99,5 +101,7 @@ void    remove_the_null(t_list **head);
 char	**fr_mem_split(int index, char **result);
 char	**ft_split_tokens(char const *s);
 void	redirection(char *str, int cdt);
+void	init_things(t_info *info, t_list *head);
+// void	init_things(t_list *head, t_u *utils);
 
 #endif

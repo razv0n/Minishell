@@ -47,7 +47,7 @@ int main (int ac , char **av, char **env)
         if(line[0])
             add_history(line);
         pars(info, line, env); // ? dont forget to free the head after using it
-        start_executing();
+        init_things(info, info->head_cmd, info->utils);
         // print_stack(info->head_cmd); //for printig linked list
         free(line);
     }

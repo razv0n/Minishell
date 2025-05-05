@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Minishell.h"
 
-static int	count_w(const char *s, char c, char a)
+static int	count_w(const char *s, char c)
 {
 	int	i;
 	int	count;
@@ -23,7 +23,7 @@ static int	count_w(const char *s, char c, char a)
 	b = 1;
 	while (s[i])
 	{
-		if (s[i] == c || s[i] == a)
+		if (s[i] == c)
 			b = 1;
 		else if (b == 1)
 		{
@@ -35,7 +35,7 @@ static int	count_w(const char *s, char c, char a)
 	return (count);
 }
 
-static int	*length_wrd(char const *s, char c, char a, int z)
+static int	*length_wrd(char const *s, char c, int z)
 {
 	int	i;
 	int	x;
@@ -49,12 +49,12 @@ static int	*length_wrd(char const *s, char c, char a, int z)
 	i = 0;
 	while (s[i])
 	{
-		while ((s[i] == c || s[i] == a) && s[i])
+		while ((s[i] == c) && s[i])
 			i++;
 		if (s[i] == '\0')
 			break ;
 		start = i;
-		while ((s[i] != c) && (s[i] != a) && s[i])
+		while ((s[i] != c) && s[i])
 			i++;
 		arr[x] = i - start;
 		x++;
@@ -62,7 +62,7 @@ static int	*length_wrd(char const *s, char c, char a, int z)
 	return (arr);
 }
 
-static char	**copying(char **p, const char *s, char c, char a)
+static char	**copying(char **p, const char *s, char c)
 {
 	int	i;
 	int	y;
@@ -73,11 +73,11 @@ static char	**copying(char **p, const char *s, char c, char a)
 	x = 0;
 	while (s[i])
 	{
-		while ((s[i] == c || s[i] == a) && s[i])
+		while (s[i] == c && s[i])
 			i++;
 		if (s[i] == '\0')
 			break ;
-		while ((s[i] != c) && (s[i] != a) && s[i])
+		while ((s[i] != c) && s[i])
 		{
 			p[y][x] = s[i];
 			x++;
@@ -106,15 +106,15 @@ static char	**ft_free(char **p, int *arr)
 	return (NULL);
 }
 
-char	**ft_split(char const *s, char c, char a)
+char	**ft_split(char const *s, char c)
 {
 	char	**p;
 	int		*arr;
 
 	int (i), z;
-	z = count_w(s, c, a);
+	z = count_w(s, c);
 	i = 0;
-	arr = length_wrd(s, c, a, z);
+	arr = length_wrd(s, c, z);
 	if (arr == NULL)
 		return (NULL);
 	p = malloc(sizeof(char *) * (z + 1));
@@ -132,5 +132,5 @@ char	**ft_split(char const *s, char c, char a)
 	}
 	p[z] = NULL;
 	free (arr);
-	return (copying(p, s, c, a));
+	return (copying(p, s, c));
 }

@@ -174,52 +174,53 @@ void	check_access(t_u *utils)
 	// }
 // }
 
-void	check_builtin_2(char **cmd, int *i)
+int	check_builtin_2(char **cmd)
 {
 	if (ft_strcmp(cmd[0], "pwd"))
 	{
 		ft_pwd();
-		*i = 1;
+		return (1);
 	}
 	else if (ft_strcmp(cmd[0], "cd"))
 	{
 		ft_cd();
-		*i = 1;
+		return (1);
 	}
 	else if (ft_strcmp(cmd[0], "unset"))
 	{
 		ft_unset();
-		*i = 1;
+		return (1);
 	}
 	else if (ft_strcmp(cmd[0], "echo"))
 	{
 		ft_echo(cmd);
-		*i = 1;
+		return (1);
 	}
+	return (0);
 }
 
-int	check_builtin(t_info *info, char **cmd, int i)
+int	check_builtin(t_info *info, char **cmd)
 {
-	i = 0;
 	if (ft_strcmp(cmd[0], "export"))
 	{
 		ft_export(info->head_export);
-		i = 1;
+		return (1);
 	}
 	else if (ft_strcmp(cmd[0], "exit"))
 	{
 		ft_exit(cmd);
-		i = 1;
+		return (1);
 	}
 	else if (ft_strcmp(cmd[0], "env"))
 	{
 		ft_env(info->head_env);
-		i = 1;
+		return (1);
 	}
 	else
-		check_builtin_2(cmd, &i);
-	if (i)
-		return (1);
+	{
+		if (check_builtin_2(cmd))
+			return (1);
+	}
 	return (0);
 }
 

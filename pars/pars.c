@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/04 10:47:09 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 00:31:47 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,65 @@ void    cpy_env(char **env, t_info *info)
         i++;
     }
 }
-
-void    pars(t_info *info, char *line , char **env)
+t_list	*ft_lstlast(t_list *lst)
 {
-    init_info(info, line, env); // copy env to linked list
+	t_list	*help;
+
+	if (!lst)
+		return (NULL);
+	help = lst;
+	while (help->next != NULL)
+		help = help->next;
+	return (help);
+}
+
+void   joined_node(t_info *info)
+{
+    t_list *head;
+    int i;
+    char *tmp;
+    t_list *help;
+
+    head = ft_lstlast(info->head_cmd);
+    i = 0;
+    while (head)
+    {
+        if (head->joined)
+        {
+            tmp = head->content;
+            head->content = ft_strjoin(head->content, head->next->content);
+            free(tmp);
+            remove_node(&info->head_cmd, head->next);
+        }
+        head = head->prev;
+        i++;
+    }
+}
+
+void      add_is_joined(t_list *head, t_info *info)
+{
+    int i;
+
+    i = 0;
+    while (head)
+    {
+        head->joined = info->joined[i];
+        i++;
+        head = head->next;
+    }
+}
+
+void    pars(t_info *info)
+{
+    init_info(info); // copy env to linked list
     if (!check_quotes_error(info))
     {
         split_arg(info);
         type_tokens(info->head_cmd);
         expand(info);
         remove_the_null(&info->head_cmd);
+        add_is_joined(info->head_cmd, info);
+        joined_node(info);
+        //change_red(info);
     }
 }

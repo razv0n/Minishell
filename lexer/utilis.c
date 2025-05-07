@@ -6,11 +6,9 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/05 12:03:03 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/07 23:32:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../Minishell.h"
 
 #include "../Minishell.h"
 
@@ -116,23 +114,25 @@ static int	count_word(char *str)
 	}
 	return (count);
 }
+void	is_joiuned(char *s, t_info *info)
+{
+	static int i;
 
-static char	*get_next_word(char const **s, char **result, int index, t_info *info)
+	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s))
+		info->joined[i] = true;
+	i++;
+	if (!*s)
+		i = 0;
+}
+
+static char	*get_next_word(char **s, char **result, int index, t_info *info)
 {
 	int			lenght;
 	int			in;
 	const char	*start;
-	static int	ind = 0;
 
 	start = *s;
 	in = 0;
-	if (is_whitespace(**s))
-	{
-		while (is_whitespace(**s) && **s != '\0')
-			(*s)++;
-	}
-	else if (!check_metacharacter(*s) && !check_metacharacter(*s - 1))
-		info->joind[ind] = true; // check sperator "" '' that is the
 	while ((is_whitespace(**s) && **s != '\0'))
 		(*s)++;
 	start = *s;
@@ -143,11 +143,13 @@ static char	*get_next_word(char const **s, char **result, int index, t_info *inf
 		while (**s != ab && **s != '\0')
 			(*s)++;
 		(*s)++;
+		is_joiuned(*s, info);
 	}
 	else if (!check_metacharacter(*s))
 	{
 		while (((!check_metacharacter(*s)) && !is_whitespace(**s) && **s != '\0' && !check_quotes(**s)))
 			(*s)++;
+		is_joiuned(*s, info);
 	}
 	else
 	{
@@ -169,7 +171,7 @@ static char	*get_next_word(char const **s, char **result, int index, t_info *inf
 		start++;
 	}
 	result[index][in] = '\0';
-	return (ind++, result[index]);
+	return (result[index]);
 }
 
 char	**ft_split_tokens(t_info *info)
@@ -178,18 +180,18 @@ char	**ft_split_tokens(t_info *info)
 	int		lenght;
 	int		i;
 
-	if (!s)
+	if (!info)
 		return (NULL);
 	lenght = count_word(info->line); // 2
 	result = malloc ((lenght + 1) * sizeof(char *));
-	info->joind = malloc(sizeof(bool) * (lenght));
-	ft_bzero(info->joind, sizeof(bool) * lenght);
+	info->joined = malloc(sizeof(bool) * (lenght));
+	ft_bzero(info->joined, sizeof(bool) * lenght);
 	if (!result)
 		return (NULL);
 	i = 0;
 	while (i < lenght)
 	{
-		result[i] = get_next_word (&info->line, result, i, info);
+		result[i] = get_next_word ( &info->line, result, i, info);
 		if (!result)
 			return (fr_mem_split(i, result));
 		i++;

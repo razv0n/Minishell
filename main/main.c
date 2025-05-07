@@ -6,26 +6,27 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/05 11:30:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/07 22:59:12 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void print_stack(t_list *head)
+void print_stack(t_list *head, t_info *info)
 {
     // if (!head)
         // return ;
+    int i = 0;
     while (head)
     {
-        printf("\nhead->content [%s]  head->type %d\n",head->content, head->type);
+        printf("\nhead->content [%s]  head->type [%d]  is_joined [%d]\n",head->content, head->type, info->joined[i]);
         head = head->next;
+        i++;
     }
 }
 
 int main (int ac , char **av, char **env)
 {
-    char *line;
     t_info *info;
 
     signal(SIGINT, handle_sigint);
@@ -36,21 +37,22 @@ int main (int ac , char **av, char **env)
         exit(1);
     }
     info = malloc(sizeof(t_info));
+    cpy_env(env, info);
     while (1)
     {
-        line = readline("╭━━[\033[1;36mminishell\033[0m]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮\n╰──➤");
-        if (!line)
+        info->line = readline("╭━━[\033[1;36mminishell\033[0m]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮\n╰──➤");
+        if (!info->line)
         {
             printf("exit\n");
             return (1);
         }
-        if(line[0])
-            add_history(line);
-        pars(info, line, env); // ? dont forget to free the head after using it
+        if(info->line[0])
+            add_history(info->line);
+        pars(info); // ? dont forget to free the head after using it
         init_things(info, info->head_cmd);
-        // print_stack(info->head_cmd); //for printig linked list
-        ft_env(info->head_env);
-        free(line);
+        print_stack(info->head_cmd, info);
+        ft_free(info); //for printig linked list
+        // ft_env(info->head_env);
     }
     return (-1);
 }

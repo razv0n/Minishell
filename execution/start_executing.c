@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/05 11:30:51 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/07 19:56:22 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,53 +174,53 @@ void	check_access(t_u *utils)
 	// }
 // }
 
-int	check_builtin_2(char **cmd)
-{
-	if (ft_strcmp(cmd[0], "pwd"))
-	{
-		ft_pwd();
-		return (1);
-	}
-	else if (ft_strcmp(cmd[0], "cd"))
-	{
-		ft_cd();
-		return (1);
-	}
-	else if (ft_strcmp(cmd[0], "unset"))
-	{
-		ft_unset();
-		return (1);
-	}
-	else if (ft_strcmp(cmd[0], "echo"))
-	{
-		ft_echo(cmd);
-		return (1);
-	}
-	return (0);
-}
+// int	check_builtin_2(char **cmd)
+// {
+// 	if (ft_strcmp(cmd[0], "pwd"))
+// 	{
+// 		ft_pwd();
+// 		return (1);
+// 	}
+// 	else if (ft_strcmp(cmd[0], "cd"))
+// 	{
+// 		ft_cd();
+// 		return (1);
+// 	}
+// 	else if (ft_strcmp(cmd[0], "unset"))
+// 	{
+// 		ft_unset();
+// 		return (1);
+// 	}
+// 	else if (ft_strcmp(cmd[0], "echo"))
+// 	{
+// 		ft_echo(cmd);
+// 		return (1);
+// 	}
+// 	return (0);
+// }
 
 int	check_builtin(t_info *info, char **cmd)
 {
-	if (ft_strcmp(cmd[0], "export"))
-	{
-		ft_export(info->head_export);
-		return (1);
-	}
-	else if (ft_strcmp(cmd[0], "exit"))
-	{
-		ft_exit(cmd);
-		return (1);
-	}
-	else if (ft_strcmp(cmd[0], "env"))
+	// if (ft_strcmp(cmd[0], "export"))
+	// {
+	// 	ft_export(info->head_export);
+	// 	return (1);
+	// }
+	// else if (ft_strcmp(cmd[0], "exit"))
+	// {
+	// 	ft_exit(cmd);
+	// 	return (1);
+	// }
+	if (ft_strcmp(cmd[0], "env"))
 	{
 		ft_env(info->head_env);
 		return (1);
 	}
-	else
-	{
-		if (check_builtin_2(cmd))
-			return (1);
-	}
+	// else
+	// {
+	// 	if (check_builtin_2(cmd)) // i commented this for not showing the error
+	// 		return (1);
+	// }
 	return (0);
 }
 
@@ -228,7 +228,7 @@ void	get_path(t_info *info, t_u *utils, int *wt, int i)
 {
 	int	id;
 
-	if (!check_builtin(info, utils->cmd, i))
+	if (!check_builtin(info, utils->cmd))
 	{
 		check_access(utils);
 		id = fork();

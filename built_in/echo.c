@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:20:03 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/05 11:32:46 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/07 19:29:16 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ void	ft_echo(char **arg)
 		printf("\n");
 }
 
-int main()
-{
-	char *arg[] = {"echo", "-n n n n n ", "i want to go", NULL};
-	ft_echo(arg);
-	return (0);
-}
+// int main()
+// {
+// 	char *arg[] = {"echo", "-n n n n n ", "i want to go", NULL};
+// 	ft_echo(arg);
+// 	return (0);
+// }

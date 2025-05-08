@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/07 23:32:41 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 11:00:06 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,11 @@ static int	count_word(char *str)
 	}
 	return (count);
 }
-void	is_joiuned(char *s, t_info *info)
+void	is_joined(char *s, t_info *info)
 {
 	static int i;
 
-	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s))
+	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s) && !check_metacharacter(s - 1))
 		info->joined[i] = true;
 	i++;
 	if (!*s)
@@ -143,13 +143,11 @@ static char	*get_next_word(char **s, char **result, int index, t_info *info)
 		while (**s != ab && **s != '\0')
 			(*s)++;
 		(*s)++;
-		is_joiuned(*s, info);
 	}
 	else if (!check_metacharacter(*s))
 	{
 		while (((!check_metacharacter(*s)) && !is_whitespace(**s) && **s != '\0' && !check_quotes(**s)))
 			(*s)++;
-		is_joiuned(*s, info);
 	}
 	else
 	{
@@ -158,8 +156,7 @@ static char	*get_next_word(char **s, char **result, int index, t_info *info)
 		else
 			(*s)++;
 	}
-	// if (**s == '\'' || **s == '"')
-		// (*s)++;
+	is_joined(*s, info);
 	lenght = *s - start;
 	result[index] = malloc ((lenght + 1) * sizeof(char));
 	if (!result[index])

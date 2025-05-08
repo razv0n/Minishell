@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/07 22:58:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 11:00:22 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ bool    is_pipe(char *c);
 bool    check_metacharcter_skip(const char *c, size_t *i);
 bool	is_whitespace(char c);
 bool	check_quotes(char c);
+void	is_joined(char *s, t_info *info);
 void	ft_lstadd_back_d(t_list **start, t_list *new);
 void    pars(t_info *info);
 void    handle_sigint(int sig);

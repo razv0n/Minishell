@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/07 22:59:12 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 11:08:03 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int main (int ac , char **av, char **env)
         init_things(info, info->head_cmd);
         print_stack(info->head_cmd, info);
         ft_free(info); //for printig linked list
-        // ft_env(info->head_env);
     }
     return (-1);
 }

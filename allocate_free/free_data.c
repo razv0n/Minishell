@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/02 20:44:14 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/07 23:02:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,19 @@ bool	free_print(t_list *head, char **words)
 	ft_lstclear_d(&head);
 	return (true);
 }
-void ft_free()
-{}
+void ft_free(t_info *info)
+{
+	ft_lstclear_d(&info->head_cmd);
+	// ft_lstclear_d((t_list)&info->head_export);
+	// if (info->utils)
+	// {
+		// free(info->utils->cmd);
+		// free(info->utils->path);
+		// free(info->utils);
+	// }
+	// free(info->line);
+	free(info->joined);
+}
 
 
 // void *ft_malloc(void *ptr, size_t size)

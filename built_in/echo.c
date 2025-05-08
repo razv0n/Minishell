@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:20:03 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/12 18:20:06 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:29:16 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../Minishell.h"
 
 //i considered that the struct has a double pointer containing the cmd and its arguments
 //i didn't check if echo is valid or not
@@ -69,9 +69,9 @@ void	ft_echo(char **arg)
 		printf("\n");
 }
 
-int main()
-{
-	char *arg[] = {"echo", "-n n n n n ", "i want to go", NULL};
-	ft_echo(arg);
-	return (0);
-}
+// int main()
+// {
+// 	char *arg[] = {"echo", "-n n n n n ", "i want to go", NULL};
+// 	ft_echo(arg);
+// 	return (0);
+// }

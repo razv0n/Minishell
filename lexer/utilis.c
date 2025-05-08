@@ -6,11 +6,9 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/04 13:59:50 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/07 23:32:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../Minishell.h"
 
 #include "../Minishell.h"
 
@@ -73,7 +71,7 @@ bool	is_whitespace(char c)
 	return (0);
 }
 
-static int	count_word(char const *str)
+static int	count_word(char *str)
 {
 	size_t		i;
 	int			count;
@@ -116,8 +114,18 @@ static int	count_word(char const *str)
 	}
 	return (count);
 }
+void	is_joiuned(char *s, t_info *info)
+{
+	static int i;
 
-static char	*get_next_word(char const **s, char **result, int index)
+	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s))
+		info->joined[i] = true;
+	i++;
+	if (!*s)
+		i = 0;
+}
+
+static char	*get_next_word(char **s, char **result, int index, t_info *info)
 {
 	int			lenght;
 	int			in;
@@ -135,11 +143,13 @@ static char	*get_next_word(char const **s, char **result, int index)
 		while (**s != ab && **s != '\0')
 			(*s)++;
 		(*s)++;
+		is_joiuned(*s, info);
 	}
 	else if (!check_metacharacter(*s))
 	{
 		while (((!check_metacharacter(*s)) && !is_whitespace(**s) && **s != '\0' && !check_quotes(**s)))
 			(*s)++;
+		is_joiuned(*s, info);
 	}
 	else
 	{
@@ -164,22 +174,24 @@ static char	*get_next_word(char const **s, char **result, int index)
 	return (result[index]);
 }
 
-char	**ft_split_tokens(char const *s)
+char	**ft_split_tokens(t_info *info)
 {
 	char	**result;
 	int		lenght;
 	int		i;
 
-	if (!s)
+	if (!info)
 		return (NULL);
-	lenght = count_word(s); // 2
+	lenght = count_word(info->line); // 2
 	result = malloc ((lenght + 1) * sizeof(char *));
+	info->joined = malloc(sizeof(bool) * (lenght));
+	ft_bzero(info->joined, sizeof(bool) * lenght);
 	if (!result)
 		return (NULL);
 	i = 0;
 	while (i < lenght)
 	{
-		result[i] = get_next_word (&s, result, i);
+		result[i] = get_next_word ( &info->line, result, i, info);
 		if (!result)
 			return (fr_mem_split(i, result));
 		i++;

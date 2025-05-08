@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 0000/04/17 11:56:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/04 10:03:05 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/05 11:53:56 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    split_arg(t_info *info)
     t_list *node;
 
     i = 0;
-    words = ft_split_tokens((char *)info->line);
+    words = ft_split_tokens(info);
     if (!words)
     {
         free(info->line);

@@ -15,14 +15,76 @@
 // Here we need the exit status cuz we will need it to terminate with it the process
 // EOF will be treated by readline func
 
-void	ft_exit(int ext_st)
+// int	length(char *s)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (s == NULL)
+// 		return (0);
+// 	while (s[i] != '\0')
+// 		i++;
+// 	return (i);
+// }
+
+int	convert(char *s, int *err)
 {
-	printf("exit\n");
-	exit (ext_st);
+	long	res;
+	int		j;
+	int		sign;
+
+	res = 0;
+	j = 0;
+	sign = 1;
+	if ((s[j] == '-' || s[j] == '+')
+		&& (s[j + 1] >= '0' && s[j + 1] <= '9'))
+	{
+		if (s[j] == '-')
+			sign *= -1;
+		j++;
+	}
+	while (s[j] >= '0' && s[j] <= '9')
+	{
+		if ((res * 10 > 9223372036854775807)
+			|| (-res * 10 < -9223372036854775807))
+			*err = 1;
+		res = res * 10 + s[j] - 48;
+		j++;
+	}
+	if (s[j])
+		*err = 1;
+	return (res * sign);
 }
 
-int	main()
+void	ft_exit(char **cmd, int ext)
 {
-	ft_exit(100);
-	return 0;
+	int	n;
+	int	err;
+
+	err = 0;
+	write (2, "exit\n", 5);
+	if (cmd[1])
+	{	
+		n = convert(cmd[1], &err);
+		if (err)
+		{
+			write (2, "bash: exit: ", 12);
+			write (2, cmd[1], length(cmd[1]));
+			write (2, ": numeric argument required\n", 28);
+			exit (n);
+		}
+		if (cmd[2])
+		{
+			write (2, "bash: exit: too many arguments\n", 31);
+			exit (n);
+		}
+	}
+	exit (ext);
 }
+
+// int	main()
+// {
+// 	char *arg[] = {"x", "29562369", "8347", NULL};
+// 	ft_exit(arg, 8);
+// 	return 0;
+// }

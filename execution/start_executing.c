@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/08 22:22:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 23:25:53 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	check_access(t_u *utils)
 	{
 		x = add_string(utils->path[i], utils->cmd[0]);
 		if (!x)
-			return(0); // handle this error
+			return (0); // handle this error
 		if (!access(x, F_OK))
 		{
 			if (!access(x, X_OK))
@@ -207,12 +207,12 @@ int	check_builtin(t_info *info, char **cmd)
 	// 	ft_export(info->head_export);
 	// 	return (1);
 	// }
-	// else if (ft_strcmp(cmd[0], "exit"))
-	// {
-	// 	ft_exit(cmd);
-	// 	return (1);
-	// }
-	if (ft_strcmp(cmd[0], "env"))
+	if (ft_strcmp(cmd[0], "exit"))
+	{
+		ft_exit(cmd, info->utils->ext);
+		return (1);
+	}
+	else if (ft_strcmp(cmd[0], "env"))
 	{
 		ft_env(info->head_env);
 		return (1);
@@ -225,7 +225,7 @@ int	check_builtin(t_info *info, char **cmd)
 	return (0);
 }
 
-void	get_path(t_info *info, t_u *utils, int *wt, int i)
+void	get_path(t_info *info, t_u *utils, int *wt, int *i)
 {
 	int	id;
 
@@ -243,10 +243,11 @@ void	get_path(t_info *info, t_u *utils, int *wt, int i)
 				execve(utils->cmd[0], utils->cmd, NULL);
 				write (2, "execve failed\n", 14);
 			}
-			wt[i] = id;
+			wt[(*i)++] = id;
 		}
 	}
-	close(1);
+	if (utils->npi)
+		close(1);
 }
 
 void	open_pipe(t_u *utils)
@@ -277,6 +278,11 @@ void	back_to_normal(t_u *utils)
 {
 	// if (dup2(utils->fd_in, 0) == -1 || dup2(utils->fd_out, 1) == -1)
 	// 		exit(10);
+	if (utils->exc)
+	{
+		free (utils->exc);
+		utils->exc = NULL;
+	}
 	if (!utils->npi)
 	{
 		if (dup2(utils->fd_in, 0) == -1)
@@ -304,18 +310,14 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 				redirection(head->content, head->type);
 			head = head->next;
 		}
-		get_path(info, utils, wt, i);
-		i++;
+		get_path(info, utils, wt, &i);
 		back_to_normal(utils);
 		free (utils->cmd);
 		if (head)
 			head = head->next;
 	}
-	while (i >= 0)
-	{
-		waitpid(wt[i], NULL, 0);
-		i--;
-	}
+	while (i-- >= 0)
+		waitpid(wt[i + 1], &utils->ext, 0);
 }
 
 void	init_things(t_info *info, t_list *head)
@@ -326,6 +328,7 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->cmd = NULL; // the command
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
+	info->utils->ext = 0;
 	info->utils->npi = count_pipes(head);
 	info->utils->fd_in = dup(0);
 	info->utils->fd_out = dup(1);
@@ -333,7 +336,7 @@ void	init_things(t_info *info, t_list *head)
 	if (!info->utils->path || info->utils->fd_in == -1 || info->utils->fd_out == -1)
 		exit(1);
 	start_executing(info, head, info->utils);
-	// utils->cmd = NULL; // the command
+	// utils->cmd = NULL;
 	// utils->exc = NULL;
 	// utils->copy = 0;
 	// utils->npi = count_pipes(head);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 22:31:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 22:46:08 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct utils
 	int	pi[2];
 	int	fd_in;
 	int	fd_out;
+    int ext;
 }	t_u;
 
 typedef struct export
@@ -107,6 +108,10 @@ void	init_things(t_info *info, t_list *head);
 // void	init_things(t_list *head, t_u *utils);
 void ft_free(t_info *info);
 void	ft_env(t_list *head_env);
+
+void	ft_exit(char **cmd, int ext);
+int	length(char *s);
+
 void	ft_echo(char **arg);
 void	ft_cd(char **arg);
 void	ft_pwd(void);

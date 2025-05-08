@@ -184,14 +184,17 @@ void	get_path(t_u *utils, int *wt, int i)
 		exit(8);
 	if (!id)
 	{
-		if (utils->exc)
-		execve(utils->exc, utils->cmd, NULL);
-		execve(utils->cmd[0], utils->cmd, NULL);
-		write (2, "execve failed\n", 14);
+		if (check_builtin(utils->cmd[0]))
+			execute_builtin(utils->cmd);
+		else if (utils->exc)
+		{
+			execve(utils->exc, utils->cmd, NULL);
+			execve(utils->cmd[0], utils->cmd, NULL);
+			write (2, "execve failed\n", 14);
+		}
 	}
 	close(1);
 	wt[i] = id;
-	// waitpid(id, NULL, 0);
 }
 
 void	open_pipe(t_u *utils)

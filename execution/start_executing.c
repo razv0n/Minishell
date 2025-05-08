@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/08 13:25:57 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 16:21:39 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,30 +175,30 @@ int	check_access(t_u *utils)
 	// }
 // }
 
-// int	check_builtin_2(char **cmd)
-// {
-// 	if (ft_strcmp(cmd[0], "pwd"))
-// 	{
-// 		ft_pwd();
-// 		return (1);
-// 	}
-// 	else if (ft_strcmp(cmd[0], "cd"))
-// 	{
-// 		ft_cd();
-// 		return (1);
-// 	}
-// 	else if (ft_strcmp(cmd[0], "unset"))
-// 	{
-// 		ft_unset();
-// 		return (1);
-// 	}
-// 	else if (ft_strcmp(cmd[0], "echo"))
-// 	{
-// 		ft_echo(cmd);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
+int	check_builtin_2(char **cmd)
+{
+	if (ft_strcmp(cmd[0], "pwd"))
+	{
+		ft_pwd();
+		return (1);
+	}
+	else if (ft_strcmp(cmd[0], "cd"))
+	{
+		ft_cd(cmd);
+		return (1);
+	}
+	else if (ft_strcmp(cmd[0], "echo"))
+	{
+		ft_echo(cmd);
+		return (1);
+	}
+	// else if (ft_strcmp(cmd[0], "unset"))
+	// {
+		// ft_unset();
+		// return (1);
+	// }
+	return (0);
+}
 
 int	check_builtin(t_info *info, char **cmd)
 {
@@ -217,11 +217,11 @@ int	check_builtin(t_info *info, char **cmd)
 		ft_env(info->head_env);
 		return (1);
 	}
-	// else
-	// {
-	// 	if (check_builtin_2(cmd)) // i commented this for not showing the error
-	// 		return (1);
-	// }
+	else
+	{
+		if (check_builtin_2(cmd)) // i commented this for not showing the error
+			return (1);
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/04 14:30:29 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 16:41:39 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,8 @@ void    expand_2(char **str, int wich_quote)
 void    expand(t_info *info)
 {
     t_list *content, *next_node;
-    int i;
     int wich_quote;
 
-    i = 0;
     content = info->head_cmd;
     while (content)
     {

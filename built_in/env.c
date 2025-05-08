@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 21:15:28 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/05 11:33:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 14:33:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,3 @@ void	ft_env(t_list *head_env)
 	}
 }
 
-// int	main(int ac, char **av, char **env)
-// {
-// 	ft_env(env);
-// 	return 0;
-// }

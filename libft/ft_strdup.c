@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/13 21:15:28 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/08 14:33:10 by mfahmi           ###   ########.fr       */
+/*   Created: 2024/10/26 09:48:46 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/05/08 16:42:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Minishell.h"
+#include "libft.h"
 
-//We should have something that holds the env variable such as a dbl ptr in the struct
-
-void	ft_env(t_list *head_env)
+char	*ft_strdup(const char *s)
 {
-	if (head_env == NULL)
-		return ;
-	while (head_env)
-	{
-		printf("%s\n", head_env->content);
-		head_env = head_env->next;
-	}
-}
+	char	*d;
+	int		i;
+	int		length;
 
+	if (!s)
+		return (NULL);
+	length = ft_strlen(s);
+	i = 0;
+	d = malloc (length + 1);
+	if (!d)
+		return (NULL);
+	while (i <= length)
+	{
+		d[i] = s[i];
+		i++;
+	}
+	return (d);
+}

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/07 19:56:22 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 16:21:39 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 		head = head->next;
 	}
 	cmd[i] = NULL;
-	return (cmd);
+	return (cmd); 
 }
 
 int	check_access(t_u *utils)
@@ -138,7 +138,11 @@ int	check_access(t_u *utils)
 	{
 		x = add_string(utils->path[i], utils->cmd[0]);
 		if (!x)
+<<<<<<< HEAD
 			return (0); // handle this error
+=======
+			return(0); // handle this error
+>>>>>>> 699fcb2a1e7b8c5ea8df585099f05e830730313b
 		if (!access(x, F_OK))
 		{
 			if (!access(x, X_OK))
@@ -175,30 +179,30 @@ int	check_access(t_u *utils)
 	// }
 // }
 
-// int	check_builtin_2(char **cmd)
-// {
-// 	if (ft_strcmp(cmd[0], "pwd"))
-// 	{
-// 		ft_pwd();
-// 		return (1);
-// 	}
-// 	else if (ft_strcmp(cmd[0], "cd"))
-// 	{
-// 		ft_cd();
-// 		return (1);
-// 	}
-// 	else if (ft_strcmp(cmd[0], "unset"))
-// 	{
-// 		ft_unset();
-// 		return (1);
-// 	}
-// 	else if (ft_strcmp(cmd[0], "echo"))
-// 	{
-// 		ft_echo(cmd);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
+int	check_builtin_2(char **cmd)
+{
+	if (ft_strcmp(cmd[0], "pwd"))
+	{
+		ft_pwd();
+		return (1);
+	}
+	else if (ft_strcmp(cmd[0], "cd"))
+	{
+		ft_cd(cmd);
+		return (1);
+	}
+	else if (ft_strcmp(cmd[0], "echo"))
+	{
+		ft_echo(cmd);
+		return (1);
+	}
+	// else if (ft_strcmp(cmd[0], "unset"))
+	// {
+		// ft_unset();
+		// return (1);
+	// }
+	return (0);
+}
 
 int	check_builtin(t_info *info, char **cmd)
 {
@@ -212,6 +216,7 @@ int	check_builtin(t_info *info, char **cmd)
 		ft_exit(cmd, info->utils->ext);
 		return (1);
 	}
+<<<<<<< HEAD
 	// if (ft_strcmp(cmd[0], "env"))
 	// {
 	// 	ft_env(info->head_env);
@@ -222,6 +227,13 @@ int	check_builtin(t_info *info, char **cmd)
 	// 	if (check_builtin_2(cmd)) // i commented this for not showing the error
 	// 		return (1);
 	// }
+=======
+	else
+	{
+		if (check_builtin_2(cmd)) // i commented this for not showing the error
+			return (1);
+	}
+>>>>>>> 699fcb2a1e7b8c5ea8df585099f05e830730313b
 	return (0);
 }
 
@@ -243,7 +255,11 @@ void	get_path(t_info *info, t_u *utils, int *wt, int *i)
 				execve(utils->cmd[0], utils->cmd, NULL);
 				write (2, "execve failed\n", 14);
 			}
+<<<<<<< HEAD
 			wt[(*i)++] = id;
+=======
+			wt[i] = id;
+>>>>>>> 699fcb2a1e7b8c5ea8df585099f05e830730313b
 		}
 	}
 	if (utils->npi)

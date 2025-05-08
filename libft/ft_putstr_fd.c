@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/13 21:15:28 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/08 14:33:10 by mfahmi           ###   ########.fr       */
+/*   Created: 2024/10/28 14:41:32 by mfahmi            #+#    #+#             */
+/*   Updated: 2024/10/29 09:16:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Minishell.h"
+#include "libft.h"
 
-//We should have something that holds the env variable such as a dbl ptr in the struct
-
-void	ft_env(t_list *head_env)
+void	ft_putstr_fd(char *s, int fd)
 {
-	if (head_env == NULL)
+	int	i;
+
+	if (!s)
 		return ;
-	while (head_env)
+	i = 0;
+	while (s[i])
 	{
-		printf("%s\n", head_env->content);
-		head_env = head_env->next;
+		write(fd, &s[i], 1);
+		i++;
 	}
 }
-
+/*int main ()
+{
+	int	fd ;
+	fd = open("file.txt", O_CREAT | O_WRONLY);
+	ft_putstr_fd("hello 1337 is the best",fd);
+	close(fd);
+}*/

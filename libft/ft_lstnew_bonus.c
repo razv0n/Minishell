@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_d.c                                      :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:14:04 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 16:49:06 by mfahmi           ###   ########.fr       */
+/*   Updated: 2024/11/07 16:10:00 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Minishell.h"
+#include "libft.h"
 
-t_list	*ft_lstnew_d(void *content)
+t_list	*ft_lstnew(void *content)
 {
 	t_list	*newnode;
 
@@ -21,47 +21,8 @@ t_list	*ft_lstnew_d(void *content)
 		return (NULL);
 	newnode->content = content;
 	newnode->next = NULL;
-	newnode->prev = NULL;
 	return (newnode);
 }
-void remove_node (t_list **head, t_list *remove)
-{
-    if	(!*head || !remove|| !head)
-		return ;
-    if (remove->prev)
-    {
-        remove->prev->next = remove->next;
-		if (remove->next)
-        	remove->next->prev = remove->prev;
-    }
-    else
-    {
-        *head = (*head)->next;
-		if (*head) 
-        	(*head)->prev = NULL;
-    }
-    ft_lstdelone(remove, free);
-}
-
-void remove_the_null(t_list **head)
-{
-	t_list *help;
-	t_list *tmp;
-
-	help = *head;
-	while (help)
-	{
-		if (!help->content || help->content[0] == '\0')
-		{
-			tmp = help->next;
-			remove_node(head, help);
-			help = tmp;
-		}
-		else
-			help = help->next;
-	}
-}
-
 /*int main()
 {
 	t_list *head = NULL;

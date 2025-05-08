@@ -1,7 +1,11 @@
 NAME = minishell
+<<<<<<< HEAD
 FUNC = built_in/exit.c built_in/env.c pars/expand.c allocate_free/init_data.c syntax_error/error.c pars/pars.c allocate_free/free_data.c  main/main.c  doubly_linked/ft_lstadd_back_d.c  doubly_linked/ft_lstadd_front_d.c  doubly_linked/ft_lstnew_d.c lexer/check_quotes.c lexer/split_tokens.c  lexer/utilis.c execution/start_executing.c execution/redirection.c
+=======
+FUNC = built_in/pwd.c built_in/env.c built_in/chng_dir.c built_in/echo.c pars/expand.c allocate_free/init_data.c syntax_error/error.c pars/pars.c allocate_free/free_data.c  main/main.c  doubly_linked/ft_lstadd_back_d.c  doubly_linked/ft_lstadd_front_d.c  doubly_linked/ft_lstnew_d.c lexer/check_quotes.c lexer/split_tokens.c  lexer/utilis.c execution/start_executing.c execution/redirection.c
+>>>>>>> 699fcb2a1e7b8c5ea8df585099f05e830730313b
 OBG = $(FUNC:.c=.o)
-LIBFT = libft.a
+LIBFT = libft/libft.a
 LINKING = -lreadline
 CFLAGS = -g3
 CC = cc

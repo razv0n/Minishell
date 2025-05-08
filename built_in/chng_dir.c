@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/12 18:20:48 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/05 11:32:44 by mfahmi           ###   ########.fr       */
+/*   Created: 2025/05/08 14:40:36 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/05/08 14:40:37 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../Minishell.h"
 
@@ -22,14 +23,14 @@ void	ft_cd(char **arg)
 	// should change in export and env from here
 }
 
-#include <fcntl.h>
-int	main()
-{
-	char s[100];
-	printf("%s\n", getcwd(s, 100));
-	char *arg[] = {"cd", "/home/yezzemry/Desktop/youness_br", NULL};
-	ft_cd(arg);
-	// open("youness", O_RDONLY | O_CREAT, 0777);
-	printf("%s\n", getcwd(s, 100));
-	return (0);
-}
+// #include <fcntl.h>
+// int	main()
+// {
+// 	char s[100];
+// 	printf("%s\n", getcwd(s, 100));
+// 	char *arg[] = {"cd", "/home/yezzemry/Desktop/youness_br", NULL};
+// 	ft_cd(arg);
+// 	// open("youness", O_RDONLY | O_CREAT, 0777);
+// 	printf("%s\n", getcwd(s, 100));
+// 	return (0);
+// }

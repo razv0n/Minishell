@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/07 22:58:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 14:39:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <fcntl.h>
 # include <wait.h>
 # include <stdbool.h>
-# include "libft.h"
+# include "libft/libft.h"
 # include <signal.h>
 # include <readline/history.h>
 
@@ -88,6 +88,7 @@ bool    is_pipe(char *c);
 bool    check_metacharcter_skip(const char *c, size_t *i);
 bool	is_whitespace(char c);
 bool	check_quotes(char c);
+void	is_joined(char *s, t_info *info);
 void	ft_lstadd_back_d(t_list **start, t_list *new);
 void    pars(t_info *info);
 void    handle_sigint(int sig);
@@ -108,8 +109,14 @@ void	init_things(t_info *info, t_list *head);
 // void	init_things(t_list *head, t_u *utils);
 void ft_free(t_info *info);
 void	ft_env(t_list *head_env);
+<<<<<<< HEAD
 void	ft_exit(char **cmd, int ext);
 int	length(char *s);
+=======
+void	ft_echo(char **arg);
+void	ft_cd(char **arg);
+void	ft_pwd(void);
+>>>>>>> 699fcb2a1e7b8c5ea8df585099f05e830730313b
 // void	ft_pwd(void);
 // void	ft_export(t_info *info);
 // void	ft_unset(t_info *info);

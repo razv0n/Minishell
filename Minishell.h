@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 14:39:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 22:31:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ bool	is_whitespace(char c);
 bool	check_quotes(char c);
 void	is_joined(char *s, t_info *info);
 void	ft_lstadd_back_d(t_list **start, t_list *new);
-void    pars(t_info *info);
 void    handle_sigint(int sig);
 void	ft_lstadd_front_d(t_list **lst, t_list *new);
 void    split_arg(t_info *info);
@@ -111,6 +110,8 @@ void	ft_env(t_list *head_env);
 void	ft_echo(char **arg);
 void	ft_cd(char **arg);
 void	ft_pwd(void);
+int change_red(t_info *info);
+int    pars(t_info *info);
 // void	ft_pwd(void);
 // void	ft_export(t_info *info);
 // void	ft_unset(t_info *info);

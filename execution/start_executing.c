@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/08 11:35:45 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 13:25:57 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 	return (cmd); 
 }
 
-void	check_access(t_u *utils)
+int	check_access(t_u *utils)
 {
 	int	i;
 	char	*x;
@@ -138,18 +138,19 @@ void	check_access(t_u *utils)
 	{
 		x = add_string(utils->path[i], utils->cmd[0]);
 		if (!x)
-			exit(9); // handle this error
+			return(0); // handle this error
 		if (!access(x, F_OK))
 		{
 			if (!access(x, X_OK))
 			{
 				utils->exc = x;
-				return ;
+				return (1);
 			}
 		}
 		free (x);
 		i++;
 	}
+	return (1);
 }
 
 // void	close_fds(int id)
@@ -230,18 +231,20 @@ void	get_path(t_info *info, t_u *utils, int *wt, int i)
 
 	if (!check_builtin(info, utils->cmd))
 	{
-		check_access(utils);
-		id = fork();
-		if (id == -1)
-			exit(8);
-		if (!id)
+		if (check_access(utils))
 		{
-			if (utils->exc)
-				execve(utils->exc, utils->cmd, NULL);
-			execve(utils->cmd[0], utils->cmd, NULL);
-			write (2, "execve failed\n", 14);
+			id = fork();
+			if (id == -1)
+				exit(8);
+			if (!id)
+			{
+				if (utils->exc)
+					execve(utils->exc, utils->cmd, NULL);
+				execve(utils->cmd[0], utils->cmd, NULL);
+				write (2, "execve failed\n", 14);
+			}
+			wt[i] = id;
 		}
-		wt[i] = id;
 	}
 	close(1);
 }

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/07 19:56:22 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 11:35:45 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 		head = head->next;
 	}
 	cmd[i] = NULL;
-	return (cmd);
+	return (cmd); 
 }
 
 void	check_access(t_u *utils)

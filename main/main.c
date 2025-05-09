@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 23:47:01 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/09 15:33:21 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main (int ac , char **av, char **env)
         if (!info->line)
         {
             printf("exit\n");
-            return (1);
+            exit(0);
         }
         if(info->line[0])
             add_history(info->line);

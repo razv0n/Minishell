@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/09 11:55:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/09 15:06:18 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,10 +229,14 @@ void run_cmd(t_u *utils, t_info *info, bool is_pipe)
 {
 		if (is_pipe && check_builtin(info, utils->cmd))
 			return ;
-		if (utils->exc)
-			execve(utils->exc, utils->cmd, NULL);
-		execve(utils->cmd[0], utils->cmd, NULL);
-		write (2, "execve failed\n", 14);
+		if (check_access(utils))
+		{
+			if (utils->exc)
+				execve(utils->exc, utils->cmd, NULL);
+			execve(utils->cmd[0], utils->cmd, NULL);
+			// write (2, "execve failed\n", 14);
+			perror("$>");
+		}
 }
 
 pid_t fork_and_execute(t_u *utils, t_info *info, bool non_pipe)
@@ -242,7 +246,7 @@ pid_t fork_and_execute(t_u *utils, t_info *info, bool non_pipe)
 	if (non_pipe && check_builtin(info, utils->cmd))
 		return (1);
 	pid = fork();
-    if (pid < 0)
+    if (pid == -1)
 	{
 		perror("fork");
         return -1;

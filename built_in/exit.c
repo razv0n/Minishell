@@ -15,17 +15,17 @@
 // Here we need the exit status cuz we will need it to terminate with it the process
 // EOF will be treated by readline func
 
-// int	length(char *s)
-// {
-// 	int	i;
+static int	length(char *s)
+{
+	int	i;
 
-// 	i = 0;
-// 	if (s == NULL)
-// 		return (0);
-// 	while (s[i] != '\0')
-// 		i++;
-// 	return (i);
-// }
+	i = 0;
+	if (s == NULL)
+		return (0);
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
 
 int	convert(char *s, int *err)
 {
@@ -56,7 +56,7 @@ int	convert(char *s, int *err)
 	return (res * sign);
 }
 
-void	ft_exit(char **cmd, int ext)
+void	ft_exit(char **cmd, int *ext)
 {
 	int	n;
 	int	err;
@@ -71,15 +71,16 @@ void	ft_exit(char **cmd, int ext)
 			write (2, "bash: exit: ", 12);
 			write (2, cmd[1], length(cmd[1]));
 			write (2, ": numeric argument required\n", 28);
-			exit (n);
+			exit (2);
 		}
 		if (cmd[2])
 		{
 			write (2, "bash: exit: too many arguments\n", 31);
-			exit (n);
+			*ext = 1;
+			return ;
 		}
 	}
-	exit (ext);
+	exit (*ext);
 }
 
 // int	main()

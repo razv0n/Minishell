@@ -54,6 +54,7 @@ typedef struct utils
 	int	npi;
 	int	pi[2];
 	int	fd_in;
+    bool	child;
 	int	fd_out;
     int ext;
 }	t_u;
@@ -109,19 +110,14 @@ void	init_things(t_info *info, t_list *head);
 // void	init_things(t_list *head, t_u *utils);
 void ft_free(t_info *info);
 void	ft_env(t_list *head_env);
-<<<<<<< HEAD
-void	ft_exit(char **cmd, int ext);
-int	length(char *s);
-=======
 void	ft_echo(char **arg);
 void	ft_cd(char **arg);
 void	ft_pwd(void);
->>>>>>> 699fcb2a1e7b8c5ea8df585099f05e830730313b
 // void	ft_pwd(void);
 // void	ft_export(t_info *info);
 // void	ft_unset(t_info *info);
 // void	ft_cd(t_info *info);
 // void	ft_echo(char **cmd);
-// void	ft_exit(char **cmd);
+void	ft_exit(char **cmd, int *ext);
 
 #endif

@@ -138,11 +138,7 @@ int	check_access(t_u *utils)
 	{
 		x = add_string(utils->path[i], utils->cmd[0]);
 		if (!x)
-<<<<<<< HEAD
-			return (0); // handle this error
-=======
 			return(0); // handle this error
->>>>>>> 699fcb2a1e7b8c5ea8df585099f05e830730313b
 		if (!access(x, F_OK))
 		{
 			if (!access(x, X_OK))
@@ -179,30 +175,30 @@ int	check_access(t_u *utils)
 	// }
 // }
 
-int	check_builtin_2(char **cmd)
-{
-	if (ft_strcmp(cmd[0], "pwd"))
-	{
-		ft_pwd();
-		return (1);
-	}
-	else if (ft_strcmp(cmd[0], "cd"))
-	{
-		ft_cd(cmd);
-		return (1);
-	}
-	else if (ft_strcmp(cmd[0], "echo"))
-	{
-		ft_echo(cmd);
-		return (1);
-	}
-	// else if (ft_strcmp(cmd[0], "unset"))
-	// {
-		// ft_unset();
-		// return (1);
-	// }
-	return (0);
-}
+// int	check_builtin_2(char **cmd)
+// {
+// 	if (ft_strcmp(cmd[0], "pwd"))
+// 	{
+// 		ft_pwd();
+// 		return (1);
+// 	}
+// 	else if (ft_strcmp(cmd[0], "cd"))
+// 	{
+// 		ft_cd(cmd);
+// 		return (1);
+// 	}
+// 	else if (ft_strcmp(cmd[0], "echo"))
+// 	{
+// 		ft_echo(cmd);
+// 		return (1);
+// 	}
+// 	// else if (ft_strcmp(cmd[0], "unset"))
+// 	// {
+// 		// ft_unset();
+// 		// return (1);
+// 	// }
+// 	return (0);
+// }
 
 int	check_builtin(t_info *info, char **cmd)
 {
@@ -213,10 +209,9 @@ int	check_builtin(t_info *info, char **cmd)
 	// }
 	if (ft_strcmp(cmd[0], "exit"))
 	{
-		ft_exit(cmd, info->utils->ext);
+		ft_exit(cmd, &info->utils->ext);
 		return (1);
 	}
-<<<<<<< HEAD
 	// if (ft_strcmp(cmd[0], "env"))
 	// {
 	// 	ft_env(info->head_env);
@@ -227,41 +222,56 @@ int	check_builtin(t_info *info, char **cmd)
 	// 	if (check_builtin_2(cmd)) // i commented this for not showing the error
 	// 		return (1);
 	// }
-=======
-	else
-	{
-		if (check_builtin_2(cmd)) // i commented this for not showing the error
-			return (1);
-	}
->>>>>>> 699fcb2a1e7b8c5ea8df585099f05e830730313b
 	return (0);
+}
+
+// void	call_execve(t_info *info)
+// {
+// 	if (info->utils->exc)
+// 		execve(info->utils->exc, info->utils->cmd, NULL);
+// 	execve(info->utils->cmd[0], info->utils->cmd, NULL);
+// 	write (2, "execve failed\n", 14);
+// }
+
+void	execute_cmd(t_info *info, int cdt, int *wt, int *i)
+{
+	int	id;
+
+	if (cdt)
+	{
+		if (check_builtin(info, info->utils->cmd))
+			return ;
+	}
+	id = fork();
+	if (id == -1)
+		exit(8);
+	if (!id)
+	{
+		if (!cdt)
+		{
+			if (check_builtin(info, info->utils->cmd))
+				return ;
+		}
+		if (info->utils->exc)
+			execve(info->utils->exc, info->utils->cmd, NULL);
+		execve(info->utils->cmd[0], info->utils->cmd, NULL);
+		write (2, "execve failed\n", 14);
+	}
+	wt[(*i)++] = id;
 }
 
 void	get_path(t_info *info, t_u *utils, int *wt, int *i)
 {
-	int	id;
-
-	if (!check_builtin(info, utils->cmd))
+	// if (!check_builtin(info, utils->cmd))
+	// {
+	if (check_access(utils))
 	{
-		if (check_access(utils))
-		{
-			id = fork();
-			if (id == -1)
-				exit(8);
-			if (!id)
-			{
-				if (utils->exc)
-					execve(utils->exc, utils->cmd, NULL);
-				execve(utils->cmd[0], utils->cmd, NULL);
-				write (2, "execve failed\n", 14);
-			}
-<<<<<<< HEAD
-			wt[(*i)++] = id;
-=======
-			wt[i] = id;
->>>>>>> 699fcb2a1e7b8c5ea8df585099f05e830730313b
-		}
+		if (utils->child)
+			execute_cmd(info, 0, wt, i);
+		else
+			execute_cmd(info, 1, wt, i);
 	}
+	// }
 	if (utils->npi)
 		close(1);
 }
@@ -284,9 +294,9 @@ void	open_pipe(t_u *utils)
 			exit(4);
 		utils->copy = dup(utils->pi[0]);
 		i++;
+		utils->npi--;
 		close (utils->pi[0]);
 		close (utils->pi[1]);
-		utils->npi--;
 	}
 }
 
@@ -346,23 +356,29 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->copy = 0;
 	info->utils->ext = 0;
 	info->utils->npi = count_pipes(head);
+	info->utils->child = false;
+	if (info->utils->npi)
+		info->utils->child = true;
 	info->utils->fd_in = dup(0);
 	info->utils->fd_out = dup(1);
 	info->utils->path = update_path(getenv("PATH"));
 	if (!info->utils->path || info->utils->fd_in == -1 || info->utils->fd_out == -1)
 		exit(1);
 	start_executing(info, head, info->utils);
-	// utils->cmd = NULL;
-	// utils->exc = NULL;
-	// utils->copy = 0;
-	// utils->npi = count_pipes(head);
-	// utils->fd_in = dup(0);
-	// utils->fd_out = dup(1);
-	// utils->path = update_path(getenv("PATH"));
-	// if (!utils->path || utils->fd_in == -1 || utils->fd_out == -1)
-	// 	exit(1);
-	// start_executing(head, utils);
+	close (info->utils->fd_in);
+	close (info->utils->fd_out);
 }
+
+// utils->cmd = NULL;
+// utils->exc = NULL;
+// utils->copy = 0;
+// utils->npi = count_pipes(head);
+// utils->fd_in = dup(0);
+// utils->fd_out = dup(1);
+// utils->path = update_path(getenv("PATH"));
+// if (!utils->path || utils->fd_in == -1 || utils->fd_out == -1)
+// 	exit(1);
+// start_executing(head, utils);
 
 // int	main()
 // {

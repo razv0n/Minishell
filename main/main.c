@@ -50,7 +50,7 @@ int main (int ac , char **av, char **env)
             add_history(info->line);
         pars(info); // ? dont forget to free the head after using it
         init_things(info, info->head_cmd);
-        print_stack(info->head_cmd, info);
+        // print_stack(info->head_cmd, info);
         ft_free(info); //for printig linked list
     }
     return (-1);

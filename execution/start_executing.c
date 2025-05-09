@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/09 15:06:18 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/09 15:10:53 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ void run_cmd(t_u *utils, t_info *info, bool is_pipe)
 				execve(utils->exc, utils->cmd, NULL);
 			execve(utils->cmd[0], utils->cmd, NULL);
 			// write (2, "execve failed\n", 14);
-			perror("$>");
+			perror("$>"); // u should work on this "types of errors"
 		}
 }
 

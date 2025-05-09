@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/08 23:25:53 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/09 11:55:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,29 +225,62 @@ int	check_builtin(t_info *info, char **cmd)
 	return (0);
 }
 
-void	get_path(t_info *info, t_u *utils, int *wt, int *i)
+void run_cmd(t_u *utils, t_info *info, bool is_pipe)
 {
-	int	id;
+		if (is_pipe && check_builtin(info, utils->cmd))
+			return ;
+		if (utils->exc)
+			execve(utils->exc, utils->cmd, NULL);
+		execve(utils->cmd[0], utils->cmd, NULL);
+		write (2, "execve failed\n", 14);
+}
 
-	if (!check_builtin(info, utils->cmd))
+pid_t fork_and_execute(t_u *utils, t_info *info, bool non_pipe)
+{
+    pid_t pid;
+	
+	if (non_pipe && check_builtin(info, utils->cmd))
+		return (1);
+	pid = fork();
+    if (pid < 0)
 	{
-		if (check_access(utils))
-		{
-			id = fork();
-			if (id == -1)
-				exit(8);
-			if (!id)
-			{
-				if (utils->exc)
-					execve(utils->exc, utils->cmd, NULL);
-				execve(utils->cmd[0], utils->cmd, NULL);
-				write (2, "execve failed\n", 14);
-			}
-			wt[(*i)++] = id;
-		}
-	}
-	if (utils->npi)
-		close(1);
+		perror("fork");
+        return -1;
+    }
+    if (pid == 0)
+		run_cmd(utils, info, !non_pipe);
+    return pid;
+}
+
+void handle_non_pipe_case(t_info *info, t_u *utils, int *wt, int *i)
+{
+	pid_t pid;
+
+    pid = fork_and_execute(utils, info, true);
+    if (pid == -1)
+        	return;
+	wt[(*i)++] = pid;
+}
+
+void handle_pipe_case(t_info *info, t_u *utils, int *wt, int *i)
+{
+    pid_t pid;
+	
+	pid = fork_and_execute(utils, info, false);
+    if (pid == -1)
+        return;
+    wt[(*i)++] = pid;
+}
+
+void get_path(t_info *info, t_u *utils, int *wt, int *i)
+{
+    if (!utils->is_pip)
+        handle_non_pipe_case(info, utils, wt, i);
+    else
+        handle_pipe_case(info, utils, wt, i);
+
+    if (utils->npi)
+        close(1);
 }
 
 void	open_pipe(t_u *utils)
@@ -330,6 +363,9 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->copy = 0;
 	info->utils->ext = 0;
 	info->utils->npi = count_pipes(head);
+	info->utils->is_pip = false;
+	if (info->utils->npi)
+		info->utils->is_pip = true;
 	info->utils->fd_in = dup(0);
 	info->utils->fd_out = dup(1);
 	info->utils->path = update_path(getenv("PATH"));

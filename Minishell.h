@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 22:46:08 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/09 11:39:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include "libft/libft.h"
 # include <signal.h>
 # include <readline/history.h>
-
+# include <errno.h> 
 enum e_type
 {
     WORD,
@@ -35,6 +35,12 @@ enum e_type
     SINGLE_Q,
     DOUBLE_Q,
 };//* this enum for type of token
+
+typedef enum {
+    EXEC_BUILTIN,
+    EXEC_EXTERNAL,
+    EXEC_FAILURE
+} t_exec_type;
 
 # define ERR_MALLOC	"malloc error\n"
 # define ERR_PIPE	"pipe error\n"
@@ -51,6 +57,7 @@ typedef struct utils
 	char	*exc;
 	int	check;
 	int	copy;
+    bool is_pip;
 	int	npi;
 	int	pi[2];
 	int	fd_in;

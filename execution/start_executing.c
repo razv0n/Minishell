@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/10 21:17:32 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/10 21:48:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ void run_cmd(t_u *utils, t_info *info, bool is_pipe)
 		{
 			if (utils->exc)
 				execve(utils->exc, utils->cmd, NULL);
-			execve(utils->cmd[0], utils->cmd, NULL);
+			execve(utils->cmd[0], utils->cmd, NULL);	git
 			// write (2, "execve failed\n", 14);
 			perror("$>"); //* u should work on this "types of errors"
 			//* free all inside the child in case of error

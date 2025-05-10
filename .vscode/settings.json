@@ -5,7 +5,8 @@
         "stdio.h": "c",
         "format": "c",
         "chrono": "c",
-        "limits.h": "c"
+        "limits.h": "c",
+        "minishell.h": "c"
     },
     "terminal.integrated.cwd": "",
     "C_Cpp.errorSquiggles": "disabled"

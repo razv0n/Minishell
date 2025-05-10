@@ -18,7 +18,7 @@ int	check_new_line(char *s)
 		s++;
 	if (*s == 'n')
 		s++;
-	return (*s - '\0');
+	return (*s);
 }
 
 int	ft_length(char *s)

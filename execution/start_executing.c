@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/08 16:21:39 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/09 15:40:34 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,63 +175,55 @@ int	check_access(t_u *utils)
 	// }
 // }
 
-// int	check_builtin_2(char **cmd)
-// {
-// 	if (ft_strcmp(cmd[0], "pwd"))
-// 	{
-// 		ft_pwd();
-// 		return (1);
-// 	}
-// 	else if (ft_strcmp(cmd[0], "cd"))
-// 	{
-// 		ft_cd(cmd);
-// 		return (1);
-// 	}
-// 	else if (ft_strcmp(cmd[0], "echo"))
-// 	{
-// 		ft_echo(cmd);
-// 		return (1);
-// 	}
-// 	// else if (ft_strcmp(cmd[0], "unset"))
-// 	// {
-// 		// ft_unset();
-// 		// return (1);
-// 	// }
-// 	return (0);
-// }
-
-int	check_builtin(t_info *info, char **cmd)
+int	check_builtin_2(t_info *info, char **cmd)
 {
-	// if (ft_strcmp(cmd[0], "export"))
+	// if (ft_strcmp(cmd[0], "pwd"))
 	// {
-	// 	ft_export(info->head_export);
+	// 	ft_pwd();
 	// 	return (1);
 	// }
-	if (ft_strcmp(cmd[0], "exit"))
+	if (ft_strcmp(cmd[0], "cd"))
 	{
-		ft_exit(cmd, &info->utils->ext);
+		ft_cd(info, cmd);
 		return (1);
 	}
-	// if (ft_strcmp(cmd[0], "env"))
+	// else if (ft_strcmp(cmd[0], "echo"))
 	// {
-	// 	ft_env(info->head_env);
+	// 	ft_echo(cmd);
 	// 	return (1);
 	// }
-	// else
+	// else if (ft_strcmp(cmd[0], "unset"))
 	// {
-	// 	if (check_builtin_2(cmd)) // i commented this for not showing the error
-	// 		return (1);
+		// ft_unset();
+		// return (1);
 	// }
 	return (0);
 }
 
-// void	call_execve(t_info *info)
-// {
-// 	if (info->utils->exc)
-// 		execve(info->utils->exc, info->utils->cmd, NULL);
-// 	execve(info->utils->cmd[0], info->utils->cmd, NULL);
-// 	write (2, "execve failed\n", 14);
-// }
+int	check_builtin(t_info *info, char **cmd)
+{
+	if (ft_strcmp(cmd[0], "export"))
+	{
+		ft_export(&info->head_export, info);
+		return (1);
+	}
+	else if (ft_strcmp(cmd[0], "exit"))
+	{
+		ft_exit(cmd, &info->utils->ext, info->utils->child);
+		return (1);
+	}
+	else if (ft_strcmp(cmd[0], "env"))
+	{
+		ft_env(info->head_env, info->utils->cmd);
+		return (1);
+	}
+	else
+	{
+		if (check_builtin_2(info, cmd)) // i commented this for not showing the error
+			return (1);
+	}
+	return (0);
+}
 
 void	execute_cmd(t_info *info, int cdt, int *wt, int *i)
 {
@@ -256,14 +248,13 @@ void	execute_cmd(t_info *info, int cdt, int *wt, int *i)
 			execve(info->utils->exc, info->utils->cmd, NULL);
 		execve(info->utils->cmd[0], info->utils->cmd, NULL);
 		write (2, "execve failed\n", 14);
+		exit (errno);
 	}
 	wt[(*i)++] = id;
 }
 
 void	get_path(t_info *info, t_u *utils, int *wt, int *i)
 {
-	// if (!check_builtin(info, utils->cmd))
-	// {
 	if (check_access(utils))
 	{
 		if (utils->child)
@@ -271,7 +262,6 @@ void	get_path(t_info *info, t_u *utils, int *wt, int *i)
 		else
 			execute_cmd(info, 1, wt, i);
 	}
-	// }
 	if (utils->npi)
 		close(1);
 }

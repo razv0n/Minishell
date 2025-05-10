@@ -44,7 +44,7 @@ int	ft_len(char *s, int *sp)
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*join_str(char *s1, char *s2)
 {
 	char	*out;
 	int	i;
@@ -131,7 +131,18 @@ int	parse_var(char *s)
 	return (1);
 }
 
-void	add_to_export(xp **head, char *s)
+void	where_to_edit(xp **tmp, xp **ptr, char *s)
+{
+	while (*tmp)
+	{
+		if (compare((*tmp)->str + 11, s, 1) >= 0)
+			break;
+		*ptr = (*tmp);
+		*tmp = (*tmp)->next;
+	}
+}
+
+int	add_to_export(xp **head, char *s)
 {
 	xp	*tmp;
 	xp	*node;
@@ -140,20 +151,19 @@ void	add_to_export(xp **head, char *s)
 	tmp = *head;
 	ptr = NULL;
 	if (parse_var(s))
-		return ;
-	while (tmp)
 	{
-		if (compare(tmp->str + 11, s, 1) >= 0)
-			break;
-		ptr = tmp;
-		tmp = tmp->next;
+		write (2, "bash: export: `", 15);
+		write (2, s, length(s));
+		write (2, "': not a valid identifier\n", 26);
+		return 0;
 	}
+	where_to_edit(&tmp, &ptr, s);
 	node = malloc(sizeof(xp));
 	if (!node)
-		return ;
-	node->str = ft_strjoin("declare -x ", s);
+		return 0;
+	node->str = join_str("declare -x ", s);
 	if (!node->str)
-		return ;
+		return 0;
 	node->next = NULL;
 	if (ptr)
 	{
@@ -165,16 +175,37 @@ void	add_to_export(xp **head, char *s)
 		node->next = *head;
 		*head = node;
 	}
+	return (1);
 }
 
-void	ft_export(char **env, char *s, int i)
+void	print_export(xp *head)
 {
-	xp	*head;
+	while (head)
+	{
+		printf("%s\n", head->str);
+		head = head->next;
+	}
+	// printf("\n\nhere\n\n");
+}
+
+void	ft_export(xp **head, t_info *info)
+{
+	if (info->utils->cmd[1])
+	{
+		if (add_to_export(head, info->utils->cmd[1]))
+			add_to_env(&info->head_env, info->utils->cmd[1]);
+		return ;
+	}
+	print_export(*head);
+}
+
+void	create_export(t_info *info, char **env, int i)
+{
 	char	*tmp;
 	int	j;
 	int	x;
 
-	head = NULL;
+	info->head_export = NULL;
 	i = 0;
 	x = 0;
 	while (env[i])
@@ -190,34 +221,34 @@ void	ft_export(char **env, char *s, int i)
 			}
 			j++;
 		}
-		tmp = ft_strjoin("declare -x ", env[x]);
-		create_node(&head, tmp);
+		tmp = join_str("declare -x ", env[x]);
+		create_node(&info->head_export, tmp);
 		x++;
 		i++;
 	}
-	if (s)
-		add_to_export(&head, s);
-	xp *p;
-	while (head)
-	{
-		printf("%s\n", head->str);
-		p = head;
-		head = head->next;
-		free (p->str);
-		free (p);
-	}
-	free (head);
 }
+// if (s)
+// 	add_to_export(&head, s);
+// xp *p;
+// while (head)
+// {
+// 	printf("%s\n", head->str);
+// 	p = head;
+// 	head = head->next;
+// 	free (p->str);
+// 	free (p);
+// }
+// free (head);
 
-int main(int ac, char **av, char **env)
-{
-	(void)ac;
-	(void)av;
-	int	i;
+// int main(int ac, char **av, char **env)
+// {
+// 	(void)ac;
+// 	(void)av;
+// 	int	i;
 
-	i = 0;
-	while (env[i])
-		i++;
-	ft_export(env, "1hi=", i);
-	return 0;
-}
+// 	i = 0;
+// 	while (env[i])
+// 		i++;
+// 	ft_export(env, "COLORTERMI=3495", i);
+// 	return 0;
+// }

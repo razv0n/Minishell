@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 14:39:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/09 11:39:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include "libft/libft.h"
 # include <signal.h>
 # include <readline/history.h>
-
+# include <errno.h> 
 enum e_type
 {
     WORD,
@@ -35,6 +35,12 @@ enum e_type
     SINGLE_Q,
     DOUBLE_Q,
 };//* this enum for type of token
+
+typedef enum {
+    EXEC_BUILTIN,
+    EXEC_EXTERNAL,
+    EXEC_FAILURE
+} t_exec_type;
 
 # define ERR_MALLOC	"malloc error\n"
 # define ERR_PIPE	"pipe error\n"
@@ -54,9 +60,9 @@ typedef struct utils
 	int	npi;
 	int	pi[2];
 	int	fd_in;
-    bool	child;
+	bool	child;
 	int	fd_out;
-    int ext;
+	int ext;
 }	t_u;
 
 typedef struct export
@@ -91,7 +97,6 @@ bool	is_whitespace(char c);
 bool	check_quotes(char c);
 void	is_joined(char *s, t_info *info);
 void	ft_lstadd_back_d(t_list **start, t_list *new);
-void    pars(t_info *info);
 void    handle_sigint(int sig);
 void	ft_lstadd_front_d(t_list **lst, t_list *new);
 void    split_arg(t_info *info);
@@ -109,15 +114,22 @@ void	redirection(char *str, int cdt);
 void	init_things(t_info *info, t_list *head);
 // void	init_things(t_list *head, t_u *utils);
 void ft_free(t_info *info);
-void	ft_env(t_list *head_env);
+void	ft_env(t_list *head_env, char **cmd);
 void	ft_echo(char **arg);
-void	ft_cd(char **arg);
+void	ft_cd(t_info *info, char **arg);
 void	ft_pwd(void);
+int    pars(t_info *info);
 // void	ft_pwd(void);
-// void	ft_export(t_info *info);
+void	ft_export(xp **head, t_info *info);
 // void	ft_unset(t_info *info);
 // void	ft_cd(t_info *info);
 // void	ft_echo(char **cmd);
-void	ft_exit(char **cmd, int *ext);
+void	ft_exit(char **cmd, int *ext, int child);
+void	create_export(t_info *info, char **env, int i);
+void	add_to_env(t_list **head, char *s);
+int	length(char *s);
+int	compare(char *s1, char *s2, int bl);
+void	where_to_edit(xp **tmp, xp **ptr, char *s);
+char	*join_str(char *s1, char *s2);
 
 #endif

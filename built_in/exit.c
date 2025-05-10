@@ -15,17 +15,17 @@
 // Here we need the exit status cuz we will need it to terminate with it the process
 // EOF will be treated by readline func
 
-static int	length(char *s)
-{
-	int	i;
+// static int	length(char *s)
+// {
+// 	int	i;
 
-	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i] != '\0')
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	if (s == NULL)
+// 		return (0);
+// 	while (s[i] != '\0')
+// 		i++;
+// 	return (i);
+// }
 
 int	convert(char *s, int *err)
 {
@@ -56,13 +56,14 @@ int	convert(char *s, int *err)
 	return (res * sign);
 }
 
-void	ft_exit(char **cmd, int *ext)
+void	ft_exit(char **cmd, int *ext, int child)
 {
 	int	n;
 	int	err;
 
 	err = 0;
-	write (2, "exit\n", 5);
+	if (!child)
+		write (2, "exit\n", 5);
 	if (cmd[1])
 	{	
 		n = convert(cmd[1], &err);

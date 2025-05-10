@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 16:22:44 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 22:30:32 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ void    cpy_env(char **env, t_info *info)
         ft_lstadd_back_d(&info->head_env, node);
         i++;
     }
+    info->head_env->joined = false;
+    create_export(info, env, i);
 }
+
 t_list	*ft_lstlast(t_list *lst)
 {
 	t_list	*help;
@@ -100,7 +103,7 @@ void      add_is_joined(t_list *head, t_info *info)
     }
 }
 
-void change_red(t_info *info)
+int change_red(t_info *info)
 {
     t_list *head;
     t_list *help;
@@ -113,7 +116,7 @@ void change_red(t_info *info)
             if (!head->next)
             {
                 printf("ambiguous redirect\n");
-                return ;
+                return (-1);
             }
             head->next->type = head->type;
             help = head->next;
@@ -123,9 +126,10 @@ void change_red(t_info *info)
         else
             head = head->next;
     }
+    return (1);
 }
 
-void    pars(t_info *info)
+int    pars(t_info *info)
 {
     init_info(info); // copy env to linked list
     if (!check_quotes_error(info))
@@ -136,6 +140,8 @@ void    pars(t_info *info)
         expand(info);
         remove_the_null(&info->head_cmd);
         joined_node(info);
-        change_red(info);
+        if (change_red(info) == - 1)
+            return (-1);
     }
+    return (1);
 }

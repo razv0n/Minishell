@@ -5,12 +5,13 @@
 
 int main(int ac, char **av, char **env)
 {
-    char *arg[] = {"ls", NULL};
-    execve("/usr/bin/ls", arg, NULL);
-    printf("no\n");
-    // char *cwd;
+    // char *arg[] = {"ls", NULL};
+    // execve("/usr/bin/ls", arg, NULL);
+    // printf("no\n");
     // cwd = NULL;
-    // getcwd(cwd, 200);
+    char *cwd;
+    cwd = getcwd(cwd, 1024);
+    printf("%p\n", cwd);
     // free (cwd);
     // return 0;
     // char *x = readline("test ");

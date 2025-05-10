@@ -6,30 +6,37 @@
 #include <wait.h>
 
 
-void    handle(int sig)
-{
-    (void)sig;
-    printf("recieved SIGPIPE\n");
-}
-
-int main()
-{
-    int pi[2];
-    if (pipe(pi) == -1)
-        return (1);
-    signal(SIGPIPE, handle);
-    int n = 9;
-    int b = 0;
-    write (pi[1], &n, sizeof(int));
-    read (pi[0], &b, sizeof(int));
-    close (pi[0]);
-    close (pi[1]);
-    printf("%d\n", b);
-    return (0);
-}
+// void    handle(int sig)
+// {
+//     (void)sig;
+//     printf("recieved SIGPIPE\n");
+// }
 
 // int main()
 // {
+//     int pi[2];
+//     if (pipe(pi) == -1)
+//         return (1);
+//     signal(SIGPIPE, handle);
+//     int n = 9;
+//     int b = 0;
+//     write (pi[1], &n, sizeof(int));
+//     read (pi[0], &b, sizeof(int));
+//     close (pi[0]);
+//     close (pi[1]);
+//     printf("%d\n", b);
+//     return (0);
+// }
+
+int main()
+{
+    int id;
+    id = fork();
+    if (!id)
+    {
+        write (2, "moncef chefnaj\n", 15);
+    }
+    return 0;
     // int pi[2];
     // if (pipe(pi) == -1)
     //     return (1);
@@ -64,4 +71,4 @@ int main()
     // char *p = getenv("PATH");
     // printf("%s\n", p);
 //     return (0);
-// }
+}

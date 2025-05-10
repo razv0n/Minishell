@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 22:30:32 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/10 18:31:15 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void    cpy_env(char **env, t_info *info)
         i++;
     }
 }
+
 t_list	*ft_lstlast(t_list *lst)
 {
 	t_list	*help;
@@ -98,6 +99,8 @@ void      add_is_joined(t_list *head, t_info *info)
         i++;
         head = head->next;
     }
+    free(info->joined);
+    info->joined = NULL;
 }
 
 int change_red(t_info *info)
@@ -112,7 +115,7 @@ int change_red(t_info *info)
         {
             if (!head->next)
             {
-                printf("ambiguous redirect\n");
+                ft_putstr_fd("\033[31ambiguous redirect\033[0m\n", 2);
                 return (-1);
             }
             head->next->type = head->type;
@@ -131,7 +134,8 @@ int    pars(t_info *info)
     init_info(info); // copy env to linked list
     if (!check_quotes_error(info))
     {
-        split_arg(info);
+        if (!split_arg(info))
+            return (-1);
         type_tokens(info->head_cmd);
         add_is_joined(info->head_cmd, info);
         expand(info);

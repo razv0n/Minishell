@@ -6,13 +6,13 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/09 15:40:34 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/10 21:17:32 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	free_all(char **path)
+void	free_path(char **path)
 {
 	int	i;
 
@@ -39,8 +39,8 @@ int	length(char *s)
 
 char	*add_string(char *s1, char *s2)
 {
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 	char		*p;
 
 	i = length(s1) + length(s2);
@@ -61,6 +61,7 @@ char	*add_string(char *s1, char *s2)
 		j++;
 	}
 	p[i] = '\0';
+	// free (s1);
 	return (p);
 }
 
@@ -68,6 +69,7 @@ char	**update_path(char *s)
 {
 	char	**path;
 	int	i;
+	char *tmp;
 
 	if (!s)
 		return (NULL);
@@ -77,9 +79,11 @@ char	**update_path(char *s)
 	i = 0;
 	while (path[i])
 	{
+		tmp = path[i];
 		path[i] = add_string(path[i], "/");
+		free(tmp);
 		if (!path[i])
-			free_all(path);
+			free_path(path);
 		i++;
 	}
 	return (path);
@@ -113,7 +117,7 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 			i++;
 		head = head->next;
 	}
-	cmd = malloc(sizeof(char *) * ++i);
+	cmd = malloc (sizeof(char *) * ++i);
 	if (!cmd)
 		return (NULL);
 	i = 0;
@@ -237,6 +241,7 @@ void run_cmd(t_u *utils, t_info *info, bool is_pipe)
 			// write (2, "execve failed\n", 14);
 			perror("$>"); //* u should work on this "types of errors"
 			//* free all inside the child in case of error
+			ft_free(info, FR_CHILD);
 			exit(errno);
 		}
 }
@@ -336,7 +341,9 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 	int	wt[utils->npi + 1];
 	int	i;
 
+	
 	i = 0;
+	ft_bzero(wt, sizeof(int) * (utils->npi + 1));
 	while (head)
 	{
 		utils->cmd = collecte_cmds(head, utils);
@@ -361,10 +368,10 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 
 void	init_things(t_info *info, t_list *head)
 {
-	info->utils = malloc(sizeof(t_u));
+	info->utils = malloc (sizeof(t_u)); //! 
 	if (!info->utils)
 		return ; //handle error
-	info->utils->cmd = NULL; // the command
+	info->utils->cmd = NULL; // the command //!
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
 	info->utils->ext = 0;
@@ -374,10 +381,12 @@ void	init_things(t_info *info, t_list *head)
 		info->utils->is_pip = true;
 	info->utils->fd_in = dup(0);
 	info->utils->fd_out = dup(1);
-	info->utils->path = update_path(getenv("PATH"));
+	info->utils->path = update_path(getenv("PATH")); //!
 	if (!info->utils->path || info->utils->fd_in == -1 || info->utils->fd_out == -1)
 		exit(1);
 	start_executing(info, head, info->utils);
+	free_path(info->utils->path);
+	free(info->utils);
 	// utils->cmd = NULL;
 	// utils->exc = NULL;
 	// utils->copy = 0;
@@ -392,16 +401,16 @@ void	init_things(t_info *info, t_list *head)
 
 // int	main()
 // {
-// 	t_u	*utils = malloc(sizeof(t_u));
+// 	t_u	*utils =ft_mallocsizeof(t_u));
 // 	t_list	*head = NULL;
-// 	t_list	*node1 = malloc(sizeof(t_list));
-// 	t_list	*node2 = malloc(sizeof(t_list));
-// 	t_list	*node3 = malloc(sizeof(t_list));
-// 	t_list	*node4 = malloc(sizeof(t_list));
-// 	t_list	*node5 = malloc(sizeof(t_list));
-// 	t_list	*node6 = malloc(sizeof(t_list));
-// 	t_list	*node7 = malloc(sizeof(t_list));
-// 	t_list	*node8 = malloc(sizeof(t_list));
+// 	t_list	*node1 =ft_mallocsizeof(t_list));
+// 	t_list	*node2 =ft_mallocsizeof(t_list));
+// 	t_list	*node3 =ft_mallocsizeof(t_list));
+// 	t_list	*node4 =ft_mallocsizeof(t_list));
+// 	t_list	*node5 =ft_mallocsizeof(t_list));
+// 	t_list	*node6 =ft_mallocsizeof(t_list));
+// 	t_list	*node7 =ft_mallocsizeof(t_list));
+// 	t_list	*node8 =ft_mallocsizeof(t_list));
 // 	if (!utils || !node1 || !node2 || !node3 
 // 		|| !node4 || !node5 || !node6 || !node7 || !node8)
 // 		return (1);

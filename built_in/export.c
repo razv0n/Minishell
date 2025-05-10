@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:02:53 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/14 19:03:18 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/05/10 10:37:13 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	len = ft_len(s2, &sp) + 11;
 	if (sp)
-		out = malloc(sizeof(char) * (len + 3));
+		out =ft_mallocsizeof(char) * (len + 3));
 	else
-		out = malloc(sizeof(char) * (len + 1));
+		out =ft_mallocsizeof(char) * (len + 1));
 	if (!out)
 		return (NULL);
 	while (s1[i])
@@ -96,7 +96,7 @@ void	create_node(xp **head, char *tmp)
 
 	if (!head || !tmp)
 		return ;
-	node = malloc(sizeof(xp));
+	node =ft_mallocsizeof(xp));
 	if (!node)
 		return ;
 	node->str = tmp;
@@ -148,7 +148,7 @@ void	add_to_export(xp **head, char *s)
 		ptr = tmp;
 		tmp = tmp->next;
 	}
-	node = malloc(sizeof(xp));
+	node =ft_mallocsizeof(xp));
 	if (!node)
 		return ;
 	node->str = ft_strjoin("declare -x ", s);

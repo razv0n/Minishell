@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:14:04 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 16:49:06 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/10 12:31:39 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@ t_list	*ft_lstnew_d(void *content)
 	newnode->prev = NULL;
 	return (newnode);
 }
+
+
+t_ptr	*ft_lstnew_ptr(void *content)
+{
+	t_ptr	*newnode;
+
+	newnode = malloc(sizeof(t_list));
+	if (!newnode)
+		return (NULL);
+	newnode->content = content;
+	newnode->next = NULL;
+	return (newnode);
+}
+
 void remove_node (t_list **head, t_list *remove)
 {
     if	(!*head || !remove|| !head)

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:13:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/04 10:25:13 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/10 11:56:04 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool    check_quotes_error (t_info *info)
     }
     if (stack[0])
     {
-        printf("syntax error\n");
+        ft_putstr_fd("\033[31msyntax error\033[0m\n", 2);
         return (true);
     }
     return (false);

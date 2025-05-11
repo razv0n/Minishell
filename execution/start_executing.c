@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/10 21:48:17 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/11 13:55:02 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int	check_access(t_u *utils)
 	{
 		x = add_string(utils->path[i], utils->cmd[0]);
 		if (!x)
-			return (0); // handle this error
+			return(0); // handle this error
 		if (!access(x, F_OK))
 		{
 			if (!access(x, X_OK))
@@ -179,23 +179,23 @@ int	check_access(t_u *utils)
 	// }
 // }
 
-int	check_builtin_2(char **cmd)
+int	check_builtin_2(t_info *info, char **cmd)
 {
-	if (ft_strcmp(cmd[0], "pwd"))
+	// if (ft_strcmp(cmd[0], "pwd"))
+	// {
+	// 	ft_pwd();
+	// 	return (1);
+	// }
+	if (ft_strcmp(cmd[0], "cd"))
 	{
-		ft_pwd();
+		ft_cd(info, cmd);
 		return (1);
 	}
-	else if (ft_strcmp(cmd[0], "cd"))
-	{
-		ft_cd(cmd);
-		return (1);
-	}
-	else if (ft_strcmp(cmd[0], "echo"))
-	{
-		ft_echo(cmd);
-		return (1);
-	}
+	// else if (ft_strcmp(cmd[0], "echo"))
+	// {
+	// 	ft_echo(cmd);
+	// 	return (1);
+	// }
 	// else if (ft_strcmp(cmd[0], "unset"))
 	// {
 		// ft_unset();
@@ -206,92 +206,68 @@ int	check_builtin_2(char **cmd)
 
 int	check_builtin(t_info *info, char **cmd)
 {
-	// if (ft_strcmp(cmd[0], "export"))
-	// {
-	// 	ft_export(info->head_export);
-	// 	return (1);
-	// }
-	if (ft_strcmp(cmd[0], "exit"))
+	if (ft_strcmp(cmd[0], "export"))
 	{
-		ft_exit(cmd, info->utils->ext);
+		ft_export(&info->head_export, info);
+		return (1);
+	}
+	else if (ft_strcmp(cmd[0], "exit"))
+	{
+		ft_exit(cmd, &info->utils->ext, info->utils->child);
 		return (1);
 	}
 	else if (ft_strcmp(cmd[0], "env"))
 	{
-		ft_env(info->head_env);
+		ft_env(info->head_env, info->utils->cmd);
 		return (1);
 	}
 	else
 	{
-		if (check_builtin_2(cmd)) // i commented this for not showing the error
+		if (check_builtin_2(info, cmd)) // i commented this for not showing the error
 			return (1);
 	}
 	return (0);
 }
 
-void run_cmd(t_u *utils, t_info *info, bool is_pipe)
+void	execute_cmd(t_info *info, int cdt, int *wt, int *i)
 {
-		if (is_pipe && check_builtin(info, utils->cmd))
-			return ;
-		if (check_access(utils))
-		{
-			if (utils->exc)
-				execve(utils->exc, utils->cmd, NULL);
-			execve(utils->cmd[0], utils->cmd, NULL);	git
-			// write (2, "execve failed\n", 14);
-			perror("$>"); //* u should work on this "types of errors"
-			//* free all inside the child in case of error
-			ft_free(info, FR_CHILD);
-			exit(errno);
-		}
-}
+	int	id;
 
-pid_t fork_and_execute(t_u *utils, t_info *info, bool non_pipe)
-{
-    pid_t pid;
-	
-	if (non_pipe && check_builtin(info, utils->cmd))
-		return (1);
-	pid = fork();
-    if (pid == -1)
+	if (cdt)
 	{
-		perror("fork");
-        return -1;
-    }
-    if (pid == 0)
-		run_cmd(utils, info, !non_pipe);
-    return pid;
+		if (check_builtin(info, info->utils->cmd))
+			return ;
+	}
+	id = fork();
+	if (id == -1)
+		exit(8);
+	if (!id)
+	{
+		if (!cdt)
+		{
+			if (check_builtin(info, info->utils->cmd))
+				return ;
+		}
+		if (info->utils->exc)
+			execve(info->utils->exc, info->utils->cmd, NULL);
+		execve(info->utils->cmd[0], info->utils->cmd, NULL);
+		write (2, "execve failed\n", 14);
+		exit (errno);
+	}
+	wt[(*i)++] = id;
 }
 
-void handle_non_pipe_case(t_info *info, t_u *utils, int *wt, int *i)
+void	get_path(t_info *info, t_u *utils, int *wt, int *i)
 {
-	pid_t pid;
-
-    pid = fork_and_execute(utils, info, true);
-    if (pid == -1)
-        	return;
-	wt[(*i)++] = pid;
-}
-
-void handle_pipe_case(t_info *info, t_u *utils, int *wt, int *i)
-{
-    pid_t pid;
-	
-	pid = fork_and_execute(utils, info, false);
-    if (pid == -1)
-        return;
-    wt[(*i)++] = pid;
-}
-
-void get_path(t_info *info, t_u *utils, int *wt, int *i)
-{
-    if (!utils->is_pip)
-        handle_non_pipe_case(info, utils, wt, i);
-    else
-        handle_pipe_case(info, utils, wt, i);
-
-    if (utils->npi)
-        close(1);
+	if (check_access(utils))
+	{
+		if (utils->child)
+			execute_cmd(info, 0, wt, i);
+		else
+			execute_cmd(info, 1, wt, i);
+	}
+	if (utils->npi)
+		close(1);
 }
 
 void	open_pipe(t_u *utils)
@@ -312,9 +288,9 @@ void	open_pipe(t_u *utils)
 			exit(4);
 		utils->copy = dup(utils->pi[0]);
 		i++;
+		utils->npi--;
 		close (utils->pi[0]);
 		close (utils->pi[1]);
-		utils->npi--;
 	}
 }
 
@@ -376,28 +352,29 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->copy = 0;
 	info->utils->ext = 0;
 	info->utils->npi = count_pipes(head);
-	info->utils->is_pip = false;
+	info->utils->child = false;
 	if (info->utils->npi)
-		info->utils->is_pip = true;
+		info->utils->child = true;
 	info->utils->fd_in = dup(0);
 	info->utils->fd_out = dup(1);
 	info->utils->path = update_path(getenv("PATH")); //!
 	if (!info->utils->path || info->utils->fd_in == -1 || info->utils->fd_out == -1)
 		exit(1);
 	start_executing(info, head, info->utils);
-	free_path(info->utils->path);
-	free(info->utils);
-	// utils->cmd = NULL;
-	// utils->exc = NULL;
-	// utils->copy = 0;
-	// utils->npi = count_pipes(head);
-	// utils->fd_in = dup(0);
-	// utils->fd_out = dup(1);
-	// utils->path = update_path(getenv("PATH"));
-	// if (!utils->path || utils->fd_in == -1 || utils->fd_out == -1)
-	// 	exit(1);
-	// start_executing(head, utils);
+	close (info->utils->fd_in);
+	close (info->utils->fd_out);
 }
+
+// utils->cmd = NULL;
+// utils->exc = NULL;
+// utils->copy = 0;
+// utils->npi = count_pipes(head);
+// utils->fd_in = dup(0);
+// utils->fd_out = dup(1);
+// utils->path = update_path(getenv("PATH"));
+// if (!utils->path || utils->fd_in == -1 || utils->fd_out == -1)
+// 	exit(1);
+// start_executing(head, utils);
 
 // int	main()
 // {

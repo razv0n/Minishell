@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/10 16:23:32 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/10 21:53:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ typedef struct utils
 	char	*exc;
 	int	check;
 	int	copy;
-    bool is_pip;
 	int	npi;
 	int	pi[2];
 	int	fd_in;
+	bool	child;
 	int	fd_out;
-    int ext;
+	int ext;
 }	t_u;
 
 typedef struct export
@@ -127,14 +127,15 @@ void   *ft_malloc (size_t size);
 
 
 // void	init_things(t_list *head, t_u *utils);
-void	ft_env(t_list *head_env);
-void	ft_exit(char **cmd, int ext);
+// void	ft_env(t_list *head_env);
 int	length(char *s);
 
+// void	init_things(t_list *head, t_u *utils);
+// void ft_free(t_info *info);
+void	ft_env(t_list *head_env, char **cmd);
 void	ft_echo(char **arg);
-void	ft_cd(char **arg);
+void	ft_cd(t_info *info, char **arg);
 void	ft_pwd(void);
-int change_red(t_info *info);
 int    pars(t_info *info);
 void print_stack(t_list *head); // remove it
 void	ft_lstclear_not(t_list **lst);
@@ -142,10 +143,16 @@ void ft_free_all(t_info *info);
 t_ptr	*ft_lstnew_ptr(void *content);
 void	ft_lstadd_back_ptr(t_ptr **start, t_ptr *new);
 // void	ft_pwd(void);
-// void	ft_export(t_info *info);
+void	ft_export(xp **head, t_info *info);
 // void	ft_unset(t_info *info);
 // void	ft_cd(t_info *info);
 // void	ft_echo(char **cmd);
-// void	ft_exit(char **cmd);
+void	ft_exit(char **cmd, int *ext, int child);
+void	create_export(t_info *info, char **env, int i);
+void	add_to_env(t_list **head, char *s);
+int	length(char *s);
+int	compare(char *s1, char *s2, int bl);
+void	where_to_edit(xp **tmp, xp **ptr, char *s);
+char	*join_str(char *s1, char *s2);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/13 15:19:12 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:51:47 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,9 @@ void ft_free_all(t_info *info);
 t_ptr	*ft_lstnew_ptr(void *content);
 void	ft_lstadd_back_ptr(t_ptr **start, t_ptr *new);
 // void	ft_pwd(void);
+void	ft_pwd(void);
 void	ft_export(xp **head, t_info *info);
-// void	ft_unset(t_info *info);
+void	ft_unset(t_info *info, char **cmd);
 // void	ft_cd(t_info *info);
 // void	ft_echo(char **cmd);
 void	ft_exit(char **cmd, int *ext, int child);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/13 10:50:52 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:53:50 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void ft_free(t_info *info, t_error_type err)
 	ft_lstclear_d(&info->head_cmd);
 	free(info->words);
 	free(info->joined);
-
+	
 	info->head_cmd = NULL;
 	if (err == SYNTAX_ERROR)
 		ft_putstr_fd("\033[31msyntax error\033[0m\n", 2);

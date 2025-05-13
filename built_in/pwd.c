@@ -22,6 +22,5 @@ void	ft_pwd(void)
 			"An error has occured while getting current working directory\n", 61);
 		return ;
 	}
-	printf("%s", s);
+	printf("%s\n", s);
 }
-

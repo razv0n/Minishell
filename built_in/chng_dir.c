@@ -14,48 +14,49 @@
 
 void	edit_env(t_list *head, char *pwd, char *oldpwd)
 {
+	static bool	alloc;
+
 	while (head)
 	{
 		if (!compare(head->content, pwd, 1))
 		{
-			if (head->joined)
+			if (alloc)
 				free (head->content);
 			head->content = pwd;
 		}
 		if (!compare(head->content, oldpwd, 1))
 		{
-			if (head->joined)
+			if (alloc)
 				free (head->content);
 			head->content = oldpwd;
 		}
 		head = head->next;
 	}
-	// printf("reached\n");
-	// head->joined = true;
+	alloc = true;
 }
 
-void	edit_export(xp **head_exp, t_list *head_env, char *new, char *old)
+void	edit_export(xp *head_exp, t_list *head_env, char *new, char *old)
 {
 	char	*pwd;
 	char	*oldpwd;
 	xp	*tmp;
 	xp	*ptr;
 
-	tmp = *head_exp;
+	tmp = head_exp;
 	ptr = NULL;
-	where_to_edit(&tmp, &ptr, "PWD=");
 	oldpwd = ft_strjoin("OLDPWD=", old);
 	pwd = ft_strjoin("PWD=", new);
 	if (!oldpwd || !pwd)
 		return ; //malloc
-	free (tmp->str);
-	tmp->str = join_str("declare -x ", pwd);
-	if (!tmp->str)
-		return ; //malloc
-	tmp = *head_exp;
 	where_to_edit(&tmp, &ptr, "OLDPWD=");
 	free (tmp->str);
 	tmp->str = join_str("declare -x ", oldpwd);
+	if (!tmp->str)
+		return ; //malloc
+	// tmp = *head_exp;
+	where_to_edit(&tmp, &ptr, "PWD=");
+	free (tmp->str);
+	tmp->str = join_str("declare -x ", pwd);
 	if (!tmp->str)
 		return ; //malloc
 	edit_env(head_env, pwd, oldpwd);
@@ -76,8 +77,9 @@ void	ft_cd(t_info *info, char **arg)
 		return ;
 	}
 	pwd = getcwd(pwd, 1024);
-	edit_export(&info->head_export, info->head_env, pwd, old);
+	edit_export(info->head_export, info->head_env, pwd, old);
 	free (pwd);
+	free (old);
 }
 
 // #include <fcntl.h>

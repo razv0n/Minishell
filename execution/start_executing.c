@@ -177,11 +177,11 @@ int	check_access(t_u *utils)
 
 int	check_builtin_2(t_info *info, char **cmd)
 {
-	// if (ft_strcmp(cmd[0], "pwd"))
-	// {
-	// 	ft_pwd();
-	// 	return (1);
-	// }
+	if (ft_strcmp(cmd[0], "pwd"))
+	{
+		ft_pwd();
+		return (1);
+	}
 	if (ft_strcmp(cmd[0], "cd"))
 	{
 		ft_cd(info, cmd);
@@ -192,11 +192,11 @@ int	check_builtin_2(t_info *info, char **cmd)
 	// 	ft_echo(cmd);
 	// 	return (1);
 	// }
-	// else if (ft_strcmp(cmd[0], "unset"))
-	// {
-		// ft_unset();
-		// return (1);
-	// }
+	else if (ft_strcmp(cmd[0], "unset"))
+	{
+		ft_unset(info, cmd);
+		return (1);
+	}
 	return (0);
 }
 
@@ -247,7 +247,8 @@ void	execute_cmd(t_info *info, int cdt, int *wt, int *i)
 		if (info->utils->exc)
 			execve(info->utils->exc, info->utils->cmd, NULL);
 		execve(info->utils->cmd[0], info->utils->cmd, NULL);
-		write (2, "execve failed\n", 14);
+		write (2, info->utils->cmd[1], length(info->utils->cmd[1]));
+		write (2, ": command not found\n", 20);
 		exit (errno);
 	}
 	wt[(*i)++] = id;
@@ -292,8 +293,6 @@ void	open_pipe(t_u *utils)
 
 void	back_to_normal(t_u *utils)
 {
-	// if (dup2(utils->fd_in, 0) == -1 || dup2(utils->fd_out, 1) == -1)
-	// 		exit(10);
 	if (utils->exc)
 	{
 		free (utils->exc);

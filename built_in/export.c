@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:02:53 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/10 21:56:02 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/12 12:08:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int	add_to_export(xp **head, char *s)
 	{
 		write (2, "bash: export: `", 15);
 		write (2, s, length(s));
-		write (2, "': not a valid identifier\n", 26);
+		write (2, "': not a valid identifier\n", 26); // use the putstr_fd for fd = 2
 		return 0;
 	}
 	where_to_edit(&tmp, &ptr, s);

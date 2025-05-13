@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:32:59 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/10 12:05:20 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:13:29 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void    *ft_malloc (size_t size)
 	ptr = malloc(size);
 	if (!ptr)
 	{
-		perror(ERR_MALLOC);
+		perror("malloc");
 		// ft_free();// should free all
 		exit(1);
 	}

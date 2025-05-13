@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/11 13:33:56 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:17:40 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void    cpy_env(char **env, t_info *info)
         ft_lstadd_back_d(&info->head_env, node);
         i++;
     }
-    info->head_env->joined = false;
     create_export(info, env, i);
 }
 

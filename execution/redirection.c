@@ -5,14 +5,39 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 11:26:57 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/09 18:13:19 by mfahmi           ###   ########.fr       */
+/*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/05/13 15:49:29 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	redirection(char *str, int cdt)
+void herdoc(char *str , t_u *utils)
+{
+	char	*line;
+
+	if (dup2(utils->fd_in, 0) || pipe(utils->pi) == -1)
+		perror("Minishell");
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || ft_strcmp(line, str) == 1)
+		{
+			free(line);
+			break ;
+		}
+		ft_putstr_fd(line, utils->pi[1]);
+		write(utils->pi[1], "\n", 1);
+		free(line);
+	}
+	close(utils->pi[1]);
+	if (dup2(utils->pi[0], 0) == -1) // fd to stdin
+		perror("Minishell");
+	close (utils->pi[0]);
+	// utils->str_heredoc = str;
+}
+
+void	redirection(char *str, int cdt, t_u *utils)
 {
 	int	fd;
 
@@ -26,7 +51,7 @@ void	redirection(char *str, int cdt)
 	else if (cdt == REDIRECT_IN)
 	{
 		if (access(str, F_OK) == -1)
-			printf("minishell: No such file or directory %s\n", str);
+			ft_putstr_fd("minishell: No such file or directory\n", 2); // u should specify the name of the file
 		else
 		{
 			fd = open(str, O_RDONLY, 0777);
@@ -35,6 +60,8 @@ void	redirection(char *str, int cdt)
 			close (fd);
 		}
 	}
+	else if (cdt == HEREDOC)
+		herdoc(str, utils);
 	else if (cdt == REDIRECT_OUT)
 	{
 		fd = open(str, O_CREAT | O_TRUNC | O_RDWR, 0777);

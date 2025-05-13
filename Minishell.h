@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/10 21:53:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/13 15:19:12 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef enum {
 typedef enum {
     SYNTAX_ERROR,
     FR_CHILD,
+    ERR_MALLOC,
 } t_error_type;
 
-# define ERR_MALLOC	"malloc error\n"
 # define ERR_PIPE	"pipe error\n"
 # define ERR_FORK	"fork error\n"
 
@@ -60,6 +60,7 @@ typedef struct utils
 	char	**path;
 	char	**cmd;
 	char	*exc;
+    char    *str_heredoc;
 	int	check;
 	int	copy;
 	int	npi;
@@ -121,10 +122,10 @@ void    remove_node (t_list **head, t_list *remove);
 void    remove_the_null(t_list **head);
 char	**fr_mem_split(int index, char **result);
 // char	**ft_split_tokens(char const *s);
-void	redirection(char *str, int cdt);
+void    redirection(char *str, int cdt, t_u *utils);
 void	init_things(t_info *info, t_list *head);
 void   *ft_malloc (size_t size);
-
+void	ft_lstclear_ptr(t_ptr **lst);
 
 // void	init_things(t_list *head, t_u *utils);
 // void	ft_env(t_list *head_env);

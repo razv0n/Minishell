@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/10 21:56:17 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/13 14:38:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void print_stack(t_list *head)
 int main (int ac , char **av, char **env)
 {
     t_info *info;
-    // t_ptr *head_ptr;
 
     signal(SIGINT, handle_sigint);
+    // signal(SIGCHLD, handle_sigint);
     (void) av;
     if (ac != 1)
     {
@@ -43,7 +43,7 @@ int main (int ac , char **av, char **env)
         info->line = readline("╭━━[\033[1;36mminishell\033[0m]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮\n╰──➤");
         if (!info->line)
         {
-            ft_free_all(info); 
+            ft_free_all(info);
             printf("exit\n");
             exit(0);
         }

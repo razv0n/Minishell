@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/11 13:55:02 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:12:43 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,7 +317,6 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 	int	wt[utils->npi + 1];
 	int	i;
 
-	
 	i = 0;
 	ft_bzero(wt, sizeof(int) * (utils->npi + 1));
 	while (head)
@@ -329,17 +328,20 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		while (head && (head->type != PIPE))
 		{
 			if (head->type != WORD)
-				redirection(head->content, head->type);
+				redirection(head->content, head->type, utils);
 			head = head->next;
 		}
+		// if (utils->str_heredoc)
+			// unlink(utils->str_heredoc);
 		get_path(info, utils, wt, &i);
 		back_to_normal(utils);
 		free (utils->cmd);
 		if (head)
 			head = head->next;
 	}
-	while (i-- >= 0)
-		waitpid(wt[i + 1], &utils->ext, 0);
+	pid_t pid;
+	while ((pid = waitpid(-1, &utils->ext, 0)) > 0);
+	// wait(&utils->ext); 
 }
 
 void	init_things(t_info *info, t_list *head)

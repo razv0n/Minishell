@@ -10,31 +10,27 @@
 #include <sys/wait.h>
 #include <errno.h>
 
+void    ft_putstr_fd(char *str)
+{
+
+}
+
+/*int main()
+{
+    //int *a = {0,12,335,65656,6};
+
+    char *str   = "hello";
+    char str2[10]  = "world";
+    char *str3  = "hellojdsf";    
+
+    //void *ptr = &a;
+    //ft_putstr_fd(str2);
+    str2 = str;
+    printf("Pointer address: %p\n", str2);
+    //printf("Pointer address: %p\n", str2);
+}*/
+
 int main()
 {
-    pid_t pid = fork();
-    if (pid == -1)
-     {
-        perror("Frok");
-        return -1;
-    }
-    else if (pid == 0)
-    {
-        sleep(5);
-        printf("finish executing\n");
-        return 0;
-    }
-    pid = fork();
-    if (pid == -1)
-    {
-        perror("Fork");
-        return -1;
-    }
-    else if (pid == 0)
-    {
-        sleep(5);
-        printf("finish executing\n");
-        return 0;
-    }
-    return 0;
+    printf("sjfhg");
 }

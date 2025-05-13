@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/10 18:33:04 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/13 14:38:18 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ void handle_sigint(int sig)
         rl_replace_line("", 0); //! whene i remove it, it work normaly
         rl_redisplay();
     }
+	// else if (sig == SIGCHLD)
+	// {
+		// printf("sigshld\n");
+	// }
 }
 
 int	ft_strcmp(char *line, char *str)

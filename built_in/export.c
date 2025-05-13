@@ -193,7 +193,7 @@ void	ft_export(xp **head, t_info *info)
 	{
 		if (add_to_export(head, info->utils->cmd[1]))
 			add_to_env(&info->head_env, info->utils->cmd[1]);
-		return ;
+		return ; //for push
 	}
 	print_export(*head);
 }

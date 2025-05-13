@@ -185,7 +185,6 @@ void	print_export(xp *head)
 		printf("%s\n", head->str);
 		head = head->next;
 	}
-	// printf("\n\nhere\n\n");
 }
 
 void	ft_export(xp **head, t_info *info)

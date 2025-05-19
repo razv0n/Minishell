@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 11:15:06 by mfahmi            #+#    #+#             */
-/*   Updated: 2024/11/09 21:51:46 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/10 10:37:13 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int main()
 {
         t_list *head = NULL;
         t_list *lk_1, *lk_2, *lk_3;
-        lk_1 = malloc(sizeof(t_list));
-        lk_2 = malloc(sizeof(t_list));
-        lk_3 = malloc(sizeof(t_list));
+        lk_1 =ft_mallocsizeof(t_list));
+        lk_2 =ft_mallocsizeof(t_list));
+        lk_3 =ft_mallocsizeof(t_list));
         head = lk_1;
         lk_1->next = lk_2;
         lk_2->next = lk_3;

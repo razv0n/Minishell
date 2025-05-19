@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 11:58:38 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/13 14:38:18 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ void handle_sigint(int sig)
         rl_replace_line("", 0); //! whene i remove it, it work normaly
         rl_redisplay();
     }
+	// else if (sig == SIGCHLD)
+	// {
+		// printf("sigshld\n");
+	// }
 }
 
 int	ft_strcmp(char *line, char *str)
@@ -189,19 +193,23 @@ char	**ft_split_tokens(t_info *info)
 	char	**result;
 	int		lenght;
 	int		i;
+	char	*line;
 
+	line = info->line;
 	if (!info)
 		return (NULL);
-	lenght = count_word(info->line); // 2
+	lenght = count_word(line); // 2
 	result = malloc ((lenght + 1) * sizeof(char *));
-	info->joined = malloc(sizeof(bool) * (lenght));
-	ft_bzero(info->joined, sizeof(bool) * lenght);
 	if (!result)
 		return (NULL);
+	info->joined = malloc(sizeof(bool) * (lenght));
+	if (!info->joined)
+		return (free(result), NULL);
+	ft_bzero(info->joined, sizeof(bool) * lenght);
 	i = 0;
 	while (i < lenght)
 	{
-		result[i] = get_next_word ( &info->line, result, i, info);
+		result[i] = get_next_word (&line, result, i, info);
 		if (!result)
 			return (fr_mem_split(i, result));
 		i++;

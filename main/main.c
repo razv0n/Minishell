@@ -38,6 +38,7 @@ int main (int ac , char **av, char **env)
     }
     info = malloc(sizeof(t_info));
     cpy_env(env, info);
+    info->ext = 0;
     while (1)
     {
         info->line = readline("╭━━[\033[1;36mminishell\033[0m]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮\n╰──➤");
@@ -50,12 +51,12 @@ int main (int ac , char **av, char **env)
             add_history(info->line);
         if (pars(info) == -1) // ? dont forget to free the head after usi
         {
-            ft_free(info);
+            ft_free(info, 1337);
             continue ;
         }
         init_things(info, info->head_cmd);
         // print_stack(info->head_cmd, info);
-        ft_free(info); //for printig linked list
+        ft_free(info, 1337); //for printig linked list
     }
     return (-1);
 }

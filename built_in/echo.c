@@ -14,6 +14,8 @@
 
 int	check_new_line(char *s)
 {
+	if (!s)
+		return (1);
 	if (*s == '-')
 		s++;
 	if (*s == 'n')
@@ -46,6 +48,8 @@ void	ft_echo(char **arg)
 	while (arg[i])
 	{
 		write (1, arg[i], ft_length(arg[i]));
+		if (arg[i + 1])
+			write (1, " ", 1);
 		i++;
 	}
 	if (nl == 1)

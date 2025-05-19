@@ -37,18 +37,24 @@ enum e_type
 };//* this enum for type of token
 
 typedef enum {
+    SYNTAX_ERROR,
+    FR_CHILD,
+    ERR_MALLOC,
+} t_error_type;   
+
+typedef enum {
     EXEC_BUILTIN,
     EXEC_EXTERNAL,
     EXEC_FAILURE
 } t_exec_type;
 
-# define ERR_MALLOC	"malloc error\n"
-# define ERR_PIPE	"pipe error\n"
-# define ERR_FORK	"fork error\n"
+// # define ERR_MALLOC	"malloc error\n"
+// # define ERR_PIPE	"pipe error\n"
+// # define ERR_FORK	"fork error\n"
 
-# define EXT_MALLOC	1
-# define EXT_PIPE	1
-# define EXT_FORK	1
+// # define EXT_MALLOC	1
+// # define EXT_PIPE	1
+// # define EXT_FORK	1
 
 typedef struct utils
 {
@@ -62,7 +68,6 @@ typedef struct utils
 	int	fd_in;
 	bool	child;
 	int	fd_out;
-	int ext;
 }	t_u;
 
 typedef struct export
@@ -80,11 +85,13 @@ typedef struct t_info
     char *content;
     bool *joined;
     char *line;
+    int ext;
 }	t_info;
 
 t_list	*ft_lstnew_d(void *content);
 int     ft_strcmp(char *line, char *str);
 int     check_metacharacter(const char  *c);
+void    exit_status(t_info *);
 bool    check_quotes_error (t_info *info);
 bool	free_print(t_list *head, char **words);
 bool    check_error(t_list *head, char **words);
@@ -108,12 +115,15 @@ void    expand(t_info *info);
 void    cpy_env(char **env, t_info *info);
 void    remove_node (t_list **head, t_list *remove);
 void    remove_the_null(t_list **head);
+void    herdoc(char *str , t_info *);
 char	**fr_mem_split(int index, char **result);
 // char	**ft_split_tokens(char const *s);
-void	redirection(char *str, int cdt);
+void	redirection(char *str, int cdt, t_info *info);
 void	init_things(t_info *info, t_list *head);
 // void	init_things(t_list *head, t_u *utils);
-void ft_free(t_info *info);
+
+void ft_free(t_info *info, t_error_type err);
+void ft_free_all(t_info *info);
 void	ft_env(t_list *head_env, char **cmd);
 void	ft_echo(char **arg);
 void	ft_cd(t_info *info, char **arg);
@@ -122,8 +132,7 @@ int    pars(t_info *info);
 void	ft_pwd(void);
 void	ft_export(xp **head, t_info *info);
 void	ft_unset(t_info *info, char **cmd);
-// void	ft_cd(t_info *info);
-// void	ft_echo(char **cmd);
+void	ft_echo(char **cmd);
 void	ft_exit(char **cmd, int *ext, int child);
 void	create_export(t_info *info, char **env, int i);
 void	add_to_env(t_list **head, char *s);

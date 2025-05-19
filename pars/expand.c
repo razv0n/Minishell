@@ -48,15 +48,16 @@ char *go_to_expand (char *str)
         return (NULL);
     return (expand);
 }
-void    cas_in_expand(char *str, int *i)
+char    *cas_in_expand(char *str, int *i, t_info *info)
 {
-    if (ft_isalpha(str[*i]))
-        return ; // if we have an $8 just print nothing for me this is NULL
-    // else if (str[*i] == '?')
-        // exit status here
-        
+    char *itoa_str;
+
+    itoa_str = NULL;
+    if (str[*i] == '?')
+        itoa_str = ft_itoa(info->ext);
+    return (itoa_str);
 }
-char    *check_to_expand(char *str , int *i)
+char    *check_to_expand(char *str , int *i, t_info *info)
 {
     int start;
     char *expanded;
@@ -74,10 +75,7 @@ char    *check_to_expand(char *str , int *i)
                 (*i)++;
         }
         else
-        {
-            cas_in_expand(str, i);
-            return (NULL);
-        }
+            return (cas_in_expand(str, i, info));
         --(*i);
         expanded = ft_substr(str, start, *i - start + 1);
         return (go_to_expand(expanded));
@@ -86,7 +84,7 @@ char    *check_to_expand(char *str , int *i)
         return (NULL);
 }
 
-void    expand_2(char **str, int wich_quote)
+void    expand_2(char **str, int wich_quote, t_info *info)
 {
     int i;
     char buffer[2];
@@ -110,7 +108,7 @@ void    expand_2(char **str, int wich_quote)
         }
         else
         {
-            expand = check_to_expand(str_tmp, &i);
+            expand = check_to_expand(str_tmp, &i, info);
             tmp = prev;
             if (expand)
             {
@@ -150,7 +148,7 @@ void    expand(t_info *info)
         if (check_quotes(content->content[0]))
            wich_quote = remove_quotes(&content->content); // it remove quotes if it exist
         if (ft_strchr(content->content, '$'))
-            expand_2(&content->content, wich_quote);
+            expand_2(&content->content, wich_quote, info);
         content = content->next;
     }
 }

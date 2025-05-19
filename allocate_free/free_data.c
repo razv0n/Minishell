@@ -31,18 +31,36 @@ bool	free_print(t_list *head, char **words)
 	ft_lstclear_d(&head);
 	return (true);
 }
-void ft_free(t_info *info)
+void ft_free(t_info *info, t_error_type err)
 {
-	ft_lstclear_d(&info->head_cmd);
-	// ft_lstclear_d((t_list)&info->head_export);
-	// if (info->utils)
-	// {
-		// free(info->utils->cmd);
-		// free(info->utils->path);
-		// free(info->utils);
-	// }
-	// free(info->line);
-	free(info->joined);
+    ft_lstclear_d(&info->head_cmd);
+    // free(info->words);
+    free(info->joined);
+    
+    info->head_cmd = NULL;
+    if (err == SYNTAX_ERROR)
+        ft_putstr_fd("\033[31msyntax error\033[0m\n", 2);
+    else if (err == FR_CHILD)
+    {
+        free(info->utils->cmd);
+        free(info->utils->exc);
+        // free_path(info->utils->path);
+        free(info->utils);
+        ft_free_all(info);
+    }
+    else if (err == ERR_MALLOC)
+        ft_free_all(info);
+}
+void ft_free_all(t_info *info)
+{
+    // free(info->line);
+    // ft_lstclear_not(&info->head_env);
+    // ft_lstclear_d(&info->head_export);
+    // ft_lstclear_d(&info->head_export);
+    free(info->line);
+    free(info);
+    rl_clear_history();
+    // ft_lstclear_d(&info->head_export);
 }
 
 

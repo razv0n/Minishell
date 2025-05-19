@@ -28,15 +28,15 @@
 //     return (0);
 // }
 
-int main()
-{
-    int id;
-    id = fork();
-    if (!id)
-    {
-        write (2, "moncef chefnaj\n", 15);
-    }
-    return 0;
+// int main()
+// {
+    // int id;
+    // id = fork();
+    // if (!id)
+    // {
+    //     write (2, "moncef chefnaj\n", 15);
+    // }
+//     return 0;
     // int pi[2];
     // if (pipe(pi) == -1)
     //     return (1);
@@ -71,4 +71,4 @@ int main()
     // char *p = getenv("PATH");
     // printf("%s\n", p);
 //     return (0);
-}
+// }

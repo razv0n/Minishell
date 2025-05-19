@@ -12,6 +12,17 @@
 
 #include "../Minishell.h"
 
+void	exit_status(t_info *info)
+{
+	// printf("exit :%d\n", info->ext);
+	if (WIFSIGNALED(info->ext))
+		info->ext += 128;
+	else
+		info->ext = WEXITSTATUS(info->ext);
+		// printf("exit :%d\n", info->ext);
+		// printf("exit :%d\n", info->ext);
+}
+
 void handle_sigint(int sig)
 {
     if (sig == SIGINT)

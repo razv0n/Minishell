@@ -152,7 +152,7 @@ int	check_access(t_u *utils)
 	}
 	return (1);
 }
-
+ 
 // void	close_fds(int id)
 // {
 	// if (!i)
@@ -187,11 +187,11 @@ int	check_builtin_2(t_info *info, char **cmd)
 		ft_cd(info, cmd);
 		return (1);
 	}
-	// else if (ft_strcmp(cmd[0], "echo"))
-	// {
-	// 	ft_echo(cmd);
-	// 	return (1);
-	// }
+	else if (ft_strcmp(cmd[0], "echo"))
+	{
+		ft_echo(cmd);
+		return (1);
+	}
 	else if (ft_strcmp(cmd[0], "unset"))
 	{
 		ft_unset(info, cmd);
@@ -209,7 +209,7 @@ int	check_builtin(t_info *info, char **cmd)
 	}
 	else if (ft_strcmp(cmd[0], "exit"))
 	{
-		ft_exit(cmd, &info->utils->ext, info->utils->child);
+		ft_exit(cmd, &info->ext, info->utils->child);
 		return (1);
 	}
 	else if (ft_strcmp(cmd[0], "env"))
@@ -322,7 +322,7 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		while (head && (head->type != PIPE))
 		{
 			if (head->type != WORD)
-				redirection(head->content, head->type);
+				redirection(head->content, head->type, info);
 			head = head->next;
 		}
 		get_path(info, utils, wt, &i);
@@ -332,7 +332,12 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 			head = head->next;
 	}
 	while (i-- >= 0)
-		waitpid(wt[i + 1], &utils->ext, 0);
+	{
+		printf("i : %d exit  :%d\n",i, info->ext);
+		waitpid(wt[i + 1], &info->ext, 0);
+	}
+	exit_status(info);
+	printf("i : %d exit  :%d\n",i, info->ext);
 }
 
 void	init_things(t_info *info, t_list *head)
@@ -343,7 +348,6 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->cmd = NULL; // the command
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
-	info->utils->ext = 0;
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	if (info->utils->npi)

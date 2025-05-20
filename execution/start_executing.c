@@ -253,7 +253,6 @@ void	execute_cmd(t_info *info, int cdt, int *wt, int *i)
 		execve(info->utils->cmd[0], info->utils->cmd, NULL);
 		write (2, info->utils->cmd[1], length(info->utils->cmd[1]));
 		write (2, ": command not found\n", 20);
-		exit (errno);
 	}
 	wt[(*i)++] = id;
 }
@@ -317,7 +316,6 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 	int	i;
 
 	i = 0;
-	ft_bzero(wt, sizeof(int) * (utils->npi + 1));
 	while (head)
 	{
 		utils->cmd = collecte_cmds(head, utils);
@@ -327,11 +325,7 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		while (head && (head->type != PIPE))
 		{
 			if (head->type != WORD)
-<<<<<<< HEAD
 				redirection(head->content, head->type, info);
-=======
-				redirection(head->content, head->type, utils);
->>>>>>> 1832faa0f55e6cd6d9b059647537ff51e67a5ba2
 			head = head->next;
 		}
 		// if (utils->str_heredoc)
@@ -342,19 +336,9 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		if (head)
 			head = head->next;
 	}
-<<<<<<< HEAD
 	while (i-- >= 0)
-	{
-		printf("i : %d exit  :%d\n",i, info->ext);
 		waitpid(wt[i + 1], &info->ext, 0);
-	}
 	exit_status(info);
-	printf("i : %d exit  :%d\n",i, info->ext);
-=======
-	pid_t pid;
-	while ((pid = waitpid(-1, &utils->ext, 0)) > 0);
-	// wait(&utils->ext); 
->>>>>>> 1832faa0f55e6cd6d9b059647537ff51e67a5ba2
 }
 
 void	init_things(t_info *info, t_list *head)

@@ -48,20 +48,9 @@ typedef enum {
     EXEC_FAILURE
 } t_exec_type;
 
-<<<<<<< HEAD
 // # define ERR_MALLOC	"malloc error\n"
 // # define ERR_PIPE	"pipe error\n"
 // # define ERR_FORK	"fork error\n"
-=======
-typedef enum {
-    SYNTAX_ERROR,
-    FR_CHILD,
-    ERR_MALLOC,
-} t_error_type;
-
-# define ERR_PIPE	"pipe error\n"
-# define ERR_FORK	"fork error\n"
->>>>>>> 1832faa0f55e6cd6d9b059647537ff51e67a5ba2
 
 // # define EXT_MALLOC	1
 // # define EXT_PIPE	1
@@ -136,27 +125,13 @@ void    remove_the_null(t_list **head);
 void    herdoc(char *str , t_info *);
 char	**fr_mem_split(int index, char **result);
 // char	**ft_split_tokens(char const *s);
-<<<<<<< HEAD
 void	redirection(char *str, int cdt, t_info *info);
-=======
-void    redirection(char *str, int cdt, t_u *utils);
->>>>>>> 1832faa0f55e6cd6d9b059647537ff51e67a5ba2
 void	init_things(t_info *info, t_list *head);
 void   *ft_malloc (size_t size);
 void	ft_lstclear_ptr(t_ptr **lst);
-
 // void	init_things(t_list *head, t_u *utils);
-<<<<<<< HEAD
-
 void ft_free(t_info *info, t_error_type err);
 void ft_free_all(t_info *info);
-=======
-// void	ft_env(t_list *head_env);
-int	length(char *s);
-
-// void	init_things(t_list *head, t_u *utils);
-// void ft_free(t_info *info);
->>>>>>> 1832faa0f55e6cd6d9b059647537ff51e67a5ba2
 void	ft_env(t_list *head_env, char **cmd);
 void	ft_echo(char **arg);
 void	ft_cd(t_info *info, char **arg);

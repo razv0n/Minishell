@@ -14,7 +14,7 @@
 
 void	exit_status(t_info *info)
 {
-	// printf("exit :%d\n", info->ext);
+	printf("exit :%d\n", info->ext);
 	if (WIFSIGNALED(info->ext))
 		info->ext += 128;
 	else

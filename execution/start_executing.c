@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/13 16:12:43 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/20 11:24:02 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,24 +132,26 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 	return (cmd); 
 }
 
-int	check_access(t_u *utils)
+int	check_access(t_info *info)
 {
 	int	i;
 	char	*x;
 
 	i = 0;
-	while (utils->path[i])
+	while (info->utils->path[i])
 	{
-		x = add_string(utils->path[i], utils->cmd[0]);
+		x = add_string(info->utils->path[i], info->utils->cmd[0]);
 		if (!x)
 			return(0); // handle this error
 		if (!access(x, F_OK))
 		{
 			if (!access(x, X_OK))
 			{
-				utils->exc = x;
+				info->utils->exc = x;
 				return (1);
 			}
+			else
+				info->ext = 126;
 		}
 		free (x);
 		i++;
@@ -252,15 +254,15 @@ void	execute_cmd(t_info *info, int cdt, int *wt, int *i)
 			execve(info->utils->exc, info->utils->cmd, NULL);
 		execve(info->utils->cmd[0], info->utils->cmd, NULL);
 		write (2, info->utils->cmd[1], length(info->utils->cmd[1]));
-		write (2, ": command not found\n", 20);
-		exit (errno);
+		ft_putstr_fd(": command not found\n", 2);
+		exit (127);
 	}
 	wt[(*i)++] = id;
 }
 
 void	get_path(t_info *info, t_u *utils, int *wt, int *i)
 {
-	if (check_access(utils))
+	if (check_access(info))
 	{
 		if (utils->child)
 			execute_cmd(info, 0, wt, i);
@@ -327,11 +329,7 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		while (head && (head->type != PIPE))
 		{
 			if (head->type != WORD)
-<<<<<<< HEAD
 				redirection(head->content, head->type, info);
-=======
-				redirection(head->content, head->type, utils);
->>>>>>> 1832faa0f55e6cd6d9b059647537ff51e67a5ba2
 			head = head->next;
 		}
 		// if (utils->str_heredoc)
@@ -342,29 +340,21 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		if (head)
 			head = head->next;
 	}
-<<<<<<< HEAD
 	while (i-- >= 0)
-	{
-		printf("i : %d exit  :%d\n",i, info->ext);
-		waitpid(wt[i + 1], &info->ext, 0);
-	}
+	waitpid(wt[i + 1], &info->ext, 0);
 	exit_status(info);
 	printf("i : %d exit  :%d\n",i, info->ext);
-=======
-	pid_t pid;
-	while ((pid = waitpid(-1, &utils->ext, 0)) > 0);
-	// wait(&utils->ext); 
->>>>>>> 1832faa0f55e6cd6d9b059647537ff51e67a5ba2
 }
 
 void	init_things(t_info *info, t_list *head)
 {
 	info->utils = malloc (sizeof(t_u)); //! 
 	if (!info->utils)
-		return ; //handle error
+	return ; //handle error
 	info->utils->cmd = NULL; // the command //!
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
+	info->ext = 0;
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	if (info->utils->npi)

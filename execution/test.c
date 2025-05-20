@@ -72,3 +72,18 @@
     // printf("%s\n", p);
 //     return (0);
 // }
+
+int main()
+{
+    static int status;
+    status = 9;
+    pid_t id = fork();
+
+    if(!id)
+        sleep(1);
+    else
+    {
+        wait (&status);
+        printf("%d",status);
+    }
+}

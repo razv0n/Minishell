@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:32:59 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/13 16:13:29 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:52:48 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void    init_info(t_info *info)
     info->head_cmd = NULL;
     info->joined = NULL;
     info->words = NULL;
+    info->fd_in = dup(0);
+    info->fd_out = dup(1);
 }
 
 void    get_head(void *ptr)

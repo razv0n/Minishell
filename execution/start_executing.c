@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/20 11:24:02 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/27 20:37:30 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,27 +159,6 @@ int	check_access(t_info *info)
 	return (1);
 }
  
-// void	close_fds(int id)
-// {
-	// if (!i)
-	// {
-	// if (id)
-	// 	close (1);
-	// }
-	// else
-	// {
-	// 	if (!id)
-	// 	{
-	// 		if (npi)
-	// 			close (1);
-	// 	}
-	// 	else
-	// 	{
-	// 		if (npi)
-	// 			close (0);
-	// 	}
-	// }
-// }
 
 int	check_builtin_2(t_info *info, char **cmd)
 {
@@ -250,9 +229,13 @@ void	execute_cmd(t_info *info, int cdt, int *wt, int *i)
 			if (check_builtin(info, info->utils->cmd))
 				return ;
 		}
+		if (info->utils->child)
+			close(info->utils->copy);
+		// fprintf(stderr, "the pid is %d \n", getpid());
+		// sleep(20);	
 		if (info->utils->exc)
-			execve(info->utils->exc, info->utils->cmd, NULL);
-		execve(info->utils->cmd[0], info->utils->cmd, NULL);
+			execve(info->utils->exc, info->utils->cmd, info->env);
+		execve(info->utils->cmd[0], info->utils->cmd, info->env);
 		write (2, info->utils->cmd[1], length(info->utils->cmd[1]));
 		ft_putstr_fd(": command not found\n", 2);
 		exit (127);
@@ -275,9 +258,7 @@ void	get_path(t_info *info, t_u *utils, int *wt, int *i)
 
 void	open_pipe(t_u *utils)
 {
-	static int	i;
-
-	if (i)
+	if (utils->i)
 	{
 		if (dup2(utils->copy, 0) == -1)
 			exit(5);
@@ -290,26 +271,26 @@ void	open_pipe(t_u *utils)
 		if (dup2(utils->pi[1], 1) == -1)
 			exit(4);
 		utils->copy = dup(utils->pi[0]);
-		i++;
-		utils->npi--;
-		close (utils->pi[0]);
 		close (utils->pi[1]);
+		close (utils->pi[0]);
+		utils->i++;
+		utils->npi--;
 	}
 }
 
-void	back_to_normal(t_u *utils)
+void	back_to_normal(t_info *info)
 {
-	if (utils->exc)
+	if (info->utils->exc)
 	{
-		free (utils->exc);
-		utils->exc = NULL;
+		free (info->utils->exc);
+		info->utils->exc = NULL;
 	}
-	if (!utils->npi)
+	if (!info->utils->npi)
 	{
-		if (dup2(utils->fd_in, 0) == -1)
+		if (dup2(info->fd_in, 0) == -1)
 			exit(10);
 	}
-	if (dup2(utils->fd_out, 1) == -1)
+	if (dup2(info->fd_out, 1) == -1)
 		exit(11);
 }
 
@@ -319,7 +300,7 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 	int	i;
 
 	i = 0;
-	ft_bzero(wt, sizeof(int) * (utils->npi + 1));
+	// ft_bzero(wt, sizeof(int) * (utils->npi + 1));
 	while (head)
 	{
 		utils->cmd = collecte_cmds(head, utils);
@@ -329,46 +310,122 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		while (head && (head->type != PIPE))
 		{
 			if (head->type != WORD)
-				redirection(head->content, head->type, info);
+				redirection(head, head->type, info);
 			head = head->next;
 		}
-		// if (utils->str_heredoc)
-			// unlink(utils->str_heredoc);
 		get_path(info, utils, wt, &i);
-		back_to_normal(utils);
+		back_to_normal(info);
+		// printf("path : %s\n", info->path_name);
 		free (utils->cmd);
 		if (head)
 			head = head->next;
 	}
-	while (i-- >= 0)
-	waitpid(wt[i + 1], &info->ext, 0);
+	waitpid(info->wt, &info->ext, 0);
+	while (wait(NULL) > 0)
+		;
+	if (info->path_name)
+		unlink_path(info); // the unlink free the info->path_name
 	exit_status(info);
-	printf("i : %d exit  :%d\n",i, info->ext);
+}
+
+int	count_herdoc(t_list *head)
+{
+	int count_herdoc;
+	
+	count_herdoc = 0;
+	while (head)
+	{
+		if (head->type == HEREDOC)
+			count_herdoc++;
+		head = head->next;
+	}
+	return (count_herdoc);
+}
+
+char	*joined_for_herdoc(t_list *head, bool *is_quotes)
+{
+	char	*str, *tmp, *str_1;
+	str = ft_strdup(head->content);
+	if (check_quotes(str[0]))
+	{
+		remove_quotes(&str, head);
+		*is_quotes = true;
+	}
+	while (head)
+	{
+		if (head->joined)
+		{	
+			tmp = str;
+			str_1 = ft_strdup(head->next->content);
+			if (check_quotes(str_1[0]))
+			{
+				remove_quotes(&str_1, head->next);
+				*is_quotes = true;
+			}
+			str = ft_strjoin(str, str_1);
+			free(str_1);
+			free(tmp);
+		}
+		else
+			break;
+		head = head->next;
+	}
+	return (str);
+}
+
+void	start_herdoc(t_info *info, t_list *head)
+{
+	char *str;
+	bool is_quotes;
+	
+	is_quotes = true;
+	info->count_herdoc = count_herdoc(head);
+	path(info);
+	while (head)
+	{
+		if (head->type == HEREDOC)
+		{
+			str = joined_for_herdoc(head->next, &is_quotes);
+			herdoc(str, info, is_quotes);
+			free(str);
+		}
+		head = head->next;
+	}	
 }
 
 void	init_things(t_info *info, t_list *head)
 {
 	info->utils = malloc (sizeof(t_u)); //! 
 	if (!info->utils)
-	return ; //handle error
+		return ; //handle error
 	info->utils->cmd = NULL; // the command //!
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
 	info->ext = 0;
+	info->wt = 0;
+	info->utils->i = 0;
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	if (info->utils->npi)
 		info->utils->child = true;
-	info->utils->fd_in = dup(0);
-	info->utils->fd_out = dup(1);
 	info->utils->path = update_path(getenv("PATH")); //!
-	if (!info->utils->path || info->utils->fd_in == -1 || info->utils->fd_out == -1)
+	if (!info->utils->path)
 		exit(1);
 	start_executing(info, head, info->utils);
-	close (info->utils->fd_in);
-	close (info->utils->fd_out);
+	close (info->fd_in);
+	close (info->fd_out);
 }
-
+void	unlink_path (t_info *info)
+{
+	int i;
+	
+	i = 0;
+	while(info->path_name[i])
+	{
+		unlink(info->path_name[i]);
+		i++;
+	}
+}
 // utils->cmd = NULL;
 // utils->exc = NULL;
 // utils->copy = 0;

@@ -6,29 +6,18 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/20 11:26:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/28 11:00:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-void print_stack(t_list *head)
-{
-    // if (!head)
-        // return ;
-    while (head)
-    {
-        printf("\nhead->content [%s]  head->type [%d]  is_joined [%d]\n",head->content, head->type, head->joined);
-        head = head->next;
-    }
-}
 
 int main (int ac , char **av, char **env)
 {
     t_info *info;
 
     signal(SIGINT, handle_sig);
-    signal(SIGQUIT, handle_sig);
+    signal(SIGQUIT, handle_sig); // this should handle
     (void) av;
     if (ac != 1)
     {

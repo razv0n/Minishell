@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/20 11:29:09 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/26 22:12:59 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 void	exit_status(t_info *info)
 {
 	if (WIFSIGNALED(info->ext))
-		info->ext  += 128;
+		info->ext  = WTERMSIG(info->ext) + 128;
 	else
-	{
-		// printf("info->ext :%d\n", info->ext);
 		info->ext = WEXITSTATUS(info->ext);
-	}
 }
+
 void handle_sig(int sig)
 {
     if (sig == SIGINT)

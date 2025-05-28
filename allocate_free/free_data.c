@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/20 10:30:25 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/20 13:50:01 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void ft_free_all(t_info *info)
     // ft_lstclear_not(&info->head_env);
     // ft_lstclear_d(&info->head_export);
     // ft_lstclear_d(&info->head_export);
+    free_path(info->env);
     free(info->line);
     free(info);
     rl_clear_history();

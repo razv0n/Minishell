@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:14:04 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/10 10:37:13 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/20 13:49:30 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*newnode;
 
-	newnode =ft_mallocsizeof(t_list));
+	newnode = malloc (sizeof(t_list));
 	if (!newnode)
 		return (NULL);
 	newnode->content = content;

@@ -7,7 +7,8 @@
         "chrono": "c",
         "limits.h": "c",
         "minishell.h": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "sstream": "c"
     },
     "terminal.integrated.cwd": "",
     "C_Cpp.errorSquiggles": "disabled"

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:14:04 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/12 14:18:05 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/27 11:08:14 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void remove_the_null(t_list **head)
 	help = *head;
 	while (help)
 	{
-		if (!help->content || help->content[0] == '\0')
+		if (!help->content)
 		{
 			tmp = help->next;
 			remove_node(head, help);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/20 11:26:04 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/27 18:50:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@
 # include <fcntl.h>
 # include <wait.h>
 # include <stdbool.h>
-# include "libft/libft.h"
 # include <signal.h>
 # include <readline/history.h>
 # include <errno.h> 
-enum e_type
+typedef enum e_type
 {
     WORD,
     PIPE,
@@ -34,7 +33,7 @@ enum e_type
     APPEND,
     SINGLE_Q,
     DOUBLE_Q,
-};//* this enum for type of token
+}t_type_word;//* this enum for type of token
 
 typedef enum {
     SYNTAX_ERROR,
@@ -56,9 +55,10 @@ typedef enum {
 // # define EXT_PIPE	1
 // # define EXT_FORK	1
 
+# include "libft/libft.h"
 typedef struct utils
 {
-	char	**path;
+    char	**path;
 	char	**cmd;
 	char	*exc;
     char    *str_heredoc;
@@ -66,14 +66,13 @@ typedef struct utils
 	int	copy;
 	int	npi;
 	int	pi[2];
-	int	fd_in;
+    int i;
 	bool	child;
-	int	fd_out;
 }	t_u;
 
 typedef struct export
 {
-	char *str;
+    char *str;
 	struct export *next;
 }	xp;
 
@@ -90,9 +89,15 @@ typedef struct t_ptr
     t_list  *head_env;
     t_list  *head_cmd;
     char **words;
-    bool *joined;
+    char **env;
     char *line;
     int ext;
+    int wt;
+	int	fd_in;
+	int	fd_out;
+    char **path_name;
+    int count_herdoc;
+    bool *joined;
 }	t_info;
 
 t_list	*ft_lstnew_d(void *content);
@@ -105,27 +110,32 @@ bool    is_redirect(char *c);
 char	**ft_split_tokens(t_info *info);
 bool    quotes_in_split(char quotes);
 bool    split_arg(t_info *info);
+void	path(t_info *info);
 bool    is_pipe(char *c);
 bool    check_metacharcter_skip(const char *c, size_t *i);
 void handle_sig(int sig);
 bool	is_whitespace(char c);
+void    remove_quotes(char **str, t_list *node);
 bool	check_quotes(char c);
+void	unlink_path (t_info *info);
 void	is_joined(char *s, t_info *info);
+void    expand(t_info *info);
+void    expand_2(char **str, t_type_word wich_quote, t_info *info);
+void	herdoc(char *str , t_info *info, bool is_quotes);
 void	ft_lstadd_back_d(t_list **start, t_list *new);
+void	start_herdoc(t_info *info, t_list *head);
 void	ft_lstadd_front_d(t_list **lst, t_list *new);
 void    ft_free(t_info *info, t_error_type err);
 void	ft_lstclear_d(t_list **lst);
 void    type_tokens(t_list *head);
 void    init_info(t_info *info);
-void    expand(t_info *info);
 void	free_path(char **path);
 void    cpy_env(char **env, t_info *info);
 void    remove_node (t_list **head, t_list *remove);
 void    remove_the_null(t_list **head);
-void    herdoc(char *str , t_info *);
 char	**fr_mem_split(int index, char **result);
 // char	**ft_split_tokens(char const *s);
-void	redirection(char *str, int cdt, t_info *info);
+void	redirection(t_list *node, int cdt, t_info *info);
 void	init_things(t_info *info, t_list *head);
 void   *ft_malloc (size_t size);
 void	ft_lstclear_ptr(t_ptr **lst);

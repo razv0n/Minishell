@@ -6,24 +6,18 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:02:53 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/23 23:06:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/12 12:08:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-typedef struct export
-{
-	char *str;
-	struct export *next;
-}	xp;
 
 int	compare(char *s1, char *s2, int bl)
 {
 	int	i;
 
 	i = 0;
-	if (bl == 0)
+	if (!bl)
 	{
 		while (s1[i] && s2[i] && s1[i] == s2[i])
 			i++;
@@ -50,7 +44,7 @@ int	ft_len(char *s, int *sp)
 	return (i);
 }
 
-char	*ft_strdup(char *s1, char *s2)
+char	*join_str(char *s1, char *s2)
 {
 	char	*out;
 	int	i;
@@ -121,7 +115,34 @@ void	create_node(xp **head, char *tmp)
 	}
 }
 
-void	add_to_export(xp **head, char *s)
+int	parse_var(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!(s[i] >= 'a' && s[i] <= 'z') && !(s[i] >= 'A' && s[i] <= 'Z')
+		&& !(s[i] == '_'))
+		return (1);
+	while (s[i] && ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
+		|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_') && (s[i] != '='))
+		i++;
+	if (!s[i] || s[i] == '=')
+		return (0);
+	return (1);
+}
+
+void	where_to_edit(xp **tmp, xp **ptr, char *s)
+{
+	while (*tmp)
+	{
+		if (compare((*tmp)->str + 11, s, 1) >= 0)
+			break;
+		*ptr = (*tmp);
+		*tmp = (*tmp)->next;
+	}
+}
+
+int	add_to_export(xp **head, char *s)
 {
 	xp	*tmp;
 	xp	*node;
@@ -129,43 +150,67 @@ void	add_to_export(xp **head, char *s)
 
 	tmp = *head;
 	ptr = NULL;
-	while (tmp->next)
+	if (parse_var(s))
 	{
-		if (compare(tmp->str + 11, s, 1) > 0)
-			ptr = tmp;
-		tmp = tmp->next;
+		write (2, "bash: export: `", 15);
+		write (2, s, length(s));
+		write (2, "': not a valid identifier\n", 26); // use the putstr_fd for fd = 2
+		return 0;
 	}
+	where_to_edit(&tmp, &ptr, s);
 	node = malloc(sizeof(xp));
 	if (!node)
-		return ;
-	node->str = ft_strdup("declare -x ", s);
+		return 0;
+	node->str = join_str("declare -x ", s);
 	if (!node->str)
-		return ;
+		return 0;
 	node->next = NULL;
 	if (ptr)
 	{
-		tmp = ptr->next;
 		ptr->next = node;
 		node->next = tmp;
 	}
 	else
-		tmp->next = node;
+	{
+		node->next = *head;
+		*head = node;
+	}
+	return (1);
 }
 
-void	ft_export(char **env, char *s, int i)
+void	print_export(xp *head)
 {
-	xp	*head;
+	while (head)
+	{
+		printf("%s\n", head->str);
+		head = head->next;
+	}
+}
+
+void	ft_export(xp **head, t_info *info)
+{
+	if (info->utils->cmd[1])
+	{
+		if (add_to_export(head, info->utils->cmd[1]))
+			add_to_env(&info->head_env, info->utils->cmd[1]);
+		return ; //for push
+	}
+	print_export(*head);
+}
+
+void	create_export(t_info *info, char **env, int i)
+{
 	char	*tmp;
 	int	j;
 	int	x;
 
-	head = NULL;
+	info->head_export = NULL;
 	i = 0;
 	x = 0;
-	while (env[i + 1])
+	while (env[i])
 	{
 		j = i + 1;
-		while (env[j + 1])
+		while (env[j])
 		{
 			if (compare(env[i], env[j], 0) > 0)
 			{
@@ -175,24 +220,24 @@ void	ft_export(char **env, char *s, int i)
 			}
 			j++;
 		}
-		tmp = ft_strdup("declare -x ", env[x]);
-		create_node(&head, tmp);
+		tmp = join_str("declare -x ", env[x]);
+		create_node(&info->head_export, tmp);
 		x++;
 		i++;
 	}
-	if (s)
-		add_to_export(&head, s);
-	xp *p;
-	while (head)
-	{
-		printf("%s\n", head->str);
-		p = head;
-		head = head->next;
-		free (p->str);
-		free (p);
-	}
-	free (head);
 }
+// if (s)
+// 	add_to_export(&head, s);
+// xp *p;
+// while (head)
+// {
+// 	printf("%s\n", head->str);
+// 	p = head;
+// 	head = head->next;
+// 	free (p->str);
+// 	free (p);
+// }
+// free (head);
 
 // int main(int ac, char **av, char **env)
 // {
@@ -203,6 +248,6 @@ void	ft_export(char **env, char *s, int i)
 // 	i = 0;
 // 	while (env[i])
 // 		i++;
-// 	ft_export(env, "A=3428345", i);
+// 	ft_export(env, "COLORTERMI=3495", i);
 // 	return 0;
 // }

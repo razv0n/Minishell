@@ -6,13 +6,21 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/01 22:25:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/26 22:12:59 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void handle_sigint(int sig)
+void	exit_status(t_info *info)
+{
+	if (WIFSIGNALED(info->ext))
+		info->ext  = WTERMSIG(info->ext) + 128;
+	else
+		info->ext = WEXITSTATUS(info->ext);
+}
+
+void handle_sig(int sig)
 {
     if (sig == SIGINT)
     {
@@ -28,6 +36,8 @@ int	ft_strcmp(char *line, char *str)
 	int	i;
 
 	i = 0;
+	if (!line || !str)
+		return (0);
 	while (line[i] && str[i])
 	{
 		if (line[i] != str[i])
@@ -64,8 +74,14 @@ bool	check_quotes(char c)
 		return (1);
 	return (0);
 }
+bool	is_whitespace(char c)
+{
+	if ((c >= 9 && c <= 13) || c == ' ')
+		return (1);
+	return (0);
+}
 
-static int	count_word(char const *str)
+static int	count_word(char *str)
 {
 	size_t		i;
 	int			count;
@@ -86,7 +102,7 @@ static int	count_word(char const *str)
 		quotes = quotes_in_split(str[i]);
 		if (!quotes)
 			check2 = false;
-		if (!(str[i] >= 9 && str[i] <= 13) && str[i] != ' ' && quotes)
+		if (!is_whitespace(str[i]) && quotes)
 		{
 			if (check == true)
 				sp = 1;
@@ -108,8 +124,18 @@ static int	count_word(char const *str)
 	}
 	return (count);
 }
+void	is_joined(char *s, t_info *info)
+{
+	static int i;
 
-static char	*get_next_word(char const **s, char **result, int index)
+	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s) && !check_metacharacter(s - 1))
+		info->joined[i] = true;
+	i++;
+	if (!*s)
+		i = 0;
+}
+
+static char	*get_next_word(char **s, char **result, int index, t_info *info)
 {
 	int			lenght;
 	int			in;
@@ -117,7 +143,7 @@ static char	*get_next_word(char const **s, char **result, int index)
 
 	start = *s;
 	in = 0;
-	while (((**s >= 9 && **s <= 13) || **s == ' ') && **s != '\0')
+	while ((is_whitespace(**s) && **s != '\0'))
 		(*s)++;
 	start = *s;
 	if (check_quotes(**s))
@@ -130,7 +156,7 @@ static char	*get_next_word(char const **s, char **result, int index)
 	}
 	else if (!check_metacharacter(*s))
 	{
-		while (((!check_metacharacter(*s)) && !(**s >= 9 && **s <= 13)) &&  **s != ' ' && **s != '\0' && !check_quotes(**s))
+		while (((!check_metacharacter(*s)) && !is_whitespace(**s) && **s != '\0' && !check_quotes(**s)))
 			(*s)++;
 	}
 	else
@@ -140,8 +166,7 @@ static char	*get_next_word(char const **s, char **result, int index)
 		else
 			(*s)++;
 	}
-	// if (**s == '\'' || **s == '"')
-		// (*s)++;
+	is_joined(*s, info);
 	lenght = *s - start;
 	result[index] = malloc ((lenght + 1) * sizeof(char));
 	if (!result[index])
@@ -156,22 +181,28 @@ static char	*get_next_word(char const **s, char **result, int index)
 	return (result[index]);
 }
 
-char	**ft_split_tokens(char const *s)
+char	**ft_split_tokens(t_info *info)
 {
 	char	**result;
 	int		lenght;
 	int		i;
+	char	*line;
 
-	if (!s)
+	line = info->line;
+	if (!info)
 		return (NULL);
-	lenght = count_word(s); // 2
+	lenght = count_word(line); // 2
 	result = malloc ((lenght + 1) * sizeof(char *));
 	if (!result)
 		return (NULL);
+	info->joined = malloc(sizeof(bool) * (lenght));
+	if (!info->joined)
+		return (free(result), NULL);
+	ft_bzero(info->joined, sizeof(bool) * lenght);
 	i = 0;
 	while (i < lenght)
 	{
-		result[i] = get_next_word (&s, result, i);
+		result[i] = get_next_word (&line, result, i, info);
 		if (!result)
 			return (fr_mem_split(i, result));
 		i++;

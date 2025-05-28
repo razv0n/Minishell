@@ -6,55 +6,59 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:20:03 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/23 23:05:59 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/08 14:32:55 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-//i considered that the struct has a double pointer containing the cmd and it's arguments
-//i didn't check if echo is valid or not
-// hi youness this is moncef: i ve decided that we should work with a linked list
-// Lets assume we have the input: echo -n "msg1""msg2""msg3" we will split this into a linked list in our case we ignore spaces inside quotes so each word becomes a node in the list you should loop through the list to find the echo command and recognize that its the command we need to handl the command is always expected to come first also everything after echo should be considered as one argument
-int	ft_strcmp(char *arg, char *str)
+int	check_new_line(char *s)
+{
+	if (!s)
+		return (1);
+	if (*s == '-')
+		s++;
+	if (*s == 'n')
+		s++;
+	return (*s);
+}
+
+int	ft_length(char *s)
 {
 	int	i;
 
 	i = 0;
-	while (arg[i] && str[i])
-	{
-		if (arg[i] != str[i])
-			return (0);
+	while (s[i])
 		i++;
-	}
-	if (arg[i] != ' ' || str[i])
-		return (0);
-	return (1);
+	return (i);
 }
 
 void	ft_echo(char **arg)
 {
-	int	(i), nl;
+	int	i;
+	int	nl;
+
 	i = 1;
-	if (ft_strcmp(arg[1], "-n"))
+	nl = 1;
+	if (!check_new_line(arg[1]))
 	{
-		i = 2; //here i checked if there is a '-n' flag so i can skip newline otherwise i write it
-		nl = 1;
+		i = 2;
+		nl = 0;
 	}
 	while (arg[i])
 	{
-		printf("%s", arg[i]);
+		write (1, arg[i], ft_length(arg[i]));
+		if (arg[i + 1])
+			write (1, " ", 1);
 		i++;
 	}
 	if (nl == 1)
 		printf("\n");
 }
 
-int main()
-{
-	char *arg[] = {"echo", "-n", "i want to go", NULL};
-	// if (execve(arg[0], arg, NULL) == -1)
-	// 	printf("error\n");
-	ft_echo(arg);
-	return (0);
-}
+// int main()
+// {
+// 	char *arg[] = {"echo", "-n n n n n ", "i want to go", NULL};
+// 	ft_echo(arg);
+// 	return (0);
+// }

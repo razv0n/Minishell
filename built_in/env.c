@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 21:15:28 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/23 23:06:02 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/26 22:15:03 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,30 @@
 
 //We should have something that holds the env variable such as a dbl ptr in the struct
 
-void	ft_env(char **env)
+void	add_to_env(t_list **head, char *s)
 {
-	int	i;
+	t_list	*node;
 
-	i = 0;
-	while (env[i])
-	{
-		printf("%s\n", env[i]);
-		i++;
-	}
+	node = ft_lstnew_d(s);
+	if (!node)
+		return ;
+	ft_lstadd_back_d(head, node);
 }
 
-int	main(int ac, char **av, char **env)
+void	ft_env(t_list *head_env, char **cmd)
 {
-	ft_env(env);
-	return 0;
+	if (head_env == NULL)
+		return ;
+	if (cmd[1])
+	{
+		write (2, "env: '", 6);
+		write (2, cmd[1], length(cmd[1]));
+		write (2, "': No such file or directory\n", 29);
+		return ;
+	}
+	while (head_env)
+	{
+		printf("%s\n", head_env->content);
+		head_env = head_env->next;
+	}
 }

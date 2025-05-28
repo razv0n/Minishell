@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:46:52 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/04/23 23:06:14 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/07 19:22:16 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,5 @@ void	ft_pwd(void)
 			"An error has occured while getting current working directory\n", 61);
 		return ;
 	}
-	printf("%s", s);
-}
-
-int	main()
-{
-	ft_pwd();
-	return (0);
+	printf("%s\n", s);
 }

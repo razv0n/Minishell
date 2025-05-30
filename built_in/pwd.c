@@ -12,7 +12,7 @@
 
 #include "../Minishell.h"
 
-void	ft_pwd(void)
+void	ft_pwd(t_info *info)
 {
 	char	s[1024];
 
@@ -20,7 +20,12 @@ void	ft_pwd(void)
 	{
 		write (2, 
 			"An error has occured while getting current working directory\n", 61);
-		return ;
+		info->ext = 1;
+		if (info->utils->child)
+			exit(1);
 	}
 	printf("%s\n", s);
+	info->ext = 0; // for updating the exit status but i think we won't need it
+	if (info->utils->child)
+		exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 0000/04/17 11:56:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/13 12:04:09 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/20 10:44:50 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ bool    split_arg(t_info *info)
     if (check_error(info))
     {
         info->head_cmd = NULL;
+        info->ext = 2;
         return (false);
     }
     return (true);

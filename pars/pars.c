@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/13 16:17:40 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/20 10:41:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int change_red(t_info *info)
             if (!head->next)
             {
                 ft_putstr_fd("\033[31ambiguous redirect\033[0m\n", 2);
-                return (-1);
+                return (ft_free(info, 1337), -1);
             }
             head->next->type = head->type;
             help = head->next;

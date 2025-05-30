@@ -53,7 +53,6 @@ void	edit_export(xp *head_exp, t_list *head_env, char *new, char *old)
 	tmp->str = join_str("declare -x ", oldpwd);
 	if (!tmp->str)
 		return ; //malloc
-	// tmp = *head_exp;
 	where_to_edit(&tmp, &ptr, "PWD=");
 	free (tmp->str);
 	tmp->str = join_str("declare -x ", pwd);
@@ -69,17 +68,32 @@ void	ft_cd(t_info *info, char **arg)
 
 	pwd = NULL;
 	old = NULL;
-	old = getcwd(old, 1024);
+	if (!arg[1])
+		return ;
+	old = getcwd(old, 4096);
 	if (chdir(arg[1]) == -1)
 	{
+		if (arg[2])
+			ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		else
+		{
+			ft_putstr_fd("minishell: cd: ", 2);
+			ft_putstr_fd(arg[1], 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+		}
 		free (old);
-		write (2, "An error has occured while changing directory\n", 46);
+		info->ext = 1;
+		if (info->utils->child)
+			exit(1);
 		return ;
 	}
-	pwd = getcwd(pwd, 1024);
+	pwd = getcwd(pwd, 4096);
 	edit_export(info->head_export, info->head_env, pwd, old);
 	free (pwd);
 	free (old);
+	info->ext = 0;
+	if (info->utils->child)
+		exit(0);
 }
 
 // #include <fcntl.h>

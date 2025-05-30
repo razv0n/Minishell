@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/13 14:38:18 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/20 11:29:09 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,21 @@
 
 void	exit_status(t_info *info)
 {
-	printf("exit :%d\n", info->ext);
 	if (WIFSIGNALED(info->ext))
-		info->ext += 128;
+		info->ext = 128 + WTERMSIG(info->ext);
 	else
 		info->ext = WEXITSTATUS(info->ext);
-		// printf("exit :%d\n", info->ext);
-		// printf("exit :%d\n", info->ext);
 }
 
-void handle_sigint(int sig)
+void handle_sig(int sig)
 {
     if (sig == SIGINT)
     {
         printf("\n");
         rl_on_new_line();
-        rl_replace_line("", 0); //! whene i remove it, it work normaly
+        rl_replace_line("", 0); //! when i remove it, it work normaly
         rl_redisplay();
     }
-	// else if (sig == SIGCHLD)
-	// {
-		// printf("sigshld\n");
-	// }
 }
 
 int	ft_strcmp(char *line, char *str)

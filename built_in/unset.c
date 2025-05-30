@@ -38,7 +38,10 @@ void	unset_export(xp **head, char *s)
 	}
 	if (tmp)
 	{
-		p->next = tmp->next;
+		if (!p)
+			*head = (*head)->next;
+		else
+			p->next = tmp->next;
 		free (tmp->str);
 		free (tmp);
 	}
@@ -48,6 +51,7 @@ void	unset_env(t_list **head, char *s)
 {
 	t_list	*tmp;
 	t_list	*p;
+	static int deb;
 
 	tmp = *head;
 	p = NULL;
@@ -64,12 +68,16 @@ void	unset_env(t_list **head, char *s)
 		{
 			p = *head;
 			*head = (*head)->next;
+			(*head)->prev = NULL;
 			free (p);
 			return ;
 		}
 		tmp->prev->next = tmp->next;
+		if (tmp->next)
+			tmp->next->prev = tmp->prev;
 		free (tmp);
 	}
+	deb++;
 }
 
 void	ft_unset(t_info *info, char **cmd)
@@ -83,4 +91,7 @@ void	ft_unset(t_info *info, char **cmd)
 		unset_env(&info->head_env, cmd[i]);
 		i++;
 	}
+	info->ext = 0;
+	if (info->utils->child)
+		exit(0);
 }

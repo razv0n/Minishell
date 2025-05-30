@@ -25,7 +25,6 @@ t_list	*ft_lstnew_d(void *content)
 	return (newnode);
 }
 
-
 t_ptr	*ft_lstnew_ptr(void *content)
 {
 	t_ptr	*newnode;
@@ -65,7 +64,7 @@ void remove_the_null(t_list **head)
 	help = *head;
 	while (help)
 	{
-		if (!help->content || help->content[0] == '\0')
+		if (!help->content)
 		{
 			tmp = help->next;
 			remove_node(head, help);

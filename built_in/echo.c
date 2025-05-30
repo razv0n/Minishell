@@ -14,7 +14,7 @@
 
 int	check_new_line(char *s)
 {
-	if (!s)
+	if (!s || !*s)
 		return (1);
 	if (*s == '-')
 		s++;
@@ -23,17 +23,7 @@ int	check_new_line(char *s)
 	return (*s);
 }
 
-int	ft_length(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-void	ft_echo(char **arg)
+void	ft_echo(char **arg, t_info *info)
 {
 	int	i;
 	int	nl;
@@ -47,13 +37,16 @@ void	ft_echo(char **arg)
 	}
 	while (arg[i])
 	{
-		write (1, arg[i], ft_length(arg[i]));
+		write (1, arg[i], length(arg[i]));
 		if (arg[i + 1])
 			write (1, " ", 1);
 		i++;
 	}
 	if (nl == 1)
 		printf("\n");
+	info->ext = 0;
+	if (info->utils->child)
+		exit(0);
 }
 
 // int main()

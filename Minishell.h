@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/27 18:50:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/28 12:24:16 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 # include <stdbool.h>
 # include <signal.h>
 # include <readline/history.h>
-# include <errno.h> 
+# include <errno.h>
+# include <termios.h>
+
 typedef enum e_type
 {
     WORD,

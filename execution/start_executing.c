@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/27 20:37:30 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/29 11:41:42 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -401,7 +401,7 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->cmd = NULL; // the command //!
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
-	info->ext = 0;
+	// info->ext = 0;
 	info->wt = 0;
 	info->utils->i = 0;
 	info->utils->npi = count_pipes(head);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/29 10:31:21 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/31 18:58:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ void    env_to_double_pointer(t_info *info)
     head = info->head_env;
     i = 0;
     lenght = ft_lstsize(info->head_env);
-    info->env = malloc(sizeof(char *) * lenght + 1);
-    
+    info->env = ft_malloc(sizeof(char *) * (lenght + 1), FIRST_P, F_DOUBLE);
     while(head)
     {
         info->env[i] = ft_strdup(head->content);
@@ -51,6 +50,7 @@ void    env_to_double_pointer(t_info *info)
     }
     info->env[i] = NULL;
 }
+
 void    cpy_env(char **env, t_info *info)
 {
     int i;
@@ -62,17 +62,14 @@ void    cpy_env(char **env, t_info *info)
     {
         node = ft_lstnew_d(env[i]);
         if (!node)
-        {
-            ft_lstclear_d(&info->head_env);
-            free(info->line);
-            free(info); // free the info struct
-            exit(1);
-        }
+            ft_free_all(ERR_MALLOC);
         ft_lstadd_back_d(&info->head_env, node);
         i++;
     }
     create_export(info, env, i);
     env_to_double_pointer(info);
+    add_ptr(info->head_env, return_ptr(), F_STRUCT, FIRST_P);
+    add_ptr(info->head_export, return_ptr(), F_STRUCT, FIRST_P);
 }
 
 t_list	*ft_lstlast(t_list *lst)

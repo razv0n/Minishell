@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/27 20:35:32 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/30 15:39:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*generate_name()
 	tmp = path_name;
 	path_name = ft_strjoin("/tmp/", path_name);
 	free(tmp);
-	printf("%s\n", path_name);
+	// printf("%s\n",path_name);
 	return (path_name);
 }
 void	path(t_info *info)

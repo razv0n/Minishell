@@ -6,23 +6,23 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/29 11:41:42 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/31 15:51:42 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	free_path(char **path)
+void	free_double(char **str) // pls change the name of it 
 {
 	int	i;
 
 	i = 0;
-	while (path[i])
+	while (str[i])
 	{
-		free (path[i]);
+		free (str[i]);
 		i++;
 	}
-	free (path);
+	free (str);
 }
 
 int	length(char *s)
@@ -83,7 +83,7 @@ char	**update_path(char *s)
 		path[i] = add_string(path[i], "/");
 		free(tmp);
 		if (!path[i])
-			free_path(path);
+			free_double(path);
 		i++;
 	}
 	return (path);
@@ -378,7 +378,7 @@ void	start_herdoc(t_info *info, t_list *head)
 	char *str;
 	bool is_quotes;
 	
-	is_quotes = true;
+	is_quotes = false;
 	info->count_herdoc = count_herdoc(head);
 	path(info);
 	while (head)
@@ -401,7 +401,7 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->cmd = NULL; // the command //!
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
-	// info->ext = 0;
+	info->ext = 0;
 	info->wt = 0;
 	info->utils->i = 0;
 	info->utils->npi = count_pipes(head);

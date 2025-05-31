@@ -9,6 +9,7 @@ void    print_stack(t_list *head)
         head = head->next;
     }
 }
+
 void    setup_signals()
 {
     rl_catch_signals = 0;
@@ -50,14 +51,10 @@ void    minishell_loop(t_info *info)
     while (1)
     {
         str = best_prompt();
-        info->line = readline(str); // pwd  usr
+        info->line = readline(str);
         free(str);
         if (!info->line)
-        {
-            ft_free_all(info);
-            printf("exit\n");
-            exit(0);
-        }
+            ft_free_all(NORMAL);
         if(info->line[0])
             add_history(info->line);
         if (pars(info) == -1) // ? dont forget to free the head after usi
@@ -66,7 +63,7 @@ void    minishell_loop(t_info *info)
         init_things(info, info->head_cmd);
     }
 }
-
+ 
 int main (int ac , char **av, char **env)
 {
     t_info *info;
@@ -78,8 +75,7 @@ int main (int ac , char **av, char **env)
         exit(1);
     }
     setup_signals();
-    info = ft_malloc(sizeof(t_info));
-    info->ext = 0;
+    info = ft_malloc(sizeof(t_info), FIRST_P, F_STRUCT);
     cpy_env(env, info);
     minishell_loop(info);
     ft_free(info, 1337);

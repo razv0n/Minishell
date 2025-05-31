@@ -35,12 +35,12 @@ void	edit_env(t_list *head, char *pwd, char *oldpwd)
 	alloc = true;
 }
 
-void	edit_export(xp *head_exp, t_list *head_env, char *new, char *old)
+void	edit_export(t_xp *head_exp, t_list *head_env, char *new, char *old)
 {
 	char	*pwd;
 	char	*oldpwd;
-	xp	*tmp;
-	xp	*ptr;
+	t_xp	*tmp;
+	t_xp	*ptr;
 
 	tmp = head_exp;
 	ptr = NULL;

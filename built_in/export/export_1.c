@@ -26,6 +26,8 @@ int	compare(char *s1, char *s2, int bl)
 	{
 		while (s1[i] && s2[i] && (s1[i] == s2[i]) && (s1[i] != '=' && s2[i] != '='))
 			i++;
+		if (((s1[i] == '=') && (s2[i] == '=')) || !s2[i])
+			return (1000); // bcause when i have a variable a=1 and b=1 b replaces a due to the condition that was if res == -1 change the value
 	}
 	return (s1[i] - s2[i]);
 }
@@ -95,18 +97,14 @@ char	*join_str(char *s1, char *s2)
 	return (out);
 }
 
-void	create_node(xp **head, char *tmp)
+void	attach_node(t_xp **head, char *s)
 {
-	xp	*node;
-	xp	*p;
+	t_xp	*node;
+	t_xp	*p;
 
-	if (!head || !tmp)
+	node = create_node(s);
+	if (!head || !node)
 		return ;
-	node = malloc(sizeof(xp));
-	if (!node)
-		return ;
-	node->str = tmp;
-	node->next = NULL;
 	if (!*head)
 	{
 		*head = node;
@@ -118,5 +116,6 @@ void	create_node(xp **head, char *tmp)
 		while (p->next)
 			p = p->next;
 		p->next = node;
+		node->prev = p;
 	}
 }

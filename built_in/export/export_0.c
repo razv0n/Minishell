@@ -28,23 +28,43 @@ int	parse_var(char *s)
 	return (1);
 }
 
-void	where_to_edit(xp **tmp, xp **ptr, char *s)
+int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s)
 {
+	int	res;
+
+	res = 0;
 	while (*tmp)
 	{
-		if (compare((*tmp)->str + 11, s, 1) >= 0)
-			break;
-		*ptr = (*tmp);
+		res = compare((*tmp)->str + 11, s, 1);
+		if (res >= 0)
+			return (1);
+		else if (res == 1000)
+			return (-1);
+		*ptr = *tmp;
 		*tmp = (*tmp)->next;
 	}
+	return (1);
 }
 
-void	add_to_export2(xp **head, xp *tmp, xp *node, xp *ptr)
+void	add_to_export2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 {
+	t_xp	*n;
+
+	if (cdt == -1)
+	{
+		n = ptr->next;
+		ptr->next = node;
+		node->prev = ptr;
+		node->next = ptr->next->next;
+		free (n->str);
+		free (n);
+	}
 	if (ptr)
 	{
+		if (ptr->next)
+			node->next = ptr->next->next;
 		ptr->next = node;
-		node->next = tmp;
+		node->prev = ptr;
 	}
 	else
 	{
@@ -53,15 +73,16 @@ void	add_to_export2(xp **head, xp *tmp, xp *node, xp *ptr)
 	}
 }
 
-int	add_to_export(xp **head, char *s, t_info *info)
+int	add_to_export(t_xp **head, char *s, t_info *info)
 {
-	xp	*tmp;
-	xp	*node;
-	xp	*ptr;
+	t_xp	*tmp;
+	t_xp	*node;
+	t_xp	*ptr;
+	int	cdt;
 
 	if (parse_var(s))
 	{
-		ft_putstr_fd("bash: export: `", 2);
+		ft_putstr_fd("minishell: export: `", 2);
 		ft_putstr_fd(s, 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		info->ext = 1;
@@ -69,15 +90,11 @@ int	add_to_export(xp **head, char *s, t_info *info)
 	}
 	tmp = *head;
 	ptr = NULL;
-	where_to_edit(&tmp, &ptr, s);
-	node = malloc(sizeof(xp));
+	cdt = where_to_edit(&tmp, &ptr, s);
+	node = create_node(join_str("declare -x ", s));
 	if (!node)
 		return 0; //allocation failed
-	node->str = join_str("declare -x ", s);
-	if (!node->str)
-		return 0; //allocation failed
-	node->next = NULL;
-	add_to_export2(head, tmp, node, ptr);
+	add_to_export2(head, node, ptr, cdt);
 	return (1);
 }
 
@@ -104,7 +121,7 @@ void	create_export(t_info *info, char **env, int i)
 			j++;
 		}
 		tmp = join_str("declare -x ", env[x]);
-		create_node(&info->head_export, tmp);
+		attach_node(&info->head_export, tmp);
 		x++;
 		i++;
 	}

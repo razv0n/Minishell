@@ -15,7 +15,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
-
+ // ls -la > out | sleep 5 | pwd
 typedef struct s_list
 {
 	char				*content;

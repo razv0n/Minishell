@@ -87,7 +87,7 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		if (head)
 			head = head->next;
 	}
-	waitpid(utils->id, &info->ext, 0);
+	waitpid(utils->id, &info->ext, WUNTRACED);
 	while (wait(NULL) != -1)
 		;
 	if (utils->bin)

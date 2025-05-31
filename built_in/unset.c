@@ -22,10 +22,10 @@ int	compare_2(char *s1, char *s2)
 	return (s2[i]);
 }
 
-void	unset_export(xp **head, char *s)
+void	unset_export(t_xp **head, char *s)
 {
-	xp	*tmp;
-	xp	*p;
+	t_xp	*tmp;
+	t_xp	*p;
 
 	tmp = *head;
 	p = NULL;
@@ -51,7 +51,6 @@ void	unset_env(t_list **head, char *s)
 {
 	t_list	*tmp;
 	t_list	*p;
-	static int deb;
 
 	tmp = *head;
 	p = NULL;
@@ -77,7 +76,6 @@ void	unset_env(t_list **head, char *s)
 			tmp->next->prev = tmp->prev;
 		free (tmp);
 	}
-	deb++;
 }
 
 void	ft_unset(t_info *info, char **cmd)

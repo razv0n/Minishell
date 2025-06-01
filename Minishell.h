@@ -71,6 +71,7 @@ typedef struct utils
 	int	fd_in;
 	bool	child;
     int fail;
+    char    *str_fail;
     int id;
     int i;
     int bin;

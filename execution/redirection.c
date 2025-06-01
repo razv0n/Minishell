@@ -57,10 +57,25 @@ void	herdoc(char *str , t_info *info)
 	}
 }
 
-// int	rdr_in(char *str, int *fd)
-// {
-	
-// }
+int	rdr_in(char *str, t_info *info)
+{
+	int	fd;
+
+	if (access(str, F_OK) == -1)
+	{
+		ft_putstr_fd("minshell: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		info->utils->fail = -1;
+	}
+	else
+	{
+		fd = open(str, O_RDONLY, 0766);
+		if (fd == -1 || dup2(fd, 0) == -1)
+			exit(1); // error in file descriptor
+		close (fd);
+	}
+}
 
 void	redirection(char *str, int cdt, t_info *info)
 {
@@ -74,22 +89,7 @@ void	redirection(char *str, int cdt, t_info *info)
 		close (fd);
 	}
 	else if (cdt == REDIRECT_IN)
-	{
-		if (access(str, F_OK) == -1)
-		{
-			ft_putstr_fd("minshell: ", 2);
-			ft_putstr_fd(str, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-			info->utils->fail = -1;
-		}
-		else
-		{
-			fd = open(str, O_RDONLY, 0766);
-			if (fd == -1 || dup2(fd, 0) == -1)
-				exit(1); // error in file descriptor
-			close (fd);
-		}
-	}
+		rdr_in(str, info);
 	else if (cdt == HEREDOC)
 		herdoc(str, info);
 	else if (cdt == REDIRECT_OUT)
@@ -100,3 +100,18 @@ void	redirection(char *str, int cdt, t_info *info)
 		close (fd);
 	}
 }
+
+// if (access(str, F_OK) == -1)
+// {
+// 	ft_putstr_fd("minshell: ", 2);
+// 	ft_putstr_fd(str, 2);
+// 	ft_putstr_fd(": No such file or directory\n", 2);
+// 	info->utils->fail = -1;
+// }
+// else
+// {
+// 	fd = open(str, O_RDONLY, 0766);
+// 	if (fd == -1 || dup2(fd, 0) == -1)
+// 		exit(1); // error in file descriptor
+// 	close (fd);
+// }

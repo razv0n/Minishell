@@ -17,11 +17,10 @@ int	parse_var(char *s)
 	int	i;
 
 	i = 0;
-	if (!(s[i] >= 'a' && s[i] <= 'z') && !(s[i] >= 'A' && s[i] <= 'Z')
-		&& !(s[i] == '_'))
+	if (!ft_isalpha(s[i]) && !(s[i] == '_'))
 		return (1);
-	while (s[i] && ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z')
-		|| (s[i] >= '0' && s[i] <= '9') || s[i] == '_') && (s[i] != '='))
+	while (s[i] && (ft_isalpha(s[i]) || ft_isdigit(s[i]) || s[i] == '_')
+		&& (s[i] != '='))
 		i++;
 	if (!s[i] || s[i] == '=')
 		return (0);

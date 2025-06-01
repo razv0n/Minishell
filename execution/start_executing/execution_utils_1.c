@@ -123,25 +123,15 @@ void	execute_cmd(t_info *info, int cdt)
 {
 	int	id;
 
-	if (cdt)
-	{
-		if (check_builtin(info, info->utils->cmd))
-			return ;
-	}
+	if (cdt && check_builtin(info, info->utils->cmd))
+		return ;
 	id = fork();
 	if (id == -1)
 		exit(8);// fork error
 	if (!id)
 	{
-		// fprintf(stderr, "----------------- start -----------------\n");
-		// for (int i = 0; info->utils->cmd[i]; i++)
-		// 	fprintf(stderr, "\t\t%s\n", info->utils->cmd[i]);
-		// fprintf(stderr, "----------------- end -----------------\n\n");
-		if (!cdt)
-		{
-			if (check_builtin(info, info->utils->cmd))
-				return ;
-		}
+		if (!cdt && check_builtin(info, info->utils->cmd))
+			return ;
 		if (info->utils->child)
 			close (info->utils->copy);
 		if (info->utils->exc)

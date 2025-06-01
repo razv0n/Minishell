@@ -12,8 +12,6 @@
 
 #include "../Minishell.h"
 
-//We should have something that holds the env variable such as a dbl ptr in the struct
-
 void	add_to_env(t_list **head, char *s)
 {
 	t_list	*node;

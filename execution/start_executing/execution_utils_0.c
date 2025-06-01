@@ -98,7 +98,7 @@ void	init_things(t_info *info, t_list *head)
 {
 	info->utils = malloc (sizeof(t_u)); //! 
 	if (!info->utils)
-		return ;//handle error
+		return ; //handle error
 	info->utils->cmd = NULL; // the command //!
 	info->utils->exc = NULL;
 	info->utils->copy = 0;

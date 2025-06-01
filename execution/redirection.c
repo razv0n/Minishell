@@ -57,7 +57,7 @@ void	herdoc(char *str , t_info *info)
 	}
 }
 
-int	rdr_in(char *str, t_info *info)
+void	rdr_in(char *str, t_info *info)
 {
 	int	fd;
 

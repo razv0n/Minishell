@@ -6,25 +6,67 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/19 17:30:20 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 21:28:36 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	herdoc(char *str , t_info *info)
+char	*generate_name()
 {
-	char	*line;
-	pid_t	id;
-	int	pip[2];
+	int	fd;
+	char buffer[13];
+	int i;
+	char *path_name;	
+	char *tmp;
+
+	i  = 0;
+	fd = open("/dev/random", O_CREAT | O_RDWR);
+	if (fd == -1)
+		exit(1);
+	read(fd ,buffer, 12);
+	buffer[12] = 0;
+	while (i < 13)
+	{
+		if(!ft_isprint(buffer[i]))
+			buffer[i] = 'a' + (buffer[i] % 26);
+		i++;
+	}
+	path_name = ft_strdup(buffer);
+	tmp = path_name;
+	path_name = ft_strjoin("/tmp/", path_name);
+	free(tmp);
+	return (path_name);
+}
+
+void	path(t_info *info)
+{
+	int i;
+
+	i = 0;
+	info->path_name = ft_calloc(sizeof(char *), info->count_herdoc + 1);
+	while(i < info->count_herdoc)
+	{
+		info->path_name[i] = generate_name();
+		i++;
+	}
+	info->path_name[i] = NULL;
+}
+
+void	herdoc(char *str , t_info *info, bool is_quotes)
+{
+    char	*line;
+    pid_t	id;
+	int		fd;
+	static int i;
 
 	if (info->ext != 130)
 	{
-		if (pipe(pip) == -1)
-			exit(1);
+		fd =  open(info->path_name[i], O_CREAT | O_RDWR, 0766);
+		if (fd == -1 || dup2(info->fd_in, 0) == -1 ||  dup2(info->fd_out, 1) == -1)
+			exit(1); // should free
 		id = fork();
-		if (id == -1 || dup2(info->utils->fd_in, 0) == -1
-			|| dup2(info->utils->fd_out, 1) == -1)
+		if (id == -1)
 			exit(1);
 		else if (id == 0)
 		{
@@ -37,66 +79,75 @@ void	herdoc(char *str , t_info *info)
 					free(line);
 					break ;
 				}
+				if (ft_strchr(line, '$') && !is_quotes)
+					expand_2(&line, 1337, info);
 				if (line[0])
 					add_history(line);
-				ft_putstr_fd(line, pip[1]);
-				ft_putstr_fd("\n", pip[1]);
+				ft_putstr_fd(line, fd);
+				ft_putstr_fd("\n", fd);
 				free(line);
 			}
-			close(pip[0]);
-			close(pip[1]);
-			// ft_free(info, FR_CHILD);
+			close(fd);
 			exit(1);
 		}
-		wait(&info->ext);
+		waitpid(id, &info->ext ,0);
+		close(fd);
 		exit_status(info);
-		if (dup2(pip[0], 0) == -1) // fd to stdin
-			perror("Minishell");
-		close (pip[0]); // !handle the >>'d'
-		close (pip[1]);
 	}
+	i++;
+	if (i == info->count_herdoc)
+		i = 0;
 }
 
-// int	rdr_in(char *str, int *fd)
-// {
-	
-// }
-
-void	redirection(char *str, int cdt, t_info *info)
+void	rdr_in(char *str, t_info *info)
 {
 	int	fd;
 
+	if (access(str, F_OK) == -1)
+	{
+		ft_putstr_fd("minshell: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		info->utils->fail = -1;
+	}
+	else
+	{
+		fd = open(str, O_RDONLY, 0766);
+		if (fd == -1 || dup2(fd, 0) == -1)
+			exit(1); // error in file descriptor
+		close (fd);
+	}
+}
+
+void	redirection(t_list *node, int cdt, t_info *info)
+{
+	int	fd;
+	static int i;
+
 	if (cdt == APPEND)
 	{
-		fd = open(str, O_CREAT | O_APPEND | O_RDWR, 0766);
+		fd = open(node->content, O_CREAT | O_APPEND | O_RDWR, 0766);
 		if (fd == -1 || dup2(fd, 1) == -1)
 			exit(1); // error in file descriptor
 		close (fd);
 	}
 	else if (cdt == REDIRECT_IN)
+		rdr_in(node->content, info);
+	else if(cdt == HEREDOC)
 	{
-		if (access(str, F_OK) == -1)
-		{
-			ft_putstr_fd("minshell: ", 2);
-			ft_putstr_fd(str, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-			info->utils->fail = -1;
-		}
-		else
-		{
-			fd = open(str, O_RDONLY, 0766);
-			if (fd == -1 || dup2(fd, 0) == -1)
-				exit(1); // error in file descriptor
-			close (fd);
-		}
+		fd = open(info->path_name[i], O_RDWR, 0766);
+		if (fd == -1 || dup2(fd, 0) == -1)
+			exit(8);
+		close(fd);
 	}
-	else if (cdt == HEREDOC)
-		herdoc(str, info);
 	else if (cdt == REDIRECT_OUT)
 	{
-		fd = open(str, O_CREAT | O_TRUNC | O_RDWR, 0766);
+		fd = open(node->content, O_CREAT | O_TRUNC | O_RDWR, 0766);
 		if (fd == -1 || dup2(fd, 1) == -1)
 			exit(1); // error in file descriptor
 		close (fd);
 	}
+	i++;
+	if (i == info->count_herdoc)
+		i = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils_0.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/26 14:57:54 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/06/01 21:22:21 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,19 @@ void	open_pipe(t_u *utils)
 	}
 }
 
-void	back_to_normal(t_u *utils)
+void	back_to_normal(t_info *info)
 {
-	if (utils->exc)
+	if (info->utils->exc)
 	{
-		free (utils->exc);
-		utils->exc = NULL;
+		free (info->utils->exc);
+		info->utils->exc = NULL;
 	}
-	if (!utils->npi)
+	if (!info->utils->npi)
 	{
-		if (dup2(utils->fd_in, 0) == -1)
+		if (dup2(info->fd_in, 0) == -1)
 			exit(10);
 	}
-	if (dup2(utils->fd_out, 1) == -1)
+	if (dup2(info->fd_out, 1) == -1)
 		exit(11);
 }
 
@@ -73,16 +73,16 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		utils->cmd = collecte_cmds(head, utils);
 		if (!utils->cmd)
 			exit(2); // handle malloc or other things errors
-		utils->bin = 0;
+		utils->bin = 0;//?
 		open_pipe(utils);
 		while (head && (head->type != PIPE))
 		{
 			if (head->type != WORD)
-				redirection(head->content, head->type, info);
+				redirection(head, head->type, info);
 			head = head->next;
 		}
 		get_path(info, utils);
-		back_to_normal(utils);
+		back_to_normal(info);
 		free (utils->cmd);
 		if (head)
 			head = head->next;
@@ -90,6 +90,8 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 	waitpid(utils->id, &info->ext, WUNTRACED);
 	while (wait(NULL) != -1)
 		;
+	if (info->path_name)
+		unlink_path(info);
 	if (utils->bin)
 		exit_status(info);
 }
@@ -109,15 +111,15 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->child = false;
 	if (info->utils->npi)
 		info->utils->child = true;
-	info->utils->fd_in = dup(0);
-	info->utils->fd_out = dup(1);
+	info->fd_in = dup(0);
+	info->fd_out = dup(1);
 	info->utils->path = update_path(getenv("PATH")); //!
-	if (!info->utils->path || info->utils->fd_in == -1
-		|| info->utils->fd_out == -1)
+	if (!info->utils->path || info->fd_in == -1
+		|| info->fd_out == -1)
 		exit(1);
 	start_executing(info, head, info->utils);
-	close (info->utils->fd_in);
-	close (info->utils->fd_out);
+	close (info->fd_in);
+	close (info->fd_out);
 }
 
 // int	main()

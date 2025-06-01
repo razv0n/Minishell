@@ -3,27 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:36:22 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/26 14:36:34 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:00:56 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void	free_path(char **path)
-{
-	int	i;
 
-	i = 0;
-	while (path[i])
-	{
-		free (path[i]);
-		i++;
-	}
-	free (path);
-}
 
 int	length(char *s)
 {
@@ -82,7 +71,7 @@ char	**update_path(char *s)
 		path[i] = add_string(path[i], "/");
 		free(tmp);
 		if (!path[i])
-			free_path(path);
+			free_double(path);
 		i++;
 	}
 	return (path);

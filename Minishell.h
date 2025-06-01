@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/20 11:26:04 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 19:32:45 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@
 # include <wait.h>
 # include <limits.h>
 # include <stdbool.h>
-# include "libft/libft.h"
 # include <signal.h>
 # include <readline/history.h>
+# include <errno.h>
+# include <termios.h>
+
 # include <errno.h> 
 
-enum e_type
+typedef enum e_type
 {
     WORD,
     PIPE,
@@ -36,12 +38,13 @@ enum e_type
     APPEND,
     SINGLE_Q,
     DOUBLE_Q,
-};//* this enum for type of token
+}t_type_word;//* this enum for type of token
 
 typedef enum {
     SYNTAX_ERROR,
     FR_CHILD,
     ERR_MALLOC,
+    NORMAL
 } t_error_type;   
 
 typedef enum {
@@ -50,17 +53,26 @@ typedef enum {
     EXEC_FAILURE
 } t_exec_type;
 
-// # define ERR_MALLOC	"malloc error\n"
-// # define ERR_PIPE	"pipe error\n"
-// # define ERR_FORK	"fork error\n"
+typedef enum {
+    F_SIMPLE,
+    F_DOUBLE,
+    F_STRUCT,
+    FIRST_P,
+    SECOUND_P
+} t_free_type;
+
+
+# define ERR_PIPE	"pipe error\n"
+# define ERR_FORK	"fork error\n"
 
 // # define EXT_MALLOC	1
 // # define EXT_PIPE	1
 // # define EXT_FORK	1
 
+# include "libft/libft.h"
 typedef struct utils
 {
-	char	**path;
+    char	**path;
 	char	**cmd;
 	char	*exc;
     char    *str_heredoc;
@@ -68,18 +80,18 @@ typedef struct utils
 	int	copy;
 	int	npi;
 	int	pi[2];
-	int	fd_in;
+    int i;
 	bool	child;
     int fail;
+    char    *str_fail;
     int id;
-    int i;
     int bin;
 	int	fd_out;
 }	t_u;
 
 typedef struct export
 {
-	char *str;
+    char *str;
 	struct export *next;
     struct export *prev;
 }	t_xp;
@@ -87,6 +99,8 @@ typedef struct export
 typedef struct s_l
 {
     void            *content;
+    t_free_type     type;
+    t_free_type     place;
     struct s_l      *next;
 }	t_ptr;
 
@@ -97,57 +111,77 @@ typedef struct t_ptr
     t_list  *head_env;
     t_list  *head_cmd;
     char **words;
-    bool *joined;
+    char **env;
     char *line;
     int ext;
+    int wt;
+	int	fd_in;
+	int	fd_out;
+    char **path_name;
+    int count_herdoc;
+    bool *joined;
 }	t_info;
 
-t_list	*ft_lstnew_d(void *content);
+t_list	*ft_lstnew_d(void *content, t_free_type place);
 int     ft_strcmp(char *line, char *str);
 int     check_metacharacter(const char  *c);
 void    exit_status(t_info *);
 bool    check_quotes_error (t_info *info);
-bool    check_error(t_info *info); 
+bool    check_error(t_info *info);
+void	free_double(char **str);
 bool    is_redirect(char *c);
 char	**ft_split_tokens(t_info *info);
+void    add_ptr(void *ptr, t_ptr *head, t_free_type type, t_free_type place);
 bool    quotes_in_split(char quotes);
 bool    split_arg(t_info *info);
+void    ft_free_all(t_error_type msg);
+void	path(t_info *info);
+void	ft_lstclear_d(t_list *lst);
 bool    is_pipe(char *c);
 bool    check_metacharcter_skip(const char *c, size_t *i);
-void handle_sig(int sig);
+void    handle_sig(int sig);
 bool	is_whitespace(char c);
+void    remove_quotes(char **str, t_list *node);
 bool	check_quotes(char c);
+void	unlink_path (t_info *info);
 void	is_joined(char *s, t_info *info);
+void    expand(t_info *info);
+void    expand_2(char **str, t_type_word wich_quote, t_info *info);
+void	herdoc(char *str , t_info *info, bool is_quotes);
 void	ft_lstadd_back_d(t_list **start, t_list *new);
+void	start_herdoc(t_info *info, t_list *head);
 void	ft_lstadd_front_d(t_list **lst, t_list *new);
-void    ft_free(t_info *info, t_error_type err);
-void	ft_lstclear_d(t_list **lst);
 void    type_tokens(t_list *head);
 void    init_info(t_info *info);
-void    expand(t_info *info);
-void	free_path(char **path);
 void    cpy_env(char **env, t_info *info);
 void    remove_node (t_list **head, t_list *remove);
-void    remove_the_null(t_list **head);
-void    herdoc(char *str , t_info *);
+t_ptr   *return_ptr();
+// void    remove_the_null(t_list **head);
 char	**fr_mem_split(int index, char **result);
 // char	**ft_split_tokens(char const *s);
-void   *ft_malloc (size_t size);
+void	redirection(t_list *node, int cdt, t_info *info);
+void	init_things(t_info *info, t_list *head);
+void	ft_lstclear_ptr(t_ptr **lst);
+
+// void	init_things(t_list *head, t_u *utils);
+
+void ft_free(t_info *info, t_error_type err);
+void	ft_cd(t_info *info, char **arg);
+int    pars(t_info *info);
 void	ft_lstclear_ptr(t_ptr **lst);
 int	compare(char *s1, char *s2, int bl);
 int	length(char *s);
-int	pars(t_info *info);
 void print_stack(t_list *head); // remove it
-void	ft_lstclear_not(t_list **lst);
-void ft_free_all(t_info *info);
+void	*ft_malloc(size_t size, t_free_type place, t_free_type type);
+// void	ft_lstclear_not(t_list **lst);
+void	ft_lstclear_not(t_ptr **lst);
 t_ptr	*ft_lstnew_ptr(void *content);
 void	ft_lstadd_back_ptr(t_ptr **start, t_ptr *new);
 void ft_free(t_info *info, t_error_type err);
-void ft_free_all(t_info *info);
 
 /*		>------------------ Execution ------------------<		*/
 
-void	redirection(char *str, int cdt, t_info *info);
+void	redirection(t_list *node, int cdt, t_info *info);
 void	init_things(t_info *info, t_list *head);
 void	execute_cmd(t_info *info, int cdt);
 int	check_access(t_info *info);

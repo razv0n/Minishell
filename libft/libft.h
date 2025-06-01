@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:29:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 13:37:50 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 19:27:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
- // ls -la > out | sleep 5 | pwd
+
+
 typedef struct s_list
 {
 	char				*content;
 	struct s_list		*next;
     struct s_list		*prev;
     int                 type;
+    t_type_word         quotes_type;
     bool                joined;
 }		t_list;
 int		ft_lstsize(t_list *lst);

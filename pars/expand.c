@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/13 17:38:29 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/05/28 10:54:55 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_lstdelone(t_list *lst, void (*del) (void*))
 }
 
 
-short    remove_quotes(char **str)
+void    remove_quotes(char **str, t_list *node)
 {
     int lenght;
     char *tmp;  
@@ -33,9 +33,9 @@ short    remove_quotes(char **str)
     *str = ft_substr(tmp, 1, lenght);
     free(tmp);
     if (c == '\'')
-        return (SINGLE_Q);
+        node->quotes_type = SINGLE_Q;
     else
-        return (DOUBLE_Q);
+        node->quotes_type = DOUBLE_Q;
 }
 
 char *go_to_expand (char *str)
@@ -84,7 +84,7 @@ char    *check_to_expand(char *str , int *i, t_info *info)
         return (NULL);
 }
 
-void    expand_2(char **str, int wich_quote, t_info *info)
+void    expand_2(char **str, t_type_word wich_quote, t_info *info)
 {
     int i;
     char buffer[2];
@@ -146,9 +146,9 @@ void    expand(t_info *info)
             continue;
         }
         if (check_quotes(content->content[0]))
-           wich_quote = remove_quotes(&content->content); // it remove quotes if it exist
+            remove_quotes(&content->content ,content); // it remove quotes if it exist
         if (ft_strchr(content->content, '$'))
-            expand_2(&content->content, wich_quote, info);
+            expand_2(&content->content, content->quotes_type, info);
         content = content->next;
     }
 }

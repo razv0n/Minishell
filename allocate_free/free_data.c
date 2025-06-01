@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/20 13:50:01 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 12:46:05 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ bool	free_print(t_list *head, char **words)
 {
 	printf("\033[31msyntax error\033[0m\n");
 	fr_mem_split(sizeof(words) / sizeof(words[0]), words);
-	ft_lstclear_d(&head);
+	ft_lstclear_d(head);
 	return (true);
 }
+
 void ft_free(t_info *info, t_error_type err)
 {
-    ft_lstclear_d(&info->head_cmd);
+    ft_lstclear_d(info->head_cmd);
     // free(info->words);
-    free(info->joined);
+       free(info->joined);
     
     info->head_cmd = NULL;
     if (err == SYNTAX_ERROR)
@@ -44,47 +45,41 @@ void ft_free(t_info *info, t_error_type err)
     {
         free(info->utils->cmd);
         free(info->utils->exc);
-        // free_path(info->utils->path);
+        // free_double(info->utils->path);
         free(info->utils);
-        ft_free_all(info);
+        // ft_free_all();
     }
-    else if (err == ERR_MALLOC)
-        ft_free_all(info);
 }
-void ft_free_all(t_info *info)
+void    ft_perror(t_error_type msg)
 {
-    // free(info->line);
-    // ft_lstclear_not(&info->head_env);
-    // ft_lstclear_d(&info->head_export);
-    // ft_lstclear_d(&info->head_export);
-    free_path(info->env);
-    free(info->line);
-    free(info);
+    if (msg == ERR_MALLOC)
+        ft_putstr_fd("Minishell : Memory allocation failed\n", 2);
+    else if (msg == NORMAL)
+        ft_putstr_fd("exit\n", 2);
+}
+
+void ft_free_all(t_error_type msg)
+{
+    t_ptr   *head;
+    t_ptr *help;
+    
+    head = return_ptr();
+    help = head;
+    while (help)
+    {
+        if (help->type == F_SIMPLE)
+            free(help->content);
+        else if (help->type == F_DOUBLE)
+            free_double(help->content);
+        else
+            ft_lstclear_d(help->content);// three types the first one is the simple one
+        help = help->next;
+    }
+    ft_lstclear_not(&head);
     rl_clear_history();
-    // ft_lstclear_d(&info->head_export);
+    ft_perror(msg);
+    exit(1);
 }
-
-void add_ptr(void *ptr)
-{
-	static t_ptr *head;
-	t_ptr *new_node;
-
-	new_node = ft_lstnew_ptr(ptr);
-	ft_lstadd_back_ptr(&head, new_node);
-}
-
-// void	*ft_malloc(void *ptr, size_t size)
-// {
-// 	ptr = malloc(size);
-// 	if (!ptr)
-// 	{
-// 		perror(ERR_MALLOC);
-// 		ft_free();
-// 		exit(1);
-// 	}
-// 	add_ptr(ptr);
-// 	return (ptr);
-// }
 
 // void	free_ptr(t _ptr **head)
 // {

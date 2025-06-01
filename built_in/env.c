@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 21:15:28 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/26 22:15:03 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 15:07:12 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	add_to_env(t_list **head, char *s)
 {
 	t_list	*node;
 
-	node = ft_lstnew_d(s);
+	node = ft_lstnew_d(s, FIRST_P);
 	if (!node)
 		return ;
 	ft_lstadd_back_d(head, node);

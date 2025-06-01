@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:02:53 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/12 12:08:41 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 15:07:03 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,7 @@ void	create_node(xp **head, char *tmp)
 
 	if (!head || !tmp)
 		return ;
-	node = malloc(sizeof(xp));
-	if (!node)
-		return ;
+	node = ft_malloc(sizeof(xp), FIRST_P, F_STRUCT);
 	node->str = tmp;
 	node->next = NULL;
 	if (!*head)

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:20:03 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/01 15:39:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 17:02:03 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,16 @@
 
 int	check_new_line(char *s)
 {
-	if (!s)
+	if (!s || !*s)
 		return (1);
 	if (*s == '-')
 		s++;
-	if (*s == 'n')
+	while (*s == 'n')
 		s++;
 	return (*s);
 }
 
-int	ft_length(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-void	ft_echo(char **arg)
+void	ft_echo(char **arg, t_info *info)
 {
 	int	i;
 	int	nl;
@@ -41,20 +31,23 @@ void	ft_echo(char **arg)
 	// printf("[0]%s  [1]%s\n", arg[1], arg[2]);
 	i = 1;
 	nl = 1;
-	if (!check_new_line(arg[1]))
+	while (!check_new_line(arg[i]))
 	{
-		i = 2;
+		i++;
 		nl = 0;
 	}
 	while (arg[i])
 	{
-		write (1, arg[i], ft_length(arg[i]));
+		write (1, arg[i], length(arg[i]));
 		if (arg[i + 1])
 			write (1, " ", 1);
 		i++;
 	}
 	if (nl == 1)
-		write(1, "\n", 1);
+		printf("\n");
+	info->ext = 0;
+	if (info->utils->child)
+		exit(0);
 }
 
 // int main()

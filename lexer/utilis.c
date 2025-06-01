@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/26 22:12:59 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 16:18:25 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	exit_status(t_info *info)
 {
 	if (WIFSIGNALED(info->ext))
-		info->ext  = WTERMSIG(info->ext) + 128;
+		info->ext = 128 + WTERMSIG(info->ext);
 	else
 		info->ext = WEXITSTATUS(info->ext);
 }
@@ -26,7 +26,7 @@ void handle_sig(int sig)
     {
         printf("\n");
         rl_on_new_line();
-        rl_replace_line("", 0); //! whene i remove it, it work normaly
+        rl_replace_line("", 0); //! when i remove it, it work normaly
         rl_redisplay();
     }
 }

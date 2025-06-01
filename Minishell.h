@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/01 12:48:56 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 19:32:45 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <wait.h>
+# include <limits.h>
 # include <stdbool.h>
 # include <signal.h>
 # include <readline/history.h>
 # include <errno.h>
 # include <termios.h>
+
+# include <errno.h> 
 
 typedef enum e_type
 {
@@ -79,13 +82,19 @@ typedef struct utils
 	int	pi[2];
     int i;
 	bool	child;
+    int fail;
+    char    *str_fail;
+    int id;
+    int bin;
+	int	fd_out;
 }	t_u;
 
 typedef struct export
 {
     char *str;
 	struct export *next;
-}	xp;
+    struct export *prev;
+}	t_xp;
 
 typedef struct s_l
 {
@@ -98,7 +107,7 @@ typedef struct s_l
 typedef struct t_ptr
 {
     t_u     *utils;
-    xp      *head_export;
+    t_xp      *head_export;
     t_list  *head_env;
     t_list  *head_cmd;
     char **words;
@@ -142,7 +151,6 @@ void	herdoc(char *str , t_info *info, bool is_quotes);
 void	ft_lstadd_back_d(t_list **start, t_list *new);
 void	start_herdoc(t_info *info, t_list *head);
 void	ft_lstadd_front_d(t_list **lst, t_list *new);
-void    ft_free(t_info *info, t_error_type err);
 void    type_tokens(t_list *head);
 void    init_info(t_info *info);
 void    cpy_env(char **env, t_info *info);
@@ -158,26 +166,45 @@ void	ft_lstclear_ptr(t_ptr **lst);
 // void	init_things(t_list *head, t_u *utils);
 
 void ft_free(t_info *info, t_error_type err);
-void	ft_env(t_list *head_env, char **cmd);
-void	ft_echo(char **arg);
 void	ft_cd(t_info *info, char **arg);
 int    pars(t_info *info);
+void	ft_lstclear_ptr(t_ptr **lst);
+int	compare(char *s1, char *s2, int bl);
+int	length(char *s);
 void print_stack(t_list *head); // remove it
 void	*ft_malloc(size_t size, t_free_type place, t_free_type type);
 // void	ft_lstclear_not(t_list **lst);
 void	ft_lstclear_not(t_ptr **lst);
 t_ptr	*ft_lstnew_ptr(void *content);
 void	ft_lstadd_back_ptr(t_ptr **start, t_ptr *new);
-void	ft_pwd(void);
-void	ft_export(xp **head, t_info *info);
-void	ft_unset(t_info *info, char **cmd);
-void	ft_echo(char **cmd);
-void	ft_exit(char **cmd, int *ext, int child);
+void ft_free(t_info *info, t_error_type err);
+
+/*		>------------------ Execution ------------------<		*/
+
+void	redirection(t_list *node, int cdt, t_info *info);
+void	init_things(t_info *info, t_list *head);
+void	execute_cmd(t_info *info, int cdt);
+int	check_access(t_info *info);
+char	**collecte_cmds(t_list *head, t_u *utils);
+char	*add_string(char *s1, char *s2);
+char	**update_path(char *s);
+int	count_pipes(t_list *head);
 void	create_export(t_info *info, char **env, int i);
 void	add_to_env(t_list **head, char *s);
-int	length(char *s);
-int	compare(char *s1, char *s2, int bl);
-void	where_to_edit(xp **tmp, xp **ptr, char *s);
-char	*join_str(char *s1, char *s2);
+int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s);
+char	*join_str(char *s1, char *s2, int cdt, int *equal);
+void	attach_node(t_xp **head, char *s);
+t_xp	*create_node(char *s);
+int	add_to_export(t_xp **head, char *s, t_info *info);
+
+// built-in
+
+void	ft_pwd(t_info *info);
+void	ft_env(t_list *head_env, char **cmd, t_info *info);
+void	ft_cd(t_info *info, char **arg);
+void	ft_export(t_xp **head, t_info *info);
+void	ft_unset(t_info *info, char **cmd);
+void	ft_echo(char **cmd, t_info *info);
+void	ft_exit(char **cmd, int *ext, int child);
 
 #endif

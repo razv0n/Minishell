@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/01 15:36:36 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 21:28:36 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ char	*generate_name()
 	tmp = path_name;
 	path_name = ft_strjoin("/tmp/", path_name);
 	free(tmp);
-	// printf("%s\n",path_name);
 	return (path_name);
 }
+
 void	path(t_info *info)
 {
 	int i;
@@ -99,6 +99,26 @@ void	herdoc(char *str , t_info *info, bool is_quotes)
 		i = 0;
 }
 
+void	rdr_in(char *str, t_info *info)
+{
+	int	fd;
+
+	if (access(str, F_OK) == -1)
+	{
+		ft_putstr_fd("minshell: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		info->utils->fail = -1;
+	}
+	else
+	{
+		fd = open(str, O_RDONLY, 0766);
+		if (fd == -1 || dup2(fd, 0) == -1)
+			exit(1); // error in file descriptor
+		close (fd);
+	}
+}
+
 void	redirection(t_list *node, int cdt, t_info *info)
 {
 	int	fd;
@@ -108,21 +128,11 @@ void	redirection(t_list *node, int cdt, t_info *info)
 	{
 		fd = open(node->content, O_CREAT | O_APPEND | O_RDWR, 0766);
 		if (fd == -1 || dup2(fd, 1) == -1)
-			exit(5);
+			exit(1); // error in file descriptor
 		close (fd);
 	}
 	else if (cdt == REDIRECT_IN)
-	{
-		if (access(node->content, F_OK) == -1)
-			ft_putstr_fd("minishell: No such file or directory\n", 2); // u should specify the name of the file
-		else
-		{
-			fd = open(node->content, O_RDONLY, 0766);
-			if (fd == -1 || dup2(fd, 0) == -1)
-				exit(6);
-			close (fd);
-		}
-	}
+		rdr_in(node->content, info);
 	else if(cdt == HEREDOC)
 	{
 		fd = open(info->path_name[i], O_RDWR, 0766);
@@ -134,7 +144,7 @@ void	redirection(t_list *node, int cdt, t_info *info)
 	{
 		fd = open(node->content, O_CREAT | O_TRUNC | O_RDWR, 0766);
 		if (fd == -1 || dup2(fd, 1) == -1)
-			exit(7);
+			exit(1); // error in file descriptor
 		close (fd);
 	}
 	i++;

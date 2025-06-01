@@ -37,9 +37,11 @@ int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s)
 	{
 		res = compare((*tmp)->str + 11, s, 1);
 		if (res >= 0)
-			return (1);
-		else if (res == 1000)
-			return (-1);
+			return (1); // to add it in the alphabet order
+		else if (res == 200)
+			return (-1); // to replace the value
+		else if (res == -200)
+			return (0); // to not add it in export
 		*ptr = *tmp;
 		*tmp = (*tmp)->next;
 	}
@@ -79,7 +81,9 @@ int	add_to_export(t_xp **head, char *s, t_info *info)
 	t_xp	*node;
 	t_xp	*ptr;
 	int	cdt;
+	int	equal;
 
+	equal = 0;
 	if (parse_var(s))
 	{
 		ft_putstr_fd("minishell: export: `", 2);
@@ -91,10 +95,12 @@ int	add_to_export(t_xp **head, char *s, t_info *info)
 	tmp = *head;
 	ptr = NULL;
 	cdt = where_to_edit(&tmp, &ptr, s);
-	node = create_node(join_str("declare -x ", s));
+	node = create_node(join_str("declare -x ", s, cdt, &equal));
 	if (!node)
-		return 0; //allocation failed
+		return 0; // allocation failed
 	add_to_export2(head, node, ptr, cdt);
+	if (!equal)
+		return (0);
 	return (1);
 }
 
@@ -107,10 +113,10 @@ void	create_export(t_info *info, char **env, int i)
 	info->head_export = NULL;
 	i = 0;
 	x = 0;
-	while (env[i])
+	while (env[i + 1])
 	{
 		j = i + 1;
-		while (env[j])
+		while (env[j + 1])
 		{
 			if (compare(env[i], env[j], 0) > 0)
 			{
@@ -120,7 +126,7 @@ void	create_export(t_info *info, char **env, int i)
 			}
 			j++;
 		}
-		tmp = join_str("declare -x ", env[x]);
+		tmp = join_str("declare -x ", env[x], 1, NULL);
 		attach_node(&info->head_export, tmp);
 		x++;
 		i++;

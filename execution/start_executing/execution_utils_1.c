@@ -133,6 +133,10 @@ void	execute_cmd(t_info *info, int cdt)
 		exit(8);// fork error
 	if (!id)
 	{
+		// fprintf(stderr, "----------------- start -----------------\n");
+		// for (int i = 0; info->utils->cmd[i]; i++)
+		// 	fprintf(stderr, "\t\t%s\n", info->utils->cmd[i]);
+		// fprintf(stderr, "----------------- end -----------------\n\n");
 		if (!cdt)
 		{
 			if (check_builtin(info, info->utils->cmd))

@@ -46,7 +46,11 @@ void	ft_export(t_xp **head, t_info *info)
 		if (add_to_export(head, info->utils->cmd[i], info))
 			add_to_env(&info->head_env, info->utils->cmd[i]);
 		if (!info->utils->cmd[i + 1])
+		{
+			if (info->utils->child)
+				exit(info->ext);
 			return ;
+		}
 		i++;
 	}
 	print_export(*head);

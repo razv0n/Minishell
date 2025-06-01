@@ -102,11 +102,9 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->cmd = NULL; // the command //!
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
-	// info->ext = 0;
 	info->utils->i = 0;
 	info->utils->id = 0;
 	info->utils->fail = 0;
-	// info->utils->bin = 0;
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	if (info->utils->npi)
@@ -120,7 +118,6 @@ void	init_things(t_info *info, t_list *head)
 	start_executing(info, head, info->utils);
 	close (info->utils->fd_in);
 	close (info->utils->fd_out);
-	// sleep(20);
 }
 
 // int	main()

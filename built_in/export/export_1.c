@@ -26,13 +26,15 @@ int	compare(char *s1, char *s2, int bl)
 	{
 		while (s1[i] && s2[i] && (s1[i] == s2[i]) && (s1[i] != '=' && s2[i] != '='))
 			i++;
-		if (((s1[i] == '=') && (s2[i] == '=')) || !s2[i])
-			return (1000); // bcause when i have a variable a=1 and b=1 b replaces a due to the condition that was if res == -1 change the value
+		if ((s1[i] == '=') && !s2[i])
+			return (-200);
+		if (((s1[i] == '=') && (s2[i] == '=')))
+			return (200);
 	}
 	return (s1[i] - s2[i]);
 }
 
-int	ft_len(char *s, int *sp)
+int	ft_len(char *s, int *equal)
 {
 	int	i;
 
@@ -40,13 +42,13 @@ int	ft_len(char *s, int *sp)
 	while (s[i])
 	{
 		if (s[i] == '=')
-			*sp = 1;
+			*equal = 1;
 		i++;
 	}
 	return (i);
 }
 
-void	fill_the_string(char *out, char *s2, int sp, int i)
+void	fill_the_string(char *out, char *s2, int equal, int i)
 {
 	int	j;
 
@@ -57,7 +59,7 @@ void	fill_the_string(char *out, char *s2, int sp, int i)
 		i++;
 		j++;
 	}
-	if (sp)
+	if (equal)
 		out[i++] = '"';
 	while (s2[j])
 	{
@@ -65,24 +67,26 @@ void	fill_the_string(char *out, char *s2, int sp, int i)
 		i++;
 		j++;
 	}
-	if (sp)
+	if (equal)
 		out[i] = '"';
 	out[++i] = '\0';
 }
 
-char	*join_str(char *s1, char *s2)
+char	*join_str(char *s1, char *s2, int cdt, int *equal)
 {
 	char	*out;
 	int	i;
 	int	len;
-	int	sp;
+	int	help;
 
 	i = 0;
-	sp = 0;
-	if (!s2)
+	help = 0;
+	if (!equal)
+		equal = &help; // for the segfault
+	if (!s2 || !cdt)
 		return (NULL);
-	len = ft_len(s2, &sp) + 11;
-	if (sp)
+	len = ft_len(s2, equal) + 11;
+	if (*equal)
 		out = malloc(sizeof(char) * (len + 3));
 	else
 		out = malloc(sizeof(char) * (len + 1));
@@ -93,7 +97,7 @@ char	*join_str(char *s1, char *s2)
 		out[i] = s1[i];
 		i++;
 	}
-	fill_the_string(out, s2, sp, i);
+	fill_the_string(out, s2, *equal, i);
 	return (out);
 }
 

@@ -50,12 +50,12 @@ void	edit_export(t_xp *head_exp, t_list *head_env, char *new, char *old)
 		return ; //malloc
 	where_to_edit(&tmp, &ptr, "OLDPWD=");
 	free (tmp->str);
-	tmp->str = join_str("declare -x ", oldpwd);
+	tmp->str = join_str("declare -x ", oldpwd, 1, NULL);
 	if (!tmp->str)
 		return ; //malloc
 	where_to_edit(&tmp, &ptr, "PWD=");
 	free (tmp->str);
-	tmp->str = join_str("declare -x ", pwd);
+	tmp->str = join_str("declare -x ", pwd, 1, NULL);
 	if (!tmp->str)
 		return ; //malloc
 	edit_env(head_env, pwd, oldpwd);

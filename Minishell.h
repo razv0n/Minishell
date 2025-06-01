@@ -158,7 +158,7 @@ int	count_pipes(t_list *head);
 void	create_export(t_info *info, char **env, int i);
 void	add_to_env(t_list **head, char *s);
 int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s);
-char	*join_str(char *s1, char *s2);
+char	*join_str(char *s1, char *s2, int cdt, int *equal);
 void	attach_node(t_xp **head, char *s);
 t_xp	*create_node(char *s);
 int	add_to_export(t_xp **head, char *s, t_info *info);

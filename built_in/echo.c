@@ -18,7 +18,7 @@ int	check_new_line(char *s)
 		return (1);
 	if (*s == '-')
 		s++;
-	if (*s == 'n')
+	while (*s == 'n')
 		s++;
 	return (*s);
 }
@@ -30,9 +30,9 @@ void	ft_echo(char **arg, t_info *info)
 
 	i = 1;
 	nl = 1;
-	if (!check_new_line(arg[1]))
+	while (!check_new_line(arg[i]))
 	{
-		i = 2;
+		i++;
 		nl = 0;
 	}
 	while (arg[i])

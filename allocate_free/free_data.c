@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/31 19:08:29 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 10:47:48 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ bool	free_print(t_list *head, char **words)
 {
 	printf("\033[31msyntax error\033[0m\n");
 	fr_mem_split(sizeof(words) / sizeof(words[0]), words);
-	ft_lstclear_d(&head);
+	ft_lstclear_d(head);
 	return (true);
 }
 
 void ft_free(t_info *info, t_error_type err)
 {
-    ft_lstclear_d(&info->head_cmd);
+    ft_lstclear_d(info->head_cmd);
     // free(info->words);
-    free(info->joined);
+       free(info->joined);
     
     info->head_cmd = NULL;
     if (err == SYNTAX_ERROR)

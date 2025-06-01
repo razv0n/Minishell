@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:24:57 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/31 19:09:11 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 10:01:42 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,20 @@ void	ft_lstadd_back_ptr(t_ptr **start, t_ptr *new)
 	help->next = new;
 }
 
-void	ft_lstclear_d(t_list **lst)
+void	ft_lstclear_d(t_list *lst)
 {
 	t_list	*help;
 
-	if (!lst || !*lst)
+	if (!lst)
 		return ;
-	while (*lst != NULL)
+	while (lst != NULL)
 	{
-		free((*lst)->content);
-		help = (*lst)->next;
-		free (*lst);
-		*lst = help;
+		free(lst->content);
+		help = lst->next;
+		free (lst);
+		lst = help;
 	}
-	*lst = NULL;
+	lst = NULL;
 }
 
 void	ft_lstclear_not(t_ptr **lst)

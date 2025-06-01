@@ -57,7 +57,7 @@ void    minishell_loop(t_info *info)
             ft_free_all(NORMAL);
         if(info->line[0])
             add_history(info->line);
-        if (pars(info) == -1) // ? dont forget to free the head after usi
+        if (pars(info) == -1)
             continue ;
         // print_stack(info->head_cmd);
         init_things(info, info->head_cmd);

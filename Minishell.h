@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/31 19:09:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 10:40:24 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ typedef struct t_ptr
     bool *joined;
 }	t_info;
 
-t_list	*ft_lstnew_d(void *content);
+t_list	*ft_lstnew_d(void *content, t_free_type place);
 int     ft_strcmp(char *line, char *str);
 int     check_metacharacter(const char  *c);
 void    exit_status(t_info *);
@@ -125,8 +125,9 @@ char	**ft_split_tokens(t_info *info);
 void    add_ptr(void *ptr, t_ptr *head, t_free_type type, t_free_type place);
 bool    quotes_in_split(char quotes);
 bool    split_arg(t_info *info);
-void ft_free_all(t_error_type msg);
+void    ft_free_all(t_error_type msg);
 void	path(t_info *info);
+void	ft_lstclear_d(t_list *lst);
 bool    is_pipe(char *c);
 bool    check_metacharcter_skip(const char *c, size_t *i);
 void    handle_sig(int sig);
@@ -142,13 +143,12 @@ void	ft_lstadd_back_d(t_list **start, t_list *new);
 void	start_herdoc(t_info *info, t_list *head);
 void	ft_lstadd_front_d(t_list **lst, t_list *new);
 void    ft_free(t_info *info, t_error_type err);
-void	ft_lstclear_d(t_list **lst);
 void    type_tokens(t_list *head);
 void    init_info(t_info *info);
 void    cpy_env(char **env, t_info *info);
 void    remove_node (t_list **head, t_list *remove);
 t_ptr   *return_ptr();
-void    remove_the_null(t_list **head);
+// void    remove_the_null(t_list **head);
 char	**fr_mem_split(int index, char **result);
 // char	**ft_split_tokens(char const *s);
 void	redirection(t_list *node, int cdt, t_info *info);

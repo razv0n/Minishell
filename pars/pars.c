@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/31 18:58:41 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 10:55:30 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,14 @@ void    cpy_env(char **env, t_info *info)
     info->head_env = NULL;
     while (env[i])
     {
-        node = ft_lstnew_d(env[i]);
-        if (!node)
-            ft_free_all(ERR_MALLOC);
+        node = ft_lstnew_d(env[i], FIRST_P);
         ft_lstadd_back_d(&info->head_env, node);
         i++;
     }
     create_export(info, env, i);
     env_to_double_pointer(info);
-    add_ptr(info->head_env, return_ptr(), F_STRUCT, FIRST_P);
-    add_ptr(info->head_export, return_ptr(), F_STRUCT, FIRST_P);
+    // add_ptr(info->head_env, return_ptr(), F_STRUCT, FIRST_P);
+    // add_ptr(info->head_export, return_ptr(), F_STRUCT, FIRST_P);
 }
 
 t_list	*ft_lstlast(t_list *lst)

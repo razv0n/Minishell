@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/01 19:32:45 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:37:13 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,6 @@
 
 # include <errno.h> 
 
-typedef enum e_type
-{
-    WORD,
-    PIPE,
-    REDIRECT_IN,
-    REDIRECT_OUT,
-    HEREDOC,
-    APPEND,
-    SINGLE_Q,
-    DOUBLE_Q,
-}t_type_word;//* this enum for type of token
 
 typedef enum {
     SYNTAX_ERROR,
@@ -52,14 +41,6 @@ typedef enum {
     EXEC_EXTERNAL,
     EXEC_FAILURE
 } t_exec_type;
-
-typedef enum {
-    F_SIMPLE,
-    F_DOUBLE,
-    F_STRUCT,
-    FIRST_P,
-    SECOUND_P
-} t_free_type;
 
 
 # define ERR_PIPE	"pipe error\n"
@@ -99,7 +80,6 @@ typedef struct export
 typedef struct s_l
 {
     void            *content;
-    t_free_type     type;
     t_free_type     place;
     struct s_l      *next;
 }	t_ptr;
@@ -131,7 +111,7 @@ bool    check_error(t_info *info);
 void	free_double(char **str);
 bool    is_redirect(char *c);
 char	**ft_split_tokens(t_info *info);
-void    add_ptr(void *ptr, t_ptr *head, t_free_type type, t_free_type place);
+void    add_ptr(void *ptr, t_ptr **head, t_free_type place);
 bool    quotes_in_split(char quotes);
 bool    split_arg(t_info *info);
 void    ft_free_all(t_error_type msg);
@@ -154,8 +134,8 @@ void	ft_lstadd_front_d(t_list **lst, t_list *new);
 void    type_tokens(t_list *head);
 void    init_info(t_info *info);
 void    cpy_env(char **env, t_info *info);
-void    remove_node (t_list **head, t_list *remove);
-t_ptr   *return_ptr();
+t_ptr   **return_ptr();
+void    remove_node_single (t_ptr **head, t_ptr *remove);
 // void    remove_the_null(t_list **head);
 char	**fr_mem_split(int index, char **result);
 // char	**ft_split_tokens(char const *s);
@@ -172,7 +152,8 @@ void	ft_lstclear_ptr(t_ptr **lst);
 int	compare(char *s1, char *s2, int bl);
 int	length(char *s);
 void print_stack(t_list *head); // remove it
-void	*ft_malloc(size_t size, t_free_type place, t_free_type type);
+void	*ft_malloc(size_t size, t_free_type type);
+void remove_node_doubly (t_list **head, t_list *remove);
 // void	ft_lstclear_not(t_list **lst);
 void	ft_lstclear_not(t_ptr **lst);
 t_ptr	*ft_lstnew_ptr(void *content);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:14:04 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/01 17:03:08 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:38:39 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*ft_lstnew_d(void *content, t_free_type place)
 {
 	t_list	*newnode;
 
-	newnode = ft_malloc(sizeof(t_list), place, F_STRUCT);
+	newnode = ft_malloc(sizeof(t_list), place);
 	newnode->content = content;
 	newnode->next = NULL;
 	newnode->prev = NULL;
@@ -35,7 +35,7 @@ t_ptr	*ft_lstnew_ptr(void *content)
 	return (newnode);
 }
 
-void remove_node (t_list **head, t_list *remove)
+void remove_node_doubly(t_list **head, t_list *remove)
 {
     if	(!*head || !remove|| !head)
 		return ;
@@ -52,6 +52,27 @@ void remove_node (t_list **head, t_list *remove)
         	(*head)->prev = NULL;
     }
     ft_lstdelone(remove, free);
+}
+
+void remove_node_single(t_ptr **head, t_ptr *remove)
+{
+	t_ptr	*help;
+	t_ptr	*prev;
+
+	help = *head;
+    if	(!*head || !remove|| !head)
+		return ;
+	while(help != remove)
+	{
+		prev = help;
+		help = help->next;
+	}
+	if (*head == remove)
+		*head = (*head)->next;
+	else
+		prev->next = remove->next;
+	free(remove->content);
+	free(remove);
 }
 
 /*int main()

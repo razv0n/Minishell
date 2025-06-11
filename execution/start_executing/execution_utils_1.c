@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/01 16:57:35 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 22:21:23 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	check_access(t_info *info)
 			if (!access(x, X_OK))
 			{
 				info->utils->exc = x;
-				info->utils->bin = 1;
 				return (1);
 			}
 			else

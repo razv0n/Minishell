@@ -52,15 +52,14 @@ void    minishell_loop(t_info *info)
     {
         str = best_prompt();
         info->line = readline(str);
-        free(str);
+        // free(str);
         if (!info->line)
             ft_free_all(NORMAL);
         if(info->line[0])
             add_history(info->line);
-        if (pars(info) == -1)
-            continue ;
-        // print_stack(info->head_cmd);
-        init_things(info, info->head_cmd);
+        if (pars(info) != -1)
+            init_things(info, info->head_cmd);
+        ft_free(info, 1337);
     }
 }
  
@@ -75,8 +74,7 @@ int main (int ac , char **av, char **env)
         exit(1);
     }
     setup_signals();
-    info = ft_malloc(sizeof(t_info), FIRST_P, F_STRUCT);
+    info = ft_malloc(sizeof(t_info), FIRST_P);
     cpy_env(env, info);
     minishell_loop(info);
-    ft_free(info, 1337);
 }

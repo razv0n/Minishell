@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/01 21:22:21 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/02 12:10:24 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	get_path(t_info *info, t_u *utils)
 				execute_cmd(info, 0);
 			else
 				execute_cmd(info, 1);
+			info->utils->bin = 1;
 		}
 	}
 	utils->fail = 0;

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/01 15:08:54 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:34:56 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ void    env_to_double_pointer(t_info *info)
     head = info->head_env;
     i = 0;
     lenght = ft_lstsize(info->head_env);
-    info->env = ft_malloc(sizeof(char *) * (lenght + 1), FIRST_P, F_DOUBLE);
+    info->env = ft_malloc(sizeof(char *) * (lenght + 1), FIRST_P);
     while(head)
     {
         info->env[i] = ft_strdup(head->content);
+        if (!info->env[i])
+            ft_free_all(ERR_MALLOC);
         head = head->next;
         i++;
     }
@@ -65,8 +67,6 @@ void    cpy_env(char **env, t_info *info)
     }
     create_export(info, env, i);
     env_to_double_pointer(info);
-    // add_ptr(info->head_env, return_ptr(), F_STRUCT, FIRST_P);
-    // add_ptr(info->head_export, return_ptr(), F_STRUCT, FIRST_P);
 }
 
 t_list	*ft_lstlast(t_list *lst)
@@ -99,7 +99,7 @@ void   joined_node(t_info *info)
             if (head->quotes_type != SINGLE_Q && head->quotes_type != DOUBLE_Q)
                 head->quotes_type = head->next->quotes_type;
             free(tmp);
-            remove_node(&info->head_cmd, head->next);
+            remove_node_doubly(&info->head_cmd, head->next);
         }
         head = head->prev;
         i++;
@@ -138,7 +138,7 @@ int change_red(t_info *info)
             }
             head->next->type = head->type;
             help = head->next;
-            remove_node(&info->head_cmd, head);
+            remove_node_doubly(&info->head_cmd, head);
             head = help; 
         }
         head = head->next;
@@ -174,6 +174,7 @@ int    pars(t_info *info)
         // remove_the_null(&info->head_cmd);
         if (change_red(info) == -1)
             return (-1);
+        return (1);
     }
-    return (1);
+    return (-1);
 }

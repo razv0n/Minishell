@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:00:04 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/29 12:00:17 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:47:36 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ t_xp	*create_node(char *s)
 
 	if (!s)
 		return (NULL);
-	node = malloc(sizeof(t_xp));
-	if (!node)
-		return (NULL);
+	node = ft_malloc(sizeof(t_xp), FIRST_P);
 	node->str = s;
 	node->next = NULL;
 	node->prev = NULL;

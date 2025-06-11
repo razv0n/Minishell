@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:29:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/01 19:27:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/11 16:55:59 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,27 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
+// # include "../Minishell.h"
 
+typedef enum e_type
+{
+    WORD,
+    PIPE,
+    REDIRECT_IN,
+    REDIRECT_OUT,
+    HEREDOC,
+    APPEND,
+    SINGLE_Q,
+    DOUBLE_Q,
+}t_type_word;//* this enum for type of token
+
+typedef enum {
+    F_SIMPLE,
+    F_DOUBLE,
+    F_STRUCT,
+    FIRST_P,
+    SECOUND_P
+} t_free_type;
 
 typedef struct s_list
 {
@@ -27,6 +47,7 @@ typedef struct s_list
     bool                joined;
 }		t_list;
 int		ft_lstsize(t_list *lst);
+void	*ft_malloc(size_t size, t_free_type place);
 t_list	*ft_lstnew(void *content);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list	*ft_lstlast(t_list *lst);

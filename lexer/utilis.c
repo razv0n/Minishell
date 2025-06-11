@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/01 16:18:25 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/11 19:01:36 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,7 @@ static char	*get_next_word(char **s, char **result, int index, t_info *info)
 	}
 	is_joined(*s, info);
 	lenght = *s - start;
-	result[index] = malloc ((lenght + 1) * sizeof(char));
-	if (!result[index])
-		return (NULL);
+	result[index] = ft_malloc ((lenght + 1) * sizeof(char), SECOUND_P);
 	while (start < *s)
 	{
 		result[index][in] = *start;
@@ -192,17 +190,13 @@ char	**ft_split_tokens(t_info *info)
 	if (!info)
 		return (NULL);
 	lenght = count_word(line); // 2
-	result = malloc ((lenght + 1) * sizeof(char *));
-	if (!result)
-		return (NULL);
-	info->joined = malloc(sizeof(bool) * (lenght));
-	if (!info->joined)
-		return (free(result), NULL);
+	result = ft_malloc((lenght + 1) * sizeof(char *), SECOUND_P);
+	info->joined = ft_malloc(sizeof(bool) * (lenght), SECOUND_P);
 	ft_bzero(info->joined, sizeof(bool) * lenght);
 	i = 0;
 	while (i < lenght)
 	{
-		result[i] = get_next_word (&line, result, i, info);
+		result[i] = get_next_word(&line, result, i, info);
 		if (!result)
 			return (fr_mem_split(i, result));
 		i++;
@@ -210,15 +204,3 @@ char	**ft_split_tokens(t_info *info)
 	result[i] = NULL;
 	return (result);
 }
-// int main (int ac , char **av)
-// {
-// //      // char **sp = ft_split("#test#hello", '#');
-// //      // char **sp = ft_split("#hhfe#banana#boom#." , '#');
-// //       //char **sp = ft_split("booomlike" , ' ');
-//      char **sp = ft_split_tokens(av[1]);
-//      int i;
-// 	 //char **sp = ft_split(",,,,,,," , ',');
-// 	 for (i = 0; sp[i] ; i++)
-//           printf("%s\n",sp[i]);
-// 	fr_mem_split(i,sp);
-// }

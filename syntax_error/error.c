@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 16:14:08 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/20 10:36:56 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 21:50:30 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool    check_error(t_info *info)
         if (!head->prev && is_pipe(head->content)) //* if first token is pipe we have error
             return (ft_free(info, SYNTAX_ERROR), 1); // free the list and words and return true for the function split_arg
         if (!head->next)
-        { // if last token is pipe or redirections we have error
+        {
             if (is_pipe(head->content) || is_redirect(head->content))
                 return (ft_free(info, SYNTAX_ERROR), 1);
         }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:46 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/29 11:59:59 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:55:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,9 @@ char	*join_str(char *s1, char *s2, int cdt, int *equal)
 		return (NULL);
 	len = ft_len(s2, equal) + 11;
 	if (*equal)
-		out = malloc(sizeof(char) * (len + 3));
+		out = ft_malloc(sizeof(char) * (len + 3), FIRST_P);
 	else
-		out = malloc(sizeof(char) * (len + 1));
-	if (!out)
-		return (NULL);
+		out = ft_malloc(sizeof(char) * (len + 1), FIRST_P);
 	while (s1[i])
 	{
 		out[i] = s1[i];
@@ -107,7 +105,7 @@ void	attach_node(t_xp **head, char *s)
 	t_xp	*p;
 
 	node = create_node(s);
-	if (!head || !node)
+	if (!head)
 		return ;
 	if (!*head)
 	{

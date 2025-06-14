@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:29:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/12 12:11:00 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:56:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*ft_strrchr(const char *s, int c);
 int		ft_tolower(int i);
 int		ft_toupper(int i);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char const *s1, char const *s2, t_free_type place);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *str, char c);
 char	*ft_itoa(int n);

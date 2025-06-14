@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/12 21:23:19 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:57:19 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void   joined_node(t_info *info)
     {
         if (head->joined && head->next)
         {
-            head->content = ft_strjoin(head->content, head->next->content);
+            head->content = ft_strjoin(head->content, head->next->content, SECOUND_P);
             if (head->quotes_type != SINGLE_Q && head->quotes_type != DOUBLE_Q) // why i use this?
                 head->quotes_type = head->next->quotes_type;
             remove_node_doubly(&info->head_cmd, head->next);

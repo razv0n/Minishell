@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:46 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/13 18:38:57 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 19:54:05 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,12 @@ int	compare(char *s1, char *s2, int bl)
 			i++;
 		if ((s1[i] == '=') && !s2[i])
 			return (-200);
-		if (((s1[i] == '=') && (s2[i] == '=')))
+		if (((s1[i] == '=') && (s2[i] == '=')) || !s1[i] && (s2[i] == '=')) // for cmd export B" the B add without the '=' symbole
 			return (200);
 	}
 	return (s1[i] - s2[i]);
 }
 
-int	ft_len(char *s, int *equal)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '=')
-			*equal = 1;
-		i++;
-	}
-	return (i);
-}
 
 void	fill_the_string(char *out, char *s2, int equal, int i)
 {
@@ -60,7 +47,11 @@ void	fill_the_string(char *out, char *s2, int equal, int i)
 		j++;
 	}
 	if (equal)
+	{
+		out[i++] = '=';
 		out[i++] = '"';
+		j++;
+	}
 	while (s2[j])
 	{
 		out[i] = s2[j];
@@ -69,7 +60,6 @@ void	fill_the_string(char *out, char *s2, int equal, int i)
 	}
 	if (equal)
 		out[i] = '"';
-	out[++i] = '\0';
 }
 
 char	*join_str(char *s1, char *s2, int cdt, int *equal)
@@ -85,18 +75,20 @@ char	*join_str(char *s1, char *s2, int cdt, int *equal)
 		equal = &help; // for the segfault
 	if (!s2 || !cdt)
 		return (NULL);
-	len = ft_len(s2, equal) + 11;
+	if (ft_strchr(s2, '='))
+		*equal = 1;
 	if (*equal)
-		out = ft_malloc(sizeof(char) * (len + 3), FIRST_P);
+		len = ft_strlen(s2) + 11 + 3;
 	else
-		out = ft_malloc(sizeof(char) * (len + 1), FIRST_P);
+		len = ft_strlen(s2) + 11 + 1;
+	out = ft_malloc(sizeof(char) * (len), FIRST_P);
+	out[len - 1] = '\0';
 	while (s1[i])
 	{
 		out[i] = s1[i];
 		i++;
 	}
-	fill_the_string(out, s2, *equal, i);
-	return (out);
+	return (fill_the_string(out, s2, *equal, i), out);
 }
 
 void	attach_node(t_xp **head, char *s)

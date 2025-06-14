@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/13 20:55:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 12:42:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	check_access(t_info *info)
 	char	*x;
 
 	i = 0;
-	if (!info->utils->path)
-		return (1);
-	while (info->utils->path[i])
+	if (!info->utils->cmd[0])
+		return 0;
+	while (info->utils->path && info->utils->path[i])
 	{
 		x = add_string(info->utils->path[i], info->utils->cmd[0]);
 		if (!access(x, F_OK))

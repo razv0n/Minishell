@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:25:09 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/13 18:16:45 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:08:40 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void    env_to_double_pointer(t_info *info)
     info->env = ft_malloc(sizeof(char *) * (lenght + 1), FIRST_P);
     while(head)
     {
-        info->env[i] = ft_strdup(head->content, FIRST_P);
+        info->env[i] = head->content;
         head = head->next;
         i++;
     }
@@ -59,7 +59,7 @@ void    cpy_env(char **env, t_info *info)
     info->head_env = NULL;
     while (env[i])
     {
-        node = ft_lstnew_d(env[i], FIRST_P);
+        node = ft_lstnew_d(ft_strdup(env[i], FIRST_P), FIRST_P);
         ft_lstadd_back_d(&info->head_env, node);
         i++;
     }

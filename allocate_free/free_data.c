@@ -19,7 +19,9 @@ void    ft_perror(t_error_type msg)
     else if (msg == EXIT)
         ft_putstr_fd("exit\n", 2);
     else if (msg == SYNTAX_ERROR)
-        ft_putstr_fd("\033[31msyntax error\033[0m\n", 2);
+        ft_putstr_fd("Minishell : \033[31msyntax error\033[0m\n", 2);
+    else if (msg == ERR_CD)
+        ft_putstr_fd("Minishell: cd: failed to change directory\n", 2);
 }
 
 

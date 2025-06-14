@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:19 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/13 16:38:00 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 22:02:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s)
 	while (*tmp)
 	{
 		res = compare((*tmp)->str + 11, s, 1);
-		if (res >= 0)
+		if (res >= 0 && res != 200)
 			return (1); // to add it in the alphabet
 		else if (res == 200)
 			return (-1); // to replace the value
@@ -49,15 +49,9 @@ int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s)
 
 void	add_to_export2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 {
-	t_xp	*n;
-
-	if (cdt == -1)
-	{
-		n = ptr->next;
-		ptr->next = node;
-		node->prev = ptr;
-		node->next = n->next;
-	}
+	
+	if (!node)
+		return;	
 	if (ptr)
 	{
 		if (ptr->next)
@@ -65,9 +59,14 @@ void	add_to_export2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 		ptr->next = node;
 		node->prev = ptr;
 	}
-	else
+	else if (!ptr && cdt != -1)
 	{
 		node->next = *head;
+		*head = node;
+	}
+	else if (!ptr && cdt == -1)
+	{
+		node->next = (*head)->next;
 		*head = node;
 	}
 }

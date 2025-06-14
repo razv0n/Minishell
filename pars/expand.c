@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/13 17:50:47 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:58:44 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,15 @@ void    expand_2(char **str, t_type_word wich_quote, t_info *info)
         if ((*str)[vb.i] != '$')
         {
             vb.buffer[0] = (*str)[vb.i];
-            vb.prev = ft_strjoin(vb.prev, vb.buffer);
+            vb.prev = ft_strjoin(vb.prev, vb.buffer, SECOUND_P);
         }
         else
         {
             vb.expand = check_to_expand(*str, &(vb.i), info);
             if (vb.expand)
-                vb.prev = ft_strjoin(vb.prev, vb.expand);
+                vb.prev = ft_strjoin(vb.prev, vb.expand, SECOUND_P);
             else if ((*str)[vb.i] == '$')
-                vb.prev = ft_strjoin(vb.prev, "$");
+                vb.prev = ft_strjoin(vb.prev, "$", SECOUND_P);
         }
         vb.i++;
     }
@@ -85,7 +85,7 @@ void    expand(t_info *info)
     while (content)
     {
         content->quotes_type = 1337;
-        if (content->content[0] == '$' && !content->content[1] && content->next && content->joined && check_quotes(content->next->content[0]))
+        if (content->content[0] == '$' && !content->content[1] && content->next && content->joined && check_quotes(content->next->content[0]) && content->type != HEREDOC)
         {
             next_node = content->next;
             remove_node_doubly(&info->head_cmd, content);

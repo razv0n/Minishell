@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/13 20:54:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 22:02:32 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@
 
 typedef enum {
     SYNTAX_ERROR,
-    FR_CHILD,
+    ERR_CHILD,
     ERR_MALLOC,
     NORMAL,
-    EXIT
+    EXIT,
+    ERR_CD
 } t_error_type;   
 
 typedef enum {
@@ -108,7 +109,7 @@ int     check_metacharacter(const char  *c);
 void    exit_status(t_info *);
 bool    check_quotes_error (t_info *info);
 bool    check_error(t_info *info);
-void	free_double(char **str);
+// void	free_double(char **str);
 bool    is_redirect(char *c);
 void	rdr_in(char *str, t_info *info);
 void	rdr_herdoc(t_info *info);
@@ -121,6 +122,7 @@ char	**ft_split_tokens(t_info *info);
 void    add_ptr(void *ptr, t_ptr **head, t_free_type place);
 bool    quotes_in_split(char quotes);
 bool    *sig_varible();
+int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s);
 bool    split_arg(t_info *info);
 void    ft_free_all(t_error_type msg, unsigned char exit_code);
 void	path(t_info *info);
@@ -182,7 +184,6 @@ char	**update_path(char *s);
 int	count_pipes(t_list *head);
 void	create_export(t_info *info, char **env, int i);
 void	add_to_env(t_list **head, char *s);
-int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s);
 char	*join_str(char *s1, char *s2, int cdt, int *equal);
 void	attach_node(t_xp **head, char *s);
 t_xp	*create_node(char *s);

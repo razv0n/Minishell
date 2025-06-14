@@ -17,9 +17,11 @@ int	compare_2(char *s1, char *s2)
 	int	i;
 
 	i = 0;
-	while (s1[i] && s2[i] && (s2[i] != '=') && (s1[i] == s2[i]))
+	while (s1[i] && s2[i] && (s1[i] != '=') && (s1[i] == s2[i]))
 		i++;
-	return (s2[i]);
+	if ((s1[i] == '=' && !s2[i]) || (!s1[i] && !s2[i]))
+		return (s2[i]);
+	return (1);
 }
 
 void	unset_export(t_xp **head, char *s)
@@ -74,7 +76,6 @@ void	unset_env(t_list **head, char *s)
 		tmp->prev->next = tmp->next;
 		if (tmp->next)
 			tmp->next->prev = tmp->prev;
-		// free (tmp);
 	}
 }
 

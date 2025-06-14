@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:14:04 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/12 11:59:33 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:18:44 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_ptr	*ft_lstnew_ptr(void *content)
 
 	newnode = malloc(sizeof(t_ptr));
 	if (!newnode)
-		return (NULL);
+		ft_free_all(ERR_MALLOC, 3);
 	newnode->content = content;
 	newnode->next = NULL;
 	return (newnode);

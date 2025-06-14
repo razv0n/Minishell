@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/13 12:22:51 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:57:27 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*generate_name()
 		i++;
 	}
 	path_name = ft_strdup(buffer, SECOUND_P);
-	path_name = ft_strjoin("/tmp/", path_name);
+	path_name = ft_strjoin("/tmp/", path_name, SECOUND_P);
 	return (path_name);
 }
 

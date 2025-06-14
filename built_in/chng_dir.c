@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:40:36 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/12 15:39:46 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 22:04:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,30 @@
 
 void	edit_env(t_list *head, char *pwd, char *oldpwd)
 {
-	static bool	alloc;
+	// static bool	alloc;
 
+	// printf("oldPWD : %s\n",oldpwd);
+	// printf("PWD : %s\n",pwd);
 	while (head)
 	{
-		if (!compare(head->content, pwd, 1))
+		if (compare(head->content, pwd, 1) == 200)
 		{
-			if (alloc)
-				free (head->content);
+			// if (alloc)
+			// 	free (head->content);
+			// printf("PWD : %s\n",pwd);
+
 			head->content = pwd;
 		}
-		if (!compare(head->content, oldpwd, 1))
+		if (compare(head->content, oldpwd, 1) == 200) // the result was 200 :>
 		{
-			if (alloc)
-				free (head->content);
+			// if (alloc)
+				// free (head->content);
+			// printf("oldPWD : %s\n",oldpwd);
 			head->content = oldpwd;
 		}
 		head = head->next;
 	}
-	alloc = true;
+	// alloc = true;
 }
 
 void	edit_export(t_xp *head_exp, t_list *head_env, char *new, char *old)
@@ -44,20 +49,18 @@ void	edit_export(t_xp *head_exp, t_list *head_env, char *new, char *old)
 
 	tmp = head_exp;
 	ptr = NULL;
-	oldpwd = ft_strjoin("OLDPWD=", old);
-	pwd = ft_strjoin("PWD=", new);
-	if (!oldpwd || !pwd)
-		return ; //malloc
+	oldpwd = ft_strjoin("OLDPWD=", old, FIRST_P);
+	pwd = ft_strjoin("PWD=", new, FIRST_P);
 	where_to_edit(&tmp, &ptr, "OLDPWD=");
-	free (tmp->str);
+	// free (tmp->str);
 	tmp->str = join_str("declare -x ", oldpwd, 1, NULL);
-	if (!tmp->str)
-		return ; //malloc
+	// if (!tmp->str)
+	// 	return ; //malloc
 	where_to_edit(&tmp, &ptr, "PWD=");
-	free (tmp->str);
+	// free (tmp->str);
 	tmp->str = join_str("declare -x ", pwd, 1, NULL);
-	if (!tmp->str)
-		return ; //malloc
+	// if (!tmp->str)
+	// 	return ; //malloc
 	edit_env(head_env, pwd, oldpwd);
 }
 

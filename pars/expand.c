@@ -6,57 +6,20 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/11 18:34:09 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/13 17:50:47 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	ft_lstdelone(t_list *lst, void (*del) (void*))
+typedef struct
 {
-	if (!del || !lst)
-		return ;
-	del (lst->content);
-	free (lst);
-}
+    int i;
+    char    *prev;
+    char    buffer[2];
+    char    *expand;
+} t_variable;
 
-
-void    remove_quotes(char **str, t_list *node)
-{
-    int lenght;
-    char *tmp;  
-    char c;
-
-    c = *str[0];
-    lenght =  ft_strlen(*str) - 2;
-    tmp = *str;
-    *str = ft_substr(tmp, 1, lenght);
-    free(tmp);
-    if (c == '\'')
-        node->quotes_type = SINGLE_Q;
-    else
-        node->quotes_type = DOUBLE_Q;
-}
-
-char *go_to_expand (char *str)
-{
-    char *expand;
-    
-    expand = getenv(str);
-    free(str);
-    if (!expand)
-        return (NULL);
-    return (expand);
-}
-char    *cas_in_expand(char *str, int *i, t_info *info)
-{
-    char *itoa_str;
-
-    itoa_str = NULL;
-    if (str[*i] == '?')
-        itoa_str = ft_itoa(info->ext);
-    return (itoa_str);
-}
 char    *check_to_expand(char *str , int *i, t_info *info)
 {
     int start;
@@ -78,7 +41,7 @@ char    *check_to_expand(char *str , int *i, t_info *info)
             return (cas_in_expand(str, i, info));
         --(*i);
         expanded = ft_substr(str, start, *i - start + 1);
-        return (go_to_expand(expanded));
+        return (go_to_expand(expanded, info->head_env));
     }
     else
         return (NULL);
@@ -86,58 +49,42 @@ char    *check_to_expand(char *str , int *i, t_info *info)
 
 void    expand_2(char **str, t_type_word wich_quote, t_info *info)
 {
-    int i;
-    char buffer[2];
-    char *tmp, *expand, *prev, *str_tmp;
+    t_variable  vb;
 
-    str_tmp = *str;
     if (wich_quote == SINGLE_Q) 
         return;
-    i = 0;
-    prev = NULL; //this
-    buffer[1] = '\0';
-    while(str_tmp[i])
+    vb.i = 0;
+    vb.prev = NULL;
+    vb.buffer[1] = '\0';
+    while((*str)[vb.i])
     {
-        if (str_tmp[i] != '$')
+        if ((*str)[vb.i] != '$')
         {
-            buffer[0] = str_tmp[i];
-            tmp = prev;
-            prev = ft_strjoin(prev, buffer);
-            if (!tmp)
-                free(tmp);
+            vb.buffer[0] = (*str)[vb.i];
+            vb.prev = ft_strjoin(vb.prev, vb.buffer);
         }
         else
         {
-            expand = check_to_expand(str_tmp, &i, info);
-            tmp = prev;
-            if (expand)
-            {
-                prev = ft_strjoin(prev, expand);
-                free(tmp);
-            }
-            else if (str_tmp[i] == '$')
-            {
-                prev = ft_strjoin(prev, "$");
-                free(tmp);
-            }
+            vb.expand = check_to_expand(*str, &(vb.i), info);
+            if (vb.expand)
+                vb.prev = ft_strjoin(vb.prev, vb.expand);
+            else if ((*str)[vb.i] == '$')
+                vb.prev = ft_strjoin(vb.prev, "$");
         }
-        i++;
+        vb.i++;
     }
-        tmp = *str;
-        *str = ft_strdup(prev);
-        free(tmp);
-        free(prev);
+        *str = ft_strdup(vb.prev, SECOUND_P);
 }
 
 void    expand(t_info *info)
 {
-    t_list *content, *next_node;
-    int wich_quote;
+    t_list  *content;
+    t_list  *next_node;
 
     content = info->head_cmd;
     while (content)
     {
-        wich_quote = 0;
+        content->quotes_type = 1337;
         if (content->content[0] == '$' && !content->content[1] && content->next && content->joined && check_quotes(content->next->content[0]))
         {
             next_node = content->next;
@@ -146,8 +93,8 @@ void    expand(t_info *info)
             continue;
         }
         if (check_quotes(content->content[0]))
-            remove_quotes(&content->content ,content); // it remove quotes if it exist
-        if (ft_strchr(content->content, '$'))
+            remove_quotes(&content->content ,content);
+        if (ft_strchr(content->content, '$') && content->type != HEREDOC)
             expand_2(&content->content, content->quotes_type, info);
         content = content->next;
     }

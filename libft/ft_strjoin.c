@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 15:07:11 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 13:37:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/12 12:29:58 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!s2)
 		return (NULL);
 	if(!s1)
-		return (ft_strdup(s2));
+		return (ft_strdup(s2, SECOUND_P));
 	i = 0;
 	j = 0;
-	str = malloc (ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!str)
-		return (NULL);
+	str = ft_malloc (ft_strlen(s1) + ft_strlen(s2) + 1, SECOUND_P);
 	while (s1[i])
 	{
 		str[i] = s1[i];

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:29:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/11 16:55:59 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/12 12:11:00 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 typedef enum e_type
 {
     WORD,
+    SINGLE_Q,
+    DOUBLE_Q,
     PIPE,
     REDIRECT_IN,
     REDIRECT_OUT,
     HEREDOC,
     APPEND,
-    SINGLE_Q,
-    DOUBLE_Q,
 }t_type_word;//* this enum for type of token
 
 typedef enum {
@@ -70,7 +70,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *s1, const void *s2, size_t n);
 void	*ft_memset(void *b, int c, size_t len);
 char	*ft_strchr(const char *s, int i);
-char	*ft_strdup(const char *s);
+char	*ft_strdup(const char *s, t_free_type);
 size_t	ft_strlcat(char *dest, const char *src, size_t size);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlen(const char *str);

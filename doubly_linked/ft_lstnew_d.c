@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:14:04 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/11 18:38:39 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/12 11:59:33 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void remove_node_doubly(t_list **head, t_list *remove)
 		if (*head)
         	(*head)->prev = NULL;
     }
-    ft_lstdelone(remove, free);
+    // ft_lstdelone(remove, free);
 }
 
 void remove_node_single(t_ptr **head, t_ptr *remove)
@@ -60,6 +60,7 @@ void remove_node_single(t_ptr **head, t_ptr *remove)
 	t_ptr	*prev;
 
 	help = *head;
+	prev = NULL;
     if	(!*head || !remove|| !head)
 		return ;
 	while(help != remove)

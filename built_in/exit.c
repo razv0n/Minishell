@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 21:26:42 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/05 11:32:22 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/13 18:48:59 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,11 @@ void	ft_exit(char **cmd, int *ext, int child)
 			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			*ext = 1;
 			if (child)
-				exit(1);
+				ft_free_all(NORMAL, 1);
 			return ;
 		}
 	}
-	exit (*ext);
+	ft_free_all(NORMAL ,*ext);
 }
 
 // int	main()

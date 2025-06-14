@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 09:09:38 by mfahmi            #+#    #+#             */
-/*   Updated: 2024/10/28 21:49:43 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/11 23:16:55 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_calloc(size_t nitems, size_t size)
 	size_t	i;
 
 	i = 0;
-	ptr = malloc (nitems * size);
+	ptr = ft_malloc (nitems * size, SECOUND_P);
 	if (!ptr)
 		return (NULL);
 	while (i < (nitems * size))

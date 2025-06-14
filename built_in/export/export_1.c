@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:46 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/11 16:55:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/13 18:38:57 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	fill_the_string(char *out, char *s2, int equal, int i)
 	int	j;
 
 	j = 0;
-	while (s2[j] && s2[j - 1] != '=')
+	while (s2[j] && s2[j] != '=') // !invalide add s[j-1 == 0 -1] != '='
 	{
 		out[i] = s2[j];
 		i++;

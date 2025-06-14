@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:00:04 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/11 16:47:36 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/12 15:30:51 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_export(t_xp **head, t_info *info)
 		if (!info->utils->cmd[i + 1])
 		{
 			if (info->utils->child)
-				exit(info->ext);
+				ft_free_all(NORMAL, info->ext); // HERE IT FOUND AN EXIT
 			return ;
 		}
 		i++;
@@ -54,5 +54,5 @@ void	ft_export(t_xp **head, t_info *info)
 	print_export(*head);
 	info->ext = 0;
 	if (info->utils->child)
-		exit(0);
+		ft_free_all(NORMAL, 0);
 }

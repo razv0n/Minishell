@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:40:36 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/08 14:40:37 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/12 15:39:46 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_cd(t_info *info, char **arg)
 		free (old);
 		info->ext = 1;
 		if (info->utils->child)
-			exit(1);
+			ft_free_all(NORMAL, 1);
 		return ;
 	}
 	pwd = getcwd(pwd, 4096);
@@ -93,7 +93,7 @@ void	ft_cd(t_info *info, char **arg)
 	free (old);
 	info->ext = 0;
 	if (info->utils->child)
-		exit(0);
+		ft_free_all(NORMAL, 1);
 }
 
 // #include <fcntl.h>

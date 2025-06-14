@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:20:03 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/01 17:02:03 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/12 15:40:33 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_echo(char **arg, t_info *info)
 		printf("\n");
 	info->ext = 0;
 	if (info->utils->child)
-		exit(0);
+		ft_free_all(NORMAL ,0);
 }
 
 // int main()

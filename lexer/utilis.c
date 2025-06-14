@@ -6,159 +6,104 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/11 19:01:36 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/12 22:09:27 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	exit_status(t_info *info)
+typedef	struct help
 {
-	if (WIFSIGNALED(info->ext))
-		info->ext = 128 + WTERMSIG(info->ext);
-	else
-		info->ext = WEXITSTATUS(info->ext);
-}
+	int			lenght;
+	int			i;
+	char	*start;
+	int		index;
+	char	quote;
+}t_variable_1;
 
-void handle_sig(int sig)
-{
-    if (sig == SIGINT)
-    {
-        printf("\n");
-        rl_on_new_line();
-        rl_replace_line("", 0); //! when i remove it, it work normaly
-        rl_redisplay();
-    }
-}
-
-int	ft_strcmp(char *line, char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!line || !str)
-		return (0);
-	while (line[i] && str[i])
-	{
-		if (line[i] != str[i])
-			return (0);
-		i++;
-	}
-	if (line[i] || str[i])
-		return (0);
-	return (1);
-}
-
-bool check_metacharcter_skip(const char *c, size_t *i)
-{
-	if ((c[*i] == '<' && c[*i + 1] == '<') || (c[*i] == '>' && c[*i + 1] == '>'))
-	{
-		(*i)++;
-		return (1);
-	}
-	else if (c[*i] == '|' || c[*i] == '<' || c[*i] == '>')
-		return (1);
-	return (0);
-}
-int check_metacharacter(const char  *c)
-{
-	if((*c == '>' && *(c + 1) == '>') || (*c == '<' && *(c + 1) == '<'))
-		return (2);
-    if (*c == '|' || *c == '>' || *c == '<')
-        return (1);
-    return (0);
-}
-bool	check_quotes(char c)
-{
-	if (c == '\'' || c == '"')
-		return (1);
-	return (0);
-}
-bool	is_whitespace(char c)
-{
-	if ((c >= 9 && c <= 13) || c == ' ')
-		return (1);
-	return (0);
-}
-
-static int	count_word(char *str)
-{
+typedef struct count_word_varibles{
 	size_t		i;
 	int			count;
 	bool			sp;
 	bool check;
 	bool quotes;
 	bool check2;
+}t_varibles;
 
-	sp = 1;
-	i = 0;
-	check2 = true;
-	if (str[i] == '\0')
-		return (0);
-	count = 0;
-	while (str[i])
+void	check_state_count(t_varibles *vb)
+{
+	if (vb->check == true)
+		vb->sp = 1;
+	if (!vb->check2 && !vb->sp)
 	{
-		check = check_metacharcter_skip(str, &i);
-		quotes = quotes_in_split(str[i]);
-		if (!quotes)
-			check2 = false;
-		if (!is_whitespace(str[i]) && quotes)
-		{
-			if (check == true)
-				sp = 1;
-			if (!check2 && !sp)
-			{
-				sp = 1;
-				check2 =  true;
-			}
-			if (sp == true)
-			{
-				count++;
-				if (check == false)
-					sp = 0;
-			}
-		}
-		else
-			sp = 1;
-		i++;
+		vb->sp = 1;
+		vb->check2 =  true;
 	}
-	return (count);
-}
-void	is_joined(char *s, t_info *info)
-{
-	static int i;
-
-	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s) && !check_metacharacter(s - 1))
-		info->joined[i] = true;
-	i++;
-	if (!*s)
-		i = 0;
+	if (vb->sp == true)
+	{
+		vb->count++;
+		if (vb->check == false)
+			vb->sp = 0;
+	}
 }
 
-static char	*get_next_word(char **s, char **result, int index, t_info *info)
+static int	count_word(char *str)
 {
-	int			lenght;
-	int			in;
-	const char	*start;
+	t_varibles	vb;
 
-	start = *s;
-	in = 0;
+	vb.sp = 1;
+	vb.i = 0;
+	vb.check2 = true;
+	if (str[0] == '\0')
+		return (0);
+		vb.count = 0;
+	while (str[vb.i])
+	{
+		vb.check = check_metacharcter_skip(str, &(vb.i));
+		vb.quotes = quotes_in_split(str[vb.i]);
+		if (!vb.quotes)
+			vb.check2 = false;
+		if (!is_whitespace(str[vb.i]) && vb.quotes)
+			check_state_count(&vb);
+		else
+			vb.sp = 1;
+		vb.i++;
+	}
+	return (vb.count);
+}
+
+static char	*add_to_res(char **s, char **result, t_variable_1 *vb)
+{
+	vb->lenght = *s - vb->start;
+	result[vb->index] = ft_malloc ((vb->lenght + 1) * sizeof(char), SECOUND_P);
+	while (vb->start < *s)
+	{
+		result[vb->index][vb->i] = *(vb->start);
+		vb->i++;
+		vb->start++;
+	}
+	result[vb->index][vb->i] = '\0';
+	return (result[vb->index]);
+}
+
+static char	*get_next_word(char **s, char **result, t_variable_1 *vb, t_info *info)
+{
+	vb->i = 0;
 	while ((is_whitespace(**s) && **s != '\0'))
 		(*s)++;
-	start = *s;
+	vb->start = *s;
 	if (check_quotes(**s))
 	{
-		char ab = **s;
+		vb->quote = **s;
 		(*s)++;
-		while (**s != ab && **s != '\0')
+		while (**s != vb->quote && **s != '\0')
 			(*s)++;
 		(*s)++;
 	}
 	else if (!check_metacharacter(*s))
-	{
-		while (((!check_metacharacter(*s)) && !is_whitespace(**s) && **s != '\0' && !check_quotes(**s)))
+		while ((**s != '\0' && (!check_metacharacter(*s)) &&
+			 !is_whitespace(**s) && !check_quotes(**s)))
 			(*s)++;
-	}
 	else
 	{
 		if (check_metacharacter(*s) == 2)
@@ -167,40 +112,30 @@ static char	*get_next_word(char **s, char **result, int index, t_info *info)
 			(*s)++;
 	}
 	is_joined(*s, info);
-	lenght = *s - start;
-	result[index] = ft_malloc ((lenght + 1) * sizeof(char), SECOUND_P);
-	while (start < *s)
-	{
-		result[index][in] = *start;
-		in++;
-		start++;
-	}
-	result[index][in] = '\0';
-	return (result[index]);
+	return (add_to_res(s, result, vb));
 }
+
 
 char	**ft_split_tokens(t_info *info)
 {
 	char	**result;
 	int		lenght;
-	int		i;
+	t_variable_1	vb;
 	char	*line;
 
 	line = info->line;
 	if (!info)
 		return (NULL);
-	lenght = count_word(line); // 2
+	lenght = count_word(line);
 	result = ft_malloc((lenght + 1) * sizeof(char *), SECOUND_P);
 	info->joined = ft_malloc(sizeof(bool) * (lenght), SECOUND_P);
 	ft_bzero(info->joined, sizeof(bool) * lenght);
-	i = 0;
-	while (i < lenght)
+	vb.index = 0;
+	while (vb.index < lenght)
 	{
-		result[i] = get_next_word(&line, result, i, info);
-		if (!result)
-			return (fr_mem_split(i, result));
-		i++;
+		result[vb.index] = get_next_word(&line, result, &vb, info);
+		vb.index++;
 	}
-	result[i] = NULL;
+	result[vb.index] = NULL;
 	return (result);
 }

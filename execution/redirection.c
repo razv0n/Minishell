@@ -6,54 +6,38 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/01 21:28:36 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/13 12:28:14 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-char	*generate_name()
+void	child_herdoc(t_info *info,  t_type_word is_quotes, int	fd, char *str)
 {
-	int	fd;
-	char buffer[13];
-	int i;
-	char *path_name;	
-	char *tmp;
-
-	i  = 0;
-	fd = open("/dev/random", O_CREAT | O_RDWR);
-	if (fd == -1)
-		exit(1);
-	read(fd ,buffer, 12);
-	buffer[12] = 0;
-	while (i < 13)
+	char	*line;
+	
+	signal(SIGINT, SIG_DFL);
+	while (1)
 	{
-		if(!ft_isprint(buffer[i]))
-			buffer[i] = 'a' + (buffer[i] % 26);
-		i++;
+		line = readline("> ");
+		if (!line || ft_strcmp(line, str) == 1)
+		{
+			free(line);
+			break ;
+		}
+		if (ft_strchr(line, '$') && is_quotes != DOUBLE_Q && is_quotes != SINGLE_Q)
+			expand_2(&line, 1337, info);
+		if (line[0])
+			add_history(line);
+		ft_putstr_fd(line, fd);
+		ft_putstr_fd("\n", fd);
+		free(line);
 	}
-	path_name = ft_strdup(buffer);
-	tmp = path_name;
-	path_name = ft_strjoin("/tmp/", path_name);
-	free(tmp);
-	return (path_name);
+	close(fd);
+	ft_free_all(NORMAL, 0);
 }
 
-void	path(t_info *info)
-{
-	int i;
-
-	i = 0;
-	info->path_name = ft_calloc(sizeof(char *), info->count_herdoc + 1);
-	while(i < info->count_herdoc)
-	{
-		info->path_name[i] = generate_name();
-		i++;
-	}
-	info->path_name[i] = NULL;
-}
-
-void	herdoc(char *str , t_info *info, bool is_quotes)
+void	herdoc(char *str , t_info *info, t_type_word is_quotes)
 {
     char	*line;
     pid_t	id;
@@ -64,90 +48,32 @@ void	herdoc(char *str , t_info *info, bool is_quotes)
 	{
 		fd =  open(info->path_name[i], O_CREAT | O_RDWR, 0766);
 		if (fd == -1 || dup2(info->fd_in, 0) == -1 ||  dup2(info->fd_out, 1) == -1)
-			exit(1); // should free
+		{
+			if (fd != -1)
+				close(fd);
+			ft_free_all(NORMAL, 4); // should free
+		}
 		id = fork();
 		if (id == -1)
-			exit(1);
+			ft_free_all(NORMAL, 5);	
 		else if (id == 0)
-		{
-			signal(SIGINT, SIG_DFL);
-			while (1)
-			{
-				line = readline("> ");
-				if (!line || ft_strcmp(line, str) == 1)
-				{
-					free(line);
-					break ;
-				}
-				if (ft_strchr(line, '$') && !is_quotes)
-					expand_2(&line, 1337, info);
-				if (line[0])
-					add_history(line);
-				ft_putstr_fd(line, fd);
-				ft_putstr_fd("\n", fd);
-				free(line);
-			}
-			close(fd);
-			exit(1);
-		}
+			child_herdoc(info, is_quotes, fd, str);
 		waitpid(id, &info->ext ,0);
 		close(fd);
 		exit_status(info);
 	}
-	i++;
-	if (i == info->count_herdoc)
+	if (++i >= info->count_herdoc)
 		i = 0;
-}
-
-void	rdr_in(char *str, t_info *info)
-{
-	int	fd;
-
-	if (access(str, F_OK) == -1)
-	{
-		ft_putstr_fd("minshell: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		info->utils->fail = -1;
-	}
-	else
-	{
-		fd = open(str, O_RDONLY, 0766);
-		if (fd == -1 || dup2(fd, 0) == -1)
-			exit(1); // error in file descriptor
-		close (fd);
-	}
 }
 
 void	redirection(t_list *node, int cdt, t_info *info)
 {
-	int	fd;
-	static int i;
-
 	if (cdt == APPEND)
-	{
-		fd = open(node->content, O_CREAT | O_APPEND | O_RDWR, 0766);
-		if (fd == -1 || dup2(fd, 1) == -1)
-			exit(1); // error in file descriptor
-		close (fd);
-	}
+		rdr_append(node->content);
 	else if (cdt == REDIRECT_IN)
 		rdr_in(node->content, info);
 	else if(cdt == HEREDOC)
-	{
-		fd = open(info->path_name[i], O_RDWR, 0766);
-		if (fd == -1 || dup2(fd, 0) == -1)
-			exit(8);
-		close(fd);
-	}
+		rdr_herdoc(info);
 	else if (cdt == REDIRECT_OUT)
-	{
-		fd = open(node->content, O_CREAT | O_TRUNC | O_RDWR, 0766);
-		if (fd == -1 || dup2(fd, 1) == -1)
-			exit(1); // error in file descriptor
-		close (fd);
-	}
-	i++;
-	if (i == info->count_herdoc)
-		i = 0;
+		rdr_out(node->content);
 }

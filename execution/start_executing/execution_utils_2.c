@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:36:22 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/01 17:00:56 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/12 14:29:52 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ char	*add_string(char *s1, char *s2)
 	int			j;
 	char		*p;
 
-	i = length(s1) + length(s2);
-	p = malloc(sizeof(char) * (i + 1));
-	if (p == NULL || s1 == NULL || s2 == NULL)
+	if (s1 == NULL || s2 == NULL)
 		return (NULL);
+	i = length(s1) + length(s2);
+	p = ft_malloc(sizeof(char) * (i + 1), SECOUND_P);
 	i = 0;
 	while (s1[i])
 	{
@@ -62,16 +62,11 @@ char	**update_path(char *s)
 	if (!s)
 		return (NULL);
 	path = ft_split(s, ':');
-	if (!path)
-		return (NULL);
 	i = 0;
 	while (path[i])
 	{
 		tmp = path[i];
 		path[i] = add_string(path[i], "/");
-		free(tmp);
-		if (!path[i])
-			free_double(path);
 		i++;
 	}
 	return (path);

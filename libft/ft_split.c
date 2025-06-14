@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:41:34 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/11 18:58:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/12 16:02:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,6 @@ static int	count_word(char const *str, char c)
 	return (count);
 }
 
-static char	**fr_mem_split(int index, char **result)
-{
-	while (index >= 0)
-	{
-		free(result[index]);
-		index--;
-	}
-	free (result);
-	return (NULL);
-}
-
 static char	*get_next_word(char const **s, char **result, char c, int index)
 {
 	int			lenght;
@@ -65,9 +54,7 @@ static char	*get_next_word(char const **s, char **result, char c, int index)
 	while (**s != c && **s != '\0')
 		(*s)++;
 	lenght = *s - start;
-	result[index] = malloc ((lenght + 1) * sizeof(char));
-	if (!result[index])
-		return (NULL);
+	result[index] = ft_malloc ((lenght + 1) * sizeof(char), SECOUND_P);
 	while (start < *s)
 	{
 		result[index][in] = *start;
@@ -87,15 +74,11 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	lenght = count_word(s, c);
-	result = malloc ((lenght + 1) * sizeof(char *));
-	if (!result)
-		return (NULL);
+	result = ft_malloc ((lenght + 1) * sizeof(char *), SECOUND_P);
 	i = 0;
 	while (i < lenght)
 	{
 		result[i] = get_next_word (&s, result, c, i);
-		if (!result)
-			return (fr_mem_split(i, result));
 		i++;
 	}
 	result[i] = NULL;

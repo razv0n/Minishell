@@ -42,8 +42,8 @@ void	unset_export(t_xp **head, char *s)
 			*head = (*head)->next;
 		else
 			p->next = tmp->next;
-		free (tmp->str);
-		free (tmp);
+		// free (tmp->str);
+		// free (tmp);
 	}
 }
 
@@ -74,7 +74,7 @@ void	unset_env(t_list **head, char *s)
 		tmp->prev->next = tmp->next;
 		if (tmp->next)
 			tmp->next->prev = tmp->prev;
-		free (tmp);
+		// free (tmp);
 	}
 }
 
@@ -91,5 +91,5 @@ void	ft_unset(t_info *info, char **cmd)
 	}
 	info->ext = 0;
 	if (info->utils->child)
-		exit(0);
+		ft_free_all(NORMAL, 0);
 }

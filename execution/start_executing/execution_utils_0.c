@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
+/*   Created: 2025/04/23 10:26:05 by mfahmi          	#+#    #+#            */
 /*   Updated: 2025/06/02 12:10:24 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -22,9 +22,10 @@ void	get_path(t_info *info, t_u *utils)
 				execute_cmd(info, 0);
 			else
 				execute_cmd(info, 1);
-			info->utils->bin = 1;
 		}
 	}
+	if (utils->child)
+		utils->bin = true;
 	utils->fail = 0;
 	close(1);
 }
@@ -34,16 +35,18 @@ void	open_pipe(t_u *utils)
 	if (utils->i)
 	{
 		if (dup2(utils->copy, 0) == -1)
-			exit(5);
+			ft_free_all(NORMAL, 4);
 		close (utils->copy);
 	}
 	if (utils->npi)
 	{
 		if (pipe(utils->pi) == -1)
-			exit(3); // handle pipe error
+			ft_free_all(NORMAL, 4);
 		if (dup2(utils->pi[1], 1) == -1)
-			exit(4);
+			ft_free_all(NORMAL, 4);
 		utils->copy = dup(utils->pi[0]);
+		if (utils->copy == -1 )
+			ft_free_all(NORMAL, 4);
 		utils->i++;
 		utils->npi--;
 		close (utils->pi[0]);
@@ -55,26 +58,24 @@ void	back_to_normal(t_info *info)
 {
 	if (info->utils->exc)
 	{
-		free (info->utils->exc);
+		// free (info->utils->exc);
 		info->utils->exc = NULL;
 	}
 	if (!info->utils->npi)
 	{
 		if (dup2(info->fd_in, 0) == -1)
-			exit(10);
+			ft_free_all(NORMAL, 4);
 	}
 	if (dup2(info->fd_out, 1) == -1)
-		exit(11);
+		ft_free_all(NORMAL, 4);
 }
 
 void	start_executing(t_info *info, t_list *head, t_u *utils)
 {
 	while (head)
 	{
+		utils->bin = false;
 		utils->cmd = collecte_cmds(head, utils);
-		if (!utils->cmd)
-			exit(2); // handle malloc or other things errors
-		utils->bin = 0;//?
 		open_pipe(utils);
 		while (head && (head->type != PIPE))
 		{
@@ -84,28 +85,26 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		}
 		get_path(info, utils);
 		back_to_normal(info);
-		free (utils->cmd);
 		if (head)
 			head = head->next;
 	}
 	waitpid(utils->id, &info->ext, WUNTRACED);
 	while (wait(NULL) != -1)
 		;
+	if (info->utils->bin)
+		exit_status(info);
 	if (info->path_name)
 		unlink_path(info);
-	if (utils->bin)
-		exit_status(info);
 }
 
 void	init_things(t_info *info, t_list *head)
 {
-	info->utils = malloc (sizeof(t_u)); //! 
-	if (!info->utils)
-		return ;//handle error
+	info->utils = ft_malloc (sizeof(t_u), SECOUND_P); //! 
 	info->utils->cmd = NULL; // the command //!
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
 	info->utils->i = 0;
+	info->utils->bin = false;
 	info->utils->id = 0;
 	info->utils->fail = 0;
 	info->utils->npi = count_pipes(head);
@@ -114,10 +113,10 @@ void	init_things(t_info *info, t_list *head)
 		info->utils->child = true;
 	info->fd_in = dup(0);
 	info->fd_out = dup(1);
-	info->utils->path = update_path(getenv("PATH")); //!
-	if (!info->utils->path || info->fd_in == -1
+	info->utils->path = update_path(ft_getenv("PATH", info->head_env)); //!
+	if (info->fd_in == -1
 		|| info->fd_out == -1)
-		exit(1);
+		ft_free_all(NORMAL, 4);
 	start_executing(info, head, info->utils);
 	close (info->fd_in);
 	close (info->fd_out);

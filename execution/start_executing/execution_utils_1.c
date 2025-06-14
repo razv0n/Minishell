@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/01 22:21:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/13 20:55:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 			i++;
 		head = head->next;
 	}
-	cmd = malloc (sizeof(char *) * ++i);
-	if (!cmd)
-		return (NULL);
+	cmd = ft_malloc (sizeof(char *) * ++i, SECOUND_P);
 	i = 0;
 	head = tmp;
 	while (head && (head->type != PIPE))
@@ -47,22 +45,23 @@ int	check_access(t_info *info)
 	char	*x;
 
 	i = 0;
+	if (!info->utils->path)
+		return (1);
 	while (info->utils->path[i])
 	{
 		x = add_string(info->utils->path[i], info->utils->cmd[0]);
-		if (!x)
-			return (0);// handle this error
 		if (!access(x, F_OK))
 		{
 			if (!access(x, X_OK))
 			{
 				info->utils->exc = x;
+				info->utils->bin = true;
+				*(sig_varible()) = true;
 				return (1);
 			}
 			else
 				info->ext = 126;
 		}
-		free (x);
 		i++;
 	}
 	return (1);
@@ -129,7 +128,7 @@ void	execute_cmd(t_info *info, int cdt)
 	}
 	id = fork();
 	if (id == -1)
-		exit(8);// fork error
+		ft_free_all(NORMAL, 5);
 	if (!id)
 	{
 		if (!cdt)
@@ -140,8 +139,8 @@ void	execute_cmd(t_info *info, int cdt)
 		if (info->utils->child)
 			close (info->utils->copy);
 		if (info->utils->exc)
-			execve(info->utils->exc, info->utils->cmd, NULL); //?
-		execve(info->utils->cmd[0], info->utils->cmd, NULL); //?
+			execve(info->utils->exc, info->utils->cmd, info->env); //?
+		execve(info->utils->cmd[0], info->utils->cmd, info->env); //?
 		ft_putstr_fd(info->utils->cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		exit (127);

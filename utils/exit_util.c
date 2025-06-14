@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   exit_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 18:28:39 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/13 17:35:56 by mfahmi           ###   ########.fr       */
+/*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/06/13 11:14:16 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../Minishell.h"
 
-int	ft_strncmp(const char *s1, char *s2, size_t n)
+void	exit_status(t_info *info)
 {
-	size_t	i;
-
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (i < n - 1 && s1[i] == s2[i] && s1[i] && s2[i])
-	{
-		i++;
-	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	if (WIFSIGNALED(info->ext))
+	info->ext = 128 + WTERMSIG(info->ext);
+	else
+	info->ext = WEXITSTATUS(info->ext);
 }

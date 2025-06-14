@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:19 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/11 16:53:25 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/13 16:38:00 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s)
 	{
 		res = compare((*tmp)->str + 11, s, 1);
 		if (res >= 0)
-			return (1); // to add it in the alphabet order
+			return (1); // to add it in the alphabet
 		else if (res == 200)
 			return (-1); // to replace the value
 		else if (res == -200)
@@ -56,9 +56,7 @@ void	add_to_export2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 		n = ptr->next;
 		ptr->next = node;
 		node->prev = ptr;
-		node->next = ptr->next->next;
-		free (n->str);
-		free (n);
+		node->next = n->next;
 	}
 	if (ptr)
 	{
@@ -95,8 +93,6 @@ int	add_to_export(t_xp **head, char *s, t_info *info)
 	ptr = NULL;
 	cdt = where_to_edit(&tmp, &ptr, s);
 	node = create_node(join_str("declare -x ", s, cdt, &equal));
-	if (!node)
-		return 0; // allocation failed
 	add_to_export2(head, node, ptr, cdt);
 	if (!equal)
 		return (0);

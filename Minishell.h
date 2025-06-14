@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/11 18:37:13 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/13 20:54:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <readline/history.h>
 # include <errno.h>
 # include <termios.h>
-
+# include "libft/libft.h"
 # include <errno.h> 
 
 
@@ -33,7 +33,8 @@ typedef enum {
     SYNTAX_ERROR,
     FR_CHILD,
     ERR_MALLOC,
-    NORMAL
+    NORMAL,
+    EXIT
 } t_error_type;   
 
 typedef enum {
@@ -50,7 +51,6 @@ typedef enum {
 // # define EXT_PIPE	1
 // # define EXT_FORK	1
 
-# include "libft/libft.h"
 typedef struct utils
 {
     char	**path;
@@ -66,7 +66,7 @@ typedef struct utils
     int fail;
     char    *str_fail;
     int id;
-    int bin;
+    bool bin;
 	int	fd_out;
 }	t_u;
 
@@ -110,12 +110,22 @@ bool    check_quotes_error (t_info *info);
 bool    check_error(t_info *info);
 void	free_double(char **str);
 bool    is_redirect(char *c);
+void	rdr_in(char *str, t_info *info);
+void	rdr_herdoc(t_info *info);
+void	rdr_append(char *str);
+void	rdr_out(char	*str);
+char *go_to_expand (char *str, t_list *head_env);
+char    *check_to_expand(char *str , int *i, t_info *info);
+char    *cas_in_expand(char *str, int *i, t_info *info);
 char	**ft_split_tokens(t_info *info);
 void    add_ptr(void *ptr, t_ptr **head, t_free_type place);
 bool    quotes_in_split(char quotes);
+bool    *sig_varible();
 bool    split_arg(t_info *info);
-void    ft_free_all(t_error_type msg);
+void    ft_free_all(t_error_type msg, unsigned char exit_code);
 void	path(t_info *info);
+void	is_joined(char *s, t_info *info);
+char    *ft_getenv(char *nm_varible, t_list *env);
 void	ft_lstclear_d(t_list *lst);
 bool    is_pipe(char *c);
 bool    check_metacharcter_skip(const char *c, size_t *i);
@@ -124,10 +134,8 @@ bool	is_whitespace(char c);
 void    remove_quotes(char **str, t_list *node);
 bool	check_quotes(char c);
 void	unlink_path (t_info *info);
-void	is_joined(char *s, t_info *info);
 void    expand(t_info *info);
 void    expand_2(char **str, t_type_word wich_quote, t_info *info);
-void	herdoc(char *str , t_info *info, bool is_quotes);
 void	ft_lstadd_back_d(t_list **start, t_list *new);
 void	start_herdoc(t_info *info, t_list *head);
 void	ft_lstadd_front_d(t_list **lst, t_list *new);
@@ -137,21 +145,23 @@ void    cpy_env(char **env, t_info *info);
 t_ptr   **return_ptr();
 void    remove_node_single (t_ptr **head, t_ptr *remove);
 // void    remove_the_null(t_list **head);
-char	**fr_mem_split(int index, char **result);
+// char	**fr_mem_split(int index, char **result);
 // char	**ft_split_tokens(char const *s);
 void	redirection(t_list *node, int cdt, t_info *info);
 void	init_things(t_info *info, t_list *head);
 void	ft_lstclear_ptr(t_ptr **lst);
-
+void    ft_perror(t_error_type msg);
 // void	init_things(t_list *head, t_u *utils);
 
-void ft_free(t_info *info, t_error_type err);
+void    ft_free(t_info *info, t_error_type err);
 void	ft_cd(t_info *info, char **arg);
-int    pars(t_info *info);
+int     pars(t_info *info);
+void    setup_signals();
 void	ft_lstclear_ptr(t_ptr **lst);
-int	compare(char *s1, char *s2, int bl);
-int	length(char *s);
-void print_stack(t_list *head); // remove it
+void	herdoc(char *str , t_info *info, t_type_word is_quotes);
+int compare(char *s1, char *s2, int bl);
+int	 length(char *s);
+// void print_stack(t_list *head); // remove it
 void	*ft_malloc(size_t size, t_free_type type);
 void remove_node_doubly (t_list **head, t_list *remove);
 // void	ft_lstclear_not(t_list **lst);

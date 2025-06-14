@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 21:15:28 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/01 17:02:27 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/12 15:35:53 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_env(t_list *head_env, char **cmd, t_info *info)
 		write (2, "': No such file or directory\n", 29);
 		info->ext = 127;
 		if (info->utils->child)
-			exit(127);
+			ft_free_all(NORMAL ,127);
 		return ;
 	}
 	while (head_env)
@@ -45,5 +45,5 @@ void	ft_env(t_list *head_env, char **cmd, t_info *info)
 	}
 	info->ext = 0;
 	if (info->utils->child)
-		exit(0);
+		ft_free_all(NORMAL ,0);
 }

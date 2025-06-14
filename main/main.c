@@ -1,21 +1,15 @@
 #include "../Minishell.h"
 
 
-void    print_stack(t_list *head)
-{
-    while(head)
-    {
-        printf("%s\n",head->content);
-        head = head->next;
-    }
-}
+// void    print_stack(t_list *head)
+// {
+//     while(head)
+//     {
+//         printf("%s\n",head->content);
+//         head = head->next;
+//     }
+// }
 
-void    setup_signals()
-{
-    rl_catch_signals = 0;
-    signal(SIGINT, handle_sig);
-    signal(SIGQUIT, handle_sig);
-}
 
 char    *best_prompt()
 {
@@ -40,7 +34,7 @@ char    *best_prompt()
         ft_strlcat(prompt, cwd, size);
         ft_strlcat(prompt, "\033[0m$ ", size);
         // printf("  %s\n", prompt);
-        str = ft_strdup(prompt);
+        str = ft_strdup(prompt, SECOUND_P);
         return (str);
 }
 
@@ -52,9 +46,9 @@ void    minishell_loop(t_info *info)
     {
         str = best_prompt();
         info->line = readline(str);
-        // free(str);
         if (!info->line)
-            ft_free_all(NORMAL);
+            ft_free_all(EXIT, 0);
+        add_ptr(info->line, return_ptr(), SECOUND_P);
         if(info->line[0])
             add_history(info->line);
         if (pars(info) != -1)
@@ -63,7 +57,7 @@ void    minishell_loop(t_info *info)
     }
 }
  
-int main (int ac , char **av, char **env)
+int main(int ac , char **av, char **env)
 {
     t_info *info;
 
@@ -75,6 +69,10 @@ int main (int ac , char **av, char **env)
     }
     setup_signals();
     info = ft_malloc(sizeof(t_info), FIRST_P);
+    init_info(info);
+    if (info->fd_in == -1 || info->fd_out == -1)
+        ft_free_all(NORMAL, 4);
+    info->ext = 0;
     cpy_env(env, info);
     minishell_loop(info);
 }

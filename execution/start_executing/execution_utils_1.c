@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/14 12:42:17 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/15 15:36:16 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	check_access(t_info *info)
 {
 	int		i;
 	char	*x;
+	struct stat sb;
 
 	i = 0;
 	if (!info->utils->cmd[0])
@@ -50,15 +51,15 @@ int	check_access(t_info *info)
 	while (info->utils->path && info->utils->path[i])
 	{
 		x = add_string(info->utils->path[i], info->utils->cmd[0]);
-		if (!access(x, F_OK))
+		stat(x, &sb);
+		if (!access(x, F_OK) && !S_ISDIR(sb.st_mode))
 		{
-			if (!access(x, X_OK))
-			{
-				info->utils->exc = x;
-				info->utils->bin = true;
-				*(sig_varible()) = true;
-				return (1);
-			}
+				if (!access(x, X_OK))
+				{
+					info->utils->bin = true;
+					*(sig_varible()) = true;
+					return (info->utils->exc = x, 1);
+				}
 			else
 				info->ext = 126;
 		}

@@ -8,7 +8,7 @@ CC = cc
 BLUE = \033[33m
 GREEN = \033[32m
 CYAN = \033[36m
-RESET = "\033[0m"
+RESET = \033[0m
 
 all : $(NAME)
 

@@ -20,11 +20,11 @@ char	*ft_strjoin(char const *s1, char const *s2, t_free_type place)
 
 	if (!s2)
 		return (NULL);
-	if(!s1)
+	if (!s1)
 		return (ft_strdup(s2, place));
 	i = 0;
 	j = 0;
-	str = ft_malloc (ft_strlen(s1) + ft_strlen(s2) + 1, place);
+	str = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 1, place);
 	while (s1[i])
 	{
 		str[i] = s1[i];

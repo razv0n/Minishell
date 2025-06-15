@@ -32,8 +32,8 @@ char	*check_overflow(char *s, long *res, int sign, int *err)
 					*err = 1;
 			}
 		}
-		if ((((*res) * sign) > 922337203685477580)
-			|| (((*res) * sign) < -922337203685477580))
+		if ((((*res) * sign) > 922337203685477580) || (((*res) * sign) <
+				-922337203685477580))
 			*err = 1;
 		*res = (*res) * 10 + s[j] - 48;
 		j++;
@@ -67,8 +67,7 @@ int	convert(char *s, int *err)
 		*err = 1;
 		return (1);
 	}
-	if ((s[j] == '-' || s[j] == '+')
-		&& (s[j + 1] >= '0' && s[j + 1] <= '9'))
+	if ((s[j] == '-' || s[j] == '+') && (s[j + 1] >= '0' && s[j + 1] <= '9'))
 	{
 		if (s[j] == '-')
 			sign *= -1;
@@ -96,7 +95,7 @@ void	ft_exit(char **cmd, int *ext, int child)
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(cmd[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			exit (2);
+			exit(2);
 		}
 		if (cmd[2])
 		{
@@ -107,10 +106,10 @@ void	ft_exit(char **cmd, int *ext, int child)
 			return ;
 		}
 	}
-	ft_free_all(NORMAL ,*ext);
+	ft_free_all(NORMAL, *ext);
 }
 
-// int	main()
+// int	main(void)
 // {
 // 	char *arg[] = {"", "17", "-9223372036854775809", NULL};
 // 	int ext = 0;

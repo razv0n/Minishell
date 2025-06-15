@@ -12,9 +12,10 @@
 
 #include "../Minishell.h"
 
-bool check_metacharcter_skip(const char *c, size_t *i)
+bool	check_metacharcter_skip(const char *c, size_t *i)
 {
-	if ((c[*i] == '<' && c[*i + 1] == '<') || (c[*i] == '>' && c[*i + 1] == '>'))
+	if ((c[*i] == '<' && c[*i + 1] == '<') || (c[*i] == '>' && c[*i
+			+ 1] == '>'))
 	{
 		(*i)++;
 		return (1);
@@ -23,13 +24,13 @@ bool check_metacharcter_skip(const char *c, size_t *i)
 		return (1);
 	return (0);
 }
-int check_metacharacter(const char  *c)
+int	check_metacharacter(const char *c)
 {
-	if((*c == '>' && *(c + 1) == '>') || (*c == '<' && *(c + 1) == '<'))
+	if ((*c == '>' && *(c + 1) == '>') || (*c == '<' && *(c + 1) == '<'))
 		return (2);
-    if (*c == '|' || *c == '>' || *c == '<')
-        return (1);
-    return (0);
+	if (*c == '|' || *c == '>' || *c == '<')
+		return (1);
+	return (0);
 }
 
 bool	check_quotes(char c)
@@ -47,12 +48,12 @@ bool	is_whitespace(char c)
 
 void	is_joined(char *s, t_info *info)
 {
-	static int i;
+	static int	i;
 
-	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s) && !check_metacharacter(s - 1))
+	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s)
+		&& !check_metacharacter(s - 1))
 		info->joined[i] = true;
 	i++;
 	if (!*s)
 		i = 0;
 }
-

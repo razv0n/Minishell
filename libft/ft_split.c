@@ -14,9 +14,9 @@
 
 static int	count_word(char const *str, char c)
 {
-	size_t		i;
-	int			count;
-	int			sp;
+	size_t	i;
+	int		count;
+	int		sp;
 
 	sp = 1;
 	i = 0;
@@ -54,7 +54,7 @@ static char	*get_next_word(char const **s, char **result, char c, int index)
 	while (**s != c && **s != '\0')
 		(*s)++;
 	lenght = *s - start;
-	result[index] = ft_malloc ((lenght + 1) * sizeof(char), SECOUND_P);
+	result[index] = ft_malloc((lenght + 1) * sizeof(char), SECOUND_P);
 	while (start < *s)
 	{
 		result[index][in] = *start;
@@ -74,11 +74,11 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	lenght = count_word(s, c);
-	result = ft_malloc ((lenght + 1) * sizeof(char *), SECOUND_P);
+	result = ft_malloc((lenght + 1) * sizeof(char *), SECOUND_P);
 	i = 0;
 	while (i < lenght)
 	{
-		result[i] = get_next_word (&s, result, c, i);
+		result[i] = get_next_word(&s, result, c, i);
 		i++;
 	}
 	result[i] = NULL;
@@ -86,10 +86,10 @@ char	**ft_split(char const *s, char c)
 }
 /*int main ()
 {
-     // char **sp = ft_split("#test#hello", '#');
-     // char **sp = ft_split("#hhfe#banana#boom#." , '#');
-      //char **sp = ft_split("booomlike" , ' ');
-     char **sp = ft_split("\0aa\0bb" , '\0');
-     //char **sp = ft_split(",,,,,,," , ',');
-          printf("%s\n",sp[0]);
+		// char **sp = ft_split("#test#hello", '#');
+		// char **sp = ft_split("#hhfe#banana#boom#." , '#');
+		//char **sp = ft_split("booomlike" , ' ');
+		char **sp = ft_split("\0aa\0bb" , '\0');
+		//char **sp = ft_split(",,,,,,," , ',');
+			printf("%s\n",sp[0]);
 }*/

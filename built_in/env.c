@@ -12,7 +12,7 @@
 
 #include "../Minishell.h"
 
-//We should have something that holds the env variable such as a dbl ptr in the struct
+// We should have something that holds the env variable such as a dbl ptr in the struct
 int	where_to_edit_env(t_list *tmp, t_list **ptr, char *s)
 {
 	int	res;
@@ -53,7 +53,7 @@ void	add_to_env(t_list **head, char *s)
 		}
 		else
 		{
-			node->next = (*head)->next; 
+			node->next = (*head)->next;
 			*head = node;
 		}
 	}
@@ -67,12 +67,12 @@ void	ft_env(t_list *head_env, char **cmd, t_info *info)
 		return ;
 	if (cmd[1])
 	{
-		write (2, "env: '", 6);
-		write (2, cmd[1], length(cmd[1]));
-		write (2, "': No such file or directory\n", 29);
+		write(2, "env: '", 6);
+		write(2, cmd[1], length(cmd[1]));
+		write(2, "': No such file or directory\n", 29);
 		info->ext = 127;
 		if (info->utils->child)
-			ft_free_all(NORMAL ,127);
+			ft_free_all(NORMAL, 127);
 		return ;
 	}
 	while (head_env)
@@ -82,5 +82,5 @@ void	ft_env(t_list *head_env, char **cmd, t_info *info)
 	}
 	info->ext = 0;
 	if (info->utils->child)
-		ft_free_all(NORMAL ,0);
+		ft_free_all(NORMAL, 0);
 }

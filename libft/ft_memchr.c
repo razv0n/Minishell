@@ -14,8 +14,8 @@
 
 void	*ft_memchr(const void *str, int c, size_t n)
 {
-	size_t				i;
-	unsigned char		*pstr;
+	size_t			i;
+	unsigned char	*pstr;
 
 	if (!n)
 		return (NULL);
@@ -32,6 +32,6 @@ void	*ft_memchr(const void *str, int c, size_t n)
 /*int main ()
 {
 	const char str[] = "this is a test";
-	ft_memchr(str, 'i', sizeof(str));cod 
+	ft_memchr(str, 'i', sizeof(str));cod
 	printf("%s", str);
 }*/

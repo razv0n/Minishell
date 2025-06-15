@@ -35,7 +35,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
 	printf("%s",ft_strmapi("hello",f));
 }
-char f(unsigned int index, char ch)
+char	f(unsigned int index, char ch)
 {
-         return ch + index;
+			return (ch + index);
 }*/

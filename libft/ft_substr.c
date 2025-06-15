@@ -12,8 +12,8 @@
 
 #include "libft.h"
 
-static char	*ft_cpyy(size_t len,
-		unsigned int start, char const *s, char *substr)
+static char	*ft_cpyy(size_t len, unsigned int start, char const *s,
+		char *substr)
 {
 	size_t	i;
 
@@ -48,7 +48,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (ft_strdup("", SECOUND_P));
 	return (ft_cpyy(len, start, s, substr));
 }
-/*int	main ()
+/*int	main (void)
 {
 	printf("%s",ft_substr("", 2, 4)); // the start is the index
 }*/

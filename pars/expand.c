@@ -14,88 +14,91 @@
 
 typedef struct
 {
-    int i;
-    char    *prev;
-    char    buffer[2];
-    char    *expand;
-} t_variable;
+	int		i;
+	char	*prev;
+	char	buffer[2];
+	char	*expand;
+}			t_variable;
 
-char    *check_to_expand(char *str , int *i, t_info *info)
+char	*check_to_expand(char *str, int *i, t_info *info)
 {
-    int start;
-    char *expanded;
-    
-    expanded = NULL;
-    start = *i + 1; // spkip the $ 
-    if (!str[*i])
-        return (NULL);
-    if (ft_isalnum(str[*i + 1]) || str[*i + 1] == '_' || str[*i + 1] == '?')
-    {
-        (*i)++;
-        if (ft_isalpha(str[*i]) || str[*i] == '_')
-        {
-            while(str[*i] && str[*i] != '?' && (ft_isalnum(str[*i]) || str[*i] == '_'))
-                (*i)++;
-        }
-        else
-            return (cas_in_expand(str, i, info));
-        --(*i);
-        expanded = ft_substr(str, start, *i - start + 1);
-        return (go_to_expand(expanded, info->head_env));
-    }
-    else
-        return (NULL);
+	int		start;
+	char	*expanded;
+
+	expanded = NULL;
+	start = *i + 1; // spkip the $
+	if (!str[*i])
+		return (NULL);
+	if (ft_isalnum(str[*i + 1]) || str[*i + 1] == '_' || str[*i + 1] == '?')
+	{
+		(*i)++;
+		if (ft_isalpha(str[*i]) || str[*i] == '_')
+		{
+			while (str[*i] && str[*i] != '?' && (ft_isalnum(str[*i])
+					|| str[*i] == '_'))
+				(*i)++;
+		}
+		else
+			return (cas_in_expand(str, i, info));
+		--(*i);
+		expanded = ft_substr(str, start, *i - start + 1);
+		return (go_to_expand(expanded, info->head_env));
+	}
+	else
+		return (NULL);
 }
 
-void    expand_2(char **str, t_type_word wich_quote, t_info *info)
+void	expand_2(char **str, t_type_word wich_quote, t_info *info)
 {
-    t_variable  vb;
+	t_variable	vb;
 
-    if (wich_quote == SINGLE_Q) 
-        return;
-    vb.i = 0;
-    vb.prev = NULL;
-    vb.buffer[1] = '\0';
-    while((*str)[vb.i])
-    {
-        if ((*str)[vb.i] != '$')
-        {
-            vb.buffer[0] = (*str)[vb.i];
-            vb.prev = ft_strjoin(vb.prev, vb.buffer, SECOUND_P);
-        }
-        else
-        {
-            vb.expand = check_to_expand(*str, &(vb.i), info);
-            if (vb.expand)
-                vb.prev = ft_strjoin(vb.prev, vb.expand, SECOUND_P);
-            else if ((*str)[vb.i] == '$')
-                vb.prev = ft_strjoin(vb.prev, "$", SECOUND_P);
-        }
-        vb.i++;
-    }
-        *str = ft_strdup(vb.prev, SECOUND_P);
+	if (wich_quote == SINGLE_Q)
+		return ;
+	vb.i = 0;
+	vb.prev = NULL;
+	vb.buffer[1] = '\0';
+	while ((*str)[vb.i])
+	{
+		if ((*str)[vb.i] != '$')
+		{
+			vb.buffer[0] = (*str)[vb.i];
+			vb.prev = ft_strjoin(vb.prev, vb.buffer, SECOUND_P);
+		}
+		else
+		{
+			vb.expand = check_to_expand(*str, &(vb.i), info);
+			if (vb.expand)
+				vb.prev = ft_strjoin(vb.prev, vb.expand, SECOUND_P);
+			else if ((*str)[vb.i] == '$')
+				vb.prev = ft_strjoin(vb.prev, "$", SECOUND_P);
+		}
+		vb.i++;
+	}
+	*str = ft_strdup(vb.prev, SECOUND_P);
 }
 
-void    expand(t_info *info)
+void	expand(t_info *info)
 {
-    t_list  *content;
-    t_list  *next_node;
+	t_list	*content;
+	t_list	*next_node;
 
-    content = info->head_cmd;
-    while (content)
-    {
-        content->quotes_type = 1337;
-        if (content->content[0] == '$' && !content->content[1] && content->next && content->joined && check_quotes(content->next->content[0]) && content->type != HEREDOC)
-        {
-            next_node = content->next;
-            remove_node_doubly(&info->head_cmd, content);
-            content = next_node;
-            continue;
-        }
-        if (check_quotes(content->content[0]))
-            remove_quotes(&content->content ,content);
-        if (ft_strchr(content->content, '$') && content->type != HEREDOC)
-            expand_2(&content->content, content->quotes_type, info);
-        content = content->next;
-    }
+	content = info->head_cmd;
+	while (content)
+	{
+		content->quotes_type = 1337;
+		if (content->content[0] == '$' && !content->content[1] && content->next
+			&& content->joined && check_quotes(content->next->content[0])
+			&& content->type != HEREDOC)
+		{
+			next_node = content->next;
+			remove_node_doubly(&info->head_cmd, content);
+			content = next_node;
+			continue ;
+		}
+		if (check_quotes(content->content[0]))
+			remove_quotes(&content->content, content);
+		if (ft_strchr(content->content, '$') && content->type != HEREDOC)
+			expand_2(&content->content, content->quotes_type, info);
+		content = content->next;
+	}
 }

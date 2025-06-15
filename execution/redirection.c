@@ -6,16 +6,16 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/14 12:56:11 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/15 11:39:06 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-void	child_herdoc(t_info *info,  t_type_word is_quotes, int	fd, char *str)
+void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 {
 	char	*line;
-	
+
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
@@ -25,7 +25,8 @@ void	child_herdoc(t_info *info,  t_type_word is_quotes, int	fd, char *str)
 			free(line);
 			break ;
 		}
-		if (ft_strchr(line, '$') && is_quotes != DOUBLE_Q && is_quotes != SINGLE_Q)
+		if (ft_strchr(line, '$') && is_quotes != DOUBLE_Q
+			&& is_quotes != SINGLE_Q)
 			expand_2(&line, 1337, info);
 		if (line && line[0])
 			add_history(line);
@@ -37,17 +38,19 @@ void	child_herdoc(t_info *info,  t_type_word is_quotes, int	fd, char *str)
 	ft_free_all(NORMAL, 0);
 }
 
-void	herdoc(char *str , t_info *info, t_type_word is_quotes)
+void	herdoc(char *str, t_info *info, t_type_word is_quotes)
 {
-    char	*line;
-    pid_t	id;
-	int		fd;
-	static int i;
+	char		*line;
+	pid_t		id;
+	int			fd;
+	static int	i;
 
 	if (info->ext != 130)
 	{
-		fd =  open(info->path_name[i], O_CREAT | O_RDWR, 0766);
-		if (fd == -1 || dup2(info->fd_in, 0) == -1 ||  dup2(info->fd_out, 1) == -1)
+		*(sig_varible()) = true;
+		fd = open(info->path_name[i], O_CREAT | O_RDWR, 0766);
+		if (fd == -1 || dup2(info->fd_in, 0) == -1 || dup2(info->fd_out, 1) ==
+			-1)
 		{
 			if (fd != -1)
 				close(fd);
@@ -55,10 +58,10 @@ void	herdoc(char *str , t_info *info, t_type_word is_quotes)
 		}
 		id = fork();
 		if (id == -1)
-			ft_free_all(NORMAL, 5);	
+			ft_free_all(NORMAL, 5);
 		else if (id == 0)
 			child_herdoc(info, is_quotes, fd, str);
-		waitpid(id, &info->ext ,0);
+		waitpid(id, &info->ext, 0);
 		close(fd);
 		exit_status(info);
 	}
@@ -72,7 +75,7 @@ void	redirection(t_list *node, int cdt, t_info *info)
 		rdr_append(node->content);
 	else if (cdt == REDIRECT_IN)
 		rdr_in(node->content, info);
-	else if(cdt == HEREDOC)
+	else if (cdt == HEREDOC)
 		rdr_herdoc(info);
 	else if (cdt == REDIRECT_OUT)
 		rdr_out(node->content);

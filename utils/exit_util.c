@@ -15,7 +15,7 @@
 void	exit_status(t_info *info)
 {
 	if (WIFSIGNALED(info->ext))
-	info->ext = 128 + WTERMSIG(info->ext);
+		info->ext = 128 + WTERMSIG(info->ext);
 	else
-	info->ext = WEXITSTATUS(info->ext);
+		info->ext = WEXITSTATUS(info->ext);
 }

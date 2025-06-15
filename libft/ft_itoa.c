@@ -40,7 +40,7 @@ char	*ft_itoa(int nm)
 	n = nm;
 	i = count_nm(n) - 1;
 	is_neg = 0;
-	str = ft_malloc ((i + 2) * sizeof(char), SECOUND_P);
+	str = ft_malloc((i + 2) * sizeof(char), SECOUND_P);
 	str[i + 1] = '\0';
 	if (n < 0)
 	{

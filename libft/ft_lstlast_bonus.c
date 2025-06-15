@@ -31,8 +31,8 @@ t_list	*ft_lstlast(t_list *lst)
 	lk->next = lk_2;
 	lk_2->next = NULL;
 	t_list *test = ft_lstlast(lk);
-       //if (test == lk)
-       	//	printf ("done");
+		//if (test == lk)
+		//	printf ("done");
 	//else
-	 	//printf ("faild");	
+		//printf ("faild");
 }*/

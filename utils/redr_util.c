@@ -27,27 +27,27 @@ void	rdr_in(char *str, t_info *info)
 	{
 		fd = open(str, O_RDONLY, 0766);
 		if (fd == -1 || dup2(fd, 0) == -1)
-        {
-            if (fd != -1)
-                close (fd);
+		{
+			if (fd != -1)
+				close(fd);
 			ft_free_all(NORMAL, 4); // error in file descriptor
-        }
+		}
 		close(fd);
 	}
 }
 
 void	rdr_herdoc(t_info *info)
 {
-	static int i;
-	int fd;
-	
+	static int	i;
+	int			fd;
+
 	fd = open(info->path_name[i], O_RDWR, 0766);
 	if (fd == -1 || dup2(fd, 0) == -1)
-    {
-        if (fd != -1)
-            close (fd);
+	{
+		if (fd != -1)
+			close(fd);
 		ft_free_all(NORMAL, 4);
-    }
+	}
 	if (++i >= info->count_herdoc)
 		i = 0;
 	close(fd);
@@ -55,7 +55,7 @@ void	rdr_herdoc(t_info *info)
 
 void	rdr_append(char *str)
 {
-	int fd;
+	int	fd;
 
 	fd = open(str, O_CREAT | O_APPEND | O_RDWR, 0766);
 	if (fd == -1 || dup2(fd, 1) == -1)
@@ -67,16 +67,16 @@ void	rdr_append(char *str)
 	close(fd);
 }
 
-void	rdr_out(char	*str)
+void	rdr_out(char *str)
 {
 	int	fd;
-	
+
 	fd = open(str, O_CREAT | O_TRUNC | O_RDWR, 0766);
 	if (fd == -1 || dup2(fd, 1) == -1)
-	{ 
+	{
 		if (fd != -1)
 			close(fd);
-	    ft_free_all(NORMAL, 4);// error in file descriptor
+		ft_free_all(NORMAL, 4); // error in file descriptor
 	}
 	close(fd);
 }

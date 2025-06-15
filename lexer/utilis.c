@@ -12,23 +12,24 @@
 
 #include "../Minishell.h"
 
-typedef	struct help
+typedef struct help
 {
-	int			lenght;
-	int			i;
+	int		lenght;
+	int		i;
 	char	*start;
 	int		index;
 	char	quote;
-}t_variable_1;
+}			t_variable_1;
 
-typedef struct count_word_varibles{
-	size_t		i;
-	int			count;
-	bool			sp;
-	bool check;
-	bool quotes;
-	bool check2;
-}t_varibles;
+typedef struct count_word_varibles
+{
+	size_t	i;
+	int		count;
+	bool	sp;
+	bool	check;
+	bool	quotes;
+	bool	check2;
+}			t_varibles;
 
 void	check_state_count(t_varibles *vb)
 {
@@ -37,7 +38,7 @@ void	check_state_count(t_varibles *vb)
 	if (!vb->check2 && !vb->sp)
 	{
 		vb->sp = 1;
-		vb->check2 =  true;
+		vb->check2 = true;
 	}
 	if (vb->sp == true)
 	{
@@ -56,7 +57,7 @@ static int	count_word(char *str)
 	vb.check2 = true;
 	if (str[0] == '\0')
 		return (0);
-		vb.count = 0;
+	vb.count = 0;
 	while (str[vb.i])
 	{
 		vb.check = check_metacharcter_skip(str, &(vb.i));
@@ -75,7 +76,7 @@ static int	count_word(char *str)
 static char	*add_to_res(char **s, char **result, t_variable_1 *vb)
 {
 	vb->lenght = *s - vb->start;
-	result[vb->index] = ft_malloc ((vb->lenght + 1) * sizeof(char), SECOUND_P);
+	result[vb->index] = ft_malloc((vb->lenght + 1) * sizeof(char), SECOUND_P);
 	while (vb->start < *s)
 	{
 		result[vb->index][vb->i] = *(vb->start);
@@ -86,7 +87,8 @@ static char	*add_to_res(char **s, char **result, t_variable_1 *vb)
 	return (result[vb->index]);
 }
 
-static char	*get_next_word(char **s, char **result, t_variable_1 *vb, t_info *info)
+static char	*get_next_word(char **s, char **result, t_variable_1 *vb,
+		t_info *info)
 {
 	vb->i = 0;
 	while ((is_whitespace(**s) && **s != '\0'))
@@ -101,8 +103,8 @@ static char	*get_next_word(char **s, char **result, t_variable_1 *vb, t_info *in
 		(*s)++;
 	}
 	else if (!check_metacharacter(*s))
-		while ((**s != '\0' && (!check_metacharacter(*s)) &&
-			 !is_whitespace(**s) && !check_quotes(**s)))
+		while ((**s != '\0' && (!check_metacharacter(*s)) && !is_whitespace(**s)
+				&& !check_quotes(**s)))
 			(*s)++;
 	else
 	{
@@ -115,13 +117,12 @@ static char	*get_next_word(char **s, char **result, t_variable_1 *vb, t_info *in
 	return (add_to_res(s, result, vb));
 }
 
-
 char	**ft_split_tokens(t_info *info)
 {
-	char	**result;
-	int		lenght;
+	char			**result;
+	int				lenght;
 	t_variable_1	vb;
-	char	*line;
+	char			*line;
 
 	line = info->line;
 	if (!info)

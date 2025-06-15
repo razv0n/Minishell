@@ -15,7 +15,6 @@
 void	edit_env(t_list *head, char *pwd, char *oldpwd)
 {
 	// static bool	alloc;
-
 	// printf("oldPWD : %s\n",oldpwd);
 	// printf("PWD : %s\n",pwd);
 	while (head)
@@ -25,13 +24,12 @@ void	edit_env(t_list *head, char *pwd, char *oldpwd)
 			// if (alloc)
 			// 	free (head->content);
 			// printf("PWD : %s\n",pwd);
-
 			head->content = pwd;
 		}
 		if (compare(head->content, oldpwd, 1) == 200) // the result was 200 :>
 		{
 			// if (alloc)
-				// free (head->content);
+			// free (head->content);
 			// printf("oldPWD : %s\n",oldpwd);
 			head->content = oldpwd;
 		}
@@ -84,7 +82,7 @@ void	ft_cd(t_info *info, char **arg)
 			ft_putstr_fd(arg[1], 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
 		}
-		free (old);
+		free(old);
 		info->ext = 1;
 		if (info->utils->child)
 			ft_free_all(NORMAL, 1);
@@ -92,15 +90,15 @@ void	ft_cd(t_info *info, char **arg)
 	}
 	pwd = getcwd(pwd, 4096);
 	edit_export(info->head_export, info->head_env, pwd, old);
-	free (pwd);
-	free (old);
+	free(pwd);
+	free(old);
 	info->ext = 0;
 	if (info->utils->child)
 		ft_free_all(NORMAL, 1);
 }
 
 // #include <fcntl.h>
-// int	main()
+// int	main(void)
 // {
 // 	char s[100];
 // 	printf("%s\n", getcwd(s, 100));

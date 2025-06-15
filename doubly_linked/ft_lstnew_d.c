@@ -35,35 +35,35 @@ t_ptr	*ft_lstnew_ptr(void *content)
 	return (newnode);
 }
 
-void remove_node_doubly(t_list **head, t_list *remove)
+void	remove_node_doubly(t_list **head, t_list *remove)
 {
-    if	(!*head || !remove|| !head)
+	if (!*head || !remove || !head)
 		return ;
-    if (remove->prev)
-    {
-        remove->prev->next = remove->next;
+	if (remove->prev)
+	{
+		remove->prev->next = remove->next;
 		if (remove->next)
-        	remove->next->prev = remove->prev;
-    }
-    else
-    {
-        *head = (*head)->next;
+			remove->next->prev = remove->prev;
+	}
+	else
+	{
+		*head = (*head)->next;
 		if (*head)
-        	(*head)->prev = NULL;
-    }
-    // ft_lstdelone(remove, free);
+			(*head)->prev = NULL;
+	}
+	// ft_lstdelone(remove, free);
 }
 
-void remove_node_single(t_ptr **head, t_ptr *remove)
+void	remove_node_single(t_ptr **head, t_ptr *remove)
 {
 	t_ptr	*help;
 	t_ptr	*prev;
 
 	help = *head;
 	prev = NULL;
-    if	(!*head || !remove|| !head)
+	if (!*head || !remove || !head)
 		return ;
-	while(help != remove)
+	while (help != remove)
 	{
 		prev = help;
 		help = help->next;

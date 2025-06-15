@@ -27,7 +27,7 @@ void	ft_lstadd_back_d(t_list **start, t_list *new)
 	while (help->next != NULL)
 		help = help->next;
 	help->next = new;
-    new->prev = help;
+	new->prev = help;
 }
 
 void	ft_lstadd_back_ptr(t_ptr **start, t_ptr *new)
@@ -57,7 +57,7 @@ void	ft_lstclear_d(t_list *lst)
 	{
 		free(lst->content);
 		help = lst->next;
-		free (lst);
+		free(lst);
 		lst = help;
 	}
 	lst = NULL;
@@ -73,12 +73,11 @@ void	ft_lstclear_not(t_ptr **lst)
 	{
 		free((*lst)->content);
 		help = (*lst)->next;
-		free (*lst);
+		free(*lst);
 		*lst = help;
 	}
 	*lst = NULL;
 }
-
 
 void	ft_lstclear_ptr(t_ptr **lst)
 {
@@ -89,7 +88,7 @@ void	ft_lstclear_ptr(t_ptr **lst)
 	while (*lst != NULL)
 	{
 		help = (*lst)->next;
-		free (*lst);
+		free(*lst);
 		*lst = help;
 	}
 	*lst = NULL;
@@ -97,17 +96,17 @@ void	ft_lstclear_ptr(t_ptr **lst)
 
 /*int main ()
 {
-    t_list    *head = NULL;
-    t_list    *lk, *lk_2, *lk_3;
-    lk = malloc (sizeof(t_list));
-     lk_2 = malloc (sizeof(t_list));
-    head = lk;
-    lk->next = lk_2;
-    lk_2->next = NULL;
-    lk_3 = malloc (sizeof(t_list));
-    t_list *test = ft_lstlast(&head, lk_3);
-       //if (test == lk)
-           //    printf ("done");
-    //else
-         //printf ("faild");    
+	t_list    *head = NULL;
+	t_list    *lk, *lk_2, *lk_3;
+	lk = malloc (sizeof(t_list));
+		lk_2 = malloc (sizeof(t_list));
+	head = lk;
+	lk->next = lk_2;
+	lk_2->next = NULL;
+	lk_3 = malloc (sizeof(t_list));
+	t_list *test = ft_lstlast(&head, lk_3);
+		//if (test == lk)
+			//    printf ("done");
+	//else
+			//printf ("faild");
 }*/

@@ -12,35 +12,35 @@
 
 #include "../Minishell.h"
 
-void handle_sig(int sig)
+void	handle_sig(int sig)
 {
-    if (sig == SIGINT)
-    {
-        if (*(sig_varible()) == false)
-        {
-            printf("\n");
-            rl_on_new_line();
-            rl_replace_line("", 0); //! when i remove it, it work normaly
-            rl_redisplay();
-        }
-        else
-        {
-            printf("\n");
-            *(sig_varible()) = false;
-        }
-    }
+	if (sig == SIGINT)
+	{
+		if (*(sig_varible()) == false)
+		{
+			printf("\n");
+			rl_on_new_line();
+			rl_replace_line("", 0); //! when i remove it, it work normaly
+			rl_redisplay();
+		}
+		else
+		{
+			printf("\n");
+			*(sig_varible()) = false;
+		}
+	}
 }
 
-void    setup_signals()
+void	setup_signals(void)
 {
-    rl_catch_signals = 0;
-    signal(SIGINT, handle_sig);
-    signal(SIGQUIT, handle_sig);
+	rl_catch_signals = 0;
+	signal(SIGINT, handle_sig);
+	signal(SIGQUIT, handle_sig);
 }
 
-bool    *sig_varible()
+bool	*sig_varible(void)
 {
-    static  bool    sig_varible;
+	static bool	sig_varible;
 
-    return(&sig_varible);
+	return (&sig_varible);
 }

@@ -24,4 +24,4 @@ void	ft_putchar_fd(char c, int fd)
 // 	close(fd);// sajdas
 // }
 // dlashdasldas
-//dkasdgasjs
+// dkasdgasjs

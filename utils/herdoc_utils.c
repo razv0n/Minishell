@@ -12,7 +12,7 @@
 
 #include "../Minishell.h"
 
-// void	free_double(char **str) // pls change the name of it 
+// void	free_double(char **str) // pls change the name of it
 // {
 // 	int	i;
 
@@ -27,8 +27,8 @@
 
 int	count_herdoc(t_list *head)
 {
-	int count_herdoc;
-	
+	int	count_herdoc;
+
 	count_herdoc = 0;
 	while (head)
 	{
@@ -53,7 +53,7 @@ int	count_herdoc(t_list *head)
 // 	while (head)
 // 	{
 // 		if (head->joined)
-// 		{	
+// 		{
 // 			str_1 = ft_strdup(head->next->content);
 // 			if (check_quotes(str_1[0]))
 // 			{
@@ -63,27 +63,27 @@ int	count_herdoc(t_list *head)
 // 			str = ft_strjoin(str, str_1);
 // 		}
 // 		else
-// 			break;
+// 			break ;
 // 		head = head->next;
 // 	}
 // 	return (str);
 // }
-char	*generate_name()
+char	*generate_name(void)
 {
-	int	fd;
-	char buffer[13];
-	int i;
-	char *path_name;	
+	int		fd;
+	char	buffer[13];
+	int		i;
+	char	*path_name;
 
-	i  = 0;
+	i = 0;
 	fd = open("/dev/random", O_CREAT | O_RDWR);
 	if (fd == -1)
 		exit(1);
-	read(fd ,buffer, 12);
+	read(fd, buffer, 12);
 	buffer[12] = 0;
 	while (i < 13)
 	{
-		if(!ft_isprint(buffer[i]))
+		if (!ft_isprint(buffer[i]))
 			buffer[i] = 'a' + (buffer[i] % 26);
 		i++;
 	}
@@ -92,11 +92,11 @@ char	*generate_name()
 	return (path_name);
 }
 
-void		start_herdoc(t_info *info, t_list *head)
+void	start_herdoc(t_info *info, t_list *head)
 {
-	char *str;
-	bool is_quotes;
-	
+	char	*str;
+	bool	is_quotes;
+
 	is_quotes = false;
 	info->count_herdoc = count_herdoc(head);
 	path(info);
@@ -109,15 +109,15 @@ void		start_herdoc(t_info *info, t_list *head)
 			// free(str);
 		}
 		head = head->next;
-	}	
+	}
 }
 
 void	unlink_path(t_info *info)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
-	while(info->path_name[i])
+	while (info->path_name[i])
 	{
 		unlink(info->path_name[i]);
 		i++;
@@ -126,11 +126,11 @@ void	unlink_path(t_info *info)
 
 void	path(t_info *info)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	info->path_name = ft_calloc(sizeof(char *), info->count_herdoc + 1);
-	while(i < info->count_herdoc)
+	while (i < info->count_herdoc)
 	{
 		info->path_name[i] = generate_name();
 		i++;

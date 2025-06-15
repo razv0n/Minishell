@@ -34,7 +34,7 @@ void	unset_export(t_xp **head, char *s)
 	while (tmp)
 	{
 		if (!compare_2(tmp->str + 11, s))
-			break;
+			break ;
 		p = tmp;
 		tmp = tmp->next;
 	}
@@ -59,7 +59,7 @@ void	unset_env(t_list **head, char *s)
 	while (tmp)
 	{
 		if (!compare_2(tmp->content, s))
-			break;
+			break ;
 		p = tmp;
 		tmp = tmp->next;
 	}
@@ -70,7 +70,7 @@ void	unset_env(t_list **head, char *s)
 			p = *head;
 			*head = (*head)->next;
 			(*head)->prev = NULL;
-			free (p);
+			free(p);
 			return ;
 		}
 		tmp->prev->next = tmp->next;

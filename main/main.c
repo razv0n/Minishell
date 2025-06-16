@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/16 17:46:43 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/16 18:40:27 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 //     {
 //         printf("%s\n",head->content);
 //         head = head->next;
-//     }
+//     
 // }
 
 // int is_input_from_pipe(void)

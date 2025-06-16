@@ -24,9 +24,11 @@ void	ft_lstiter(t_list *lst, void (*f)(void *))
 }
 /*void    f(void *content)
 {
-        char *con = (char *)content;
-        for(int i = 0 ; i < sizeof(con) ; i++)
-                con[i] >= 'a' && con[i] <= 'z'? con[i] -= 32 : con[i];
+	char	*con;
+
+		con = (char *)content;
+		for(int i = 0 ; i < sizeof(con) ; i++)
+				con[i] >= 'a' && con[i] <= 'z'? con[i] -= 32 : con[i];
 }
 int main ()
 {

@@ -12,31 +12,31 @@
 
 #include "libft.h"
 
-void	ft_lstdelone(t_list *lst, void (*del) (void*))
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
 	if (!del || !lst)
 		return ;
-	del (lst->content);
-	free (lst);
+	del(lst->content);
+	free(lst);
 }
 /*void del(void *content)
 {
-        free(content);
+		free(content);
 }*/
 /*int main()
 {
-        t_list *head = NULL;
-        t_list *lk_1, *lk_2, *lk_3;
-        lk_1 =ft_mallocsizeof(t_list));
-        lk_2 =ft_mallocsizeof(t_list));
-        lk_3 =ft_mallocsizeof(t_list));
-        head = lk_1;
-        lk_1->next = lk_2;
-        lk_2->next = lk_3;
-        lk_3->next = NULL;
-        lk_1->content = malloc (sizeof(char) * (4 + 1));
-        strcpy(lk_1->content,"test");
-        lk_2->content = (char *)"test";
-        lk_3->content = (char *)"hihi";
-        ft_lstdelone(lk_1 ,del);
+		t_list *head = NULL;
+		t_list *lk_1, *lk_2, *lk_3;
+		lk_1 =ft_mallocsizeof(t_list));
+		lk_2 =ft_mallocsizeof(t_list));
+		lk_3 =ft_mallocsizeof(t_list));
+		head = lk_1;
+		lk_1->next = lk_2;
+		lk_2->next = lk_3;
+		lk_3->next = NULL;
+		lk_1->content = malloc (sizeof(char) * (4 + 1));
+		strcpy(lk_1->content,"test");
+		lk_2->content = (char *)"test";
+		lk_3->content = (char *)"hihi";
+		ft_lstdelone(lk_1 ,del);
 }*/

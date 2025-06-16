@@ -17,17 +17,17 @@ void	ft_lstadd_front_d(t_list **lst, t_list *new)
 	if (!new || !lst)
 		return ;
 	new->next = *lst;
-    new->prev = NULL;
-    (*lst)->prev = new;
+	new->prev = NULL;
+	(*lst)->prev = new;
 	*lst = new;
 }
 /*int main()
 {
-    t_list *head = NULL;
-    t_list *nww = malloc (sizeof(t_list));
-    t_list *nw = malloc (sizeof(t_list));
-    nw->content = (char *)"hello";
-    ft_lstadd_front(&head, nw);
-    nww->content = (char *)"hello";
-    ft_lstadd_front(&head, nww);
+	t_list *head = NULL;
+	t_list *nww = malloc (sizeof(t_list));
+	t_list *nw = malloc (sizeof(t_list));
+	nw->content = (char *)"hello";
+	ft_lstadd_front(&head, nw);
+	nww->content = (char *)"hello";
+	ft_lstadd_front(&head, nww);
 }*/

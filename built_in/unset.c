@@ -17,9 +17,11 @@ int	compare_2(char *s1, char *s2)
 	int	i;
 
 	i = 0;
-	while (s1[i] && s2[i] && (s2[i] != '=') && (s1[i] == s2[i]))
+	while (s1[i] && s2[i] && (s1[i] != '=') && (s1[i] == s2[i]))
 		i++;
-	return (s2[i]);
+	if ((s1[i] == '=' && !s2[i]) || (!s1[i] && !s2[i]))
+		return (s2[i]);
+	return (1);
 }
 
 void	unset_export(t_xp **head, char *s)
@@ -32,7 +34,7 @@ void	unset_export(t_xp **head, char *s)
 	while (tmp)
 	{
 		if (!compare_2(tmp->str + 11, s))
-			break;
+			break ;
 		p = tmp;
 		tmp = tmp->next;
 	}
@@ -42,8 +44,8 @@ void	unset_export(t_xp **head, char *s)
 			*head = (*head)->next;
 		else
 			p->next = tmp->next;
-		free (tmp->str);
-		free (tmp);
+		// free (tmp->str);
+		// free (tmp);
 	}
 }
 
@@ -57,7 +59,7 @@ void	unset_env(t_list **head, char *s)
 	while (tmp)
 	{
 		if (!compare_2(tmp->content, s))
-			break;
+			break ;
 		p = tmp;
 		tmp = tmp->next;
 	}
@@ -68,13 +70,12 @@ void	unset_env(t_list **head, char *s)
 			p = *head;
 			*head = (*head)->next;
 			(*head)->prev = NULL;
-			free (p);
+			free(p);
 			return ;
 		}
 		tmp->prev->next = tmp->next;
 		if (tmp->next)
 			tmp->next->prev = tmp->prev;
-		free (tmp);
 	}
 }
 
@@ -91,5 +92,5 @@ void	ft_unset(t_info *info, char **cmd)
 	}
 	info->ext = 0;
 	if (info->utils->child)
-		exit(0);
+		ft_free_all(NORMAL, 0);
 }

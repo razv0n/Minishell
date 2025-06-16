@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 21:26:42 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/05 11:32:22 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/13 18:48:59 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ char	*check_overflow(char *s, long *res, int sign, int *err)
 					*err = 1;
 			}
 		}
-		if ((((*res) * sign) > 922337203685477580)
-			|| (((*res) * sign) < -922337203685477580))
+		if ((((*res) * sign) > 922337203685477580) || (((*res) * sign) <
+				-922337203685477580))
 			*err = 1;
 		*res = (*res) * 10 + s[j] - 48;
 		j++;
@@ -67,8 +67,7 @@ int	convert(char *s, int *err)
 		*err = 1;
 		return (1);
 	}
-	if ((s[j] == '-' || s[j] == '+')
-		&& (s[j + 1] >= '0' && s[j + 1] <= '9'))
+	if ((s[j] == '-' || s[j] == '+') && (s[j + 1] >= '0' && s[j + 1] <= '9'))
 	{
 		if (s[j] == '-')
 			sign *= -1;
@@ -96,21 +95,21 @@ void	ft_exit(char **cmd, int *ext, int child)
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(cmd[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			exit (2);
+			exit(2);
 		}
 		if (cmd[2])
 		{
 			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			*ext = 1;
 			if (child)
-				exit(1);
+				ft_free_all(NORMAL, 1);
 			return ;
 		}
 	}
-	exit (*ext);
+	ft_free_all(NORMAL, *ext);
 }
 
-// int	main()
+// int	main(void)
 // {
 // 	char *arg[] = {"", "17", "-9223372036854775809", NULL};
 // 	int ext = 0;

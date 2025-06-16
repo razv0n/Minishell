@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/12 16:36:44 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/16 11:06:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	ft_perror(t_error_type msg)
 		ft_putstr_fd("exit\n", 2);
 	else if (msg == SYNTAX_ERROR)
 		ft_putstr_fd("Minishell : \033[31msyntax error\033[0m\n", 2);
-	else if (msg == ERR_CD)
-		ft_putstr_fd("Minishell: cd: failed to change directory\n", 2);
+	else if (msg == AMBIGUOUS)
+		ft_putstr_fd("Minishell : \033[31mambiguous redirect\033[0m\n", 2);
+	else if (msg == ERR_EXECVE)
+		ft_putstr_fd("Minishell : execve failed: ",2);
 }
 
 // bool	free_print(t_list *head, char **words)

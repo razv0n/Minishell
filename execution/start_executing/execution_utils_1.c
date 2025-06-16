@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils_1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/26 14:36:03 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/06/01 16:57:35 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,8 @@ void	execute_cmd(t_info *info, int cdt)
 		if (info->utils->child)
 			close (info->utils->copy);
 		if (info->utils->exc)
-			execve(info->utils->exc, info->utils->cmd, NULL);
-		execve(info->utils->cmd[0], info->utils->cmd, NULL);
+			execve(info->utils->exc, info->utils->cmd, NULL); //?
+		execve(info->utils->cmd[0], info->utils->cmd, NULL); //?
 		ft_putstr_fd(info->utils->cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		exit (127);

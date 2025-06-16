@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/20 10:41:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 15:08:54 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,41 @@ void    type_tokens(t_list *head)
     }
 }
 
+void    env_to_double_pointer(t_info *info)
+{
+    int lenght;
+    int i;
+    t_list *head;
+
+    head = info->head_env;
+    i = 0;
+    lenght = ft_lstsize(info->head_env);
+    info->env = ft_malloc(sizeof(char *) * (lenght + 1), FIRST_P, F_DOUBLE);
+    while(head)
+    {
+        info->env[i] = ft_strdup(head->content);
+        head = head->next;
+        i++;
+    }
+    info->env[i] = NULL;
+}
 void    cpy_env(char **env, t_info *info)
 {
     int i;
     t_list *node;
 
     i = 0;
+    info->head_env = NULL;
     while (env[i])
     {
-        node = ft_lstnew_d(env[i]);
-        if (!node)
-        {
-            ft_lstclear_d(&info->head_env);
-            free(info->line);
-            free(info); // free the info struct
-            exit(1);
-        }
+        node = ft_lstnew_d(env[i], FIRST_P);
         ft_lstadd_back_d(&info->head_env, node);
         i++;
     }
     create_export(info, env, i);
+    env_to_double_pointer(info);
+    // add_ptr(info->head_env, return_ptr(), F_STRUCT, FIRST_P);
+    // add_ptr(info->head_export, return_ptr(), F_STRUCT, FIRST_P);
 }
 
 t_list	*ft_lstlast(t_list *lst)
@@ -81,6 +96,8 @@ void   joined_node(t_info *info)
         {
             tmp = head->content;
             head->content = ft_strjoin(head->content, head->next->content);
+            if (head->quotes_type != SINGLE_Q && head->quotes_type != DOUBLE_Q)
+                head->quotes_type = head->next->quotes_type;
             free(tmp);
             remove_node(&info->head_cmd, head->next);
         }
@@ -114,7 +131,7 @@ int change_red(t_info *info)
     {
         if (is_redirect(head->content))
         {
-            if (!head->next)
+            if (head->next && !head->next->content && !ft_strcmp(head->content, "<<"))
             {
                 ft_putstr_fd("\033[31ambiguous redirect\033[0m\n", 2);
                 return (ft_free(info, 1337), -1);
@@ -124,11 +141,23 @@ int change_red(t_info *info)
             remove_node(&info->head_cmd, head);
             head = help; 
         }
-        else
-            head = head->next;
+        head = head->next;
     }
     return (1);
 }
+
+// void    help_to_remove_q(t_info *info)
+// {
+//     t_list *node;
+
+//     node = info->head_cmd;
+//     while (node)
+//     {
+//         if (check_quotes(node->content[0]))
+//             remove_quotes(node);
+//         node = node->next;
+//     }
+// }
 
 int    pars(t_info *info)
 {
@@ -139,10 +168,11 @@ int    pars(t_info *info)
             return (-1);
         type_tokens(info->head_cmd);
         add_is_joined(info->head_cmd, info);
+        start_herdoc(info, info->head_cmd);
         expand(info);
-        remove_the_null(&info->head_cmd);
         joined_node(info);
-        if (change_red(info) == - 1)
+        // remove_the_null(&info->head_cmd);
+        if (change_red(info) == -1)
             return (-1);
     }
     return (1);

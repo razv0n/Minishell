@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/20 11:29:09 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/01 16:18:25 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	exit_status(t_info *info)
 {
+	// printf("entred\n");
 	if (WIFSIGNALED(info->ext))
 		info->ext = 128 + WTERMSIG(info->ext);
 	else

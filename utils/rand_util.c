@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_util.c                                        :+:      :+:    :+:   */
+/*   rand_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/13 11:14:16 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/16 17:06:27 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,11 @@ void	exit_status(t_info *info)
 		info->ext = 128 + WTERMSIG(info->ext);
 	else
 		info->ext = WEXITSTATUS(info->ext);
+}
+
+bool	check_lf_file(char *str)
+{
+	if (((str[0] && str[0] == '.' && str[1] && str[1] == '/') || (str[0] && str[0] == '/')))
+	      return true;
+    return false;
 }

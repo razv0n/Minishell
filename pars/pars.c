@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/15 12:26:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/15 21:23:25 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,9 @@ int	change_red(t_info *info)
 		if (is_redirect(head->content)  && !ft_strcmp(head->content, "<<"))
 		{
 			if (head->next && !head->next->content)
-			{
-				ft_putstr_fd("\033[31ambiguous redirect\033[0m\n", 2);
-				return (ft_free(info, 1337), -1);
-			}
+				ft_perror(AMBIGUOUS);
+
+			// return (ft_free(info, 1337), -1);
 			head->next->type = head->type;
 			help = head->next;
 			remove_node_doubly(&info->head_cmd, head);
@@ -105,8 +104,7 @@ int	pars(t_info *info)
 		type_tokens(info->head_cmd);
 		add_is_joined(info->head_cmd, info);
 		expand(info);
-		if (change_red(info) == -1)
-			return (-1);
+		change_red(info);
 		joined_node(info);
 		start_herdoc(info, info->head_cmd);
 		remove_the_null(&info->head_cmd);

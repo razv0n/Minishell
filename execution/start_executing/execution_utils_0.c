@@ -16,17 +16,26 @@ void	get_path(t_info *info, t_u *utils)
 {
 	if (utils->fail != -1)
 	{
-		if (check_access(info))
+		if (!utils->child)
+		{
+			if (check_builtin(info, info->utils->cmd))
+			    return ;
+		}
+		if (check_access(info) || info->permi == true)
 		{
 			if (utils->child)
 				execute_cmd(info, 0);
 			else
 				execute_cmd(info, 1);
-			utils->bin = 1;
+			utils->bin = true;
+		}
+		else
+		{
+				ft_putstr_fd(info->utils->cmd[0], 2);
+				ft_putstr_fd(": Command not found\n",2);
+				info->ext = 127;
 		}
 	}
-	if (utils->child)
-		utils->bin = true;
 	utils->fail = 0;
 	close(1);
 }
@@ -86,7 +95,8 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		if (head)
 			head = head->next;
 	}
-	waitpid(utils->id, &info->ext, WUNTRACED);
+	if (info->ext != 127)
+    	waitpid(utils->id, &info->ext, WUNTRACED);
 	while (wait(NULL) != -1)
 		;
 	if (info->utils->bin)
@@ -97,7 +107,7 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 
 void	init_things(t_info *info, t_list *head)
 {
-	info->utils = ft_malloc (sizeof(t_u), SECOUND_P); //! 
+	info->utils = ft_calloc (sizeof(t_u), 1); //! 
 	info->utils->cmd = NULL; // the command //!
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
@@ -105,6 +115,7 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->bin = false;
 	info->utils->id = 0;
 	info->utils->fail = 0;
+	info->permi = false;
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	if (info->utils->npi)

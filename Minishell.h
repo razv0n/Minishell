@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/15 13:58:00 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/16 12:34:00 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ typedef enum
 	ERR_MALLOC,
 	NORMAL,
 	EXIT,
-	ERR_CD
+	AMBIGUOUS,
+	ERR_EXECVE
 }					t_error_type;
 
 typedef enum
@@ -45,13 +46,6 @@ typedef enum
 	EXEC_EXTERNAL,
 	EXEC_FAILURE
 }					t_exec_type;
-
-# define ERR_PIPE "pipe error\n"
-# define ERR_FORK "fork error\n"
-
-// # define EXT_MALLOC	1
-// # define EXT_PIPE	1
-// # define EXT_FORK	1
 
 typedef struct utils
 {
@@ -103,6 +97,7 @@ typedef struct t_ptr
 	char			**path_name;
 	int				count_herdoc;
 	bool			*joined;
+	bool			permi;
 }					t_info;
 
 t_list				*ft_lstnew_d(void *content, t_free_type place);
@@ -117,12 +112,14 @@ void				rdr_in(char *str, t_info *info);
 void				rdr_herdoc(t_info *info);
 void				rdr_append(char *str);
 void				rdr_out(char *str);
+int                 check_builtin(t_info *info, char **cmd);
 char				*go_to_expand(char *str, t_list *head_env);
 char				*check_to_expand(char *str, int *i, t_info *info);
 char				*cas_in_expand(char *str, int *i, t_info *info);
 char				**ft_split_tokens(t_info *info);
 void				add_ptr(void *ptr, t_ptr **head, t_free_type place);
 bool				quotes_in_split(char quotes);
+bool	check_lf_file(char *str);
 bool				*sig_varible(void);
 void				remove_the_null(t_list	**head);
 int					where_to_edit(t_xp **tmp, t_xp **ptr, char *s);

@@ -30,17 +30,17 @@ void	ft_lstadd_back(t_list **start, t_list *new)
 }
 /*int main ()
 {
-    t_list    *head = NULL;
-    t_list    *lk, *lk_2, *lk_3;
-    lk = malloc (sizeof(t_list));
-     lk_2 = malloc (sizeof(t_list));
-    head = lk;
-    lk->next = lk_2;
-    lk_2->next = NULL;
-    lk_3 = malloc (sizeof(t_list));
-    t_list *test = ft_lstlast(&head, lk_3);
-       //if (test == lk)
-           //    printf ("done");
-    //else
-         //printf ("faild");    
+	t_list    *head = NULL;
+	t_list    *lk, *lk_2, *lk_3;
+	lk = malloc (sizeof(t_list));
+		lk_2 = malloc (sizeof(t_list));
+	head = lk;
+	lk->next = lk_2;
+	lk_2->next = NULL;
+	lk_3 = malloc (sizeof(t_list));
+	t_list *test = ft_lstlast(&head, lk_3);
+		//if (test == lk)
+			//    printf ("done");
+	//else
+			//printf ("faild");
 }*/

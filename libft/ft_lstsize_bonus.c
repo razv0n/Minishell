@@ -23,7 +23,7 @@ int	ft_lstsize(t_list *lst)
 	count = 0;
 	while (help != NULL)
 	{
-		count ++;
+		count++;
 		help = help->next;
 	}
 	return (count);

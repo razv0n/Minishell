@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:29:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/01 19:27:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:56:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,27 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
+// # include "../Minishell.h"
 
+typedef enum e_type
+{
+    WORD,
+    SINGLE_Q,
+    DOUBLE_Q,
+    PIPE,
+    REDIRECT_IN,
+    REDIRECT_OUT,
+    HEREDOC,
+    APPEND,
+}t_type_word;//* this enum for type of token
+
+typedef enum {
+    F_SIMPLE,
+    F_DOUBLE,
+    F_STRUCT,
+    FIRST_P,
+    SECOUND_P
+} t_free_type;
 
 typedef struct s_list
 {
@@ -27,6 +47,7 @@ typedef struct s_list
     bool                joined;
 }		t_list;
 int		ft_lstsize(t_list *lst);
+void	*ft_malloc(size_t size, t_free_type place);
 t_list	*ft_lstnew(void *content);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list	*ft_lstlast(t_list *lst);
@@ -49,7 +70,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *s1, const void *s2, size_t n);
 void	*ft_memset(void *b, int c, size_t len);
 char	*ft_strchr(const char *s, int i);
-char	*ft_strdup(const char *s);
+char	*ft_strdup(const char *s, t_free_type);
 size_t	ft_strlcat(char *dest, const char *src, size_t size);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlen(const char *str);
@@ -59,7 +80,7 @@ char	*ft_strrchr(const char *s, int c);
 int		ft_tolower(int i);
 int		ft_toupper(int i);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char const *s1, char const *s2, t_free_type place);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *str, char c);
 char	*ft_itoa(int n);

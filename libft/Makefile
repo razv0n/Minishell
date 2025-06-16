@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mfahmi <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 21:42:13 by mfahmi            #+#    #+#              #
-#    Updated: 2024/11/10 14:32:59 by mfahmi           ###   ########.fr        #
+#    Updated: 2025/06/14 12:03:00 by mfahmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ bonus : $(OBJS_BONUS)
 
 clean:
 	rm -f $(OBJS) $(OBJS_BONUS)
+	rm -f bonus
 
 fclean: clean
 	rm -f $(NAME)

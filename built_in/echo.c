@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:20:03 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/01 17:02:03 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/15 12:18:19 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	ft_echo(char **arg, t_info *info)
 {
 	int	i;
 	int	nl;
-	
-	// printf("[0]%s  [1]%s\n", arg[1], arg[2]);
+
 	i = 1;
 	nl = 1;
 	while (!check_new_line(arg[i]))
@@ -38,16 +37,16 @@ void	ft_echo(char **arg, t_info *info)
 	}
 	while (arg[i])
 	{
-		write (1, arg[i], length(arg[i]));
+		write(1, arg[i], length(arg[i]));
 		if (arg[i + 1])
-			write (1, " ", 1);
+			write(1, " ", 1);
 		i++;
 	}
 	if (nl == 1)
 		printf("\n");
 	info->ext = 0;
 	if (info->utils->child)
-		exit(0);
+		ft_free_all(NORMAL, 0);
 }
 
 // int main()

@@ -1,41 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   exit_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/27 21:00:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/05/10 12:10:38 by mfahmi           ###   ########.fr       */
+/*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/06/13 11:14:16 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../Minishell.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+void	exit_status(t_info *info)
 {
-	int		i;
-	char	*str;
-
-	i = 0;
-	if (!s || !f)
-		return (NULL);
-	str = malloc(ft_strlen(s) + 1);
-	if (!str)
-		return (NULL);
-	while (s[i])
-	{
-		str[i] = f(i, s[i]);
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	if (WIFSIGNALED(info->ext))
+		info->ext = 128 + WTERMSIG(info->ext);
+	else
+		info->ext = WEXITSTATUS(info->ext);
 }
-/*int main ()
-{
-	printf("%s",ft_strmapi("hello",f));
-}
-char	f(unsigned int index, char ch)
-{
-			return (ch + index);
-}*/

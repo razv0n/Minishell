@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:00:04 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/29 12:00:17 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/06/14 21:46:53 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void	print_export(t_list *head)
+void	print_export(t_xp *head)
 {
 	while (head)
 	{
@@ -21,22 +21,20 @@ void	print_export(t_list *head)
 	}
 }
 
-t_list	*create_node(char *s)
+t_xp	*create_node(char *s)
 {
-	t_list	*node;
+	t_xp	*node;
 
 	if (!s)
 		return (NULL);
-	node = malloc(sizeof(t_list));
-	if (!node)
-		return (NULL);
+	node = ft_malloc(sizeof(t_xp), FIRST_P);
 	node->str = s;
 	node->next = NULL;
 	node->prev = NULL;
 	return (node);
 }
 
-void	ft_export(t_list **head, t_info *info)
+void	ft_export(t_xp **head, t_info *info)
 {
 	int	i;
 	int	cdt;
@@ -46,11 +44,11 @@ void	ft_export(t_list **head, t_info *info)
 	{
 		cdt = add_to_export(head, info->utils->cmd[i], info);
 		if (cdt)
-			add_to_env(&info->head_env, info->utils->cmd[i], cdt);
+			add_to_env(&info->head_env, info->utils->cmd[i]);
 		if (!info->utils->cmd[i + 1])
 		{
 			if (info->utils->child)
-				exit(info->ext);
+				ft_free_all(NORMAL, info->ext); // HERE IT FOUND AN EXIT
 			return ;
 		}
 		i++;
@@ -58,5 +56,5 @@ void	ft_export(t_list **head, t_info *info)
 	print_export(*head);
 	info->ext = 0;
 	if (info->utils->child)
-		exit(0);
+		ft_free_all(NORMAL, 0);
 }

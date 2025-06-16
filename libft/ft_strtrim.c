@@ -30,7 +30,7 @@ static int	ft_find_rev(const char *str, char c)
 {
 	int	i;
 
-	i = (int) ft_strlen(str) - 1;
+	i = (int)ft_strlen(str) - 1;
 	while (i >= 0)
 	{
 		if (str[i] == c)
@@ -56,7 +56,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		i++;
 	while (ft_find_rev(set, s1[j]) && s1[i])
 		j--;
-	str = malloc (sizeof(char) * (j - i + 2));
+	str = malloc(sizeof(char) * (j - i + 2));
 	if (!str)
 		return (NULL);
 	while (i <= j)
@@ -68,5 +68,5 @@ char	*ft_strtrim(char const *s1, char const *set)
 int main ()
 {
 	//char *result = ft_strtrim("", "ef");
-    printf("%s",ft_strtrim("   ", " "));
+	printf("%s",ft_strtrim("   ", " "));
 }*/

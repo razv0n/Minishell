@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_0.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:19 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/05/29 11:59:39 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/06/14 22:02:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@ int	parse_var(char *s)
 	return (1);
 }
 
-int	where_to_edit(t_list **tmp, t_list **ptr, char *s)
+int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s)
 {
 	int	res;
 
 	res = 0;
 	while (*tmp)
 	{
-		res = compare((*tmp)->str + 11, s, 1);
-		if (res >= 0)
-			return (1); // to add it in the alphabet order
+		res = compare((*tmp)->str + 11, s, true, true);
+		if (res >= 0 && res != 200)
+			return (1); // to add it in the alphabet
 		else if (res == 200)
 			return (-1); // to replace the value
 		else if (res == -200)
@@ -47,19 +47,10 @@ int	where_to_edit(t_list **tmp, t_list **ptr, char *s)
 	return (1);
 }
 
-void	add_to_export_2(t_list **head, t_list *node, t_list *ptr, int cdt)
+void	add_to_export_2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 {
-	t_list	*n;
-
-	if (cdt == -1)
-	{
-		n = ptr->next;
-		ptr->next = node;
-		node->prev = ptr;
-		node->next = ptr->next->next;
-		free (n->str);
-		free (n);
-	}
+	if (!node)
+		return;	
 	if (ptr)
 	{
 		if (ptr->next)
@@ -67,18 +58,23 @@ void	add_to_export_2(t_list **head, t_list *node, t_list *ptr, int cdt)
 		ptr->next = node;
 		node->prev = ptr;
 	}
-	else
+	else if (!ptr && cdt != -1)
 	{
 		node->next = *head;
 		*head = node;
 	}
+	else if (!ptr && cdt == -1)
+	{
+		node->next = (*head)->next;
+		*head = node;
+	}
 }
 
-int	add_to_export(t_list **head, char *s, t_info *info)
+int	add_to_export(t_xp **head, char *s, t_info *info)
 {
-	t_list	*tmp;
-	t_list	*node;
-	t_list	*ptr;
+	t_xp	*tmp;
+	t_xp	*node;
+	t_xp	*ptr;
 	int	cdt;
 	int	equal;
 
@@ -96,7 +92,7 @@ int	add_to_export(t_list **head, char *s, t_info *info)
 	cdt = where_to_edit(&tmp, &ptr, s);
 	node = create_node(join_str("declare -x ", s, cdt, &equal));
 	if (!node)
-		return (0); // allocation failed
+		return (0);
 	add_to_export_2(head, node, ptr, cdt);
 	if (!equal)
 		return (0);
@@ -117,7 +113,7 @@ void	create_export(t_info *info, char **env, int i)
 		j = i + 1;
 		while (env[j + 1])
 		{
-			if (compare(env[i], env[j], 0) > 0)
+			if (compare(env[i], env[j], false, true) > 0)
 			{
 				tmp = env[i];
 				env[i] = env[j];

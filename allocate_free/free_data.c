@@ -78,7 +78,7 @@ void ft_free_all(t_error_type msg)
     ft_lstclear_not(&head);
     rl_clear_history();
     ft_perror(msg);
-    exit(1);
+    exit(0);
 }
 
 // void	free_ptr(t _ptr **head)

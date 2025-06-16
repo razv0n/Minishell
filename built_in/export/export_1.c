@@ -101,10 +101,10 @@ char	*join_str(char *s1, char *s2, int cdt, int *equal)
 	return (out);
 }
 
-void	attach_node(t_xp **head, char *s)
+void	attach_node(t_list **head, char *s)
 {
-	t_xp	*node;
-	t_xp	*p;
+	t_list	*node;
+	t_list	*p;
 
 	node = create_node(s);
 	if (!head || !node)

@@ -27,7 +27,7 @@ int	parse_var(char *s)
 	return (1);
 }
 
-int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s)
+int	where_to_edit(t_list **tmp, t_list **ptr, char *s)
 {
 	int	res;
 
@@ -47,9 +47,9 @@ int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s)
 	return (1);
 }
 
-void	add_to_export2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
+void	add_to_export_2(t_list **head, t_list *node, t_list *ptr, int cdt)
 {
-	t_xp	*n;
+	t_list	*n;
 
 	if (cdt == -1)
 	{
@@ -74,11 +74,11 @@ void	add_to_export2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 	}
 }
 
-int	add_to_export(t_xp **head, char *s, t_info *info)
+int	add_to_export(t_list **head, char *s, t_info *info)
 {
-	t_xp	*tmp;
-	t_xp	*node;
-	t_xp	*ptr;
+	t_list	*tmp;
+	t_list	*node;
+	t_list	*ptr;
 	int	cdt;
 	int	equal;
 
@@ -89,18 +89,18 @@ int	add_to_export(t_xp **head, char *s, t_info *info)
 		ft_putstr_fd(s, 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		info->ext = 1;
-		return 0;
+		return (0);
 	}
 	tmp = *head;
 	ptr = NULL;
 	cdt = where_to_edit(&tmp, &ptr, s);
 	node = create_node(join_str("declare -x ", s, cdt, &equal));
 	if (!node)
-		return 0; // allocation failed
-	add_to_export2(head, node, ptr, cdt);
+		return (0); // allocation failed
+	add_to_export_2(head, node, ptr, cdt);
 	if (!equal)
 		return (0);
-	return (1);
+	return (cdt);
 }
 
 void	create_export(t_info *info, char **env, int i)

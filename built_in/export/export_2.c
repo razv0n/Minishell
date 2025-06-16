@@ -12,7 +12,7 @@
 
 #include "../../Minishell.h"
 
-void	print_export(t_xp *head)
+void	print_export(t_list *head)
 {
 	while (head)
 	{
@@ -21,13 +21,13 @@ void	print_export(t_xp *head)
 	}
 }
 
-t_xp	*create_node(char *s)
+t_list	*create_node(char *s)
 {
-	t_xp	*node;
+	t_list	*node;
 
 	if (!s)
 		return (NULL);
-	node = malloc(sizeof(t_xp));
+	node = malloc(sizeof(t_list));
 	if (!node)
 		return (NULL);
 	node->str = s;
@@ -36,15 +36,17 @@ t_xp	*create_node(char *s)
 	return (node);
 }
 
-void	ft_export(t_xp **head, t_info *info)
+void	ft_export(t_list **head, t_info *info)
 {
 	int	i;
+	int	cdt;
 
 	i = 1;
 	while (info->utils->cmd[i])
 	{
-		if (add_to_export(head, info->utils->cmd[i], info))
-			add_to_env(&info->head_env, info->utils->cmd[i]);
+		cdt = add_to_export(head, info->utils->cmd[i], info);
+		if (cdt)
+			add_to_env(&info->head_env, info->utils->cmd[i], cdt);
 		if (!info->utils->cmd[i + 1])
 		{
 			if (info->utils->child)

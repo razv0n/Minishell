@@ -14,7 +14,6 @@
 
 void	exit_status(t_info *info)
 {
-	// printf("entred\n");
 	if (WIFSIGNALED(info->ext))
 		info->ext = 128 + WTERMSIG(info->ext);
 	else

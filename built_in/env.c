@@ -12,14 +12,22 @@
 
 #include "../Minishell.h"
 
-void	add_to_env(t_list **head, char *s)
+void	add_to_env_2(t_list *head, t_list *node)
+{
+	
+}
+
+void	add_to_env(t_list **head, char *s, int cdt)
 {
 	t_list	*node;
 
 	node = ft_lstnew_d(s, FIRST_P);
 	if (!node)
 		return ;
-	ft_lstadd_back_d(head, node);
+	if (cdt == -1)
+		add_to_env_2(*head, node);
+	else
+		ft_lstadd_back_d(head, node);
 }
 
 void	ft_env(t_list *head_env, char **cmd, t_info *info)

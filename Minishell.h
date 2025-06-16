@@ -88,12 +88,12 @@ typedef struct utils
 	int	fd_out;
 }	t_u;
 
-typedef struct export
-{
-    char *str;
-	struct export *next;
-    struct export *prev;
-}	t_xp;
+// typedef struct export
+// {
+//     char *str;
+// 	struct export *next;
+//     struct export *prev;
+// }	t_list;
 
 typedef struct s_l
 {
@@ -105,10 +105,10 @@ typedef struct s_l
 
 typedef struct t_ptr
 {
-    t_u     *utils;
-    t_xp      *head_export;
-    t_list  *head_env;
-    t_list  *head_cmd;
+    t_u		*utils;
+    t_list	*head_export;
+    t_list	*head_env;
+    t_list	*head_cmd;
     char **words;
     char **env;
     char *line;
@@ -190,18 +190,18 @@ char	**update_path(char *s);
 int	count_pipes(t_list *head);
 void	create_export(t_info *info, char **env, int i);
 void	add_to_env(t_list **head, char *s);
-int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s);
+int	where_to_edit(t_list **tmp, t_list **ptr, char *s);
 char	*join_str(char *s1, char *s2, int cdt, int *equal);
-void	attach_node(t_xp **head, char *s);
-t_xp	*create_node(char *s);
-int	add_to_export(t_xp **head, char *s, t_info *info);
+void	attach_node(t_list **head, char *s);
+t_list	*create_node(char *s);
+int	add_to_export(t_list **head, char *s, t_info *info);
 
 // built-in
 
 void	ft_pwd(t_info *info);
 void	ft_env(t_list *head_env, char **cmd, t_info *info);
 void	ft_cd(t_info *info, char **arg);
-void	ft_export(t_xp **head, t_info *info);
+void	ft_export(t_list **head, t_info *info);
 void	ft_unset(t_info *info, char **cmd);
 void	ft_echo(char **cmd, t_info *info);
 void	ft_exit(char **cmd, int *ext, int child);

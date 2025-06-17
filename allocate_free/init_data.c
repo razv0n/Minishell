@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:32:59 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/12 21:22:24 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/17 14:40:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	init_info(t_info *info)
 {
-	info->fd_in = dup(0);
-	info->fd_out = dup(1);
 	info->head_cmd = NULL;
 	info->joined = NULL;
-	info->words = NULL;
+	info->fd_in = dup(0);
+	info->fd_out = dup(1);
+	if (info->fd_in == -1 || info->fd_out == -1)
+		ft_free_all(NORMAL, 4);
 }
 
 t_ptr	**return_ptr(void)

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 0000/04/17 11:56:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/15 12:22:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/17 15:41:47 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ void	remove_the_null(t_list	**head)
 		if (!help->content)
 			remove_node_doubly(head, help);
 		help = help->next;
+	}
+}
+
+void	remove_quote(t_list	*head)
+{
+	while (head)
+	{
+		if (check_quotes(head->content[0]))
+			remove_quotes(&head->content, head);
+		head = head->next;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/15 21:23:25 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/17 16:16:58 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	joined_node(t_info *info)
 			head->content = ft_strjoin(head->content, head->next->content,
 					SECOUND_P);
 			if (head->quotes_type != SINGLE_Q && head->quotes_type != DOUBLE_Q)
-				// why i use this?
 				head->quotes_type = head->next->quotes_type;
 			remove_node_doubly(&info->head_cmd, head->next);
 		}
@@ -77,12 +76,11 @@ int	change_red(t_info *info)
 	head = info->head_cmd;
 	while (head)
 	{
-		if (is_redirect(head->content)  && !ft_strcmp(head->content, "<<"))
+		if (is_redirect(head->content))
 		{
-			if (head->next && !head->next->content)
+			if (head->next && !head->next->content && !ft_strcmp(head->content, "<<"))
 				ft_perror(AMBIGUOUS);
 
-			// return (ft_free(info, 1337), -1);
 			head->next->type = head->type;
 			help = head->next;
 			remove_node_doubly(&info->head_cmd, head);
@@ -96,17 +94,16 @@ int	change_red(t_info *info)
 
 int	pars(t_info *info)
 {
-	init_info(info); // copy env to linked list
 	if (!check_quotes_error(info))
 	{
 		if (!split_arg(info))
 			return (-1);
 		type_tokens(info->head_cmd);
 		add_is_joined(info->head_cmd, info);
-		expand(info);
 		change_red(info);
-		joined_node(info);
 		start_herdoc(info, info->head_cmd);
+		expand(info);
+		joined_node(info);
 		remove_the_null(&info->head_cmd);
 		return (1);
 	}

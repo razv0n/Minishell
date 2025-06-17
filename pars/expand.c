@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/14 15:58:44 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/17 16:17:25 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,9 @@ void	expand(t_info *info)
 	content = info->head_cmd;
 	while (content)
 	{
-		content->quotes_type = 1337;
+		content->quotes_type = 7331;
 		if (content->content[0] == '$' && !content->content[1] && content->next
-			&& content->joined && check_quotes(content->next->content[0])
-			&& content->type != HEREDOC)
+			&& content->joined && check_quotes(content->next->content[0]))
 		{
 			next_node = content->next;
 			remove_node_doubly(&info->head_cmd, content);

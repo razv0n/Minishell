@@ -129,6 +129,7 @@ void	init_things(t_info *info, t_list *head)
 	start_executing(info, head, info->utils);
 	close (info->fd_in);
 	close (info->fd_out);
+	// printf("ended\n");
 }
 
 // int	main()

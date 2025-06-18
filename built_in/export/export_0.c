@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 11:59:19 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/14 22:02:26 by mfahmi           ###   ########.fr       */
+/*   Created: 2025/05/29 11:59:19 by mfahmi          	#+#    #+#             */
+/*   Updated: 2025/06/17 22:15:30 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	create_export(t_info *info, char **env, int i)
 	info->head_export = NULL;
 	i = 0;
 	x = 0;
-	while (env[i + 1])
+	while (env[i] && env[i + 1])
 	{
 		j = i + 1;
 		while (env[j + 1])

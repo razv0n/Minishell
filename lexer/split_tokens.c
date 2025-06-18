@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 0000/04/17 11:56:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/17 15:41:47 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/17 21:49:44 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,6 @@ bool	split_arg(t_info *info)
 
 	i = 0;
 	words = ft_split_tokens(info);
-	// info->words = words;
-	// if (!words)
-	//     ft_free(info, ERR_MALLOC);
 	while (words[i])
 	{
 		node = ft_lstnew_d(words[i], SECOUND_P);

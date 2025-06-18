@@ -14,6 +14,8 @@
 
 void	get_path(t_info *info, t_u *utils)
 {
+	int		check_access_va;
+
 	if (utils->fail != -1)
 	{
 		if (!utils->child)
@@ -21,13 +23,14 @@ void	get_path(t_info *info, t_u *utils)
 			if (check_builtin(info, info->utils->cmd))
 			    return ;
 		}
-		if (check_access(info))
+		check_access_va = check_access(info);
+		if (check_access_va && check_access_va != -1)
 		{
-			if (utils->child)
-				execute_cmd(info, 0);
-			else
-				execute_cmd(info, 1);
-			utils->bin = true;
+				if (utils->child)
+					execute_cmd(info, 0);
+				else
+					execute_cmd(info, 1);
+				utils->bin = true;
 		}
 		else if (info->permi)
 		{
@@ -35,7 +38,7 @@ void	get_path(t_info *info, t_u *utils)
 			ft_putstr_fd(info->utils->cmd[0], 2);
 			ft_putstr_fd(":  permission denied\n", 2);
 		}
-		else
+		else if (check_access_va != -1)
 		{
 			info->ext = 127;
 			ft_putstr_fd(info->utils->cmd[0], 2);

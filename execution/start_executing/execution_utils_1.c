@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/18 13:08:51 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/18 18:42:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	check_access(t_info *info)
 	lf_found = false;
 	i = 0;
 	if (!info->utils->cmd[0])
-		return 0;
+		return -1;
 	if (stat(info->utils->cmd[0], &sb_1) != -1)
 		lf_found = true;
 	while (info->utils->path && info->utils->path[i])

@@ -6,20 +6,20 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/17 22:14:29 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:39:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-// void    print_stack(t_list *head)
-// {
-//     while(head)
-//     {
-//         printf("%s\n",head->content);
-//         head = head->next;
-//     
-// }
+void    print_stack(t_list *head)
+{
+    while(head)
+    {
+        printf("%s\n",head->content);
+        head = head->next;
+    }
+}
 
 // int is_input_from_pipe(void)
 // {

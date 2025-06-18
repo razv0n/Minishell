@@ -67,10 +67,11 @@ void	unset_env(t_list **head, char *s)
 	{
 		if (!p)
 		{
-			p = *head;
+			// p = *head;
 			*head = (*head)->next;
-			(*head)->prev = NULL;
-			free(p);
+			if (*head)
+				(*head)->prev = NULL;
+			// free(p);
 			return ;
 		}
 		tmp->prev->next = tmp->next;

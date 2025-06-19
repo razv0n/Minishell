@@ -14,6 +14,8 @@
 
 void	get_path(t_info *info, t_u *utils)
 {
+	// int		check_access_va;
+
 	if (utils->fail != -1)
 	{
 		if (!utils->child)
@@ -21,26 +23,30 @@ void	get_path(t_info *info, t_u *utils)
 			if (check_builtin(info, info->utils->cmd))
 			    return ;
 		}
+		// check_access_va = check_access(info);
 		if (check_access(info))
 		{
-			if (utils->child)
-				execute_cmd(info, 0);
-			else
-				execute_cmd(info, 1);
-			utils->bin = true;
+			// if (check_access_va != -1)
+			// {
+				if (utils->child)
+					execute_cmd(info, 0);
+				else
+					execute_cmd(info, 1);
+				utils->bin = true;
+			// }
 		}
-		else if (info->permi)
-		{
-			info->ext = 126;
-			ft_putstr_fd(info->utils->cmd[0], 2);
-			ft_putstr_fd(":  permission denied\n", 2);
-		}
-		else
-		{
-			info->ext = 127;
-			ft_putstr_fd(info->utils->cmd[0], 2);
-			ft_putstr_fd(": Command not found\n",2);
-		}
+		// else if (info->permi)
+		// {
+		// 	info->ext = 126;
+		// 	ft_putstr_fd(info->utils->cmd[0], 2);
+		// 	ft_putstr_fd(":  permission denied\n", 2);
+		// }
+		// else if (check_access_va != -1)
+		// {
+		// 	info->ext = 127;
+		// 	ft_putstr_fd(info->utils->cmd[0], 2);
+		// 	ft_putstr_fd(": Command not found\n",2);
+		// }
 	}
 	utils->fail = 0;
 	close(1);

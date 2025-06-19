@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/12 22:09:27 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:12:42 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ void	check_state_count(t_varibles *vb)
 	if (vb->check == true)
 		vb->sp = 1;
 	if (!vb->check2 && !vb->sp)
-	{
 		vb->sp = 1;
-		vb->check2 = true;
-	}
 	if (vb->sp == true)
 	{
 		vb->count++;
@@ -62,8 +59,10 @@ static int	count_word(char *str)
 	{
 		vb.check = check_metacharcter_skip(str, &(vb.i));
 		vb.quotes = quotes_in_split(str[vb.i]);
-		if (!vb.quotes)
-			vb.check2 = false;
+		// if (!vb.quotes)
+		// 	vb.check2 = false;
+		// else
+		// 	vb.check2 = true;
 		if (!is_whitespace(str[vb.i]) && vb.quotes)
 			check_state_count(&vb);
 		else

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/17 21:48:05 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/18 18:42:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,35 +44,37 @@ int	check_access(t_info *info)
 	int		i;
 	char	*x;
 	struct stat sb;
-	struct	stat sb_1;
-	bool	lf_found;
+	// struct	stat sb_1;
+	// bool	lf_found;
 	
-	lf_found = false;
+	// lf_found = false;
 	i = 0;
 	if (!info->utils->cmd[0])
-		return 0;
-	if (stat(info->utils->cmd[0], &sb_1) != -1)
-		lf_found = true;
+		return (0);
+	// if (stat(info->utils->cmd[0], &sb_1) != -1)
+	// 	lf_found = true;
 	while (info->utils->path && info->utils->path[i])
 	{
 		x = add_string(info->utils->path[i], info->utils->cmd[0]);
 		stat(x, &sb);
-		if ((!access(x, F_OK) && !S_ISDIR(sb.st_mode)) || (lf_found &&  ft_strchr(info->utils->cmd[0], '/') && !S_ISDIR(sb_1.st_mode)))
+		// (lf_found &&  ft_strchr(info->utils->cmd[0], '/') && !S_ISDIR(sb_1.st_mode))
+		// (lf_found && !access(info->utils->cmd[0], X_OK))
+		if (!access(x, F_OK) && !S_ISDIR(sb.st_mode))
 		{
-			if (!access(x, X_OK) || (lf_found && !access(info->utils->cmd[0], X_OK)))
+			if (!access(x, X_OK))
 			{
 				info->utils->bin = true;
 				*(sig_varible()) = true;
-				info->utils->exc = x;
-				info->permi = 0;
+				info->utils->exc = x; 
+				// info->permi = 0;
 				return (1);
 			}
-			else
-				info->permi = -1;
+			// else
+			// 	info->permi = -1;
 		}
 		i++;
 	}
-	return (0);
+	return (1);	
 }
 
 int	check_builtin_2(t_info *info, char **cmd)
@@ -142,12 +144,32 @@ void	execute_cmd(t_info *info, int cdt)
 			close (info->utils->copy);
 		if (!cdt && check_builtin(info, info->utils->cmd))
 			return ;
-		if (info->utils->exc)
-			execve(info->utils->exc, info->utils->cmd, info->env); //?
-		execve(info->utils->cmd[0], info->utils->cmd, info->env); //?
-		ft_putstr_fd(info->utils->cmd[0], 2);
-		ft_putstr_fd(": Command not found\n",2);
-		exit (127);
+		// if (info->utils->exc)
+		if ((!info->utils->bin && !if_executable(info))
+			|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
+		{
+			ft_putstr_fd("Minishell: ", 2);
+			ft_putstr_fd(info->utils->cmd[0], 2);
+			// perror(": ");
+			if(errno == ENOENT)
+			{
+				ft_putstr_fd(" : Command not found\n",2);
+				ft_free_all(NORMAL, 127);
+			}
+			else if (errno == EACCES)
+			{
+				perror(": ");
+				ft_free_all(NORMAL, 126);
+			}
+			else
+				perror("execve:");
+			ft_free_all(NORMAL, 1);
+
+		} //?
+		
+		// exit (127);
+		// ENOENT
+		// EACCES
 	}
 	info->utils->id = id;
 }

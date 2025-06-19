@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 11:59:19 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/14 22:02:26 by mfahmi           ###   ########.fr       */
+/*   Created: 2025/05/29 11:59:19 by mfahmi          	#+#    #+#            */
+/*   Updated: 2025/06/17 22:15:30 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,9 @@ int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s)
 
 void	add_to_export_2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 {
-	if (!node)
-		return;	
 	if (ptr)
 	{
-		if (ptr->next)
-			node->next = ptr->next->next;
+		node->next = ptr->next;
 		ptr->next = node;
 		node->prev = ptr;
 	}

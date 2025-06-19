@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/14 15:57:27 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/17 16:16:38 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,35 +39,36 @@ int	count_herdoc(t_list *head)
 	return (count_herdoc);
 }
 
-// char	*joined_for_herdoc(t_list *head, bool *is_quotes)
-// {
-// 	char	*str;
-// 	char	*str_1;
+char	*joined_for_herdoc(t_list *head, bool *is_quotes)
+{
+	char	*str;
+	char	*str_1;
 
-// 	str = ft_strdup(head->content);
-// 	if (check_quotes(str[0]))
-// 	{
-// 		remove_quotes(&str, head);
-// 		*is_quotes = true;
-// 	}
-// 	while (head)
-// 	{
-// 		if (head->joined)
-// 		{
-// 			str_1 = ft_strdup(head->next->content);
-// 			if (check_quotes(str_1[0]))
-// 			{
-// 				remove_quotes(&str_1, head->next);
-// 				*is_quotes = true;
-// 			}
-// 			str = ft_strjoin(str, str_1);
-// 		}
-// 		else
-// 			break ;
-// 		head = head->next;
-// 	}
-// 	return (str);
-// }
+	str = ft_strdup(head->content, SECOUND_P);
+	if (check_quotes(str[0]))
+	{
+		remove_quotes(&str, head);
+		*is_quotes = true;
+	}
+	while (head)
+	{
+		if (head->joined)
+		{
+			str_1 = ft_strdup(head->next->content, SECOUND_P);
+			if (check_quotes(str_1[0]))
+			{
+				remove_quotes(&str_1, head->next);
+				*is_quotes = true;
+			}
+			str = ft_strjoin(str, str_1, SECOUND_P);
+		}
+		else
+			break ;
+		head = head->next;
+	}
+	return (str);
+}
+
 char	*generate_name(void)
 {
 	int		fd;
@@ -78,7 +79,7 @@ char	*generate_name(void)
 	i = 0;
 	fd = open("/dev/random", O_CREAT | O_RDWR);
 	if (fd == -1)
-		exit(1);
+		ft_free_all(NORMAL, 4);
 	read(fd, buffer, 12);
 	buffer[12] = 0;
 	while (i < 13)
@@ -89,6 +90,7 @@ char	*generate_name(void)
 	}
 	path_name = ft_strdup(buffer, SECOUND_P);
 	path_name = ft_strjoin("/tmp/", path_name, SECOUND_P);
+	close(fd);
 	return (path_name);
 }
 
@@ -104,9 +106,10 @@ void	start_herdoc(t_info *info, t_list *head)
 	{
 		if (head->type == HEREDOC)
 		{
-			// str = joined_for_herdoc(head->next, &is_quotes);
-			herdoc(head->content, info, head->quotes_type);
-			// free(str);
+			str = head->content;
+			if (head->next)
+				str = joined_for_herdoc(head->next, &is_quotes);
+			herdoc(str, info, is_quotes);
 		}
 		head = head->next;
 	}

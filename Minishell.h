@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/16 12:34:00 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/17 16:34:53 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ typedef struct t_ptr
 	t_xp			*head_export;
 	t_list			*head_env;
 	t_list			*head_cmd;
-	char			**words;
 	char			**env;
 	char			*line;
 	int				ext;
@@ -119,8 +118,8 @@ char				*cas_in_expand(char *str, int *i, t_info *info);
 char				**ft_split_tokens(t_info *info);
 void				add_ptr(void *ptr, t_ptr **head, t_free_type place);
 bool				quotes_in_split(char quotes);
-bool	check_lf_file(char *str);
 bool				*sig_varible(void);
+void				remove_quote(t_list	*head);
 void				remove_the_null(t_list	**head);
 int					where_to_edit(t_xp **tmp, t_xp **ptr, char *s);
 bool				split_arg(t_info *info);

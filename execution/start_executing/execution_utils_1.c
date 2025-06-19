@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/16 17:16:33 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/17 21:48:05 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	check_access(t_info *info)
 	{
 		x = add_string(info->utils->path[i], info->utils->cmd[0]);
 		stat(x, &sb);
-		if ((!access(x, F_OK) && !S_ISDIR(sb.st_mode)) || (lf_found && check_lf_file(info->utils->cmd[0]) && !S_ISDIR(sb_1.st_mode)))
+		if ((!access(x, F_OK) && !S_ISDIR(sb.st_mode)) || (lf_found &&  ft_strchr(info->utils->cmd[0], '/') && !S_ISDIR(sb_1.st_mode)))
 		{
 			if (!access(x, X_OK) || (lf_found && !access(info->utils->cmd[0], X_OK)))
 			{
@@ -120,7 +120,7 @@ int	check_builtin(t_info *info, char **cmd)
 	else
 	{
 		if (check_builtin_2(info, cmd))
-			return (1);
+		return (1);
 	}
 	return (0);
 }
@@ -136,16 +136,18 @@ void	execute_cmd(t_info *info, int cdt)
 		ft_free_all(NORMAL, 5);
 	if (!id)
 	{
-		if (!cdt && check_builtin(info, info->utils->cmd))
-			return ;
+		close(info->fd_in);
+		close(info->fd_out);
 		if (info->utils->child)
 			close (info->utils->copy);
+		if (!cdt && check_builtin(info, info->utils->cmd))
+			return ;
 		if (info->utils->exc)
 			execve(info->utils->exc, info->utils->cmd, info->env); //?
 		execve(info->utils->cmd[0], info->utils->cmd, info->env); //?
 		ft_putstr_fd(info->utils->cmd[0], 2);
-		ft_putstr_fd(":  permission denied\n", 2);
-		exit (126);
+		ft_putstr_fd(": Command not found\n",2);
+		exit (127);
 	}
 	info->utils->id = id;
 }

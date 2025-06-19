@@ -21,7 +21,7 @@ void	get_path(t_info *info, t_u *utils)
 			if (check_builtin(info, info->utils->cmd))
 			    return ;
 		}
-		if (check_access(info) || info->permi == true)
+		if (check_access(info))
 		{
 			if (utils->child)
 				execute_cmd(info, 0);
@@ -29,11 +29,17 @@ void	get_path(t_info *info, t_u *utils)
 				execute_cmd(info, 1);
 			utils->bin = true;
 		}
+		else if (info->permi)
+		{
+			info->ext = 126;
+			ft_putstr_fd(info->utils->cmd[0], 2);
+			ft_putstr_fd(":  permission denied\n", 2);
+		}
 		else
 		{
-				ft_putstr_fd(info->utils->cmd[0], 2);
-				ft_putstr_fd(": Command not found\n",2);
-				info->ext = 127;
+			info->ext = 127;
+			ft_putstr_fd(info->utils->cmd[0], 2);
+			ft_putstr_fd(": Command not found\n",2);
 		}
 	}
 	utils->fail = 0;
@@ -69,10 +75,8 @@ void	back_to_normal(t_info *info)
 	if (info->utils->exc)
 		info->utils->exc = NULL;
 	if (!info->utils->npi)
-	{
 		if (dup2(info->fd_in, 0) == -1)
 			ft_free_all(NORMAL, 4);
-	}
 	if (dup2(info->fd_out, 1) == -1)
 		ft_free_all(NORMAL, 4);
 }
@@ -118,18 +122,14 @@ void	init_things(t_info *info, t_list *head)
 	info->permi = false;
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
+	// info->fd_in = dup(0); // 3
+	// info->fd_out = dup(1); // 4
 	if (info->utils->npi)
 		info->utils->child = true;
-	info->fd_in = dup(0);
-	info->fd_out = dup(1);
 	info->utils->path = update_path(ft_getenv("PATH", info->head_env)); //!
-	if (info->fd_in == -1
-		|| info->fd_out == -1)
-		ft_free_all(NORMAL, 4);
 	start_executing(info, head, info->utils);
 	close (info->fd_in);
 	close (info->fd_out);
-	// printf("ended\n");
 }
 
 // int	main()

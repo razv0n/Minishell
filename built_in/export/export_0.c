@@ -108,7 +108,7 @@ void	create_export(t_info *info, char **env, int i)
 	info->head_export = NULL;
 	i = 0;
 	x = 0;
-	while (env[i + 1])
+	while (env[i] && env[i + 1])
 	{
 		j = i + 1;
 		while (env[j + 1])

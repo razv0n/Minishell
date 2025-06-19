@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/15 11:39:06 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/17 15:28:30 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 		free(line);
 	}
 	close(fd);
+	close(info->fd_in);
+	close(info->fd_out);
 	ft_free_all(NORMAL, 0);
 }
 

@@ -49,22 +49,31 @@ int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s)
 
 void	add_to_export_2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 {
-	if (ptr)
+	if (cdt == -1)
 	{
-		node->next = ptr->next;
+		if (ptr->next)
+			node->next = ptr->next->next;
 		ptr->next = node;
 		node->prev = ptr;
 	}
-	else if (!ptr && cdt != -1)
+	else if (ptr)
+	{
+		node->next = ptr->next;
+		if (ptr->next)
+			ptr->next->prev = node;
+		ptr->next = node;
+		node->prev = ptr;
+	}
+	else if (!ptr)
 	{
 		node->next = *head;
 		*head = node;
 	}
-	else if (!ptr && cdt == -1)
-	{
-		node->next = (*head)->next;
-		*head = node;
-	}
+	// else if (!ptr && cdt == -1)
+	// {
+	// 	node->next = (*head)->next;
+	// 	*head = node;
+	// }
 }
 
 int	add_to_export(t_xp **head, char *s, t_info *info)

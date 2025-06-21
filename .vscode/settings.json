@@ -12,7 +12,13 @@
         "libft.h": "c",
         "variant": "c",
         "algorithm": "c",
-        "TST.C": "cpp"
+        "TST.C": "cpp",
+        "termios.h": "c",
+        "stdlib.h": "c",
+        "stdbool.h": "c",
+        "readline.h": "c",
+        "signal.h": "c",
+        "fcntl.h": "c"
     },
     "terminal.integrated.cwd": "",
     "C_Cpp.errorSquiggles": "disabled"

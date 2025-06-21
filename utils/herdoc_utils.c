@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/17 16:16:38 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/19 16:58:23 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ char	*generate_name(void)
 	char	*path_name;
 
 	i = 0;
-	fd = open("/dev/random", O_CREAT | O_RDWR);
-	if (fd == -1)
-		ft_free_all(NORMAL, 4);
+	fd = ft_open("/dev/random", O_CREAT | O_RDWR, 0);
 	read(fd, buffer, 12);
 	buffer[12] = 0;
 	while (i < 13)
@@ -90,7 +88,7 @@ char	*generate_name(void)
 	}
 	path_name = ft_strdup(buffer, SECOUND_P);
 	path_name = ft_strjoin("/tmp/", path_name, SECOUND_P);
-	close(fd);
+	ft_close(fd);
 	return (path_name);
 }
 

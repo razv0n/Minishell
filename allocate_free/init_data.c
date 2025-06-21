@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:32:59 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/17 14:40:17 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/21 11:47:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ void	init_info(t_info *info)
 {
 	info->head_cmd = NULL;
 	info->joined = NULL;
-	info->fd_in = dup(0);
-	info->fd_out = dup(1);
-	if (info->fd_in == -1 || info->fd_out == -1)
-		ft_free_all(NORMAL, 4);
+	info->fd_in = ft_dupX(0, -1, false);
+	info->fd_out = ft_dupX(1, -1, false);
 }
 
 t_ptr	**return_ptr(void)
@@ -29,18 +27,19 @@ t_ptr	**return_ptr(void)
 	return (&head);
 }
 
-void	add_ptr(void *ptr, t_ptr **head, t_free_type place)
+void	add_ptr(void *ptr, t_ptr **head, t_free_type place, t_free_type type)
 {
 	t_ptr	*new_node;
 
 	new_node = ft_lstnew_ptr(ptr);
 	new_node->place = place;
+	new_node->type = type;
 	if (!new_node)
 		ft_free_all(ERR_MALLOC, 3);
 	ft_lstadd_back_ptr(head, new_node);
 }
 
-void	*ft_malloc(size_t size, t_free_type place)
+void	*ft_malloc(size_t size, t_free_type place, t_free_type type)
 {
 	void	*ptr;
 	t_ptr	**head;
@@ -49,6 +48,6 @@ void	*ft_malloc(size_t size, t_free_type place)
 	ptr = malloc(size);
 	if (!ptr)
 		ft_free_all(ERR_MALLOC, 3);
-	add_ptr(ptr, head, place);
+	add_ptr(ptr, head, place, type);
 	return (ptr);
 }

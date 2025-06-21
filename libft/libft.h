@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:29:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/14 15:56:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/20 10:44:04 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ typedef enum e_type
 }t_type_word;//* this enum for type of token
 
 typedef enum {
-    F_SIMPLE,
-    F_DOUBLE,
-    F_STRUCT,
+    CLOSE,
+    FREE,
     FIRST_P,
     SECOUND_P
 } t_free_type;
@@ -47,7 +46,7 @@ typedef struct s_list
     bool                joined;
 }		t_list;
 int		ft_lstsize(t_list *lst);
-void	*ft_malloc(size_t size, t_free_type place);
+void	*ft_malloc(size_t size, t_free_type place, t_free_type type);
 t_list	*ft_lstnew(void *content);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list	*ft_lstlast(t_list *lst);

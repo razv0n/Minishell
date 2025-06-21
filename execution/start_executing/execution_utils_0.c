@@ -14,7 +14,6 @@
 
 void	get_path(t_info *info, t_u *utils)
 {
-	int		check_access_va;
 
 	if (utils->fail != -1)
 	{
@@ -23,8 +22,7 @@ void	get_path(t_info *info, t_u *utils)
 			if (check_builtin(info, info->utils->cmd))
 			    return ;
 		}
-		check_access_va = check_access(info);
-		if (check_access_va && check_access_va != -1)
+		if (check_access(info))
 		{
 				if (utils->child)
 					execute_cmd(info, 0);
@@ -32,44 +30,28 @@ void	get_path(t_info *info, t_u *utils)
 					execute_cmd(info, 1);
 				utils->bin = true;
 		}
-		else if (info->permi)
-		{
-			info->ext = 126;
-			ft_putstr_fd(info->utils->cmd[0], 2);
-			ft_putstr_fd(":  permission denied\n", 2);
-		}
-		else if (check_access_va != -1)
-		{
-			info->ext = 127;
-			ft_putstr_fd(info->utils->cmd[0], 2);
-			ft_putstr_fd(": Command not found\n",2);
-		}
+		
 	}
 	utils->fail = 0;
-	close(1);
+	ft_close(1);
 }
 
 void	open_pipe(t_u *utils)
 {
 	if (utils->i)
 	{
-		if (dup2(utils->copy, 0) == -1)
-			ft_free_all(NORMAL, 4);
-		close (utils->copy);
+		ft_dupX(utils->copy, 0, true);
+		ft_close (utils->copy);
 	}
 	if (utils->npi)
 	{
-		if (pipe(utils->pi) == -1)
-			ft_free_all(NORMAL, 4);
-		if (dup2(utils->pi[1], 1) == -1)
-			ft_free_all(NORMAL, 4);
-		utils->copy = dup(utils->pi[0]);
-		if (utils->copy == -1 )
-			ft_free_all(NORMAL, 4);
+		ft_pipe(utils->pi);
+		ft_dupX(utils->pi[1], 1, true);
+		utils->copy = ft_dupX(utils->pi[0], 0, false);
 		utils->i++;
 		utils->npi--;
-		close (utils->pi[0]);
-		close (utils->pi[1]);
+		ft_close (utils->pi[0]);
+		ft_close (utils->pi[1]);
 	}
 }
 
@@ -77,11 +59,10 @@ void	back_to_normal(t_info *info)
 {
 	if (info->utils->exc)
 		info->utils->exc = NULL;
+	
 	if (!info->utils->npi)
-		if (dup2(info->fd_in, 0) == -1)
-			ft_free_all(NORMAL, 4);
-	if (dup2(info->fd_out, 1) == -1)
-		ft_free_all(NORMAL, 4);
+		ft_dupX(info->fd_in, 0, true);
+	ft_dupX(info->fd_out, 1, true);
 }
 
 void	start_executing(t_info *info, t_list *head, t_u *utils)
@@ -106,7 +87,7 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
     	waitpid(utils->id, &info->ext, WUNTRACED);
 	while (wait(NULL) != -1)
 		;
-	if (info->utils->bin)
+	// if (info->utils->bin)
 		exit_status(info);
 	if (info->path_name)
 		unlink_path(info);
@@ -131,8 +112,8 @@ void	init_things(t_info *info, t_list *head)
 		info->utils->child = true;
 	info->utils->path = update_path(ft_getenv("PATH", info->head_env)); //!
 	start_executing(info, head, info->utils);
-	close (info->fd_in);
-	close (info->fd_out);
+	ft_close (info->fd_in);
+	ft_close (info->fd_out);
 }
 
 // int	main()

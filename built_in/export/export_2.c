@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:00:04 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/14 21:46:53 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/20 10:31:11 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_xp	*create_node(char *s)
 
 	if (!s)
 		return (NULL);
-	node = ft_malloc(sizeof(t_xp), FIRST_P);
+	node = ft_malloc(sizeof(t_xp), FIRST_P, FREE);
 	node->str = s;
 	node->next = NULL;
 	node->prev = NULL;

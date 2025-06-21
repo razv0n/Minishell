@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/16 17:06:27 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/21 11:40:57 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,28 @@ void	exit_status(t_info *info)
 		info->ext = WEXITSTATUS(info->ext);
 }
 
-bool	check_lf_file(char *str)
+
+t_ptr   *where_is_fd(t_ptr *head, int   fd)
 {
-	if (((str[0] && str[0] == '.' && str[1] && str[1] == '/') || (str[0] && str[0] == '/')))
-	      return true;
-    return false;
+    t_ptr   *return_node;
+
+    return_node = NULL;
+    while (head)
+    {
+        if(head->type == CLOSE && *((int *)(head->content)) == fd)
+            return_node = head;
+        head = head->next;
+    }
+    return (return_node);
 }
+
+// bool	check_fd_found(t_ptr *head, int fd)
+// {
+// 	while (head)
+// 	{
+// 		if (head->type == CLOSE && *(int *)head->content == fd)
+// 			return (true);
+// 		head = head->next;
+// 	}
+// 	return (false);
+// }

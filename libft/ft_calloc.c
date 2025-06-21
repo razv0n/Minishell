@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 09:09:38 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/16 14:59:37 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/20 10:32:08 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_calloc(size_t nitems, size_t size)
 	size_t	i;
 
 	i = 0;
-	ptr = ft_malloc(nitems * size, SECOUND_P);
+	ptr = ft_malloc(nitems * size, SECOUND_P, FREE);
 	while (i < (nitems * size))
 	{
 		((char *)ptr)[i] = 0;

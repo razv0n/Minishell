@@ -53,8 +53,7 @@ void	add_to_export_2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 		return;	
 	if (ptr)
 	{
-		if (ptr->next)
-			node->next = ptr->next->next;
+		node->next = ptr->next;
 		ptr->next = node;
 		node->prev = ptr;
 	}

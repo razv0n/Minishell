@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 11:59:46 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/14 19:54:05 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/20 10:31:05 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*join_str(char *s1, char *s2, int cdt, int *equal)
 		len = ft_strlen(s2) + 11 + 3;
 	else
 		len = ft_strlen(s2) + 11 + 1;
-	out = ft_malloc(sizeof(char) * (len), FIRST_P);
+	out = ft_malloc(sizeof(char) * (len), FIRST_P, FREE);
 	out[len - 1] = '\0';
 	while (s1[i])
 	{

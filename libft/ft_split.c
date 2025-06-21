@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:41:34 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/12 16:02:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/20 10:32:48 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*get_next_word(char const **s, char **result, char c, int index)
 	while (**s != c && **s != '\0')
 		(*s)++;
 	lenght = *s - start;
-	result[index] = ft_malloc((lenght + 1) * sizeof(char), SECOUND_P);
+	result[index] = ft_malloc((lenght + 1) * sizeof(char), SECOUND_P, FREE);
 	while (start < *s)
 	{
 		result[index][in] = *start;
@@ -74,7 +74,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	lenght = count_word(s, c);
-	result = ft_malloc((lenght + 1) * sizeof(char *), SECOUND_P);
+	result = ft_malloc((lenght + 1) * sizeof(char *), SECOUND_P, FREE);
 	i = 0;
 	while (i < lenght)
 	{

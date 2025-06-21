@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/18 16:39:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/20 10:33:14 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,8 @@ void	minishell_loop(t_info *info)
 		// if (!is_input_from_pipe())
 		info->line = readline(str);
 		if (!info->line)
-		{
-			close(info->fd_in);
-			close (info->fd_out);
 			ft_free_all(EXIT, 0);
-		}
-		add_ptr(info->line, return_ptr(), SECOUND_P);
+		add_ptr(info->line, return_ptr(), SECOUND_P, FREE);
 		if (info->line[0])
 			add_history(info->line);
 		if (pars(info) != -1)
@@ -89,7 +85,7 @@ int	main(int ac, char **av, char **env)
 		exit(1);
 	}
 	setup_signals();
-	info = ft_malloc(sizeof(t_info), FIRST_P);
+	info = ft_malloc(sizeof(t_info), FIRST_P, FREE);
 	// init_info(info);
 	info->ext = 0;
 	cpy_env(env, info);

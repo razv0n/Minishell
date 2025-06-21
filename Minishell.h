@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/17 16:34:53 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/21 11:41:03 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-#include <sys/stat.h>
+# include <sys/stat.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -78,6 +78,7 @@ typedef struct s_l
 {
 	void			*content;
 	t_free_type		place;
+	t_free_type		type;
 	struct s_l		*next;
 }					t_ptr;
 
@@ -110,13 +111,20 @@ bool				is_redirect(char *c);
 void				rdr_in(char *str, t_info *info);
 void				rdr_herdoc(t_info *info);
 void				rdr_append(char *str);
+// bool				check_fd_found(t_ptr *head, int fd);
 void				rdr_out(char *str);
+int					ft_dupX(int	fd1, int fd2, bool is_dup2);
 int                 check_builtin(t_info *info, char **cmd);
 char				*go_to_expand(char *str, t_list *head_env);
+int    				ft_open(char *str, int flag, int permi);
+t_ptr   			*where_is_fd(t_ptr *head, int   fd);
+void    			ft_close(int fd);
+void				ft_pipe(int pip[2]);
+void				*ft_malloc(size_t size, t_free_type place, t_free_type type);
 char				*check_to_expand(char *str, int *i, t_info *info);
 char				*cas_in_expand(char *str, int *i, t_info *info);
 char				**ft_split_tokens(t_info *info);
-void				add_ptr(void *ptr, t_ptr **head, t_free_type place);
+void				add_ptr(void *ptr, t_ptr **head, t_free_type place, t_free_type type);
 bool				quotes_in_split(char quotes);
 bool				*sig_varible(void);
 void				remove_quote(t_list	*head);
@@ -163,7 +171,7 @@ void				herdoc(char *str, t_info *info, t_type_word is_quotes);
 int					compare(char *s1, char *s2, bool b1, bool b2);
 int					length(char *s);
 // void print_stack(t_list *head); // remove it
-void				*ft_malloc(size_t size, t_free_type type);
+
 void				remove_node_doubly(t_list **head, t_list *remove);
 // void	ft_lstclear_not(t_list **lst);
 void				ft_lstclear_not(t_ptr **lst);

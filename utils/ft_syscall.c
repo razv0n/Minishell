@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:18:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/21 11:44:40 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/21 15:34:54 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,9 @@ void    ft_close(int fd)
 
         if (close(fd) == -1)
             ft_free_all(NORMAL, 4);
-        else
-        {
-            node = where_is_fd(*(return_ptr()), fd);
-            if (node)
-                *((int *)node->content) = -2;
-			}// -2 mean fd is all ready closed this help me for close the fd if it all read close dont wory it wont closed
+        node = where_is_fd(*(return_ptr()), fd);
+        if (node)
+            *((int *)node->content) = -2;// -2 mean fd is all ready closed this help me for close the fd if it all read close dont wory it wont closed
 }
 
 void	ft_pipe(int pip[2])

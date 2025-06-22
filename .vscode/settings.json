@@ -18,7 +18,8 @@
         "stdbool.h": "c",
         "readline.h": "c",
         "signal.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "random": "c"
     },
     "terminal.integrated.cwd": "",
     "C_Cpp.errorSquiggles": "disabled"

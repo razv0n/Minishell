@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_space.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 11:41:34 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 11:49:27 by mfahmi           ###   ########.fr       */
+/*   Created: 2025/06/22 11:48:50 by mfahmi            #+#    #+#             */
+/*   Updated: 2025/06/22 14:13:19 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_word(char const *str, char c)
+static int	count_word(char const *str)
 {
 	size_t	i;
 	int		count;
@@ -25,7 +25,7 @@ static int	count_word(char const *str, char c)
 	count = 0;
 	while (str[i])
 	{
-		if (str[i] != c)
+		if (!is_whitespace(str[i]))
 		{
 			if (sp)
 			{
@@ -34,13 +34,14 @@ static int	count_word(char const *str, char c)
 			}
 		}
 		else
-			sp = 1;
-		i++;
-	}
-	return (count);
+            sp = 1;
+        i++;
+    }
+    return (count);
 }
 
-static char	*get_next_word(char const **s, char **result, char c, int index)
+
+static char	*get_next_word(char const **s, char **result, int index)
 {
 	int			lenght;
 	int			in;
@@ -48,10 +49,10 @@ static char	*get_next_word(char const **s, char **result, char c, int index)
 
 	start = *s;
 	in = 0;
-	while (**s == c && **s != '\0')
+	while (is_whitespace(**s) && **s != '\0')
 		(*s)++;
 	start = *s;
-	while (**s != c && **s != '\0')
+	while (!is_whitespace(**s) && **s != '\0')
 		(*s)++;
 	lenght = *s - start;
 	result[index] = ft_malloc((lenght + 1) * sizeof(char), SECOUND_P, FREE);
@@ -65,7 +66,7 @@ static char	*get_next_word(char const **s, char **result, char c, int index)
 	return (result[index]);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_space(char const *s)
 {
 	char	**result;
 	int		lenght;
@@ -73,23 +74,20 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	lenght = count_word(s, c);
+	lenght = count_word(s);
 	result = ft_malloc((lenght + 1) * sizeof(char *), SECOUND_P, FREE);
 	i = 0;
 	while (i < lenght)
 	{
-		result[i] = get_next_word(&s, result, 	c, i);
+		result[i] = get_next_word(&s, result, i);
 		i++;
 	}
 	result[i] = NULL;
 	return (result);
 }
-/*int main ()
-{
-		// char **sp = ft_split("#test#hello", '#');
-		// char **sp = ft_split("#hhfe#banana#boom#." , '#');
-		//char **sp = ft_split("booomlike" , ' ');
-		char **sp = ft_split("\0aa\0bb" , '\0');
-		//char **sp = ft_split(",,,,,,," , ',');
-			printf("%s\n",sp[0]);
-}*/
+
+// int main()
+// {
+//     char **str = ft_split_space(" ");
+//     printf("%s",str[0]);
+// }

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/21 12:19:33 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/21 16:54:55 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	check_access(t_info *info)
 				info->utils->exc = x;
 				return (1);
 			}
+	
 		}
 		i++;
 	}
@@ -112,25 +113,9 @@ int	check_builtin(t_info *info, char **cmd)
 	else
 	{
 		if (check_builtin_2(info, cmd))
-			return (1);
+		return (1);
 	}
 	return (0);
-}
-
-bool	check_lf_file(t_info *info)
-{
-	struct	stat st;
-	
-	stat(info->utils->cmd[0], &st);
-	if (!access(info->utils->cmd[0], F_OK) && ft_strchr(info->utils->cmd[0], '/') && !S_ISDIR(st.st_mode))
-	{
-		if (!access(info->utils->cmd[0], X_OK))
-			*(sig_varible()) = true;
-		info->utils->exc = info->utils->cmd[0];
-		return (true);
-	}
-	errno = ENOENT;
-	return (false);
 }
 
 void	execute_cmd(t_info *info, int cdt)
@@ -144,23 +129,37 @@ void	execute_cmd(t_info *info, int cdt)
 		ft_free_all(NORMAL, 5);
 	if (!id)
 	{
+		if (info->utils->child && info->utils->npi != -1)
+			ft_close (info->utils->copy);
 		ft_close(info->fd_in);
 		ft_close(info->fd_out);
-		if (info->utils->child)
-			ft_close (info->utils->copy);
 		if (!cdt && check_builtin(info, info->utils->cmd))
 			return ;
-		if ((!info->utils->bin && !check_lf_file(info)) || execve(info->utils->exc, info->utils->cmd, info->env) == -1)
-		{ 
-			ft_putstr_fd("Minishell: " ,2);
-			ft_putstr_fd(info->utils->cmd[0] ,2);
+		// fprintf(stderr, "the str : %s\n", info->utils->exc);
+		if ((!info->utils->bin && !check_lf_file(info))
+			|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
+		{
+			ft_putstr_fd("Minishell: ", 2);
+			ft_putstr_fd(info->utils->cmd[0], 2);
 			if (errno == EACCES)
-				perror(" :");
-			else if (errno == ENOENT)
-				ft_putstr_fd(" :command not found\n", 2);
+			{
+				perror(": ");
+				ft_free_all(NORMAL, 126);
+			}
+			else if(errno == ENOENT)
+			{
+				ft_putstr_fd(" : Command not found\n",2);
+				ft_free_all(NORMAL, 127);
+			}
 			else
-				perror("execve");
-		} 
+				perror("execve:");
+			ft_free_all(NORMAL, 1);
+
+		} //?
+		
+		// exit (127);
+		// ENOENT
+		// EACCES
 	}
 	info->utils->id = id;
 }

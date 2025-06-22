@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/20 18:38:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 09:43:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,30 @@ typedef struct count_word_varibles
 	size_t	i;
 	int		count;
 	bool	sp;
-	bool	check;
 	bool	quotes;
-	bool	check2;
+	bool	quotes_next;
+	bool	meta_next;
+	bool	meta;
 }			t_varibles;
 
 void	check_state_count(t_varibles *vb)
 {
-	if (vb->check == true)
-		vb->sp = 1;
-	if (!vb->check2 && !vb->sp)
-	{
-		vb->sp = 1;
-		vb->check2 = true;
-	}
-	if (vb->sp == true)
+	if (vb->meta_next && !vb->quotes_next)
 	{
 		vb->count++;
-		if (vb->check == false)
-			vb->sp = 0;
+		vb->sp = 0;
+		vb->meta_next = false;
+	}
+	else if (vb->quotes_next)
+	{
+		vb->count++;
+		vb->sp = 1;
+		vb->quotes_next = false;
+	}
+	else if (vb->sp == true || vb->meta)
+	{
+		vb->count++;
+		vb->sp = 0;
 	}
 }
 
@@ -54,20 +59,23 @@ static int	count_word(char *str)
 
 	vb.sp = 1;
 	vb.i = 0;
-	vb.check2 = true;
+	vb.quotes_next = false;
+	vb.meta_next =  false;
 	if (str[0] == '\0')
 		return (0);
 	vb.count = 0;
 	while (str[vb.i])
 	{
-		vb.check = check_metacharcter_skip(str, &(vb.i));
+		vb.meta = check_metacharcter_skip(str, &(vb.i));
 		vb.quotes = quotes_in_split(str[vb.i]);
-		if (!vb.quotes)
-			vb.check2 = false;
-		if (!is_whitespace(str[vb.i]) && vb.quotes)
+		if (!is_whitespace(str[vb.i]) && !vb.quotes)
 			check_state_count(&vb);
-		else
+		else if (!vb.quotes)
 			vb.sp = 1;
+		if (vb.meta)
+			vb.meta_next = true;
+		if (vb.quotes)
+			vb.quotes_next = true;
 		vb.i++;
 	}
 	return (vb.count);
@@ -128,6 +136,7 @@ char	**ft_split_tokens(t_info *info)
 	if (!info)
 		return (NULL);
 	lenght = count_word(line);
+	printf("count word = %d\n", lenght);
 	result = ft_malloc((lenght + 1) * sizeof(char *), SECOUND_P, FREE);
 	info->joined = ft_malloc(sizeof(bool) * (lenght), SECOUND_P, FREE);
 	ft_bzero(info->joined, sizeof(bool) * lenght);

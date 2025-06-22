@@ -14,7 +14,6 @@
 
 void	get_path(t_info *info, t_u *utils)
 {
-
 	if (utils->fail != -1)
 	{
 		if (!utils->child)
@@ -45,14 +44,14 @@ void	open_pipe(t_u *utils)
 	}
 	if (utils->npi)
 	{
-		ft_pipe(utils->pi);
+		pipe(utils->pi);
 		ft_dupX(utils->pi[1], 1, true);
-		utils->copy = ft_dupX(utils->pi[0], 0, false);
+		utils->copy = ft_dupX(utils->pi[0], -1, false);
 		utils->i++;
-		utils->npi--;
 		ft_close (utils->pi[0]);
 		ft_close (utils->pi[1]);
 	}
+	utils->npi--;
 }
 
 void	back_to_normal(t_info *info)
@@ -60,9 +59,20 @@ void	back_to_normal(t_info *info)
 	if (info->utils->exc)
 		info->utils->exc = NULL;
 	
-	if (!info->utils->npi)
+	if (info->utils->npi == -1)
 		ft_dupX(info->fd_in, 0, true);
 	ft_dupX(info->fd_out, 1, true);
+}
+
+void	get_next_cmd(t_info *info, t_list **head)
+{
+	while (*head)
+	{
+		if ((*head)->next && (*head)->next->type == PIPE)
+			break ;
+		*head = (*head)->next;
+	}
+	info->utils->cmd[0] = NULL;
 }
 
 void	start_executing(t_info *info, t_list *head, t_u *utils)
@@ -74,9 +84,12 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		open_pipe(utils);
 		while (head && (head->type != PIPE))
 		{
-			if (head->type != WORD)
+			if (head->type == AMBIGUOUS)
+				get_next_cmd(info, &head);
+			else if (head->type != WORD)
 				redirection(head, head->type, info);
-			head = head->next;
+			if (head)
+				head = head->next;
 		}
 		get_path(info, utils);
 		back_to_normal(info);
@@ -87,7 +100,6 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
     	waitpid(utils->id, &info->ext, WUNTRACED);
 	while (wait(NULL) != -1)
 		;
-	// if (info->utils->bin)
 		exit_status(info);
 	if (info->path_name)
 		unlink_path(info);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/21 11:41:03 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 17:44:59 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ typedef enum
 	ERR_MALLOC,
 	NORMAL,
 	EXIT,
-	AMBIGUOUS,
-	ERR_EXECVE
+	ERR_EXECVE,
+	ERR_AMBIGUOUS
 }					t_error_type;
 
 typedef enum
@@ -114,12 +114,13 @@ void				rdr_append(char *str);
 // bool				check_fd_found(t_ptr *head, int fd);
 void				rdr_out(char *str);
 int					ft_dupX(int	fd1, int fd2, bool is_dup2);
-int                 check_builtin(t_info *info, char **cmd);
 char				*go_to_expand(char *str, t_list *head_env);
 int    				ft_open(char *str, int flag, int permi);
 t_ptr   			*where_is_fd(t_ptr *head, int   fd);
 void    			ft_close(int fd);
 void				ft_pipe(int pip[2]);
+bool				check_lf_file(t_info *info);
+bool				have_space(char *str);
 void				*ft_malloc(size_t size, t_free_type place, t_free_type type);
 char				*check_to_expand(char *str, int *i, t_info *info);
 char				*cas_in_expand(char *str, int *i, t_info *info);
@@ -129,7 +130,6 @@ bool				quotes_in_split(char quotes);
 bool				*sig_varible(void);
 void				remove_quote(t_list	*head);
 void				remove_the_null(t_list	**head);
-int					where_to_edit(t_xp **tmp, t_xp **ptr, char *s);
 bool				split_arg(t_info *info);
 void				ft_free_all(t_error_type msg, unsigned char exit_code);
 void				path(t_info *info);
@@ -144,6 +144,7 @@ void				remove_quotes(char **str, t_list *node);
 bool				check_quotes(char c);
 void				unlink_path(t_info *info);
 void				expand(t_info *info);
+void	split_variable(char	**str, t_type_word wich_quote, t_info *info);
 void				expand_2(char **str, t_type_word wich_quote, t_info *info);
 void				ft_lstadd_back_d(t_list **start, t_list *new);
 void				start_herdoc(t_info *info, t_list *head);
@@ -156,14 +157,12 @@ void				remove_node_single(t_ptr **head, t_ptr *remove);
 // void    remove_the_null(t_list **head);
 // char	**fr_mem_split(int index, char **result);
 // char	**ft_split_tokens(char const *s);
-void				redirection(t_list *node, int cdt, t_info *info);
-void				init_things(t_info *info, t_list *head);
+// void				redirection(t_list *node, int cdt, t_info *info);
+// void				init_things(t_info *info, t_list *head);
 void				ft_lstclear_ptr(t_ptr **lst);
 void				ft_perror(t_error_type msg);
 // void	init_things(t_list *head, t_u *utils);
-
 void				ft_free(t_info *info, t_error_type err);
-void				ft_cd(t_info *info, char **arg);
 int					pars(t_info *info);
 void				setup_signals(void);
 void				ft_lstclear_ptr(t_ptr **lst);
@@ -189,12 +188,15 @@ char				**collecte_cmds(t_list *head, t_u *utils);
 char				*add_string(char *s1, char *s2);
 char				**update_path(char *s);
 int					count_pipes(t_list *head);
+int                 check_builtin(t_info *info, char **cmd);
 void				create_export(t_info *info, char **env, int i);
+int					where_to_edit(t_xp **tmp, t_xp **ptr, char *s);
 void				add_to_env(t_list **head, char *s);
 char				*join_str(char *s1, char *s2, int cdt, int *equal);
 void				attach_node(t_xp **head, char *s);
 t_xp				*create_node(char *s);
 int					add_to_export(t_xp **head, char *s, t_info *info);
+bool				if_executable(t_info *info);
 
 // built-in
 

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 0000/04/17 11:56:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/18 17:15:55 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 17:42:08 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	remove_the_null(t_list	**head)
 		return;
 	while (help)
 	{
-		if (!help->content)
+		if (!help->content && help->type != AMBIGUOUS)
 			remove_node_doubly(head, help);
 		help = help->next;
 	}

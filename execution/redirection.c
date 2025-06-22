@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/19 17:00:50 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 17:04:31 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,12 @@ void	herdoc(char *str, t_info *info, t_type_word is_quotes)
 
 void	redirection(t_list *node, int cdt, t_info *info)
 {
+	// if (cdt == AMBIGUOUS)
+	// {
+	// 	get_next_cmd(node);
+	// 	info->utils->cmd[0] = NULL;
+	// 	printf("cmd [0] in %s\n", info->utils->cmd[0]);
+	// }
 	if (cdt == APPEND)
 		rdr_append(node->content);
 	else if (cdt == REDIRECT_IN)

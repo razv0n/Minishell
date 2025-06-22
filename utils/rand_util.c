@@ -35,6 +35,6 @@ bool	if_executable(t_info *info)
 		info->utils->exc = info->utils->cmd[0];
 		return (true);
 	}
-	errno = ENOENT;
+	// errno = EACCES;
 	return (false);
 }

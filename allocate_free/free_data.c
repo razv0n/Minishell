@@ -24,6 +24,8 @@ void	ft_perror(t_error_type msg)
 		ft_putstr_fd("Minishell : \033[31mambiguous redirect\033[0m\n", 2);
 	else if (msg == ERR_EXECVE)
 		ft_putstr_fd("Minishell : execve failed: ",2);
+	else
+		perror("Minishell:");
 }
 
 // bool	free_print(t_list *head, char **words)

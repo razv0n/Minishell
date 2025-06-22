@@ -59,10 +59,6 @@ static int	count_word(char *str)
 	{
 		vb.check = check_metacharcter_skip(str, &(vb.i));
 		vb.quotes = quotes_in_split(str[vb.i]);
-		// if (!vb.quotes)
-		// 	vb.check2 = false;
-		// else
-		// 	vb.check2 = true;
 		if (!is_whitespace(str[vb.i]) && vb.quotes)
 			check_state_count(&vb);
 		else

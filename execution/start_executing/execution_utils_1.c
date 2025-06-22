@@ -144,7 +144,6 @@ void	execute_cmd(t_info *info, int cdt)
 			close (info->utils->copy);
 		if (!cdt && check_builtin(info, info->utils->cmd))
 			return ;
-		// if (info->utils->exc)
 		if ((!info->utils->bin && !if_executable(info))
 			|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
 		{
@@ -153,7 +152,7 @@ void	execute_cmd(t_info *info, int cdt)
 			// perror(": ");
 			if(errno == ENOENT)
 			{
-				ft_putstr_fd(" : Command not found\n",2);
+				ft_putstr_fd(": Command not found\n",2);
 				ft_free_all(NORMAL, 127);
 			}
 			else if (errno == EACCES)
@@ -165,11 +164,7 @@ void	execute_cmd(t_info *info, int cdt)
 				perror("execve:");
 			ft_free_all(NORMAL, 1);
 
-		} //?
-		
-		// exit (127);
-		// ENOENT
-		// EACCES
+		}
 	}
 	info->utils->id = id;
 }

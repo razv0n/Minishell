@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 17:45:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 22:07:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ int	change_red(t_info *info)
 	t_list	*help;
 	char *str;
 
-	void    print_stack(t_list *head);
 	head = info->head_cmd;
-	print_stack(head);
 	while (head)
 	{
 		if (is_redirect(head->content))
@@ -88,7 +86,7 @@ int	change_red(t_info *info)
 				{
 					str = ft_strdup(head->next->content, SECOUND_P);
 					expand_2(&str, DOUBLE_Q, info);
-					if (!str || (head->next->content[0] != '"' && have_space(str)))
+					if (!str || (head->next->content[0] != '"' && count_word_space(str) > 1))
 					{
 						head->type = AMBIGUOUS;
 						ft_perror(ERR_AMBIGUOUS);

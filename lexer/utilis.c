@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 09:43:17 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 22:03:58 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ char	**ft_split_tokens(t_info *info)
 	if (!info)
 		return (NULL);
 	lenght = count_word(line);
-	printf("count word = %d\n", lenght);
 	result = ft_malloc((lenght + 1) * sizeof(char *), SECOUND_P, FREE);
 	info->joined = ft_malloc(sizeof(bool) * (lenght), SECOUND_P, FREE);
 	ft_bzero(info->joined, sizeof(bool) * lenght);

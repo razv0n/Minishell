@@ -6,13 +6,13 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 11:48:50 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 14:13:19 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 21:52:54 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_word(char const *str)
+int	count_word_space(char const *str)
 {
 	size_t	i;
 	int		count;
@@ -74,7 +74,7 @@ char	**ft_split_space(char const *s)
 
 	if (!s)
 		return (NULL);
-	lenght = count_word(s);
+	lenght = count_word_space(s);
 	result = ft_malloc((lenght + 1) * sizeof(char *), SECOUND_P, FREE);
 	i = 0;
 	while (i < lenght)

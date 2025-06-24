@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 17:04:31 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/23 16:44:42 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	herdoc(char *str, t_info *info, t_type_word is_quotes)
 	{
 		*(sig_varible()) = true;
 		fd = ft_open(info->path_name[i], O_CREAT | O_RDWR, 0766);
-		ft_dupX(info->fd_in, 0, true);
-		ft_dupX(info->fd_out, 1, true);
+		// ft_dupX(info->fd_in, 0, true);
+		// ft_dupX(info->fd_out, 1, true);
 		id = fork();
 		if (id == -1)
 			ft_free_all(NORMAL, 5);

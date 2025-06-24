@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/21 16:54:55 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 19:27:22 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	check_access(t_info *info)
 	{
 		x = add_string(info->utils->path[i], info->utils->cmd[0]);
 		stat(x, &sb);
-		if (!access(x, F_OK) && !S_ISDIR(sb.st_mode))
+		if (!access(x, F_OK) && !S_ISDIR(sb.st_mode) && !ft_strchr(info->utils->cmd[0], '/'))
 		{
-			if (!access(x, X_OK))
+			if (!access(x, X_OK)) // here whene i add pwd to the path the cat not ben set
 			{
 				info->utils->bin = true;
 				*(sig_varible()) = true;

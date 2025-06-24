@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 17:44:59 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/23 16:41:35 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_l
 	struct s_l		*next;
 }					t_ptr;
 
-typedef struct t_ptr
+typedef struct s_info
 {
 	t_u				*utils;
 	t_xp			*head_export;
@@ -120,6 +120,7 @@ t_ptr   			*where_is_fd(t_ptr *head, int   fd);
 void    			ft_close(int fd);
 void				ft_pipe(int pip[2]);
 bool				check_lf_file(t_info *info);
+void	split_variable(t_type_word wich_quote, t_list *node);
 bool				have_space(char *str);
 void				*ft_malloc(size_t size, t_free_type place, t_free_type type);
 char				*check_to_expand(char *str, int *i, t_info *info);
@@ -144,7 +145,6 @@ void				remove_quotes(char **str, t_list *node);
 bool				check_quotes(char c);
 void				unlink_path(t_info *info);
 void				expand(t_info *info);
-void	split_variable(char	**str, t_type_word wich_quote, t_info *info);
 void				expand_2(char **str, t_type_word wich_quote, t_info *info);
 void				ft_lstadd_back_d(t_list **start, t_list *new);
 void				start_herdoc(t_info *info, t_list *head);

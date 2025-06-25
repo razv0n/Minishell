@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:36:22 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/15 14:35:06 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/20 10:31:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*add_string(char *s1, char *s2)
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
 	i = length(s1) + length(s2);
-	p = ft_malloc(sizeof(char) * (i + 1), SECOUND_P);
+	p = ft_malloc(sizeof(char) * (i + 1), SECOUND_P, FREE);
 	i = 0;
 	while (s1[i])
 	{

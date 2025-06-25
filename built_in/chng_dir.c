@@ -48,6 +48,8 @@ void	ft_cd_2(t_info *info, char *old)
 
 	pwd = NULL;
 	pwd = getcwd(pwd, 4096);
+	if (!old || !pwd)
+		return ;
 	edit_export(info->head_export, info->head_env, pwd, old);
 	free(pwd);
 	free(old);
@@ -74,7 +76,8 @@ void	ft_cd(t_info *info, char **arg)
 			ft_putstr_fd(arg[1], 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
 		}
-		free(old);
+		if (old)
+			free(old);
 		info->ext = 1;
 		if (info->utils->child)
 			ft_free_all(NORMAL, 1);

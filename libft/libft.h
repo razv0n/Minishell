@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:29:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/14 15:56:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 17:10:42 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ typedef enum e_type
     REDIRECT_IN,
     REDIRECT_OUT,
     HEREDOC,
-    APPEND,
+    APPEND, 
+    AMBIGUOUS
 }t_type_word;//* this enum for type of token
 
 typedef enum {
-    F_SIMPLE,
-    F_DOUBLE,
-    F_STRUCT,
+    CLOSE,
+    FREE,
     FIRST_P,
     SECOUND_P
 } t_free_type;
@@ -47,7 +47,8 @@ typedef struct s_list
     bool                joined;
 }		t_list;
 int		ft_lstsize(t_list *lst);
-void	*ft_malloc(size_t size, t_free_type place);
+void	*ft_malloc(size_t size, t_free_type place, t_free_type type);
+void	*ft_calloc(size_t nitems, size_t size);
 t_list	*ft_lstnew(void *content);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list	*ft_lstlast(t_list *lst);
@@ -58,13 +59,13 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 // int		ft_atoi(const char *str);
 void	*ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t count, size_t size);
 int		ft_isalnum(int i);
 int		ft_isalpha(int i);
 int		ft_isascii(int i);
 int		ft_isdigit(int i);
 int		ft_isprint(int i);
 void	*ft_memchr(const void *s, int c, size_t n);
+char	**ft_split_space(char const *s);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *s1, const void *s2, size_t n);
@@ -78,6 +79,7 @@ int		ft_strncmp(const char *s1, char *s2, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_strrchr(const char *s, int c);
 int		ft_tolower(int i);
+bool	is_whitespace(char c);
 int		ft_toupper(int i);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2, t_free_type place);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/17 15:28:30 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 17:04:31 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 		ft_putstr_fd("\n", fd);
 		free(line);
 	}
-	close(fd);
-	close(info->fd_in);
-	close(info->fd_out);
+	ft_close(fd);
+	ft_close(info->fd_in);
+	ft_close(info->fd_out);
 	ft_free_all(NORMAL, 0);
 }
 
@@ -50,21 +50,16 @@ void	herdoc(char *str, t_info *info, t_type_word is_quotes)
 	if (info->ext != 130)
 	{
 		*(sig_varible()) = true;
-		fd = open(info->path_name[i], O_CREAT | O_RDWR, 0766);
-		if (fd == -1 || dup2(info->fd_in, 0) == -1 || dup2(info->fd_out, 1) ==
-			-1)
-		{
-			if (fd != -1)
-				close(fd);
-			ft_free_all(NORMAL, 4); // should free
-		}
+		fd = ft_open(info->path_name[i], O_CREAT | O_RDWR, 0766);
+		ft_dupX(info->fd_in, 0, true);
+		ft_dupX(info->fd_out, 1, true);
 		id = fork();
 		if (id == -1)
 			ft_free_all(NORMAL, 5);
 		else if (id == 0)
 			child_herdoc(info, is_quotes, fd, str);
 		waitpid(id, &info->ext, 0);
-		close(fd);
+		ft_close(fd);
 		exit_status(info);
 	}
 	if (++i >= info->count_herdoc)
@@ -73,6 +68,12 @@ void	herdoc(char *str, t_info *info, t_type_word is_quotes)
 
 void	redirection(t_list *node, int cdt, t_info *info)
 {
+	// if (cdt == AMBIGUOUS)
+	// {
+	// 	get_next_cmd(node);
+	// 	info->utils->cmd[0] = NULL;
+	// 	printf("cmd [0] in %s\n", info->utils->cmd[0]);
+	// }
 	if (cdt == APPEND)
 		rdr_append(node->content);
 	else if (cdt == REDIRECT_IN)

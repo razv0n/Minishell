@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/18 17:46:31 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 17:45:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	type_tokens(t_list *head)
 {
 	while (head)
 	{
+		head->quotes_type = 1337;
 		if (ft_strcmp(head->content, "<"))
 			head->type = REDIRECT_IN;
 		else if (ft_strcmp(head->content, ">"))
@@ -72,20 +73,32 @@ int	change_red(t_info *info)
 {
 	t_list	*head;
 	t_list	*help;
+	char *str;
 
+	// void    print_stack(t_list *head);
 	head = info->head_cmd;
+	// print_stack(head);
 	while (head)
 	{
 		if (is_redirect(head->content))
 		{
-			if (head->next && !head->next->content && !ft_strcmp(head->content, "<<"))
-				ft_perror(AMBIGUOUS);
-
 			if (head->next)
-				head->next->type = head->type;
+			{
+				if (!ft_strcmp(head->content, "<<") && ft_strchr(head->next->content, '$') && head->next->content[0] != '\'' )
+				{
+					str = ft_strdup(head->next->content, SECOUND_P);
+					expand_2(&str, DOUBLE_Q, info);
+					if (!str || (head->next->content[0] != '"' && have_space(str)))
+					{
+						head->type = AMBIGUOUS;
+						ft_perror(ERR_AMBIGUOUS);
+					}
+				}
+			head->next->type = head->type;
 			help = head->next;
 			remove_node_doubly(&info->head_cmd, head);
 			head = help;
+			}
 		}
 		else
 			head = head->next;

@@ -69,11 +69,6 @@ void	add_to_export_2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 		node->next = *head;
 		*head = node;
 	}
-	// else if (!ptr && cdt == -1)
-	// {
-	// 	node->next = (*head)->next;
-	// 	*head = node;
-	// }
 }
 
 int	add_to_export(t_xp **head, char *s, t_info *info)

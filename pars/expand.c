@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/17 16:17:25 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 15:41:35 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	expand(t_info *info)
 	content = info->head_cmd;
 	while (content)
 	{
-		content->quotes_type = 7331;
 		if (content->content[0] == '$' && !content->content[1] && content->next
 			&& content->joined && check_quotes(content->next->content[0]))
 		{
@@ -97,7 +96,32 @@ void	expand(t_info *info)
 		if (check_quotes(content->content[0]))
 			remove_quotes(&content->content, content);
 		if (ft_strchr(content->content, '$') && content->type != HEREDOC)
+		{
 			expand_2(&content->content, content->quotes_type, info);
+			split_variable(&content->content, content->quotes_type, info);
+		}
+			
 		content = content->next;
+	}
+}
+
+void	split_variable(char	**str, t_type_word wich_quote, t_info *info)
+{
+	char	**str_split;
+	int		i;
+
+	i = 0;
+	if (!str || !*str || wich_quote == DOUBLE_Q || wich_quote == SINGLE_Q)
+		return;
+	str_split  = ft_split_space(*str);
+	if (!str_split[0])
+		return;
+	*str = NULL;
+	while (str_split[i])
+	{
+		 *str = ft_strjoin(*str, str_split[i], SECOUND_P);
+		 if (str_split[i + 1] != NULL)
+		 	*str = ft_strjoin(*str, " ", SECOUND_P);
+		i++;
 	}
 }

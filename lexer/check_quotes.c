@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:13:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/15 21:25:09 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/21 18:59:59 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,6 @@ bool	quotes_in_split(char quotes)
 		}
 	}
 	if (!qs.single_quotes_b && !qs.double_quotes_b)
-		return (true);
-	return (false);
+		return (false);
+	return (true);
 }

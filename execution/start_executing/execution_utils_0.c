@@ -14,8 +14,7 @@
 
 void	get_path(t_info *info, t_u *utils)
 {
-	// int		check_access_va;
-
+	utils->bin = false;
 	if (utils->fail != -1)
 	{
 		if (!utils->child)
@@ -23,82 +22,77 @@ void	get_path(t_info *info, t_u *utils)
 			if (check_builtin(info, info->utils->cmd))
 			    return ;
 		}
-		// check_access_va = check_access(info);
 		if (check_access(info))
 		{
-			// if (check_access_va != -1)
-			// {
 				if (utils->child)
 					execute_cmd(info, 0);
 				else
 					execute_cmd(info, 1);
 				utils->bin = true;
-			// }
 		}
-		// else if (info->permi)
-		// {
-		// 	info->ext = 126;
-		// 	ft_putstr_fd(info->utils->cmd[0], 2);
-		// 	ft_putstr_fd(":  permission denied\n", 2);
-		// }
-		// else if (check_access_va != -1)
-		// {
-		// 	info->ext = 127;
-		// 	ft_putstr_fd(info->utils->cmd[0], 2);
-		// 	ft_putstr_fd(": Command not found\n",2);
-		// }
+		
 	}
 	utils->fail = 0;
-	close(1);
+	info->permi = false;
+	ft_close(1);
 }
 
 void	open_pipe(t_u *utils)
 {
 	if (utils->i)
 	{
-		if (dup2(utils->copy, 0) == -1)
-			ft_free_all(NORMAL, 4);
-		close (utils->copy);
+		ft_dupX(utils->copy, 0, true);
+		ft_close (utils->copy);
 	}
 	if (utils->npi)
 	{
-		if (pipe(utils->pi) == -1)
-			ft_free_all(NORMAL, 4);
-		if (dup2(utils->pi[1], 1) == -1)
-			ft_free_all(NORMAL, 4);
-		utils->copy = dup(utils->pi[0]);
-		if (utils->copy == -1 )
-			ft_free_all(NORMAL, 4);
-		utils->i++;
-		utils->npi--;
-		close (utils->pi[0]);
-		close (utils->pi[1]);
+		ft_pipe(utils->pi);
+		ft_dupX(utils->pi[1], 1, true);
+		utils->copy = ft_dupX(utils->pi[0], -1, false);
+		utils->i = true; // bool //?
+		ft_close (utils->pi[0]);
+		ft_close (utils->pi[1]);
 	}
+	utils->npi--;
 }
-
+// echo yes | cat -e
 void	back_to_normal(t_info *info)
 {
 	if (info->utils->exc)
 		info->utils->exc = NULL;
-	if (!info->utils->npi)
-		if (dup2(info->fd_in, 0) == -1)
-			ft_free_all(NORMAL, 4);
-	if (dup2(info->fd_out, 1) == -1)
-		ft_free_all(NORMAL, 4);
+	if (info->utils->npi == -1)
+		ft_dupX(info->fd_in, 0, true);
+	ft_dupX(info->fd_out, 1, true);
+}
+
+void	get_next_cmd(t_info *info, t_list **head, char *file)
+{
+	while (*head)
+	{
+		if ((*head)->next && (*head)->next->type == PIPE)
+			break ;
+		*head = (*head)->next;
+	}
+	info->utils->cmd[0] = NULL;
+	// ft_putstr_fd("minshell: ", 2);
+	// ft_putstr_fd(file, 2);
+	ft_putstr_fd("ambiguous redirect\n", 2);
 }
 
 void	start_executing(t_info *info, t_list *head, t_u *utils)
 {
 	while (head)
 	{
-		utils->bin = false;
 		utils->cmd = collecte_cmds(head, utils);
 		open_pipe(utils);
 		while (head && (head->type != PIPE))
 		{
-			if (head->type != WORD)
+			if (head->type == AMBIGUOUS)
+				get_next_cmd(info, &head, head->content);
+			else if (head->type != WORD)
 				redirection(head, head->type, info);
-			head = head->next;
+			if (head)
+				head = head->next;
 		}
 		get_path(info, utils);
 		back_to_normal(info);
@@ -109,23 +103,22 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
     	waitpid(utils->id, &info->ext, WUNTRACED);
 	while (wait(NULL) != -1)
 		;
-	if (info->utils->bin)
-		exit_status(info);
+	exit_status(info);
 	if (info->path_name)
 		unlink_path(info);
 }
 
 void	init_things(t_info *info, t_list *head)
 {
-	info->utils = ft_calloc (sizeof(t_u), 1); //! 
+	info->utils = ft_calloc(sizeof(t_u), 1); //! 
 	info->utils->cmd = NULL; // the command //!
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
-	info->utils->i = 0;
+	info->utils->i = false;
 	info->utils->bin = false;
 	info->utils->id = 0;
 	info->utils->fail = 0;
-	info->permi = false;
+	info->permi = false; // don't know if we will use it
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	// info->fd_in = dup(0); // 3
@@ -134,8 +127,8 @@ void	init_things(t_info *info, t_list *head)
 		info->utils->child = true;
 	info->utils->path = update_path(ft_getenv("PATH", info->head_env)); //!
 	start_executing(info, head, info->utils);
-	close (info->fd_in);
-	close (info->fd_out);
+	ft_close (info->fd_in);
+	ft_close (info->fd_out);
 }
 
 // int	main()

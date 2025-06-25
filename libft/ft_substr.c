@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 11:02:50 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/13 17:47:15 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/20 10:33:03 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	{
 		if (lenght - start < len)
 			len = lenght - start;
-		substr = ft_malloc(len + 1, SECOUND_P);
+		substr = ft_malloc(len + 1, SECOUND_P, FREE);
 		if (!substr)
 			return (NULL);
 	}

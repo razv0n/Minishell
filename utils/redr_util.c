@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:17:10 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/13 12:21:39 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/19 16:57:52 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,32 @@ void	rdr_in(char *str, t_info *info)
 {
 	int	fd;
 
-	if (access(str, F_OK) == -1)
-	{
-		ft_putstr_fd("minshell: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		info->utils->fail = -1;
-	}
-	else
-	{
-		fd = open(str, O_RDONLY, 0766);
-		if (fd == -1 || dup2(fd, 0) == -1)
+	errno = 0;
+	// if (access(str, F_OK) == -1)
+	// {
+	// 	ft_putstr_fd("minshell: ", 2);
+	// 	ft_putstr_fd(str, 2);
+	// 	ft_putstr_fd(": No such file or directory\n", 2);
+	// 	info->utils->fail = -1;
+	// }
+	// else
+	// {
+		fd = ft_open(str, O_RDONLY, 0);
+		if (errno)
 		{
-			if (fd != -1)
-				close(fd);
-			ft_free_all(NORMAL, 4); // error in file descriptor
+			ft_putstr_fd("minshell: ", 2); //all this changed by ayoub
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd(": ", 2);
+			ft_putstr_fd(strerror(errno), 2);
+			ft_putstr_fd("\n", 2);
+			info->utils->fail = -1;
 		}
-		close(fd);
-	}
+		else
+		{
+			ft_dupX(fd, 0, true);
+			ft_close(fd);
+		}
+	// }
 }
 
 void	rdr_herdoc(t_info *info)
@@ -41,42 +49,27 @@ void	rdr_herdoc(t_info *info)
 	static int	i;
 	int			fd;
 
-	fd = open(info->path_name[i], O_RDWR, 0766);
-	if (fd == -1 || dup2(fd, 0) == -1)
-	{
-		if (fd != -1)
-			close(fd);
-		ft_free_all(NORMAL, 4);
-	}
+	fd = ft_open(info->path_name[i], O_RDWR, 0);
+	ft_dupX(fd, 0, true);
 	if (++i >= info->count_herdoc)
 		i = 0;
-	close(fd);
+	ft_close(fd);
 }
 
 void	rdr_append(char *str)
 {
 	int	fd;
 
-	fd = open(str, O_CREAT | O_APPEND | O_RDWR, 0766);
-	if (fd == -1 || dup2(fd, 1) == -1)
-	{
-		if (fd != -1)
-			close(fd);
-		ft_free_all(NORMAL, 4); // error in file descriptor
-	}
-	close(fd);
+	fd = ft_open(str, O_CREAT | O_APPEND | O_RDWR, 0766);
+	ft_dupX(fd, 1, true);
+	ft_close(fd);
 }
 
 void	rdr_out(char *str)
 {
 	int	fd;
 
-	fd = open(str, O_CREAT | O_TRUNC | O_RDWR, 0766);
-	if (fd == -1 || dup2(fd, 1) == -1)
-	{
-		if (fd != -1)
-			close(fd);
-		ft_free_all(NORMAL, 4); // error in file descriptor
-	}
-	close(fd);
+	fd = ft_open(str, O_CREAT | O_TRUNC | O_RDWR, 0766);
+	ft_dupX(fd, 1, true);
+	ft_close(fd);
 }

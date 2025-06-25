@@ -22,6 +22,7 @@ void	ft_pwd(t_info *info)
 		info->ext = 1;
 		if (info->utils->child)
 			ft_free_all(NORMAL, 1);
+		return ;
 	}
 	printf("%s\n", s);
 	info->ext = 0; // for updating the exit status but i think we won't need it

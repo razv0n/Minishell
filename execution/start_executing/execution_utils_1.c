@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/18 18:42:41 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/21 16:54:55 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,37 +44,28 @@ int	check_access(t_info *info)
 	int		i;
 	char	*x;
 	struct stat sb;
-	// struct	stat sb_1;
-	// bool	lf_found;
-	
-	// lf_found = false;
+
 	i = 0;
-	if (!info->utils->cmd[0])
+	if (!info->utils->cmd[i])
 		return (0);
-	// if (stat(info->utils->cmd[0], &sb_1) != -1)
-	// 	lf_found = true;
 	while (info->utils->path && info->utils->path[i])
 	{
 		x = add_string(info->utils->path[i], info->utils->cmd[0]);
 		stat(x, &sb);
-		// (lf_found &&  ft_strchr(info->utils->cmd[0], '/') && !S_ISDIR(sb_1.st_mode))
-		// (lf_found && !access(info->utils->cmd[0], X_OK))
 		if (!access(x, F_OK) && !S_ISDIR(sb.st_mode))
 		{
+			info->utils->exc = x;
 			if (!access(x, X_OK))
 			{
 				info->utils->bin = true;
 				*(sig_varible()) = true;
-				info->utils->exc = x; 
-				// info->permi = 0;
 				return (1);
 			}
-			// else
-			// 	info->permi = -1;
+			info->permi = true; // permission denied
 		}
 		i++;
 	}
-	return (1);	
+	return (1);
 }
 
 int	check_builtin_2(t_info *info, char **cmd)
@@ -122,7 +113,7 @@ int	check_builtin(t_info *info, char **cmd)
 	else
 	{
 		if (check_builtin_2(info, cmd))
-		return (1);
+			return (1);
 	}
 	return (0);
 }
@@ -138,33 +129,31 @@ void	execute_cmd(t_info *info, int cdt)
 		ft_free_all(NORMAL, 5);
 	if (!id)
 	{
-		close(info->fd_in);
-		close(info->fd_out);
-		if (info->utils->child)
-			close (info->utils->copy);
+		if (info->utils->child && info->utils->npi != -1)
+			ft_close (info->utils->copy);
+		ft_close(info->fd_in);
+		ft_close(info->fd_out);
 		if (!cdt && check_builtin(info, info->utils->cmd))
 			return ;
-		if ((!info->utils->bin && !if_executable(info))
+		if ((!info->utils->bin && !check_lf_file(info))
 			|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
-		{
-			ft_putstr_fd("Minishell: ", 2);
-			ft_putstr_fd(info->utils->cmd[0], 2);
-			// perror(": ");
-			if(errno == ENOENT)
-			{
-				ft_putstr_fd(": Command not found\n",2);
-				ft_free_all(NORMAL, 127);
-			}
-			else if (errno == EACCES)
-			{
-				perror(": ");
-				ft_free_all(NORMAL, 126);
-			}
-			else
-				perror("execve:");
-			ft_free_all(NORMAL, 1);
-
-		}
+			check_which_msg(info->utils->cmd[0]);
 	}
 	info->utils->id = id;
 }
+
+// ft_putstr_fd("Minishell: ", 2);
+// ft_putstr_fd(info->utils->cmd[0], 2);
+// if (errno == EACCES)
+// {
+// 	perror("");
+// 	ft_free_all(NORMAL, 126);
+// }
+// else if(errno == ENOENT)
+// {
+// 	ft_putstr_fd(" : Command not found\n",2);
+// 	ft_free_all(NORMAL, 127);
+// }
+// else
+// 	perror("execve");
+// ft_free_all(NORMAL, 1);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:14:04 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/14 15:18:44 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/20 10:31:29 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*ft_lstnew_d(void *content, t_free_type place)
 {
 	t_list	*newnode;
 
-	newnode = ft_malloc(sizeof(t_list), place);
+	newnode = ft_malloc(sizeof(t_list), place, FREE);
 	newnode->content = content;
 	newnode->next = NULL;
 	newnode->prev = NULL;

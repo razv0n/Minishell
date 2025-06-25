@@ -6,17 +6,22 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/23 16:44:42 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/25 16:08:01 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
+void	handle_sig_init(int sig)
+{
+	ft_free_all(NORMAL, 130);
+}
+
 void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 {
 	char	*line;
 
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, handle_sig_init);
 	while (1)
 	{
 		line = readline("> ");
@@ -28,15 +33,10 @@ void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 		if (ft_strchr(line, '$') && is_quotes != DOUBLE_Q
 			&& is_quotes != SINGLE_Q)
 			expand_2(&line, 1337, info);
-		if (line && line[0])
-			add_history(line);
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
 		free(line);
 	}
-	ft_close(fd);
-	ft_close(info->fd_in);
-	ft_close(info->fd_out);
 	ft_free_all(NORMAL, 0);
 }
 

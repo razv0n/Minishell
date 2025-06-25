@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:36:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/13 21:03:13 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/25 16:19:52 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	handle_sig(int sig)
 {
 	if (sig == SIGINT)
 	{
+		printf("stat : %d\n", *(sig_varible()));
 		if (*(sig_varible()) == false)
 		{
 			printf("\n");
@@ -44,3 +45,5 @@ bool	*sig_varible(void)
 
 	return (&sig_varible);
 }
+
+

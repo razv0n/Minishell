@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 15:00:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/25 16:33:48 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,28 @@ bool	have_space(char *str)
 		i++;
 	}
 	return (false);
+}
+
+void	change_red_help(t_list **head, t_info *info)
+{	
+	t_list	*help;
+	char	*str;
+
+		if ((*head)->next && !ft_strcmp((*head)->content, "<<") && ft_strchr((*head)->next->content, '$') && (*head)->next->content[0] != '\'' )
+		{
+			str = ft_strdup((*head)->next->content, SECOUND_P);
+			expand_2(&str, DOUBLE_Q, info);
+			if (!str || ((*head)->next->content[0] != '"' && count_word_space(str) > 1))
+			{
+				(*head)->type = AMBIGUOUS;
+				ft_perror(ERR_AMBIGUOUS);
+			}
+		}
+		if ((*head)->next)
+			(*head)->next->type = (*head)->type;
+		help = (*head)->next;
+		remove_node_doubly(&info->head_cmd, (*head));
+		(*head) = help;
 }
 
 // bool	check_fd_found(t_ptr *head, int fd)

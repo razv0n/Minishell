@@ -88,6 +88,8 @@ int	main(int ac, char **av, char **env)
 	info = ft_malloc(sizeof(t_info), FIRST_P, FREE);
 	// init_info(info);
 	info->ext = 0;
+	info->fd_in = ft_dupX(0, -1, false);
+	info->fd_out = ft_dupX(1, -1, false);
 	cpy_env(env, info);
 	minishell_loop(info);
 }

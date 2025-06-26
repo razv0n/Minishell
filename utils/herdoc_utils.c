@@ -6,24 +6,11 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/19 16:58:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/23 16:12:40 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-// void	free_double(char **str) // pls change the name of it
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		free (str[i]);
-// 		i++;
-// 	}
-// 	free (str);
-// }
 
 int	count_herdoc(t_list *head)
 {

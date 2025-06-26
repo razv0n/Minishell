@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 12:11:58 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/22 21:43:43 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	ft_perror(t_error_type msg)
 		ft_putstr_fd("exit\n", 2);
 	else if (msg == SYNTAX_ERROR)
 		ft_putstr_fd("Minishell : \033[31msyntax error\033[0m\n", 2);
-	else if (msg == AMBIGUOUS)
+	else if (msg == ERR_AMBIGUOUS)
 		ft_putstr_fd("Minishell : \033[31mambiguous redirect\033[0m\n", 2);
 	else if (msg == ERR_EXECVE)
 		ft_putstr_fd("Minishell : execve failed: ",2);
 	else if (msg == SYSCALL)
-		perror("Minishell");
+		perror("");
 }
 
 void	ft_free(t_info *info, t_error_type msg)
@@ -52,7 +52,7 @@ void	ft_free(t_info *info, t_error_type msg)
 	ft_perror(msg);
 }
 
-void	ft_free_all(t_error_type msg, unsigned char exit_code)
+void	ft_free_all(t_error_type msg, int exit_code)
 {
 	t_ptr	**head;
 
@@ -60,7 +60,8 @@ void	ft_free_all(t_error_type msg, unsigned char exit_code)
 	ft_lstclear_not(head);
 	rl_clear_history();
 	ft_perror(msg);
-	exit(exit_code);
+	if (exit_code != -1)
+		exit(exit_code);
 }
 
 void	check_which_msg(char *cmd)

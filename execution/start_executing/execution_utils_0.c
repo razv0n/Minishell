@@ -20,7 +20,7 @@ void	get_path(t_info *info, t_u *utils)
 		if (!utils->child)
 		{
 			if (check_builtin(info, info->utils->cmd))
-			    return ;
+				return ;
 		}
 		if (check_access(info))
 		{
@@ -28,9 +28,8 @@ void	get_path(t_info *info, t_u *utils)
 					execute_cmd(info, 0);
 				else
 					execute_cmd(info, 1);
-				utils->bin = true;
+				// utils->bin = true;
 		}
-		
 	}
 	utils->fail = 0;
 	info->permi = false;
@@ -55,7 +54,7 @@ void	open_pipe(t_u *utils)
 	}
 	utils->npi--;
 }
-// echo yes | cat -e
+
 void	back_to_normal(t_info *info)
 {
 	if (info->utils->exc)
@@ -74,8 +73,6 @@ void	get_next_cmd(t_info *info, t_list **head, char *file)
 		*head = (*head)->next;
 	}
 	info->utils->cmd[0] = NULL;
-	// ft_putstr_fd("minshell: ", 2);
-	// ft_putstr_fd(file, 2);
 	ft_putstr_fd("ambiguous redirect\n", 2);
 }
 

@@ -43,13 +43,13 @@ int		ft_dupX(int	fd1, int fd2, bool is_dup2)
 	if (is_dup2)
 	{
 		if (dup2(fd1, fd2) == -1)
-			ft_free_all(NORMAL, 4);
+			ft_free_all(SYSCALL, -1);
 	}
 	else
 	{
 		fd1 = dup(fd1);
 		if (fd1 == -1)
-			ft_free_all(NORMAL, 4);
+			ft_free_all(SYSCALL, -1);
 		ptr_fd = ft_malloc(sizeof(int), SECOUND_P, CLOSE);
 		*ptr_fd = fd1;
 	}
@@ -65,11 +65,9 @@ int    ft_open(char *str, int flag, int permi)
         fd = open(str, flag, permi);
     else
         fd = open(str, flag);
-    // if (fd == -1)
-	// 	return -1;
 	if (fd == -1)
-		return(-1);
-    	// ft_free_all(NORMAL, 4);
+		ft_free_all(SYSCALL, -1);
+	// return(-1);
 	ptr_fd = ft_malloc(sizeof(int), SECOUND_P, CLOSE);
 	*ptr_fd = fd;
     return (fd);

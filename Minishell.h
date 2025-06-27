@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/23 16:41:35 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/25 10:19:31 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,14 @@ typedef struct s_info
 	int				count_herdoc;
 	bool			*joined;
 	bool			permi;
+	char            *cw;
 }					t_info;
 
 t_list				*ft_lstnew_d(void *content, t_free_type place);
 int					ft_strcmp(char *line, char *str);
 int					check_metacharacter(const char *c);
 void				exit_status(t_info *);
+// void				change_red_help(t_list *head, t_info *info);
 bool				check_quotes_error(t_info *info);
 bool				check_error(t_info *info);
 // void	free_double(char **str);
@@ -120,8 +122,9 @@ int    				ft_open(char *str, int flag, int permi);
 t_ptr   			*where_is_fd(t_ptr *head, int   fd);
 void    			ft_close(int fd);
 void				ft_pipe(int pip[2]);
+void	change_red_help(t_list **head, t_info *info);
 bool				check_lf_file(t_info *info);
-void	split_variable(t_type_word wich_quote, t_list *node);
+void				split_variable(t_type_word wich_quote, t_list *node);
 bool				have_space(char *str);
 void				*ft_malloc(size_t size, t_free_type place, t_free_type type);
 char				*check_to_expand(char *str, int *i, t_info *info);
@@ -198,8 +201,8 @@ char				*join_str(char *s1, char *s2, int cdt, int *equal);
 void				attach_node(t_xp **head, char *s);
 t_xp				*create_node(char *s);
 int					add_to_export(t_xp **head, char *s, t_info *info);
-void				check_which_msg(char *cmd);
-// void				check_which_msg(char *cmd, bool *permi);
+// void				check_which_msg(char *cmd);
+void				check_which_msg(char *cmd, bool permi);
 // bool				if_executable(t_info *info);
 
 // built-in

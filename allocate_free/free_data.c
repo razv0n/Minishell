@@ -64,29 +64,22 @@ void	ft_free_all(t_error_type msg, int exit_code)
 		exit(exit_code);
 }
 
-void	check_which_msg(char *cmd)
+void	check_which_msg(char *cmd, bool permi)
 {
 	ft_putstr_fd("Minishell: ", 2);	
 	ft_putstr_fd(cmd, 2);
-	// if (*permi)
-	// {
-	// 	ft_putstr_fd(": Permission denied\n", 2);
-	// 	// *permi = false;
-	// 	ft_free_all(NORMAL, 126);
-	// }
 	if(errno == ENOENT)
 	{
 		ft_putstr_fd(": Command not found\n",2);
 		ft_free_all(NORMAL, 127);
 	}
-	// else
-	// 	ft_free_all(NORMAL, 126);
-
+	if (permi)
+	{
+		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_free_all(NORMAL, 127);
+	}
 	perror(" ");
-	// if (errno == EACCES)
-	// else
-	// 	perror("execve");
-	// ft_free_all(NORMAL, 1);
+	exit (126);
 }
 
 // void	free_ptr(t _ptr **head)

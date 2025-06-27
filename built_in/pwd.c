@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:46:52 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/12 15:37:59 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/25 11:22:42 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,4 @@ void	ft_pwd(t_info *info)
 	info->ext = 0; // for updating the exit status but i think we won't need it
 	if (info->utils->child)
 		ft_free_all(NORMAL, 0);
-}
+}	

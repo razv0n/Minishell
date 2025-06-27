@@ -61,10 +61,10 @@ int	check_access(t_info *info)
 				*(sig_varible()) = true;
 				return (1);
 			}
-			info->permi = true; // permission denied
 		}
 		i++;
 	}
+	// info->permi = true; // permission denied
 	return (1);
 }
 
@@ -137,7 +137,7 @@ void	execute_cmd(t_info *info, int cdt)
 			return ;
 		if ((!info->utils->bin && !check_lf_file(info))
 			|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
-			check_which_msg(info->utils->cmd[0]);
+			check_which_msg(info->utils->cmd[0], info->permi);
 	}
 	info->utils->id = id;
 }

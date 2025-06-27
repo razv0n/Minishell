@@ -28,7 +28,7 @@ void	get_path(t_info *info, t_u *utils)
 					execute_cmd(info, 0);
 				else
 					execute_cmd(info, 1);
-				// utils->bin = true;
+				utils->bin = true;
 		}
 	}
 	utils->fail = 0;
@@ -97,10 +97,11 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 			head = head->next;
 	}
 	if (info->ext != 127)
-    	waitpid(utils->id, &info->ext, WUNTRACED);
+		waitpid(utils->id, &info->ext, WUNTRACED);
 	while (wait(NULL) != -1)
 		;
-	exit_status(info);
+	if (utils->bin)
+		exit_status(info);
 	if (info->path_name)
 		unlink_path(info);
 }

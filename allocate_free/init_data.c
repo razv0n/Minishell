@@ -16,8 +16,8 @@ void	init_info(t_info *info)
 {
 	info->head_cmd = NULL;
 	info->joined = NULL;
-	// info->fd_in = ft_dupX(0, -1, false);
-	// info->fd_out = ft_dupX(1, -1, false);
+	info->fd_in = ft_dupX(0, -1, false);
+	info->fd_out = ft_dupX(1, -1, false);
 }
 
 t_ptr	**return_ptr(void)

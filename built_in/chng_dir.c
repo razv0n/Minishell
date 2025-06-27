@@ -49,13 +49,17 @@ void	ft_cd_2(t_info *info, char *old)
 	pwd = NULL;
 	pwd = getcwd(pwd, 4096);
 	if (!old || !pwd)
+	{
+		ft_putstr_fd("No such file or directory\n", 2);
+		info->ext = 0;
 		return ;
+	}
 	edit_export(info->head_export, info->head_env, pwd, old);
 	free(pwd);
 	free(old);
 	info->ext = 0;
 	if (info->utils->child)
-		ft_free_all(NORMAL, 1);
+		ft_free_all(NORMAL, 0);
 }
 
 void	ft_cd(t_info *info, char **arg)

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/20 10:33:14 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/25 09:51:34 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*best_prompt()
 	prompt[0] = '\0';
 	ft_strlcat(prompt, "\001\033[1;32m\002", size);
 	ft_strlcat(prompt, user, size);
-	ft_strlcat(prompt, "@minishell ", size);
+	ft_strlcat(prompt, "@minishell:~", size);
 	ft_strlcat(prompt, "\001\033[1;34m\002", size);
 	ft_strlcat(prompt, cwd, size);
 	ft_strlcat(prompt, "\001\033[0m\002$ ", size);
@@ -88,8 +88,8 @@ int	main(int ac, char **av, char **env)
 	info = ft_malloc(sizeof(t_info), FIRST_P, FREE);
 	// init_info(info);
 	info->ext = 0;
-	info->fd_in = ft_dupX(0, -1, false);
-	info->fd_out = ft_dupX(1, -1, false);
+	info->cw = NULL;
+	info->cw = getcwd(info->cw, 4096);
 	cpy_env(env, info);
 	minishell_loop(info);
 }

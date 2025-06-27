@@ -17,7 +17,7 @@ void    ft_close(int fd)
     t_ptr   *node;
 
         if (close(fd) == -1)
-            ft_free_all(NORMAL, 4);
+            ft_free_all(SYSCALL, -1);
         node = where_is_fd(*(return_ptr()), fd);
         if (node)
             *((int *)node->content) = -2;// -2 mean fd is all ready closed this help me for close the fd if it all read close dont wory it wont closed
@@ -29,7 +29,7 @@ void	ft_pipe(int pip[2])
 	int		*ptr_fd2;
 	
 	if (pipe(pip) == -1)
-		ft_free_all(NORMAL, 2);
+		ft_free_all(SYSCALL, -1);
 	ptr_fd = ft_malloc(sizeof(int), SECOUND_P, CLOSE);
 	ptr_fd2 = ft_malloc(sizeof(int), SECOUND_P, CLOSE);
 	*ptr_fd = pip[0];

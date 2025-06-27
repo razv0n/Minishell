@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 22:07:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/25 10:19:42 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,45 +63,24 @@ void	add_is_joined(t_list *head, t_info *info)
 	i = 0;
 	while (head)
 	{
-		head->joined = info->joined[i];
+		head->joined = info->joined[i];	
 		i++;
 		head = head->next;
 	}
 }
 
-int	change_red(t_info *info)
+void	change_red(t_info *info)
 {
 	t_list	*head;
-	t_list	*help;
-	char *str;
 
 	head = info->head_cmd;
 	while (head)
 	{
 		if (is_redirect(head->content))
-		{
-			if (head->next)
-			{
-				if (!ft_strcmp(head->content, "<<") && ft_strchr(head->next->content, '$') && head->next->content[0] != '\'' )
-				{
-					str = ft_strdup(head->next->content, SECOUND_P);
-					expand_2(&str, DOUBLE_Q, info);
-					if (!str || (head->next->content[0] != '"' && count_word_space(str) > 1))
-					{
-						head->type = AMBIGUOUS;
-						ft_perror(ERR_AMBIGUOUS);
-					}
-				}
-				head->next->type = head->type;
-				help = head->next;
-				remove_node_doubly(&info->head_cmd, head);
-				head = help;
-			}
-		}
+			change_red_help(&head, info);
 		else
 			head = head->next;
 	}
-	return (1);
 }
 
 int	pars(t_info *info)

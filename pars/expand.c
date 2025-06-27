@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/23 17:16:12 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/24 14:56:13 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,11 @@ void	expand(t_info *info)
 			expand_2(&content->content, content->quotes_type, info);
 			split_variable(content->quotes_type, content);
 		}
-			
 		content = content->next;
 	}
 }
 
-void	ft_addnode (t_list *node, char *str)
+void	ft_addnode(t_list *node, char *str)
 {
 	t_list	*new_node;
 	
@@ -127,6 +126,7 @@ void	split_variable(t_type_word wich_quote, t_list *node)
 	int		i;
 
 	i =  1;
+	// printf()
 	if (!node || !node->content || wich_quote == DOUBLE_Q || wich_quote == SINGLE_Q)
 		return;
 	if (node->joined && is_whitespace(node->content[ft_strlen(node->content) - 1]))

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 15:07:11 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/20 10:32:58 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/26 11:03:21 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strjoin(char const *s1, char const *s2, t_free_type place)
 	char	*str;
 
 	if (!s2)
-		return (NULL);
+		return (ft_strdup(s1, place));
 	if (!s1)
 		return (ft_strdup(s2, place));
 	i = 0;

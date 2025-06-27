@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/25 16:08:01 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/27 21:34:50 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 	ft_free_all(NORMAL, 0);
 }
 
-void	herdoc(char *str, t_info *info, t_type_word is_quotes)
+e_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 {
 	char		*line;
 	pid_t		id;
@@ -51,11 +51,11 @@ void	herdoc(char *str, t_info *info, t_type_word is_quotes)
 	{
 		*(sig_varible()) = true;
 		fd = ft_open(info->path_name[i], O_CREAT | O_RDWR, 0766);
-		// ft_dupX(info->fd_in, 0, true);
-		// ft_dupX(info->fd_out, 1, true);
+		if (fd == SYS_FAIL)
+			return (SYS_FAIL);
 		id = fork();
 		if (id == -1)
-			ft_free_all(NORMAL, 5);
+			return (SYS_FAIL);
 		else if (id == 0)
 			child_herdoc(info, is_quotes, fd, str);
 		waitpid(id, &info->ext, 0);
@@ -64,9 +64,10 @@ void	herdoc(char *str, t_info *info, t_type_word is_quotes)
 	}
 	if (++i >= info->count_herdoc)
 		i = 0;
+	return (SYS_SUCCESS);
 }
 
-void	redirection(t_list *node, int cdt, t_info *info)
+e_sys_err	redirection(t_list *node, int cdt, t_info *info)
 {
 	// if (cdt == AMBIGUOUS)
 	// {
@@ -75,11 +76,12 @@ void	redirection(t_list *node, int cdt, t_info *info)
 	// 	printf("cmd [0] in %s\n", info->utils->cmd[0]);
 	// }
 	if (cdt == APPEND)
-		rdr_append(node->content);
+		return (rdr_append(node->content));
 	else if (cdt == REDIRECT_IN)
-		rdr_in(node->content, info);
+		return (rdr_in(node->content, info));
 	else if (cdt == HEREDOC)
-		rdr_herdoc(info);
+		return (rdr_herdoc(info));
 	else if (cdt == REDIRECT_OUT)
-		rdr_out(node->content);
+		return (rdr_out(node->content));
+	return (SYS_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/22 19:27:22 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/27 21:27:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,15 +118,15 @@ int	check_builtin(t_info *info, char **cmd)
 	return (0);
 }
 
-void	execute_cmd(t_info *info, int cdt)
+e_sys_err	execute_cmd(t_info *info, int cdt)
 {
 	int	id;
 
 	if (cdt && check_builtin(info, info->utils->cmd))
-		return ;
+		return (SYS_SUCCESS);
 	id = fork();
 	if (id == -1)
-		ft_free_all(NORMAL, 5);
+		return (SYS_FAIL);
 	if (!id)
 	{
 		if (info->utils->child && info->utils->npi != -1)
@@ -134,7 +134,7 @@ void	execute_cmd(t_info *info, int cdt)
 		ft_close(info->fd_in);
 		ft_close(info->fd_out);
 		if (!cdt && check_builtin(info, info->utils->cmd))
-			return ;
+			return (SYS_SUCCESS);
 		// fprintf(stderr, "the str : %s\n", info->utils->exc);
 		if ((!info->utils->bin && !check_lf_file(info))
 			|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
@@ -162,4 +162,5 @@ void	execute_cmd(t_info *info, int cdt)
 		// EACCES
 	}
 	info->utils->id = id;
+	return (SYS_SUCCESS);
 }

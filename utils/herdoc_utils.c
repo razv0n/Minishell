@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/23 16:12:40 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/27 19:46:38 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	count_herdoc(t_list *head)
 char	*joined_for_herdoc(t_list *head, bool *is_quotes)
 {
 	char	*str;
-	char	*str_1;
 
 	str = ft_strdup(head->content, SECOUND_P);
 	if (check_quotes(str[0]))
@@ -39,15 +38,14 @@ char	*joined_for_herdoc(t_list *head, bool *is_quotes)
 	}
 	while (head)
 	{
-		if (head->joined)
+		if (head->joined && head->next)
 		{
-			str_1 = ft_strdup(head->next->content, SECOUND_P);
-			if (check_quotes(str_1[0]))
+			if (check_quotes(head->next->content[0]))
 			{
-				remove_quotes(&str_1, head->next);
+				remove_quotes(&head->next->content, head->next);
 				*is_quotes = true;
 			}
-			str = ft_strjoin(str, str_1, SECOUND_P);
+			str = ft_strjoin(str, head->next->content, SECOUND_P);
 		}
 		else
 			break ;
@@ -65,6 +63,8 @@ char	*generate_name(void)
 
 	i = 0;
 	fd = ft_open("/dev/random", O_CREAT | O_RDWR, 0);
+	if (fd == SYS_FAIL)
+		return (NULL);
 	read(fd, buffer, 12);
 	buffer[12] = 0;
 	while (i < 13)
@@ -79,25 +79,26 @@ char	*generate_name(void)
 	return (path_name);
 }
 
-void	start_herdoc(t_info *info, t_list *head)
+e_sys_err	start_herdoc(t_info *info, t_list *head)
 {
 	char	*str;
 	bool	is_quotes;
 
 	is_quotes = false;
 	info->count_herdoc = count_herdoc(head);
-	path(info);
+	if (path(info) == SYS_FAIL)
+		return (SYS_FAIL);
 	while (head)
 	{
 		if (head->type == HEREDOC)
 		{
-			str = head->content;
-			if (head->next)
-				str = joined_for_herdoc(head->next, &is_quotes);
-			herdoc(str, info, is_quotes);
+			str = joined_for_herdoc(head, &is_quotes);
+			if (herdoc(str, info, is_quotes) == SYS_FAIL)
+				return (SYS_FAIL);
 		}
 		head = head->next;
 	}
+	return (SYS_SUCCESS);
 }
 
 void	unlink_path(t_info *info)
@@ -112,7 +113,7 @@ void	unlink_path(t_info *info)
 	}
 }
 
-void	path(t_info *info)
+e_sys_err	path(t_info *info)
 {
 	int	i;
 
@@ -121,7 +122,10 @@ void	path(t_info *info)
 	while (i < info->count_herdoc)
 	{
 		info->path_name[i] = generate_name();
+		if (!info->path_name[i])
+			return (SYS_FAIL);
 		i++;
 	}
 	info->path_name[i] = NULL;
+	return (SYS_SUCCESS);
 }

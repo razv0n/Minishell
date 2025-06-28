@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:29:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 21:50:43 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/26 17:48:11 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int		ft_isprint(int i);
 int	count_word_space(char const *str);
 void	*ft_memchr(const void *s, int c, size_t n);
 char	**ft_split_space(char const *s);
+void	*ft_calloc(size_t nitems, size_t size);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *s1, const void *s2, size_t n);

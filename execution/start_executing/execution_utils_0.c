@@ -12,7 +12,7 @@
 
 #include "../../Minishell.h"
 
-void	get_path(t_info *info, t_u *utils)
+e_sys_err	get_path(t_info *info, t_u *utils)
 {
 	utils->bin = false;
 	if (utils->fail != -1)
@@ -20,48 +20,64 @@ void	get_path(t_info *info, t_u *utils)
 		if (!utils->child)
 		{
 			if (check_builtin(info, info->utils->cmd))
-				return ;
+			    return (SYS_SUCCESS);
 		}
 		if (check_access(info))
 		{
-				if (utils->child)
-					execute_cmd(info, 0);
-				else
-					execute_cmd(info, 1);
-				utils->bin = true;
+			if (utils->child)
+			{
+				if (execute_cmd(info, 0) == SYS_FAIL)
+					return (SYS_FAIL);
+			}
+			else
+			{
+				if (execute_cmd(info, 1) == SYS_FAIL)
+					return (SYS_FAIL);
+			}
+			utils->bin = true;
 		}
 	}
-	utils->fail = 0;
-	info->permi = false;
 	ft_close(1);
+	return (SYS_SUCCESS);
 }
 
-void	open_pipe(t_u *utils)
+e_sys_err	open_pipe(t_u *utils)
 {
 	if (utils->i)
 	{
-		ft_dupX(utils->copy, 0, true);
+		if (ft_dupX(utils->copy, 0, true) == SYS_FAIL)
+			return (SYS_FAIL);
 		ft_close (utils->copy);
 	}
 	if (utils->npi)
 	{
-		ft_pipe(utils->pi);
-		ft_dupX(utils->pi[1], 1, true);
+		if (ft_pipe(utils->pi) == SYS_FAIL)
+			return (SYS_FAIL);
+		if (ft_dupX(utils->pi[1], 1, true) == SYS_FAIL)
+			return (SYS_FAIL);
 		utils->copy = ft_dupX(utils->pi[0], -1, false);
-		utils->i = true; // bool //?
+		if (utils->copy == SYS_FAIL)
+			return (SYS_FAIL);
+		utils->i++;
 		ft_close (utils->pi[0]);
 		ft_close (utils->pi[1]);
 	}
 	utils->npi--;
+	return (SYS_SUCCESS);
 }
 
-void	back_to_normal(t_info *info)
+e_sys_err	back_to_normal(t_info *info)
 {
+	info->utils->fail = 0;
+	info->permi = false;
 	if (info->utils->exc)
 		info->utils->exc = NULL;
 	if (info->utils->npi == -1)
-		ft_dupX(info->fd_in, 0, true);
-	ft_dupX(info->fd_out, 1, true);
+		if (ft_dupX(info->fd_in, 0, true) == SYS_FAIL)
+			return (SYS_FAIL);
+	if (ft_dupX(info->fd_out, 1, true) == SYS_FAIL)
+		return (SYS_FAIL);
+	return (SYS_SUCCESS);
 }
 
 void	get_next_cmd(t_info *info, t_list **head, char *file)
@@ -76,40 +92,47 @@ void	get_next_cmd(t_info *info, t_list **head, char *file)
 	ft_putstr_fd("ambiguous redirect\n", 2);
 }
 
-void	start_executing(t_info *info, t_list *head, t_u *utils)
+void	start_executing2(t_info *info)
 {
-	while (head)
-	{
-		utils->cmd = collecte_cmds(head, utils);
-		open_pipe(utils);
-		while (head && (head->type != PIPE))
-		{
-			if (head->type == AMBIGUOUS)
-				get_next_cmd(info, &head, head->content);
-			else if (head->type != WORD)
-				redirection(head, head->type, info);
-			if (head)
-				head = head->next;
-		}
-		get_path(info, utils);
-		back_to_normal(info);
-		if (head)
-			head = head->next;
-	}
 	if (info->ext != 127)
-		waitpid(utils->id, &info->ext, WUNTRACED);
+		waitpid(info->utils->id, &info->ext, WUNTRACED);
 	while (wait(NULL) != -1)
 		;
-	if (utils->bin)
+	if (info->utils->bin)
 		exit_status(info);
 	if (info->path_name)
 		unlink_path(info);
 }
 
+void	start_executing(t_info *info, t_list *head, t_u *utils)
+{
+	while (head)
+	{
+		utils->cmd = collecte_cmds(head, utils);
+		if (open_pipe(utils) == SYS_FAIL)
+			return;
+		while (head && (head->type != PIPE))
+		{
+			if (head->type == AMBIGUOUS)
+				get_next_cmd(info, &head, head->content);
+			else if (head->type != WORD)
+				if (redirection(head, head->type, info) == SYS_FAIL)
+					return; 
+			if (head)
+				head = head->next;
+		}
+		if (get_path(info, utils) == SYS_FAIL || back_to_normal(info) == SYS_FAIL)
+			return;
+		if (head)
+			head = head->next;
+	}
+	start_executing2(info);
+}
+
 void	init_things(t_info *info, t_list *head)
 {
-	info->utils = ft_calloc(sizeof(t_u), 1); //! 
-	info->utils->cmd = NULL; // the command //!
+	info->utils = ft_calloc (sizeof(t_u), 1);
+	info->utils->cmd = NULL;
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
 	info->utils->i = false;

@@ -19,7 +19,8 @@
         "readline.h": "c",
         "signal.h": "c",
         "fcntl.h": "c",
-        "random": "c"
+        "random": "c",
+        "cerrno": "c"
     },
     "terminal.integrated.cwd": "",
     "C_Cpp.errorSquiggles": "disabled"

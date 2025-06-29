@@ -37,7 +37,8 @@ typedef enum
 	NORMAL,
 	EXIT,
 	ERR_EXECVE,
-	ERR_AMBIGUOUS
+	ERR_AMBIGUOUS,
+	SYSCALL
 }					t_error_type;
 
 typedef enum
@@ -64,13 +65,14 @@ typedef struct utils
 	int				copy;
 	int				npi;
 	int				pi[2];
-	int				i;
+	bool				i;
 	bool			child;
 	int				fail;
 	char			*str_fail;
 	int				id;
+	int				error;
 	bool			bin;
-	int				fd_out;
+	// int				fd_out;
 }					t_u;
 
 typedef struct export
@@ -105,6 +107,7 @@ typedef struct s_info
 	int				count_herdoc;
 	bool			*joined;
 	bool			permi;
+	char            *cw;
 }					t_info;
 
 t_list				*ft_lstnew_d(void *content, t_free_type place);
@@ -139,7 +142,9 @@ bool				*sig_varible(void);
 void				remove_quote(t_list	*head);
 void				remove_the_null(t_list	**head);
 bool				split_arg(t_info *info);
-void				ft_free_all(t_error_type msg, unsigned char exit_code);
+// void				ft_free_all(t_error_type msg, unsigned char exit_code);
+void				ft_free_all(t_error_type msg, int exit_code);
+// void				path(t_info *info);
 void				is_joined(char *s, t_info *info);
 e_sys_err			herdoc(char *str, t_info *info, t_type_word is_quotes);
 char				*ft_getenv(char *nm_varible, t_list *env);
@@ -192,7 +197,8 @@ void				ft_free(t_info *info, t_error_type err);
 e_sys_err			redirection(t_list *node, int cdt, t_info *info);
 void				init_things(t_info *info, t_list *head);
 e_sys_err			execute_cmd(t_info *info, int cdt);
-int					check_access(t_info *info);
+// int					check_access(t_info *info);
+void					check_access(t_info *info);
 char				**collecte_cmds(t_list *head, t_u *utils);
 char				*add_string(char *s1, char *s2);
 char				**update_path(char *s);
@@ -205,6 +211,9 @@ char				*join_str(char *s1, char *s2, int cdt, int *equal);
 void				attach_node(t_xp **head, char *s);
 t_xp				*create_node(char *s);
 int					add_to_export(t_xp **head, char *s, t_info *info);
+void				check_which_msg(char *cmd, t_info *info);
+// void				check_which_msg(char *cmd, bool permi);
+// bool				if_executable(t_info *info);
 
 // built-in
 

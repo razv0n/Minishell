@@ -28,7 +28,8 @@ int	compare(char *s1, char *s2, bool b1, bool b2)
 			i++;
 		if ((s1[i] == '=') && !s2[i])
 			return (-200);
-		if (((s1[i] == '=') && (s2[i] == '=')) || (!s1[i] && (s2[i] == '='))) // for cmd export B" the B add without the '=' symbole
+		if (((s1[i] == '=') && (s2[i] == '=')) || (!s1[i] && (s2[i] == '='))
+			|| (!s1[i] && !s2[i])) // for cmd export B" the B add without the '=' symbole
 			return (200);
 	}
 	if (!b2)

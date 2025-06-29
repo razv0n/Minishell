@@ -38,7 +38,6 @@ e_sys_err	ft_pipe(int pip[2]) // if the pip fail  it should retrun an fail in ex
 	return (SYS_SUCCESS);
 }
 
-
 int		ft_dupX(int	fd1, int fd2, bool is_dup2)
 {
 	int		*ptr_fd;

@@ -48,6 +48,7 @@ typedef struct s_list
 }		t_list;
 int		ft_lstsize(t_list *lst);
 void	*ft_malloc(size_t size, t_free_type place, t_free_type type);
+void	*ft_calloc(size_t nitems, size_t size);
 t_list	*ft_lstnew(void *content);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list	*ft_lstlast(t_list *lst);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/29 12:12:35 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/29 20:42:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,35 +39,61 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 	return (cmd);
 }
 
-int	check_access(t_info *info)
+int	complete_check(char **path, t_info *info)
 {
-	int		i;
+	int	i;
 	char	*x;
 	struct stat sb;
 
 	i = 0;
-	if (!info->utils->cmd[0])
-		return (0);
-	while (info->utils->path && info->utils->path[i])
+	while (path && path[i])
 	{
-		x = add_string(info->utils->path[i], info->utils->cmd[0]);
-		stat(x, &sb);
-		if (!access(x, F_OK) && !S_ISDIR(sb.st_mode) && !ft_strchr(info->utils->cmd[0], '/'))
+		x = add_string(path[i], info->utils->cmd[0]);
+		if (!access(x, F_OK))
 		{
-			if (!access(x, X_OK)) // here whene i add pwd to the path the cat not ben set
+			stat(x, &sb);
+			if (!access(x, X_OK) && !S_ISDIR(sb.st_mode))
 			{
 				info->utils->bin = true;
 				*(sig_varible()) = true;
 				info->utils->exc = x;
+				info->permi = false;
 				return (1);
 			}
-	
+			info->permi = true;
 		}
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
+void	check_access(t_info *info)
+{
+	char	*slash;
+	struct stat sb;
+
+	info->utils->error = 0;
+	info->permi = false;
+	slash = ft_strchr(info->utils->cmd[0], '/');
+	if (slash)
+	{
+		if (stat(info->utils->cmd[0], &sb) == -1)
+			return (check_which_msg(info->utils->cmd[0], info));
+		if (!access(info->utils->cmd[0], F_OK | X_OK) && S_ISREG(sb.st_mode))
+		{
+			info->utils->exc = info->utils->cmd[0];
+			return ;
+		}
+	}
+	if (!info->utils->path || !complete_check(info->utils->path, info))
+	{
+		info->utils->error = 1;
+		return (check_which_msg(info->utils->cmd[0], info));
+	}
+}
+
+	// else if (S_ISDIR(sb.st_mode))
+	// 	return (printf("Is a directory"), (void)0);
 int	check_builtin_2(t_info *info, char **cmd)
 {
 	if (ft_strcmp(cmd[0], "pwd"))
@@ -113,7 +139,7 @@ int	check_builtin(t_info *info, char **cmd)
 	else
 	{
 		if (check_builtin_2(info, cmd))
-		return (1);
+			return (1);
 	}
 	return (0);
 }
@@ -136,27 +162,12 @@ e_sys_err	execute_cmd(t_info *info, int cdt)
 		ft_close(info->fd_out);
 		if (!cdt && check_builtin(info, info->utils->cmd))
 			return (SYS_SUCCESS);
-		// fprintf(stderr, "the str : %s\n", info->utils->exc);
-		if ((!info->utils->bin && !check_lf_file(info))
-			|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
-		{
-			ft_putstr_fd("Minishell: ", 2);
-			ft_putstr_fd(info->utils->cmd[0], 2);
-			if (errno == EACCES)
-			{
-				perror(": ");
-				ft_free_all(NORMAL, 126);
-			}
-			else if(errno == ENOENT)
-			{
-				ft_putstr_fd(" : Command not found\n",2);
-				ft_free_all(NORMAL, 127);
-			}
-			else
-				perror("execve:");
-			ft_free_all(NORMAL, 1);
-
-		}
+		check_access(info);
+		if (execve(info->utils->exc, info->utils->cmd, info->env) == -1)
+			check_which_msg(info->utils->cmd[0], info);
+		// if ((!info->utils->bin && !check_lf_file(info))
+		// 	|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
+			// check_which_msg(info->utils->cmd[0], info->permi);
 	}
 	info->utils->id = id;
 	return (SYS_SUCCESS);

@@ -12,14 +12,14 @@
 
 #include "../Minishell.h"
 
-void    print_stack(t_list *head)
-{
-    while(head)
-    {
-        printf("%s\n",head->content);
-        head = head->next;
-    }
-}
+// void    print_stack(t_list *head)
+// {
+//     while(head)
+//     {
+//         printf("%s\n",head->content);
+//         head = head->next;
+//     }
+// }
 
 // int is_input_from_pipe(void)
 // {
@@ -45,7 +45,7 @@ char	*best_prompt()
 	prompt[0] = '\0';
 	ft_strlcat(prompt, "\001\033[1;32m\002", size);
 	ft_strlcat(prompt, user, size);
-	ft_strlcat(prompt, "@minishell ", size);
+	ft_strlcat(prompt, "@minishell:~", size);
 	ft_strlcat(prompt, "\001\033[1;34m\002", size);
 	ft_strlcat(prompt, cwd, size);
 	ft_strlcat(prompt, "\001\033[0m\002$ ", size);
@@ -87,6 +87,8 @@ int	main(int ac, char **av, char **env)
 	setup_signals();
 	info = ft_malloc(sizeof(t_info), FIRST_P, FREE);
 	info->ext = 0;
+	info->cw = NULL;
+	info->cw = getcwd(info->cw, 4096);
 	cpy_env(env, info);
 	minishell_loop(info);
 }

@@ -24,6 +24,8 @@ void	ft_perror(t_error_type msg)
 		ft_putstr_fd("Minishell : \033[31mambiguous redirect\033[0m\n", 2);
 	else if (msg == ERR_EXECVE)
 		ft_putstr_fd("Minishell : execve failed: ",2);
+	else if (msg == SYSCALL)
+		perror("");
 }
 
 void	ft_free(t_info *info, t_error_type msg)
@@ -50,7 +52,7 @@ void	ft_free(t_info *info, t_error_type msg)
 	ft_perror(msg);
 }
 
-void	ft_free_all(t_error_type msg, unsigned char exit_code)
+void	ft_free_all(t_error_type msg, int exit_code)
 {
 	t_ptr	**head;
 
@@ -58,7 +60,28 @@ void	ft_free_all(t_error_type msg, unsigned char exit_code)
 	ft_lstclear_not(head);
 	rl_clear_history();
 	ft_perror(msg);
-	exit(exit_code);
+	if (exit_code != -1)
+		exit(exit_code);
+}
+
+void	check_which_msg(char *cmd, t_info *info)
+{
+	ft_putstr_fd("Minishell: ", 2);	
+	ft_putstr_fd(cmd, 2);
+	if (info->permi == 1)
+		errno = EACCES;
+	else if (info->utils->error == 1)
+	{
+		ft_putstr_fd(": Command not found\n",2);
+		ft_free_all(NORMAL, 127);
+	}
+	// else if (info->utils->error == 2)
+	// {
+	// 	ft_putstr_fd(": No such file or directory\n",2);
+	// 	ft_free_all(NORMAL, 127);
+	// }
+	perror(" ");
+	exit (126);
 }
 
 // void	free_ptr(t _ptr **head)

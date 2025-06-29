@@ -14,6 +14,7 @@
 
 e_sys_err	get_path(t_info *info, t_u *utils)
 {
+	utils->bin = false;
 	if (utils->fail != -1)
 	{
 		if (!utils->child)
@@ -21,22 +22,21 @@ e_sys_err	get_path(t_info *info, t_u *utils)
 			if (check_builtin(info, info->utils->cmd))
 			    return (SYS_SUCCESS);
 		}
-		if (check_access(info))
+		if (utils->cmd[0])
 		{
-				if (utils->child)
-				{
-					if (execute_cmd(info, 0) == SYS_FAIL)
-						return (SYS_FAIL);
-				}
-				else
-				{
-					if (execute_cmd(info, 1) == SYS_FAIL)
-						return (SYS_FAIL);
-				}
+			if (utils->child)
+			{
+				if (execute_cmd(info, 0) == SYS_FAIL)
+					return (SYS_FAIL);
+			}
+			else
+			{
+				if (execute_cmd(info, 1) == SYS_FAIL)
+					return (SYS_FAIL);
+			}
 			utils->bin = true;
 		}
 	}
-	utils->fail = 0;
 	ft_close(1);
 	return (SYS_SUCCESS);
 }
@@ -58,7 +58,7 @@ e_sys_err	open_pipe(t_u *utils)
 		utils->copy = ft_dupX(utils->pi[0], -1, false);
 		if (utils->copy == SYS_FAIL)
 			return (SYS_FAIL);
-		utils->i++;
+		utils->i = true;
 		ft_close (utils->pi[0]);
 		ft_close (utils->pi[1]);
 	}
@@ -68,9 +68,10 @@ e_sys_err	open_pipe(t_u *utils)
 
 e_sys_err	back_to_normal(t_info *info)
 {
+	info->utils->fail = 0;
+	// info->permi = false;
 	if (info->utils->exc)
 		info->utils->exc = NULL;
-	
 	if (info->utils->npi == -1)
 		if (ft_dupX(info->fd_in, 0, true) == SYS_FAIL)
 			return (SYS_FAIL);
@@ -79,7 +80,7 @@ e_sys_err	back_to_normal(t_info *info)
 	return (SYS_SUCCESS);
 }
 
-void	get_next_cmd(t_info *info, t_list **head)
+void	get_next_cmd(t_info *info, t_list **head, char *file)
 {
 	while (*head)
 	if ((*head)->next && (*head)->next->type == PIPE)
@@ -90,18 +91,29 @@ void	get_next_cmd(t_info *info, t_list **head)
 	info->utils->cmd[0] = NULL;
 }
 
+void	start_executing2(t_info *info)
+{
+	if (info->ext != 127)
+		waitpid(info->utils->id, &info->ext, WUNTRACED);
+	while (wait(NULL) != -1)
+		;
+	if (info->utils->bin)
+		exit_status(info);
+	if (info->path_name)
+		unlink_path(info);
+}
+
 void	start_executing(t_info *info, t_list *head, t_u *utils)
 {
 	while (head)
 	{
-		utils->bin = false;
 		utils->cmd = collecte_cmds(head, utils);
 		if (open_pipe(utils) == SYS_FAIL)
 			return;
 		while (head && (head->type != PIPE))
 		{
 			if (head->type == AMBIGUOUS)
-				get_next_cmd(info, &head);
+				get_next_cmd(info, &head, head->content);
 			else if (head->type != WORD)
 				if (redirection(head, head->type, info) == SYS_FAIL)
 					return; 
@@ -113,13 +125,7 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 		if (head)
 			head = head->next;
 	}
-	if (info->ext != 127)
-    	waitpid(utils->id, &info->ext, WUNTRACED);
-	while (wait(NULL) != -1)
-		;
-		exit_status(info);
-	if (info->path_name)
-		unlink_path(info);
+	start_executing2(info);
 }
 
 void	init_things(t_info *info, t_list *head)
@@ -128,11 +134,11 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->cmd = NULL;
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
-	info->utils->i = 0;
+	info->utils->i = false;
 	info->utils->bin = false;
 	info->utils->id = 0;
 	info->utils->fail = 0;
-	info->permi = false;
+	// info->permi = false; // don't know if we will use it
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	// info->fd_in = dup(0); // 3

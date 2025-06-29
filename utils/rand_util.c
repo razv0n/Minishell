@@ -20,8 +20,7 @@ void	exit_status(t_info *info)
 		info->ext = WEXITSTATUS(info->ext);
 }
 
-
-t_ptr   *where_is_fd(t_ptr *head, int   fd)
+t_ptr   *where_is_fd(t_ptr *head, int fd)
 {
     t_ptr   *return_node;
 
@@ -38,16 +37,22 @@ t_ptr   *where_is_fd(t_ptr *head, int   fd)
 bool	check_lf_file(t_info *info)
 {
 	struct	stat st;
-	
-	stat(info->utils->cmd[0], &st);
-	info->utils->exc = info->utils->cmd[0];
+
+	if (!info->utils->exc)
+		info->utils->exc = info->utils->cmd[0];
+	if (stat(info->utils->cmd[0], &st) == -1)
+	{
+		info->permi = true;
+		// if (errno == EACCES)
+		return (false);
+	}
 	if (!access(info->utils->cmd[0], F_OK) && ft_strchr(info->utils->cmd[0], '/') && !S_ISDIR(st.st_mode))
 	{
 		if (!access(info->utils->cmd[0], X_OK))
 			*(sig_varible()) = true;
 		return (true);
 	}
-	errno = ENOENT;
+	// errno = ENOENT;
 	return (false);
 }
 

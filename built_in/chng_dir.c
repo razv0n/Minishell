@@ -14,28 +14,14 @@
 
 void	edit_env(t_list *head, char *pwd, char *oldpwd)
 {
-	// static bool	alloc;
-	// printf("oldPWD : %s\n",oldpwd);
-	// printf("PWD : %s\n",pwd);
 	while (head)
 	{
 		if (compare(head->content, pwd, true, false) == 200)
-		{
-			// if (alloc)
-			// 	free (head->content);
-			// printf("PWD : %s\n",pwd);
 			head->content = pwd;
-		}
-		if (compare(head->content, oldpwd, true, false) == 200) // the result was 200 :>
-		{
-			// if (alloc)
-			// free (head->content);
-			// printf("oldPWD : %s\n",oldpwd);
+		if (compare(head->content, oldpwd, true, false) == 200)
 			head->content = oldpwd;
-		}
 		head = head->next;
 	}
-	// alloc = true;
 }
 
 void	edit_export(t_xp *head_exp, t_list *head_env, char *new, char *old)
@@ -50,24 +36,36 @@ void	edit_export(t_xp *head_exp, t_list *head_env, char *new, char *old)
 	oldpwd = ft_strjoin("OLDPWD=", old, FIRST_P);
 	pwd = ft_strjoin("PWD=", new, FIRST_P);
 	where_to_edit(&tmp, &ptr, "OLDPWD=");
-	// free (tmp->str);
 	tmp->str = join_str("declare -x ", oldpwd, 1, NULL);
-	// if (!tmp->str)
-	// 	return ; //malloc
 	where_to_edit(&tmp, &ptr, "PWD=");
-	// free (tmp->str);
 	tmp->str = join_str("declare -x ", pwd, 1, NULL);
-	// if (!tmp->str)
-	// 	return ; //malloc
 	edit_env(head_env, pwd, oldpwd);
+}
+
+void	ft_cd_2(t_info *info, char *old)
+{
+	char	*pwd;
+
+	pwd = NULL;
+	pwd = getcwd(pwd, 4096);
+	if (!old || !pwd)
+	{
+		ft_putstr_fd("No such file or directory\n", 2);
+		info->ext = 0;
+		return ;
+	}
+	edit_export(info->head_export, info->head_env, pwd, old);
+	free(pwd);
+	free(old);
+	info->ext = 0;
+	if (info->utils->child)
+		ft_free_all(NORMAL, 0);
 }
 
 void	ft_cd(t_info *info, char **arg)
 {
-	char	*pwd;
 	char	*old;
 
-	pwd = NULL;
 	old = NULL;
 	if (!arg[1])
 		return ;
@@ -82,19 +80,14 @@ void	ft_cd(t_info *info, char **arg)
 			ft_putstr_fd(arg[1], 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
 		}
-		free(old);
+		if (old)
+			free(old);
 		info->ext = 1;
 		if (info->utils->child)
 			ft_free_all(NORMAL, 1);
 		return ;
 	}
-	pwd = getcwd(pwd, 4096);
-	edit_export(info->head_export, info->head_env, pwd, old);
-	free(pwd);
-	free(old);
-	info->ext = 0;
-	if (info->utils->child)
-		ft_free_all(NORMAL, 0);
+	ft_cd_2(info, old);
 }
 
 // #include <fcntl.h>

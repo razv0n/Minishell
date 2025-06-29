@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/27 19:23:21 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/29 11:31:33 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	main(int ac, char **av, char **env)
 	}
 	setup_signals();
 	info = ft_malloc(sizeof(t_info), FIRST_P, FREE);
-	// init_info(info);
 	info->ext = 0;
 	cpy_env(env, info);
 	minishell_loop(info);

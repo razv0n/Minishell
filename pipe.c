@@ -22,17 +22,17 @@
 // 	// fprintf(fd, "moncef \n");
 // }
 
-int main ()
-{
-	int fd;
-	fd = open("moncef", O_CREAT | O_RDWR, 0777);
-	if (fd == -1)
-		perror("MInishell"); // -> errno
-	if (dup2(fd, 1) == -1)
-		perror("minihsell");
-	close(fd);
-	printf("moncef file\n");
-}
+// int main ()
+// {
+// 	int fd;
+// 	fd = open("moncef", O_CREAT | O_RDWR, 0777);
+// 	if (fd == -1)
+// 		perror("MInishell"); // -> errno
+// 	if (dup2(fd, 1) == -1)
+// 		perror("minihsell");
+// 	close(fd);
+// 	printf("moncef file\n");
+// }
 // void	ft_pipe(int pip[2])
 // {
 // 	int		*ptr_fd;
@@ -104,3 +104,38 @@ int main ()
 // 	wait(NULL);
 // 	// wait(NULL);
 // }
+
+
+int main()
+{
+	int pip[2];
+
+	pipe(pip);
+	int id = fork();
+	char *arg[] = {"", NULL};
+	if (id == 0)
+	{
+		// ls -la | cat
+		// int fd = open("file", O_CREAT | O_RDWR, 0655); // ls > file | cat 
+		dup2(fd, pip[1]);
+		// close(fd);
+		close(pip[0]);
+		close(pip[1]);
+		if (execve("/bin/ls", arg, NULL) == -1)
+			perror(" ");
+		exit(1);
+	}
+	close(pip[1]);
+	id = fork();
+	if (id == 0)
+	{
+		dup2(pip[0], 0);
+		close(pip[0]);
+		execve("/bin/cat", arg, NULL);
+		exit(1);
+	}
+	wait(NULL);
+	wait(NULL);
+	close(pip[0]);
+	return (1);
+}

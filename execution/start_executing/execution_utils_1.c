@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/27 21:27:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/29 12:12:35 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 			i++;
 		head = head->next;
 	}
-	cmd = ft_calloc (sizeof(char *), ++i);
+	cmd = ft_calloc(sizeof(char *), ++i);
 	i = 0;
 	head = tmp;
 	while (head && (head->type != PIPE))
@@ -129,6 +129,7 @@ e_sys_err	execute_cmd(t_info *info, int cdt)
 		return (SYS_FAIL);
 	if (!id)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (info->utils->child && info->utils->npi != -1)
 			ft_close (info->utils->copy);
 		ft_close(info->fd_in);
@@ -155,12 +156,9 @@ e_sys_err	execute_cmd(t_info *info, int cdt)
 				perror("execve:");
 			ft_free_all(NORMAL, 1);
 
-		} //?
-		
-		// exit (127);
-		// ENOENT
-		// EACCES
+		}
 	}
 	info->utils->id = id;
 	return (SYS_SUCCESS);
 }
+

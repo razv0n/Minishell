@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/27 21:34:50 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/29 11:38:22 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ e_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 			child_herdoc(info, is_quotes, fd, str);
 		waitpid(id, &info->ext, 0);
 		ft_close(fd);
+		// *(sig_varible()) = false;
 		exit_status(info);
 	}
 	if (++i >= info->count_herdoc)
@@ -69,12 +70,6 @@ e_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 
 e_sys_err	redirection(t_list *node, int cdt, t_info *info)
 {
-	// if (cdt == AMBIGUOUS)
-	// {
-	// 	get_next_cmd(node);
-	// 	info->utils->cmd[0] = NULL;
-	// 	printf("cmd [0] in %s\n", info->utils->cmd[0]);
-	// }
 	if (cdt == APPEND)
 		return (rdr_append(node->content));
 	else if (cdt == REDIRECT_IN)

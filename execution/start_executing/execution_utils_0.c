@@ -82,8 +82,8 @@ e_sys_err	back_to_normal(t_info *info)
 void	get_next_cmd(t_info *info, t_list **head)
 {
 	while (*head)
+	if ((*head)->next && (*head)->next->type == PIPE)
 	{
-		if ((*head)->next && (*head)->next->type == PIPE)
 			break ;
 		*head = (*head)->next;
 	}
@@ -144,76 +144,3 @@ void	init_things(t_info *info, t_list *head)
 	ft_close (info->fd_in);
 	ft_close (info->fd_out);
 }
-
-// int	main()
-// {
-// 	t_u	*utils =ft_mallocsizeof(t_u));
-// 	t_list	*head = NULL;
-// 	t_list	*node1 =ft_mallocsizeof(t_list));
-// 	t_list	*node2 =ft_mallocsizeof(t_list));
-// 	t_list	*node3 =ft_mallocsizeof(t_list));
-// 	t_list	*node4 =ft_mallocsizeof(t_list));
-// 	t_list	*node5 =ft_mallocsizeof(t_list));
-// 	t_list	*node6 =ft_mallocsizeof(t_list));
-// 	t_list	*node7 =ft_mallocsizeof(t_list));
-// 	t_list	*node8 =ft_mallocsizeof(t_list));
-// 	if (!utils || !node1 || !node2 || !node3 
-// 		|| !node4 || !node5 || !node6 || !node7 || !node8)
-// 		return (1);
-
-// 	head = node1;
-// 	node1->content = "sleep";
-// 	node1->prev = NULL;
-// 	node1->type = WORD;
-// 	node1->next = node2;
-
-// 	node2->content = "5";
-// 	node2->prev = node1;
-// 	node2->type = WORD;
-// 	node2->next = node3;
-
-// 	node3->content = "|";
-// 	node3->prev = node2;
-// 	node3->type = PIPE;
-// 	node3->next = node4;
-
-// 	node4->content = "sleep";
-// 	node4->prev = node3;
-// 	node4->type = WORD;
-// 	node4->next = node5;
-
-// 	node5->content = "3";
-// 	node5->prev = node4;
-// 	node5->type = WORD;
-// 	node5->next = NULL;
-
-// 	node6->content = "|";
-// 	node6->prev = node5;
-// 	node6->type = PIPE;
-// 	node6->next = node7;
-
-// 	node7->content = "wc";
-// 	node7->prev = node6;
-// 	node7->type = WORD;
-// 	node7->next = node8;
-
-// 	node8->content = "-l";
-// 	node8->prev = node7;
-// 	node8->type = WORD;
-// 	node8->next = NULL;
-
-// 	// printf("%d\n", getpid());
-// 	init_things(head, utils);
-// 	close (utils->fd_in);
-// 	close (utils->fd_out);
-
-// 	free (utils);
-// 	free (node1);
-// 	free (node2);
-// 	free (node3);
-// 	free (node4);
-// 	free (node5);
-// 	free (node6);
-// 	free (node7);
-// 	free (node8);
-// }

@@ -70,6 +70,7 @@ typedef struct utils
 	int				fail;
 	char			*str_fail;
 	int				id;
+	int				error;
 	bool			bin;
 	// int				fd_out;
 }					t_u;
@@ -196,7 +197,8 @@ void				ft_free(t_info *info, t_error_type err);
 e_sys_err			redirection(t_list *node, int cdt, t_info *info);
 void				init_things(t_info *info, t_list *head);
 e_sys_err			execute_cmd(t_info *info, int cdt);
-int					check_access(t_info *info);
+// int					check_access(t_info *info);
+void					check_access(t_info *info);
 char				**collecte_cmds(t_list *head, t_u *utils);
 char				*add_string(char *s1, char *s2);
 char				**update_path(char *s);
@@ -209,8 +211,8 @@ char				*join_str(char *s1, char *s2, int cdt, int *equal);
 void				attach_node(t_xp **head, char *s);
 t_xp				*create_node(char *s);
 int					add_to_export(t_xp **head, char *s, t_info *info);
-// void				check_which_msg(char *cmd);
-void				check_which_msg(char *cmd, bool permi);
+void				check_which_msg(char *cmd, t_info *info);
+// void				check_which_msg(char *cmd, bool permi);
 // bool				if_executable(t_info *info);
 
 // built-in

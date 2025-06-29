@@ -22,7 +22,7 @@ e_sys_err	get_path(t_info *info, t_u *utils)
 			if (check_builtin(info, info->utils->cmd))
 			    return (SYS_SUCCESS);
 		}
-		if (check_access(info))
+		if (utils->cmd[0])
 		{
 			if (utils->child)
 			{
@@ -58,7 +58,7 @@ e_sys_err	open_pipe(t_u *utils)
 		utils->copy = ft_dupX(utils->pi[0], -1, false);
 		if (utils->copy == SYS_FAIL)
 			return (SYS_FAIL);
-		utils->i++;
+		utils->i = true;
 		ft_close (utils->pi[0]);
 		ft_close (utils->pi[1]);
 	}
@@ -69,7 +69,7 @@ e_sys_err	open_pipe(t_u *utils)
 e_sys_err	back_to_normal(t_info *info)
 {
 	info->utils->fail = 0;
-	info->permi = false;
+	// info->permi = false;
 	if (info->utils->exc)
 		info->utils->exc = NULL;
 	if (info->utils->npi == -1)
@@ -89,7 +89,6 @@ void	get_next_cmd(t_info *info, t_list **head, char *file)
 		*head = (*head)->next;
 	}
 	info->utils->cmd[0] = NULL;
-	ft_putstr_fd("ambiguous redirect\n", 2);
 }
 
 void	start_executing2(t_info *info)
@@ -139,7 +138,7 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->bin = false;
 	info->utils->id = 0;
 	info->utils->fail = 0;
-	info->permi = false; // don't know if we will use it
+	// info->permi = false; // don't know if we will use it
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	// info->fd_in = dup(0); // 3

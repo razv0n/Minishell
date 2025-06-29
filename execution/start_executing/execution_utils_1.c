@@ -39,35 +39,61 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 	return (cmd);
 }
 
-int	check_access(t_info *info)
+int	complete_check(char **path, t_info *info)
 {
-	int		i;
+	int	i;
 	char	*x;
 	struct stat sb;
 
 	i = 0;
-	if (!info->utils->cmd[i])
-		return (0);
-	while (info->utils->path && info->utils->path[i])
+	while (path && path[i])
 	{
-		x = add_string(info->utils->path[i], info->utils->cmd[0]);
-		stat(x, &sb);
-		if (!access(x, F_OK) && !S_ISDIR(sb.st_mode) && !ft_strchr(info->utils->cmd[0], '/'))
+		x = add_string(path[i], info->utils->cmd[0]);
+		if (!access(x, F_OK))
 		{
-			info->utils->exc = x;
-			if (!access(x, X_OK))
+			stat(x, &sb);
+			if (!access(x, X_OK) && !S_ISDIR(sb.st_mode))
 			{
 				info->utils->bin = true;
 				*(sig_varible()) = true;
+				info->utils->exc = x;
+				info->permi = false;
 				return (1);
 			}
+			info->permi = true;
 		}
 		i++;
 	}
-	// info->permi = true; // permission denied
-	return (1);
+	return (0);
 }
 
+void	check_access(t_info *info)
+{
+	char	*slash;
+	struct stat sb;
+
+	info->utils->error = 0;
+	info->permi = false;
+	slash = ft_strchr(info->utils->cmd[0], '/');
+	if (slash)
+	{
+		if (stat(info->utils->cmd[0], &sb) == -1)
+			return (check_which_msg(info->utils->cmd[0], info));
+		if (!access(info->utils->cmd[0], F_OK | X_OK) && S_ISREG(sb.st_mode))
+		{
+			info->utils->exc = info->utils->cmd[0];
+			return ;
+		}
+	}
+	if (!info->utils->path || !complete_check(info->utils->path, info))
+	{
+		info->utils->error = 1;
+		return (check_which_msg(info->utils->cmd[0], info));
+	}
+}
+
+	// else if (S_ISDIR(sb.st_mode))
+	// 	return (printf("Is a directory"), (void)0);
 int	check_builtin_2(t_info *info, char **cmd)
 {
 	if (ft_strcmp(cmd[0], "pwd"))
@@ -135,9 +161,12 @@ e_sys_err	execute_cmd(t_info *info, int cdt)
 		ft_close(info->fd_out);
 		if (!cdt && check_builtin(info, info->utils->cmd))
 			return (SYS_SUCCESS);
-		if ((!info->utils->bin && !check_lf_file(info))
-			|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
-			check_which_msg(info->utils->cmd[0], info->permi);
+		check_access(info);
+		if (execve(info->utils->exc, info->utils->cmd, info->env) == -1)
+			check_which_msg(info->utils->cmd[0], info);
+		// if ((!info->utils->bin && !check_lf_file(info))
+		// 	|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
+			// check_which_msg(info->utils->cmd[0], info->permi);
 	}
 	info->utils->id = id;
 	return (SYS_SUCCESS);

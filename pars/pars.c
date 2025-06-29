@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/27 19:47:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/29 22:26:35 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,13 @@ int	pars(t_info *info)
 		add_is_joined(info->head_cmd, info);
 		change_red(info);
 		if (start_herdoc(info, info->head_cmd) == SYS_FAIL)
-			return (-1);
+			return (fail_sys_call(info));
 		if (syntax_error)
-			return (-1);
+			return (FAIL);
 		expand(info);
 		joined_node(info);
 		remove_the_null(&info->head_cmd);
 		return (1);
 	}
-	return (-1);
+	return (FAIL);
 }

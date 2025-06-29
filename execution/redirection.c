@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/29 22:02:34 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/29 22:24:45 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 			free(line);
 			break ;
 		}
+		expand_2(&line, 1337, info);
 		if (ft_strchr(line, '$') && is_quotes != DOUBLE_Q
 			&& is_quotes != SINGLE_Q)
-			expand_2(&line, 1337, info);
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
 		free(line);
@@ -55,7 +55,7 @@ e_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 			return (SYS_FAIL);
 		id = fork();
 		if (id == -1)
-			return ();
+			return (SYS_FAIL);
 		else if (id == 0)
 			child_herdoc(info, is_quotes, fd, str);
 		waitpid(id, &info->ext, 0);

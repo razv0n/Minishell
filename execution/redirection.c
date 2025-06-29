@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/29 11:38:22 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/29 22:02:34 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ e_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 			return (SYS_FAIL);
 		id = fork();
 		if (id == -1)
-			return (SYS_FAIL);
+			return ();
 		else if (id == 0)
 			child_herdoc(info, is_quotes, fd, str);
 		waitpid(id, &info->ext, 0);

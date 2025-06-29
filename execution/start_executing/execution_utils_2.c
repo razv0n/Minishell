@@ -26,9 +26,9 @@ int	length(char *s)
 
 char	*add_string(char *s1, char *s2)
 {
-	int			i;
-	int			j;
-	char		*p;
+	int		i;
+	int		j;
+	char	*p;
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);

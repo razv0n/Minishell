@@ -20,7 +20,7 @@ e_sys_err	get_path(t_info *info, t_u *utils)
 		if (!utils->child)
 		{
 			if (check_builtin(info, info->utils->cmd))
-			    return (SYS_SUCCESS);
+				return (SYS_SUCCESS);
 		}
 		if (utils->cmd[0])
 		{
@@ -47,7 +47,7 @@ e_sys_err	open_pipe(t_u *utils)
 	{
 		if (ft_dupX(utils->copy, 0, true) == SYS_FAIL)
 			return (SYS_FAIL);
-		ft_close (utils->copy);
+		ft_close(utils->copy);
 	}
 	if (utils->npi)
 	{
@@ -59,8 +59,8 @@ e_sys_err	open_pipe(t_u *utils)
 		if (utils->copy == SYS_FAIL)
 			return (SYS_FAIL);
 		utils->i = true;
-		ft_close (utils->pi[0]);
-		ft_close (utils->pi[1]);
+		ft_close(utils->pi[0]);
+		ft_close(utils->pi[1]);
 	}
 	utils->npi--;
 	return (SYS_SUCCESS);
@@ -83,11 +83,11 @@ e_sys_err	back_to_normal(t_info *info)
 void	get_next_cmd(t_info *info, t_list **head, char *file)
 {
 	while (*head)
-	if ((*head)->next && (*head)->next->type == PIPE)
-	{
+		if ((*head)->next && (*head)->next->type == PIPE)
+		{
 			break ;
-		*head = (*head)->next;
-	}
+			*head = (*head)->next;
+		}
 	info->utils->cmd[0] = NULL;
 }
 
@@ -103,25 +103,26 @@ void	start_executing2(t_info *info)
 		unlink_path(info);
 }
 
-void	start_executing(t_info *info, t_list *head, t_u *utils)
+e_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
 {
 	while (head)
 	{
 		utils->cmd = collecte_cmds(head, utils);
 		if (open_pipe(utils) == SYS_FAIL)
-			return;
+			return (fail_sys_call(info));
 		while (head && (head->type != PIPE))
 		{
 			if (head->type == AMBIGUOUS)
 				get_next_cmd(info, &head, head->content);
 			else if (head->type != WORD)
 				if (redirection(head, head->type, info) == SYS_FAIL)
-					return; 
+					return (fail_sys_call(info));
 			if (head)
 				head = head->next;
 		}
-		if (get_path(info, utils) == SYS_FAIL || back_to_normal(info) == SYS_FAIL)
-			return;
+		if (get_path(info, utils) == SYS_FAIL
+			|| back_to_normal(info) == SYS_FAIL)
+			return (fail_sys_call(info));
 		if (head)
 			head = head->next;
 	}
@@ -130,7 +131,7 @@ void	start_executing(t_info *info, t_list *head, t_u *utils)
 
 void	init_things(t_info *info, t_list *head)
 {
-	info->utils = ft_calloc (sizeof(t_u), 1);
+	info->utils = ft_calloc(sizeof(t_u), 1);
 	info->utils->cmd = NULL;
 	info->utils->exc = NULL;
 	info->utils->copy = 0;
@@ -141,12 +142,10 @@ void	init_things(t_info *info, t_list *head)
 	// info->permi = false; // don't know if we will use it
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
-	// info->fd_in = dup(0); // 3
-	// info->fd_out = dup(1); // 4
 	if (info->utils->npi)
 		info->utils->child = true;
 	info->utils->path = update_path(ft_getenv("PATH", info->head_env)); //!
 	start_executing(info, head, info->utils);
-	ft_close (info->fd_in);
-	ft_close (info->fd_out);
+	ft_close(info->fd_in);
+	ft_close(info->fd_out);
 }

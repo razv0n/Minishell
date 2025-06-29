@@ -41,9 +41,9 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 
 int	complete_check(char **path, t_info *info)
 {
-	int	i;
-	char	*x;
-	struct stat sb;
+	int			i;
+	char		*x;
+	struct stat	sb;
 
 	i = 0;
 	while (path && path[i])
@@ -69,8 +69,8 @@ int	complete_check(char **path, t_info *info)
 
 void	check_access(t_info *info)
 {
-	char	*slash;
-	struct stat sb;
+	char		*slash;
+	struct stat	sb;
 
 	info->utils->error = 0;
 	info->permi = false;
@@ -92,8 +92,8 @@ void	check_access(t_info *info)
 	}
 }
 
-	// else if (S_ISDIR(sb.st_mode))
-	// 	return (printf("Is a directory"), (void)0);
+// else if (S_ISDIR(sb.st_mode))
+// 	return (printf("Is a directory"), (void)0);
 int	check_builtin_2(t_info *info, char **cmd)
 {
 	if (ft_strcmp(cmd[0], "pwd"))
@@ -157,7 +157,7 @@ e_sys_err	execute_cmd(t_info *info, int cdt)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		if (info->utils->child && info->utils->npi != -1)
-			ft_close (info->utils->copy);
+			ft_close(info->utils->copy);
 		ft_close(info->fd_in);
 		ft_close(info->fd_out);
 		if (!cdt && check_builtin(info, info->utils->cmd))
@@ -167,9 +167,8 @@ e_sys_err	execute_cmd(t_info *info, int cdt)
 			check_which_msg(info->utils->cmd[0], info);
 		// if ((!info->utils->bin && !check_lf_file(info))
 		// 	|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
-			// check_which_msg(info->utils->cmd[0], info->permi);
+		// check_which_msg(info->utils->cmd[0], info->permi);
 	}
 	info->utils->id = id;
 	return (SYS_SUCCESS);
 }
-

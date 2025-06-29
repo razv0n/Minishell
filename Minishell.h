@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/27 21:28:01 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/29 21:53:46 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ bool				quotes_in_split(char quotes);
 bool				*sig_varible(void);
 void				remove_quote(t_list	*head);
 void				remove_the_null(t_list	**head);
+e_sys_err	fail_sys_call(t_info *info);
 bool				split_arg(t_info *info);
 // void				ft_free_all(t_error_type msg, unsigned char exit_code);
 void				ft_free_all(t_error_type msg, int exit_code);

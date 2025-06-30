@@ -60,30 +60,31 @@ void	ft_free_all(t_error_type msg, int exit_code)
 	ft_lstclear_not(head);
 	rl_clear_history();
 	ft_perror(msg);
-	if (exit_code != -1)
-		exit(exit_code);
+	// if (flag)
+	exit(exit_code);
 }
 
 void	check_which_msg(char *cmd, t_info *info)
 {
-	ft_putstr_fd("Minishell: ", 2);	
-	ft_putstr_fd(cmd, 2);
-	if (info->permi == 1)
+	if (info->permi == true)
 		errno = EACCES;
 	else if (info->utils->error == 1)
 	{
-		ft_putstr_fd(": Command not found\n",2);
+		ft_putstr_fd(ft_strjoin(cmd, ": Command not found\n", SECOUND_P),2);
 		ft_free_all(NORMAL, 127);
 	}
-	// else if (info->utils->error == 2)
-	// {
-	// 	ft_putstr_fd(": No such file or directory\n",2);
-	// 	ft_free_all(NORMAL, 127);
-	// }
+	ft_putstr_fd(cmd, 2);
 	perror(" ");
-	exit (126);
+	if (errno == ENOENT)
+		ft_free_all(NORMAL, 127);
+	ft_free_all(NORMAL, 126);
 }
 
+// else if (info->utils->error == 2)
+// {
+// 	ft_putstr_fd(": No such file or directory\n",2);
+// 	ft_free_all(NORMAL, 127);
+// }
 // void	free_ptr(t _ptr **head)
 // {
 // 	t_ptr *temp;

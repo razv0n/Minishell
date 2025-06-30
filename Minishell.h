@@ -107,7 +107,6 @@ typedef struct s_info
 	int				count_herdoc;
 	bool			*joined;
 	bool			permi;
-	char            *cw;
 }					t_info;
 
 t_list				*ft_lstnew_d(void *content, t_free_type place);
@@ -212,8 +211,7 @@ void				attach_node(t_xp **head, char *s);
 t_xp				*create_node(char *s);
 int					add_to_export(t_xp **head, char *s, t_info *info);
 void				check_which_msg(char *cmd, t_info *info);
-// void				check_which_msg(char *cmd, bool permi);
-// bool				if_executable(t_info *info);
+int					complete_check(char **path, t_info *info);
 
 // built-in
 

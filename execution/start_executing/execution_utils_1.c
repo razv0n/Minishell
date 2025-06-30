@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/27 21:27:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/29 20:42:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	check_access2(t_info *info)
 
 void	check_access(t_info *info)
 {
-	char	*slash;
-	struct stat sb;
+	char		*slash;
+	struct stat	sb;
 
 	info->utils->error = 0;
 	info->permi = false;
@@ -111,8 +111,9 @@ e_sys_err	execute_cmd(t_info *info, int cdt)
 		return (SYS_FAIL);
 	if (!id)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		if (info->utils->child && info->utils->npi != -1)
-			ft_close (info->utils->copy);
+			ft_close(info->utils->copy);
 		ft_close(info->fd_in);
 		ft_close(info->fd_out);
 		if (!cdt && check_builtin(info, info->utils->cmd))
@@ -124,19 +125,3 @@ e_sys_err	execute_cmd(t_info *info, int cdt)
 	info->utils->id = id;
 	return (SYS_SUCCESS);
 }
-
-// ft_putstr_fd("Minishell: ", 2);
-// ft_putstr_fd(info->utils->cmd[0], 2);
-// if (errno == EACCES)
-// {
-// 	perror("");
-// 	ft_free_all(NORMAL, 126);
-// }
-// else if(errno == ENOENT)
-// {
-// 	ft_putstr_fd(" : Command not found\n",2);
-// 	ft_free_all(NORMAL, 127);
-// }
-// else
-// 	perror("execve");
-// ft_free_all(NORMAL, 1);

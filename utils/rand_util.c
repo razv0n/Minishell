@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/25 16:33:48 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/29 21:53:36 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,13 @@ void	change_red_help(t_list **head, t_info *info)
 		help = (*head)->next;
 		remove_node_doubly(&info->head_cmd, (*head));
 		(*head) = help;
+}
+
+e_sys_err	fail_sys_call(t_info *info)
+{
+	ft_perror(SYSCALL);
+	info->ext = 1;
+	return (SYS_FAIL);
 }
 
 // bool	check_fd_found(t_ptr *head, int fd)

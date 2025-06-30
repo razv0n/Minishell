@@ -104,7 +104,7 @@ void	ft_exit(char **cmd, int *ext, int child)
 			return ;
 		}
 	}
-	ft_free_all(NORMAL, *ext, true);
+	ft_free_all(NORMAL, *ext);
 }
 
 // int	main(void)

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:17:10 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/27 19:48:41 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/29 21:33:49 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ e_sys_err	rdr_in(char *str, t_info *info)
 	fd = ft_open(str, O_RDONLY, 0);
 	if (fd == SYS_FAIL || ft_dupX(fd, 0, true) == SYS_FAIL)
 		return (SYS_FAIL);
-	ft_close(fd); // we can add it at the same condition
+	ft_close(fd);
 	return (SYS_SUCCESS);
 }
 

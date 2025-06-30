@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/24 14:56:13 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/06/27 22:46:01 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,9 @@ void	split_variable(t_type_word wich_quote, t_list *node)
 	int		i;
 
 	i =  1;
-	// printf()
 	if (!node || !node->content || wich_quote == DOUBLE_Q || wich_quote == SINGLE_Q)
+		return;
+	if (!node->content[0])
 		return;
 	if (node->joined && is_whitespace(node->content[ft_strlen(node->content) - 1]))
 		node->joined = false;

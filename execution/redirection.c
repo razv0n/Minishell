@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 11:23:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 15:26:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,14 @@ void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 	while (1)
 	{
 		line = readline("> ");
+		add_ptr(line, return_ptr(), SECOUND_P, FREE);
 		if (!line || ft_strcmp(line, str) == 1)
-		{
-			free(line);
 			break ;
-		}
 		if (ft_strchr(line, '$') && is_quotes != DOUBLE_Q
 		&& is_quotes != SINGLE_Q)
 			expand_2(&line, 1337, info);
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
-		free(line);
 	}
 	ft_free_all(NORMAL, 0);
 }

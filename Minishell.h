@@ -198,7 +198,7 @@ e_sys_err			redirection(t_list *node, int cdt, t_info *info);
 void				init_things(t_info *info, t_list *head);
 e_sys_err			execute_cmd(t_info *info, int cdt);
 // int					check_access(t_info *info);
-void					check_access(t_info *info);
+void				check_access(t_info *info);
 char				**collecte_cmds(t_list *head, t_u *utils);
 char				*add_string(char *s1, char *s2);
 char				**update_path(char *s);
@@ -213,6 +213,8 @@ t_xp				*create_node(char *s);
 int					add_to_export(t_xp **head, char *s, t_info *info);
 void				check_which_msg(char *cmd, t_info *info);
 int					complete_check(char **path, t_info *info);
+e_sys_err			back_to_normal(t_info *info);
+void				get_next_cmd(t_info *info, t_list **head, char *file);
 
 // built-in
 

@@ -12,6 +12,31 @@
 
 #include "../../Minishell.h"
 
+void	get_next_cmd(t_info *info, t_list **head, char *file)
+{
+	while (*head)
+		if ((*head)->next && (*head)->next->type == PIPE)
+		{
+			break ;
+			*head = (*head)->next;
+		}
+	info->utils->cmd[0] = NULL;
+}
+
+e_sys_err	back_to_normal(t_info *info)
+{
+	info->utils->fail = 0;
+	// info->permi = false;
+	if (info->utils->exc)
+		info->utils->exc = NULL;
+	if (info->utils->npi == -1)
+		if (ft_dupX(info->fd_in, 0, true) == SYS_FAIL)
+			return (SYS_FAIL);
+	if (ft_dupX(info->fd_out, 1, true) == SYS_FAIL)
+		return (SYS_FAIL);
+	return (SYS_SUCCESS);
+}
+
 char	**collecte_cmds(t_list *head, t_u *utils)
 {
 	int		i;

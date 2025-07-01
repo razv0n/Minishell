@@ -66,31 +66,6 @@ e_sys_err	open_pipe(t_u *utils)
 	return (SYS_SUCCESS);
 }
 
-e_sys_err	back_to_normal(t_info *info)
-{
-	info->utils->fail = 0;
-	// info->permi = false;
-	if (info->utils->exc)
-		info->utils->exc = NULL;
-	if (info->utils->npi == -1)
-		if (ft_dupX(info->fd_in, 0, true) == SYS_FAIL)
-			return (SYS_FAIL);
-	if (ft_dupX(info->fd_out, 1, true) == SYS_FAIL)
-		return (SYS_FAIL);
-	return (SYS_SUCCESS);
-}
-
-void	get_next_cmd(t_info *info, t_list **head, char *file)
-{
-	while (*head)
-		if ((*head)->next && (*head)->next->type == PIPE)
-		{
-			break ;
-			*head = (*head)->next;
-		}
-	info->utils->cmd[0] = NULL;
-}
-
 void	start_executing2(t_info *info)
 {
 	if (info->ext != 127)

@@ -44,8 +44,6 @@ void	unset_export(t_xp **head, char *s)
 			*head = (*head)->next;
 		else
 			p->next = tmp->next;
-		// free (tmp->str);
-		// free (tmp);
 	}
 }
 

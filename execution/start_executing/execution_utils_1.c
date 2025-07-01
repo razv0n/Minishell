@@ -12,59 +12,13 @@
 
 #include "../../Minishell.h"
 
-char	**collecte_cmds(t_list *head, t_u *utils)
+void	check_access2(t_info *info)
 {
-	int		i;
-	t_list	*tmp;
-	char	**cmd;
-
-	i = 0;
-	tmp = head;
-	while (head && (head->type != PIPE))
+	if (!info->utils->path || !complete_check(info->utils->path, info))
 	{
-		if (head->type == WORD)
-			i++;
-		head = head->next;
+		info->utils->error = 1;
+		return (check_which_msg(info->utils->cmd[0], info));
 	}
-	cmd = ft_calloc(sizeof(char *), ++i);
-	i = 0;
-	head = tmp;
-	while (head && (head->type != PIPE))
-	{
-		if (head->type == WORD)
-			cmd[i++] = head->content;
-		head = head->next;
-	}
-	cmd[i] = NULL;
-	return (cmd);
-}
-
-int	complete_check(char **path, t_info *info)
-{
-	int			i;
-	char		*x;
-	struct stat	sb;
-
-	i = 0;
-	while (path && path[i])
-	{
-		x = add_string(path[i], info->utils->cmd[0]);
-		if (!access(x, F_OK))
-		{
-			stat(x, &sb);
-			if (!access(x, X_OK) && !S_ISDIR(sb.st_mode))
-			{
-				info->utils->bin = true;
-				*(sig_varible()) = true;
-				info->utils->exc = x;
-				info->permi = false;
-				return (1);
-			}
-			info->permi = true;
-		}
-		i++;
-	}
-	return (0);
 }
 
 void	check_access(t_info *info)
@@ -84,16 +38,18 @@ void	check_access(t_info *info)
 			info->utils->exc = info->utils->cmd[0];
 			return ;
 		}
+		else
+		{
+			if (S_ISDIR(sb.st_mode))
+				errno = EISDIR;
+			else
+				info->permi = true;
+			return (check_which_msg(info->utils->cmd[0], info));
+		}
 	}
-	if (!info->utils->path || !complete_check(info->utils->path, info))
-	{
-		info->utils->error = 1;
-		return (check_which_msg(info->utils->cmd[0], info));
-	}
+	check_access2(info);
 }
 
-// else if (S_ISDIR(sb.st_mode))
-// 	return (printf("Is a directory"), (void)0);
 int	check_builtin_2(t_info *info, char **cmd)
 {
 	if (ft_strcmp(cmd[0], "pwd"))
@@ -166,9 +122,6 @@ e_sys_err	execute_cmd(t_info *info, int cdt)
 		check_access(info);
 		if (execve(info->utils->exc, info->utils->cmd, info->env) == -1)
 			check_which_msg(info->utils->cmd[0], info);
-		// if ((!info->utils->bin && !check_lf_file(info))
-		// 	|| execve(info->utils->exc, info->utils->cmd, info->env) == -1)
-		// check_which_msg(info->utils->cmd[0], info->permi);
 	}
 	info->utils->id = id;
 	return (SYS_SUCCESS);

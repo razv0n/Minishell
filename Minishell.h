@@ -52,7 +52,11 @@ typedef enum
 typedef enum
 {
 	SYS_FAIL = -1,
+<<<<<<< HEAD
 	SYS_SUCCESS = 0
+=======
+	SYS_SUCCESS
+>>>>>>> 0e1639bb03bd4cb2233efb88c0790ca01617c751
 }e_sys_err;
 
 typedef struct utils
@@ -107,7 +111,10 @@ typedef struct s_info
 	int				count_herdoc;
 	bool			*joined;
 	bool			permi;
+<<<<<<< HEAD
 	bool			sigint_herdoc;
+=======
+>>>>>>> 0e1639bb03bd4cb2233efb88c0790ca01617c751
 }					t_info;
 
 t_list				*ft_lstnew_d(void *content, t_free_type place);
@@ -213,8 +220,7 @@ void				attach_node(t_xp **head, char *s);
 t_xp				*create_node(char *s);
 int					add_to_export(t_xp **head, char *s, t_info *info);
 void				check_which_msg(char *cmd, t_info *info);
-// void				check_which_msg(char *cmd, bool permi);
-// bool				if_executable(t_info *info);
+int					complete_check(char **path, t_info *info);
 
 // built-in
 

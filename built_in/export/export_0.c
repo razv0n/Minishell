@@ -82,9 +82,7 @@ int	add_to_export(t_xp **head, char *s, t_info *info)
 	equal = 0;
 	if (parse_var(s))
 	{
-		ft_putstr_fd("minishell: export: `", 2);
-		ft_putstr_fd(s, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
+		ft_putstr_fd(ft_strjoin(ft_strjoin("export: `", s, SECOUND_P), "': not a valid identifier\n", SECOUND_P), 2);
 		info->ext = 1;
 		return (0);
 	}

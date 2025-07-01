@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/30 12:19:41 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 13:44:23 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	minishell_loop(t_info *info)
 		if (info->line[0])
 			add_history(info->line);
 		if (pars(info) == 1)
-			init_things(info, info->head_cmd); //  when the sys call fail should return and free the 2eme position and print the perror msg 
+			init_things(info, info->head_cmd);
 		ft_free(info, 1337);
 	}
 }

@@ -73,13 +73,9 @@ void	ft_cd(t_info *info, char **arg)
 	if (chdir(arg[1]) == -1)
 	{
 		if (arg[2])
-			ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+			ft_putstr_fd("cd: too many arguments\n", 2);
 		else
-		{
-			ft_putstr_fd("minishell: cd: ", 2);
-			ft_putstr_fd(arg[1], 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-		}
+			ft_putstr_fd(ft_strjoin(ft_strjoin("cd: ", arg[1], SECOUND_P), ": No such file or directory\n", SECOUND_P), 2);
 		if (old)
 			free(old);
 		info->ext = 1;

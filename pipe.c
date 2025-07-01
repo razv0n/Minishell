@@ -105,42 +105,55 @@
 // 	// wait(NULL);
 // }
 
-int main()
-{
-	int a = 0;
-	if (a == 0 && (a = 1))
-		printf("%d", a);
-}
 // int main()
 // {
-// 	int pip[2];
-
-// 	pipe(pip);
-// 	int id = fork();
-// 	char *arg[] = {"", NULL};
-// 	if (id == 0)
-// 	{
-// 		// ls -la | cat
-// 		// int fd = open("file", O_CREAT | O_RDWR, 0655); // ls > file | cat 
-// 		dup2(fd, pip[1]);
-// 		// close(fd);
-// 		close(pip[0]);
-// 		close(pip[1]);
-// 		if (execve("/bin/ls", arg, NULL) == -1)
-// 			perror(" ");
-// 		exit(1);
-// 	}
-// 	close(pip[1]);
-// 	id = fork();
-// 	if (id == 0)
-// 	{
-// 		dup2(pip[0], 0);
-// 		close(pip[0]);
-// 		execve("/bin/cat", arg, NULL);
-// 		exit(1);
-// 	}
-// 	wait(NULL);
-// 	wait(NULL);
-// 	close(pip[0]);
-// 	return (1);
+// 	int a = 0;
+// 	if (a == 0 && (a = 1))
+// 		printf("%d", a);
 // }
+
+#include <signal.h>
+void	signa(int sig)
+{
+	printf("done\n");
+}
+int main()
+{
+	int pip[2];
+
+	signal(SIGPIPE, signa); SIGCH
+	pipe(pip);
+	int id = fork();
+	char *arg[] = {"", NULL};
+	if (id == 0)
+	{
+		// ls -la  > file| cat
+		// int fd = open("file", O_CREAT | O_RDWR, 0655); // ls > file | cat 
+		dup2(pip[1], 1); // pip[1] -> 1 read to pipe
+		// dup2(fd, 1);
+		// close(fd);
+		close(pip[0]);
+		close(pip[1]);
+		if (execve("/bin/cat", arg, NULL) == -1)   //cat wait and redirect the output to the write 
+			perror(" ");
+		exit(1);
+	}
+	// int  write = dup(pip[0]); //
+	// close(pip[0]);
+	// close(pip[1]);
+	id = fork(); //  fork 
+	if (id == 0)
+	{
+		dup2(pip[0], 0);  // it reads from the stdin     // read form the pip wich  is the cat
+		close(pip[0]); //write // close the write
+		close(pip[1]); // read  close the read  the read want to write from the to pip the ls close the read
+		execve("/bin/ls", arg, NULL);
+		exit(1);
+	}
+	close(pip[1]);
+	close(pip[0]);
+	// close(write);
+	wait(NULL);
+	wait(NULL);
+	return (1);
+}

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:32:59 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/21 14:47:51 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 11:21:35 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_info(t_info *info)
 	info->joined = NULL;
 	info->fd_in = ft_dupX(0, -1, false);
 	info->fd_out = ft_dupX(1, -1, false);
+	info->sigint_herdoc = false;
 }
 
 t_ptr	**return_ptr(void)

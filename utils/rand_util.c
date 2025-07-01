@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/29 21:53:36 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 11:59:40 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,10 @@ e_sys_err	fail_sys_call(t_info *info)
 {
 	ft_perror(SYSCALL);
 	info->ext = 1;
+	if (ft_dupX(info->fd_in, 0, true) == SYS_FAIL)
+			return (SYS_FAIL);
+	if (ft_dupX(info->fd_out, 1, true) == SYS_FAIL)
+		return (SYS_FAIL);
 	return (SYS_FAIL);
 }
 

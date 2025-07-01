@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/29 20:42:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 12:29:02 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ e_sys_err	execute_cmd(t_info *info, int cdt)
 
 	if (cdt && check_builtin(info, info->utils->cmd))
 		return (SYS_SUCCESS);
+	*(sig_varible()) = true;	
 	id = fork();
 	if (id == -1)
 		return (SYS_FAIL);

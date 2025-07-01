@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 13:44:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 15:42:04 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
 // {
 //     struct stat statbuf;
 //     fstat(STDIN_FILENO, &statbuf);
-//     return S_ISFIFO(statbuf.st_mode);
+//     return (S_ISFIFO(statbuf.st_mode));
 // }
 
-char	*best_prompt()
+char	*best_prompt(void)
 {
 	char	cwd[1024];
 	char	*user;
@@ -61,7 +61,7 @@ void	minishell_loop(t_info *info)
 	{
 		init_info(info);
 		str = best_prompt();
-		// if (!is_input_from_pipe())
+		// if (!is	_input_from_pipe(void))
 		info->line = readline(str);
 		if (!info->line)
 			ft_free_all(EXIT, 0);

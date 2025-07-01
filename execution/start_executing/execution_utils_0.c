@@ -12,7 +12,7 @@
 
 #include "../../Minishell.h"
 
-e_sys_err	get_path(t_info *info, t_u *utils)
+t_sys_err	get_path(t_info *info, t_u *utils)
 {
 	utils->bin = false;
 	if (utils->fail != -1)
@@ -41,7 +41,7 @@ e_sys_err	get_path(t_info *info, t_u *utils)
 	return (SYS_SUCCESS);
 }
 
-e_sys_err	open_pipe(t_u *utils)
+t_sys_err	open_pipe(t_u *utils)
 {
 	if (utils->i)
 	{
@@ -78,7 +78,7 @@ void	start_executing2(t_info *info)
 		unlink_path(info);
 }
 
-e_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
+t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
 {
 	while (head)
 	{

@@ -34,12 +34,11 @@ int	count_word_space(char const *str)
 			}
 		}
 		else
-            sp = 1;
-        i++;
-    }
-    return (count);
+			sp = 1;
+		i++;
+	}
+	return (count);
 }
-
 
 static char	*get_next_word(char const **s, char **result, int index)
 {

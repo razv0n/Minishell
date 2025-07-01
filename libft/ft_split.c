@@ -78,7 +78,7 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	while (i < lenght)
 	{
-		result[i] = get_next_word(&s, result, 	c, i);
+		result[i] = get_next_word(&s, result, c, i);
 		i++;
 	}
 	result[i] = NULL;

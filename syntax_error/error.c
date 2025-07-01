@@ -31,7 +31,7 @@ bool	check_error(t_info *info)
 	while (head)
 	{
 		if (!head->prev && is_pipe(head->content))
-			return (ft_perror(SYNTAX_ERROR), 1);  
+			return (ft_perror(SYNTAX_ERROR), 1);
 		if (!head->next)
 		{
 			if (is_pipe(head->content) || is_redirect(head->content))

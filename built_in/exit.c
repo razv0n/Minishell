@@ -93,7 +93,8 @@ void	ft_exit(char **cmd, int *ext, int child)
 		*ext = convert(cmd[1], &err);
 		if (err)
 		{
-			ft_putstr_fd(ft_strjoin(ft_strjoin("exit: ", cmd[1], SECOUND_P), ": numeric argument required\n", SECOUND_P), 2);
+			ft_putstr_fd(ft_strjoin(ft_strjoin("exit: ", cmd[1], SECOUND_P),
+					": numeric argument required\n", SECOUND_P), 2);
 			ft_free_all(NORMAL, 2);
 		}
 		if (cmd[2])

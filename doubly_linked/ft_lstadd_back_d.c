@@ -72,7 +72,7 @@ void	ft_lstclear_not(t_ptr **lst)
 	while (*lst != NULL)
 	{
 		if ((*lst)->type == CLOSE && *((int *)(*lst)->content) != -2)
-			ft_close (*((int *)(*lst)->content));
+			ft_close(*((int *)(*lst)->content));
 		free((*lst)->content);
 		help = (*lst)->next;
 		free(*lst);

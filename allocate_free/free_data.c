@@ -23,7 +23,7 @@ void	ft_perror(t_error_type msg)
 	else if (msg == ERR_AMBIGUOUS)
 		ft_putstr_fd("Minishell : \033[31mambiguous redirect\033[0m\n", 2);
 	else if (msg == ERR_EXECVE)
-		ft_putstr_fd("Minishell : execve failed: ",2);
+		ft_putstr_fd("Minishell : execve failed: ", 2);
 	else if (msg == SYSCALL)
 		perror("");
 }
@@ -41,8 +41,8 @@ void	ft_free(t_info *info, t_error_type msg)
 		if (help->place == SECOUND_P)
 		{
 			next = help->next;
-			if (help->type == CLOSE && *(int * )help->content != -2)
-				ft_close (*((int *)help->content));
+			if (help->type == CLOSE && *(int *)help->content != -2)
+				ft_close(*((int *)help->content));
 			remove_node_single(head, help);
 			help = next;
 		}
@@ -70,7 +70,7 @@ void	check_which_msg(char *cmd, t_info *info)
 		errno = EACCES;
 	else if (info->utils->error == 1)
 	{
-		ft_putstr_fd(ft_strjoin(cmd, ": Command not found\n", SECOUND_P),2);
+		ft_putstr_fd(ft_strjoin(cmd, ": Command not found\n", SECOUND_P), 2);
 		ft_free_all(NORMAL, 127);
 	}
 	ft_putstr_fd(cmd, 2);

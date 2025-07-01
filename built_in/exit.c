@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 21:26:42 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/13 18:48:59 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 15:02:01 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	convert(char *s, int *err)
 		*err = 1;
 		return (1);
 	}
+	s = skip_spaces_zero(s + j);
 	if ((s[j] == '-' || s[j] == '+') && (s[j + 1] >= '0' && s[j + 1] <= '9'))
 	{
 		if (s[j] == '-')
@@ -93,7 +94,7 @@ void	ft_exit(char **cmd, int *ext, int child)
 		if (err)
 		{
 			ft_putstr_fd(ft_strjoin(ft_strjoin("exit: ", cmd[1], SECOUND_P), ": numeric argument required\n", SECOUND_P), 2);
-			exit(2);
+			ft_free_all(NORMAL, 2);
 		}
 		if (cmd[2])
 		{

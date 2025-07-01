@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 11:17:12 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 13:45:18 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,7 @@ typedef enum
 typedef enum
 {
 	SYS_FAIL = -1,
-<<<<<<< HEAD
-	SYS_SUCCESS = 0
-=======
 	SYS_SUCCESS
->>>>>>> 0e1639bb03bd4cb2233efb88c0790ca01617c751
 }e_sys_err;
 
 typedef struct utils
@@ -111,10 +107,7 @@ typedef struct s_info
 	int				count_herdoc;
 	bool			*joined;
 	bool			permi;
-<<<<<<< HEAD
 	bool			sigint_herdoc;
-=======
->>>>>>> 0e1639bb03bd4cb2233efb88c0790ca01617c751
 }					t_info;
 
 t_list				*ft_lstnew_d(void *content, t_free_type place);

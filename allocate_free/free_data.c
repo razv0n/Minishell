@@ -60,7 +60,6 @@ void	ft_free_all(t_error_type msg, int exit_code)
 	ft_lstclear_not(head);
 	rl_clear_history();
 	ft_perror(msg);
-	// if (flag)
 	exit(exit_code);
 }
 
@@ -79,22 +78,3 @@ void	check_which_msg(char *cmd, t_info *info)
 		ft_free_all(NORMAL, 127);
 	ft_free_all(NORMAL, 126);
 }
-
-// else if (info->utils->error == 2)
-// {
-// 	ft_putstr_fd(": No such file or directory\n",2);
-// 	ft_free_all(NORMAL, 127);
-// }
-// void	free_ptr(t _ptr **head)
-// {
-// 	t_ptr *temp;
-
-// 	while (*head)
-// 	{
-// 		temp = *head;
-// 		*head = (*head)->next;
-// 		free(temp->content);
-// 		free(temp);
-// 	}
-// 	*head = NULL;
-// }

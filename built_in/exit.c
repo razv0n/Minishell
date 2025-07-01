@@ -67,6 +67,7 @@ int	convert(char *s, int *err)
 		*err = 1;
 		return (1);
 	}
+	s = skip_spaces_zero(s + j);
 	if ((s[j] == '-' || s[j] == '+') && (s[j + 1] >= '0' && s[j + 1] <= '9'))
 	{
 		if (s[j] == '-')

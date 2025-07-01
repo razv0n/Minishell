@@ -95,11 +95,7 @@ int	pars(t_info *info)
 		type_tokens(info->head_cmd);
 		add_is_joined(info->head_cmd, info);
 		change_red(info);
-<<<<<<< HEAD
 		if (start_herdoc(info, info->head_cmd) == SYS_FAIL || info->sigint_herdoc)
-=======
-		if (start_herdoc(info, info->head_cmd) == SYS_FAIL)
->>>>>>> 0e1639bb03bd4cb2233efb88c0790ca01617c751
 			return (-1);
 		if (syntax_error)
 			return (-1);

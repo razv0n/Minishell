@@ -15,11 +15,11 @@
 void	get_next_cmd(t_info *info, t_list **head, char *file)
 {
 	while (*head)
+	{
 		if ((*head)->next && (*head)->next->type == PIPE)
-		{
 			break ;
-			*head = (*head)->next;
-		}
+		*head = (*head)->next;
+	}
 	info->utils->cmd[0] = NULL;
 }
 

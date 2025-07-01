@@ -18,7 +18,8 @@ void	ft_pwd(t_info *info)
 
 	if (getcwd(s, sizeof(s)) == NULL)
 	{
-		ft_putstr_fd("An error has occured while getting current working directory\n", 2);
+		// ft_putstr_fd("An error has occured while getting current working directory\n", 2);
+		perror("pwd ");
 		info->ext = 1;
 		if (info->utils->child)
 			ft_free_all(NORMAL, 1);

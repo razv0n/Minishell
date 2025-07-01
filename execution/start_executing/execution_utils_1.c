@@ -14,7 +14,9 @@
 
 void	check_access2(t_info *info)
 {
-	if (!info->utils->path || !complete_check(info->utils->path, info))
+	if (!*(info->utils->cmd[0]) || ft_strcmp(info->utils->cmd[0], ".")
+		|| ft_strcmp(info->utils->cmd[0], "..") ||
+		!info->utils->path || !complete_check(info->utils->path, info))
 	{
 		info->utils->error = 1;
 		return (check_which_msg(info->utils->cmd[0], info));

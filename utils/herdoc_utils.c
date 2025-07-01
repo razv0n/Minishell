@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/27 19:46:38 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 11:29:44 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,12 @@ e_sys_err	start_herdoc(t_info *info, t_list *head)
 		{
 			str = joined_for_herdoc(head, &is_quotes);
 			if (herdoc(str, info, is_quotes) == SYS_FAIL)
+			{
+				info->ext = 1;
 				return (SYS_FAIL);
+			}
+			if (info->ext == 130)
+				info->sigint_herdoc = true;  // opens file 2 run cmds
 		}
 		head = head->next;
 	}

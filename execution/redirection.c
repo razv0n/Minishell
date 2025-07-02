@@ -57,7 +57,6 @@ t_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 			child_herdoc(info, is_quotes, fd, str);
 		waitpid(id, &info->ext, 0);
 		ft_close(fd);
-		// *(sig_varible()) = false;
 		exit_status(info);
 	}
 	if (++i >= info->count_herdoc)

@@ -61,7 +61,6 @@ void	minishell_loop(t_info *info)
 	{
 		init_info(info);
 		str = best_prompt();
-		// if (!is	_input_from_pipe(void))
 		info->line = readline(str);
 		if (!info->line)
 			ft_free_all(EXIT, 0);
@@ -87,6 +86,7 @@ int	main(int ac, char **av, char **env)
 	setup_signals();
 	info = ft_malloc(sizeof(t_info), FIRST_P, FREE);
 	info->ext = 0;
+	info->cw = NULL;
 	cpy_env(env, info);
 	minishell_loop(info);
 }

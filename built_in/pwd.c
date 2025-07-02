@@ -18,14 +18,16 @@ void	ft_pwd(t_info *info)
 
 	if (getcwd(s, sizeof(s)) == NULL)
 	{
-		perror("");
+		// perror("pwd ");
+		ft_putstr_fd(info->cw, 1);
+		ft_putstr_fd("\n", 1);
 		info->ext = 1;
 		if (info->utils->child)
 			ft_free_all(NORMAL, 1);
 		return ;
 	}
 	printf("%s\n", s);
-	info->ext = 0; // for updating the exit status but i think we won't need it
+	info->ext = 0;
 	if (info->utils->child)
 		ft_free_all(NORMAL, 0);
 }

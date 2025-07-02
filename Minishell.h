@@ -77,8 +77,7 @@ typedef struct export
 	char			*str;
 	struct export	*next;
 	struct export	*prev;
-}
-t_xp;
+}					t_xp;
 
 typedef struct s_l
 {
@@ -104,6 +103,7 @@ typedef struct s_info
 	int				count_herdoc;
 	bool			*joined;
 	bool			permi;
+	char			*cw;
 	bool			sigint_herdoc;
 }					t_info;
 

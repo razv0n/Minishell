@@ -54,8 +54,10 @@ void	ft_cd_2(t_info *info, char *old)
 		info->ext = 0;
 		return ;
 	}
+	info->cw = pwd;
+	add_ptr(pwd, return_ptr(), FIRST_P, FREE);
 	edit_export(info->head_export, info->head_env, pwd, old);
-	free(pwd);
+	// free(pwd);
 	free(old);
 	info->ext = 0;
 	if (info->utils->child)

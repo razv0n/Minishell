@@ -113,12 +113,11 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->bin = false;
 	info->utils->id = 0;
 	info->utils->fail = 0;
-	// info->permi = false; // don't know if we will use it
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	if (info->utils->npi)
 		info->utils->child = true;
-	info->utils->path = update_path(ft_getenv("PATH", info->head_env)); //!
+	info->utils->path = update_path(ft_getenv("PATH", info->head_env));
 	start_executing(info, head, info->utils);
 	ft_close(info->fd_in);
 	ft_close(info->fd_out);

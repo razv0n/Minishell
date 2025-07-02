@@ -15,12 +15,12 @@
 void	check_access2(t_info *info)
 {
 	if (!*(info->utils->cmd[0]) || ft_strcmp(info->utils->cmd[0], ".")
-        || ft_strcmp(info->utils->cmd[0], "..") ||
-        !info->utils->path || !complete_check(info->utils->path, info))
-    {
-        info->utils->error = 1;
-        return (check_which_msg(info->utils->cmd[0], info));
-    }
+		|| ft_strcmp(info->utils->cmd[0], "..") || !info->utils->path
+		|| !complete_check(info->utils->path, info))
+	{
+		info->utils->error = 1;
+		return (check_which_msg(info->utils->cmd[0], info));
+	}
 }
 
 void	check_access(t_info *info)
@@ -108,7 +108,7 @@ t_sys_err	execute_cmd(t_info *info, int cdt)
 
 	if (cdt && check_builtin(info, info->utils->cmd))
 		return (SYS_SUCCESS);
-	*(sig_varible()) = true;	
+	*(sig_varible()) = true;
 	id = fork();
 	if (id == -1)
 		return (SYS_FAIL);

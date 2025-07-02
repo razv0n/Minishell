@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/01 15:35:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/02 15:02:17 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ t_sys_err	start_herdoc(t_info *info, t_list *head)
 
 	is_quotes = false;
 	info->count_herdoc = count_herdoc(head);
+	if (!info->count_herdoc)
+		return (SYS_SUCCESS);
 	if (path(info) == SYS_FAIL)
 		return (SYS_FAIL);
 	while (head)
@@ -106,16 +108,19 @@ t_sys_err	start_herdoc(t_info *info, t_list *head)
 	return (SYS_SUCCESS);
 }
 
-void	unlink_path(t_info *info)
+void	unlink_path(char **path_name)
 {
 	int	i;
 
 	i = 0;
-	while (info->path_name[i])
+	if (!path_name)
+		return ;
+	while (path_name[i])
 	{
-		unlink(info->path_name[i]);
+		unlink(path_name[i]);
 		i++;
 	}
+	path_name = NULL;
 }
 
 t_sys_err	path(t_info *info)
@@ -123,7 +128,7 @@ t_sys_err	path(t_info *info)
 	int	i;
 
 	i = 0;
-	info->path_name = ft_calloc(sizeof(char *), info->count_herdoc + 1);
+	info->path_name = ft_malloc(sizeof(char *) * (info->count_herdoc + 1), SECOUND_P, UNLINK);
 	while (i < info->count_herdoc)
 	{
 		info->path_name[i] = generate_name();

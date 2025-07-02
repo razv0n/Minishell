@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 15:35:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/02 16:38:19 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	exit_status(t_info *info)
 {
 	if (WIFSIGNALED(info->ext))
 		info->ext = 128 + WTERMSIG(info->ext);
-	else
+	else if (WIFEXITED(info->ext))
 		info->ext = WEXITSTATUS(info->ext);
 }
 

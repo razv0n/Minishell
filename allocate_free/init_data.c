@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:32:59 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 11:21:35 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/02 11:20:40 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	*ft_malloc(size_t size, t_free_type place, t_free_type type)
 	void	*ptr;
 	t_ptr	**head;
 
-	head = return_ptr();
+	head = return_ptr();	
 	ptr = malloc(size);
 	if (!ptr)
 		ft_free_all(ERR_MALLOC, 3);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 15:38:24 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/02 14:55:20 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ char				*go_to_expand(char *str, t_list *head_env);
 int					ft_open(char *str, int flag, int permi);
 t_ptr				*where_is_fd(t_ptr *head, int fd);
 void				change_red_help(t_list **head, t_info *info);
+bool				have_space(char *str);
 bool				check_lf_file(t_info *info);
 void				split_variable(t_type_word wich_quote, t_list *node);
-bool				have_space(char *str);
 void				*ft_malloc(size_t size, t_free_type place,
 						t_free_type type);
 char				*check_to_expand(char *str, int *i, t_info *info);
@@ -150,7 +150,7 @@ void				handle_sig(int sig);
 bool				is_whitespace(char c);
 void				remove_quotes(char **str, t_list *node);
 bool				check_quotes(char c);
-void				unlink_path(t_info *info);
+void				unlink_path(char **path_name);
 void				expand(t_info *info);
 void				expand_2(char **str, t_type_word wich_quote, t_info *info);
 void				ft_lstadd_back_d(t_list **start, t_list *new);

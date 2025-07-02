@@ -69,13 +69,11 @@ t_sys_err	open_pipe(t_u *utils)
 void	start_executing2(t_info *info)
 {
 	if (info->ext != 127)
-		waitpid(info->utils->id, &info->ext, WUNTRACED);
+		waitpid(info->utils->id, &info->ext, 0);
 	while (wait(NULL) != -1)
 		;
 	if (info->utils->bin)
 		exit_status(info);
-	if (info->path_name)
-		unlink_path(info);
 }
 
 t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)

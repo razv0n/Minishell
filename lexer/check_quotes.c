@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:13:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/21 18:59:59 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/02 11:15:16 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ bool	check_quotes_error(t_info *info)
 	if (qs.stack[0])
 	{
 		ft_perror(SYNTAX_ERROR);
+		info->ext = 2;
 		return (true);
 	}
 	return (false);

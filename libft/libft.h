@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:29:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/26 17:48:11 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/02 14:32:34 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef enum e_type
 typedef enum {
     CLOSE,
     FREE,
+    UNLINK,
     FIRST_P,
     SECOUND_P
 } t_free_type;

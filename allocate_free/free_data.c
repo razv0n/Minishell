@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 21:43:43 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/02 15:07:53 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ void	ft_free(t_info *info, t_error_type msg)
 		if (help->place == SECOUND_P)
 		{
 			next = help->next;
-			if (help->type == CLOSE && *(int *)help->content != -2)
+			if (help->type == UNLINK)
+				unlink_path((char **)help->content);
+			else if (help->type == CLOSE && *(int *)help->content != -2)
 				ft_close(*((int *)help->content));
 			remove_node_single(head, help);
 			help = next;

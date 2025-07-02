@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/01 11:29:44 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 15:35:49 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*generate_name(void)
 	return (path_name);
 }
 
-e_sys_err	start_herdoc(t_info *info, t_list *head)
+t_sys_err	start_herdoc(t_info *info, t_list *head)
 {
 	char	*str;
 	bool	is_quotes;
@@ -99,7 +99,7 @@ e_sys_err	start_herdoc(t_info *info, t_list *head)
 				return (SYS_FAIL);
 			}
 			if (info->ext == 130)
-				info->sigint_herdoc = true;  // opens file 2 run cmds
+				info->sigint_herdoc = true; // opens file 2 run cmds
 		}
 		head = head->next;
 	}
@@ -118,7 +118,7 @@ void	unlink_path(t_info *info)
 	}
 }
 
-e_sys_err	path(t_info *info)
+t_sys_err	path(t_info *info)
 {
 	int	i;
 

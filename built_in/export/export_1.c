@@ -24,12 +24,13 @@ int	compare(char *s1, char *s2, bool b1, bool b2)
 	}
 	else
 	{
-		while (s1[i] && s2[i] && (s1[i] == s2[i]) && (s1[i] != '=' && s2[i] != '='))
+		while (s1[i] && s2[i] && (s1[i] == s2[i])
+			&& (s1[i] != '=' && s2[i] != '='))
 			i++;
 		if ((s1[i] == '=') && !s2[i])
 			return (-200);
 		if (((s1[i] == '=') && (s2[i] == '=')) || (!s1[i] && (s2[i] == '='))
-			|| (!s1[i] && !s2[i])) // for cmd export B" the B add without the '=' symbole
+			|| (!s1[i] && !s2[i]))
 			return (200);
 	}
 	if (!b2)
@@ -42,7 +43,7 @@ void	fill_the_string(char *out, char *s2, int equal, int i)
 	int	j;
 
 	j = 0;
-	while (s2[j] && s2[j] != '=') // !invalide add s[j-1 == 0 -1] != '='
+	while (s2[j] && s2[j] != '=')
 	{
 		out[i] = s2[j];
 		i++;
@@ -67,14 +68,14 @@ void	fill_the_string(char *out, char *s2, int equal, int i)
 char	*join_str(char *s1, char *s2, int cdt, int *equal)
 {
 	char	*out;
-	int	i;
-	int	len;
-	int	help;
+	int		i;
+	int		len;
+	int		help;
 
 	i = 0;
 	help = 0;
 	if (!equal)
-		equal = &help; // for the segfault
+		equal = &help;
 	if (!s2 || !cdt)
 		return (NULL);
 	if (ft_strchr(s2, '='))

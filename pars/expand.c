@@ -107,7 +107,7 @@ void	expand(t_info *info)
 void	ft_addnode(t_list *node, char *str)
 {
 	t_list	*new_node;
-	
+
 	if (!node)
 		return ;
 	new_node = ft_lstnew_d(str, SECOUND_P);
@@ -125,18 +125,20 @@ void	split_variable(t_type_word wich_quote, t_list *node)
 	char	**str_split;
 	int		i;
 
-	i =  1;
-	if (!node || !node->content || wich_quote == DOUBLE_Q || wich_quote == SINGLE_Q)
-		return;
+	i = 1;
+	if (!node || !node->content || wich_quote == DOUBLE_Q
+		|| wich_quote == SINGLE_Q)
+		return ;
 	if (!node->content[0])
-		return;
-	if (node->joined && is_whitespace(node->content[ft_strlen(node->content) - 1]))
+		return ;
+	if (node->joined && is_whitespace(node->content[ft_strlen(node->content)
+			- 1]))
 		node->joined = false;
-	str_split  = ft_split_space(node->content);
+	str_split = ft_split_space(node->content);
 	if (!str_split[0])
-		return;
+		return ;
 	node->content = NULL;
-	node->content = str_split[0];	
+	node->content = str_split[0];
 	while (str_split[i])
 	{
 		ft_addnode(node, str_split[i]);

@@ -19,16 +19,16 @@
 
 typedef enum e_type
 {
-    WORD,
-    SINGLE_Q,
-    DOUBLE_Q,
-    PIPE,
-    REDIRECT_IN,
-    REDIRECT_OUT,
-    HEREDOC,
-    APPEND, 
-    AMBIGUOUS
-}t_type_word;//* this enum for type of token
+	WORD,
+	SINGLE_Q,
+	DOUBLE_Q,
+	PIPE,
+	REDIRECT_IN,
+	REDIRECT_OUT,
+	HEREDOC,
+	APPEND,
+	AMBIGUOUS
+}t_type_word;
 
 typedef enum {
     CLOSE,

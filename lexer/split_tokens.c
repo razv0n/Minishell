@@ -12,13 +12,13 @@
 
 #include "../Minishell.h"
 
-void	remove_the_null(t_list	**head)
+void	remove_the_null(t_list **head)
 {
 	t_list	*help;
 
 	help = *head;
 	if (!help)
-		return;
+		return ;
 	while (help)
 	{
 		if (!help->content && help->type != AMBIGUOUS)
@@ -27,7 +27,7 @@ void	remove_the_null(t_list	**head)
 	}
 }
 
-void	remove_quote(t_list	*head)
+void	remove_quote(t_list *head)
 {
 	while (head)
 	{

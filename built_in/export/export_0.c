@@ -36,11 +36,11 @@ int	where_to_edit(t_xp **tmp, t_xp **ptr, char *s)
 	{
 		res = compare((*tmp)->str + 11, s, true, true);
 		if (res >= 0 && res != 200)
-			return (1); // to add it in the alphabet
+			return (1);
 		else if (res == 200)
-			return (-1); // to replace the value
+			return (-1);
 		else if (res == -200)
-			return (0); // to not add it in export
+			return (0);
 		*ptr = *tmp;
 		*tmp = (*tmp)->next;
 	}
@@ -76,13 +76,14 @@ int	add_to_export(t_xp **head, char *s, t_info *info)
 	t_xp	*tmp;
 	t_xp	*node;
 	t_xp	*ptr;
-	int	cdt;
-	int	equal;
+	int		cdt;
+	int		equal;
 
 	equal = 0;
 	if (parse_var(s))
 	{
-		ft_putstr_fd(ft_strjoin(ft_strjoin("export: `", s, SECOUND_P), "': not a valid identifier\n", SECOUND_P), 2);
+		ft_putstr_fd(ft_strjoin(ft_strjoin("export: `", s, SECOUND_P),
+				"': not a valid identifier\n", SECOUND_P), 2);
 		info->ext = 1;
 		return (0);
 	}
@@ -101,8 +102,8 @@ int	add_to_export(t_xp **head, char *s, t_info *info)
 void	create_export(t_info *info, char **env, int i)
 {
 	char	*tmp;
-	int	j;
-	int	x;
+	int		j;
+	int		x;
 
 	info->head_export = NULL;
 	i = 0;

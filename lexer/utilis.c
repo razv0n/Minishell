@@ -60,7 +60,7 @@ static int	count_word(char *str)
 	vb.sp = 1;
 	vb.i = 0;
 	vb.quotes_next = false;
-	vb.meta_next =  false;
+	vb.meta_next = false;
 	if (str[0] == '\0')
 		return (0);
 	vb.count = 0;
@@ -84,7 +84,8 @@ static int	count_word(char *str)
 static char	*add_to_res(char **s, char **result, t_variable_1 *vb)
 {
 	vb->lenght = *s - vb->start;
-	result[vb->index] = ft_malloc((vb->lenght + 1) * sizeof(char), SECOUND_P, FREE);
+	result[vb->index] = ft_malloc((vb->lenght + 1) * sizeof(char), SECOUND_P,
+			FREE);
 	while (vb->start < *s)
 	{
 		result[vb->index][vb->i] = *(vb->start);

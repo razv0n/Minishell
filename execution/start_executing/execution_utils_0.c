@@ -12,7 +12,7 @@
 
 #include "../../Minishell.h"
 
-e_sys_err	get_path(t_info *info, t_u *utils)
+t_sys_err	get_path(t_info *info, t_u *utils)
 {
 	utils->bin = false;
 	if (utils->fail != -1)
@@ -41,7 +41,7 @@ e_sys_err	get_path(t_info *info, t_u *utils)
 	return (SYS_SUCCESS);
 }
 
-e_sys_err	open_pipe(t_u *utils)
+t_sys_err	open_pipe(t_u *utils)
 {
 	if (utils->i)
 	{
@@ -78,7 +78,7 @@ void	start_executing2(t_info *info)
 		unlink_path(info);
 }
 
-e_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
+t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
 {
 	while (head)
 	{
@@ -115,12 +115,11 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->bin = false;
 	info->utils->id = 0;
 	info->utils->fail = 0;
-	// info->permi = false; // don't know if we will use it
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	if (info->utils->npi)
 		info->utils->child = true;
-	info->utils->path = update_path(ft_getenv("PATH", info->head_env)); //!
+	info->utils->path = update_path(ft_getenv("PATH", info->head_env));
 	start_executing(info, head, info->utils);
 	ft_close(info->fd_in);
 	ft_close(info->fd_out);

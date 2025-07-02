@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils_3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yezzemry <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:37:20 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/30 12:37:46 by yezzemry         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:35:49 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ void	get_next_cmd(t_info *info, t_list **head, char *file)
 	info->utils->cmd[0] = NULL;
 }
 
-e_sys_err	back_to_normal(t_info *info)
+t_sys_err	back_to_normal(t_info *info)
 {
 	info->utils->fail = 0;
-	// info->permi = false;
 	if (info->utils->exc)
 		info->utils->exc = NULL;
 	if (info->utils->npi == -1)
@@ -66,9 +65,9 @@ char	**collecte_cmds(t_list *head, t_u *utils)
 
 int	complete_check(char **path, t_info *info)
 {
-	int	i;
-	char	*x;
-	struct stat sb;
+	int			i;
+	char		*x;
+	struct stat	sb;
 
 	i = 0;
 	while (path && path[i])

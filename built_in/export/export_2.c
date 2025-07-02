@@ -48,7 +48,7 @@ void	ft_export(t_xp **head, t_info *info)
 		if (!info->utils->cmd[i + 1])
 		{
 			if (info->utils->child)
-				ft_free_all(NORMAL, info->ext); // HERE IT FOUND AN EXIT
+				ft_free_all(NORMAL, info->ext);
 			return ;
 		}
 		i++;

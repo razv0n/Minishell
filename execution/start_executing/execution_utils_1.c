@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/01 12:29:02 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 16:35:06 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	check_access2(t_info *info)
 {
 	if (!*(info->utils->cmd[0]) || ft_strcmp(info->utils->cmd[0], ".")
-		|| ft_strcmp(info->utils->cmd[0], "..") ||
-		!info->utils->path || !complete_check(info->utils->path, info))
+		|| ft_strcmp(info->utils->cmd[0], "..") || !info->utils->path
+		|| !complete_check(info->utils->path, info))
 	{
 		info->utils->error = 1;
 		return (check_which_msg(info->utils->cmd[0], info));
@@ -102,13 +102,13 @@ int	check_builtin(t_info *info, char **cmd)
 	return (0);
 }
 
-e_sys_err	execute_cmd(t_info *info, int cdt)
+t_sys_err	execute_cmd(t_info *info, int cdt)
 {
 	int	id;
 
 	if (cdt && check_builtin(info, info->utils->cmd))
 		return (SYS_SUCCESS);
-	*(sig_varible()) = true;	
+	*(sig_varible()) = true;
 	id = fork();
 	if (id == -1)
 		return (SYS_FAIL);

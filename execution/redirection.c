@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 15:26:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 15:35:49 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 		if (!line || ft_strcmp(line, str) == 1)
 			break ;
 		if (ft_strchr(line, '$') && is_quotes != DOUBLE_Q
-		&& is_quotes != SINGLE_Q)
+			&& is_quotes != SINGLE_Q)
 			expand_2(&line, 1337, info);
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
@@ -37,12 +37,13 @@ void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 	ft_free_all(NORMAL, 0);
 }
 
-e_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
+t_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 {
 	char		*line;
 	pid_t		id;
 	int			fd;
 	static int	i;
+
 	if (!info->sigint_herdoc)
 	{
 		*(sig_varible()) = true;
@@ -56,7 +57,6 @@ e_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 			child_herdoc(info, is_quotes, fd, str);
 		waitpid(id, &info->ext, 0);
 		ft_close(fd);
-		// *(sig_varible()) = false;
 		exit_status(info);
 	}
 	if (++i >= info->count_herdoc)
@@ -64,7 +64,7 @@ e_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 	return (SYS_SUCCESS);
 }
 
-e_sys_err	redirection(t_list *node, int cdt, t_info *info)
+t_sys_err	redirection(t_list *node, int cdt, t_info *info)
 {
 	if (cdt == APPEND)
 		return (rdr_append(node->content));

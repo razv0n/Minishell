@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:40:36 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/26 12:45:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/01 17:18:06 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ void	ft_cd_2(t_info *info, char *old)
 		info->ext = 0;
 		return ;
 	}
+	info->cw = pwd;
+	add_ptr(pwd, return_ptr(), FIRST_P, FREE);
 	edit_export(info->head_export, info->head_env, pwd, old);
-	free(pwd);
+	// free(pwd);
 	free(old);
 	info->ext = 0;
 	if (info->utils->child)

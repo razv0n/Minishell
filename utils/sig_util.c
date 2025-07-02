@@ -43,5 +43,3 @@ bool	*sig_varible(void)
 
 	return (&sig_varible);
 }
-
-

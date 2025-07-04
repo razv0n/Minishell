@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/02 16:38:19 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/03 16:34:11 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ bool	have_space(char *str)
 	return (false);
 }
 
-void	change_red_help(t_list **head, t_info *info)
+bool	change_red_help(t_list **head, t_info *info)
 {
 	t_list	*help;
 	char	*str;
 
-	if ((*head)->next && !ft_strcmp((*head)->content, "<<")
+	if ((*head)->next && !ft_strcmp((*head)->content, "<<") // 
 		&& ft_strchr((*head)->next->content, '$')
 		&& (*head)->next->content[0] != '\'')
 	{
@@ -89,8 +89,8 @@ void	change_red_help(t_list **head, t_info *info)
 		if (!str || ((*head)->next->content[0] != '"'
 				&& count_word_space(str) > 1))
 		{
-			(*head)->type = AMBIGUOUS;
 			ft_perror(ERR_AMBIGUOUS);
+			return (false);
 		}
 	}
 	if ((*head)->next)
@@ -98,6 +98,7 @@ void	change_red_help(t_list **head, t_info *info)
 	help = (*head)->next;
 	remove_node_doubly(&info->head_cmd, (*head));
 	(*head) = help;
+	return (true);
 }
 
 t_sys_err	fail_sys_call(t_info *info)

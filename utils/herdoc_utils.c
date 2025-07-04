@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/02 15:02:17 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/03 10:32:30 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	count_herdoc(t_list *head)
 	count_herdoc = 0;
 	while (head)
 	{
-		if (head->type == HEREDOC)
+ 		if (head->type == HEREDOC)
 			count_herdoc++;
 		head = head->next;
 	}
@@ -96,10 +96,7 @@ t_sys_err	start_herdoc(t_info *info, t_list *head)
 		{
 			str = joined_for_herdoc(head, &is_quotes);
 			if (herdoc(str, info, is_quotes) == SYS_FAIL)
-			{
-				info->ext = 1;
 				return (SYS_FAIL);
-			}
 			if (info->ext == 130)
 				info->sigint_herdoc = true; // opens file 2 run cmds
 		}

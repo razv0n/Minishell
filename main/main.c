@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 15:42:04 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/04 11:14:13 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 
 char	*best_prompt(void)
 {
-	char	cwd[1024];
+	char	cwd[4096];
 	char	*user;
-	char	prompt[1024];
+	char	prompt[5000];
 	size_t	size;
 	char	*str;
 
@@ -41,7 +41,7 @@ char	*best_prompt(void)
 	if (!user)
 		user = "user";
 	if (!getcwd(cwd, sizeof(cwd)))
-		ft_strlcpy(cwd, "unknown", sizeof(cwd));
+		ft_strlcpy(cwd, "..", sizeof(cwd));
 	prompt[0] = '\0';
 	ft_strlcat(prompt, "\001\033[1;32m\002", size);
 	ft_strlcat(prompt, user, size);
@@ -69,7 +69,7 @@ void	minishell_loop(t_info *info)
 			add_history(info->line);
 		if (pars(info) == 1)
 			init_things(info, info->head_cmd);
-		ft_free(info, 1337);
+		ft_free(1337);
 	}
 }
 

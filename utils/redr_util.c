@@ -6,13 +6,13 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:17:10 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 15:35:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/04 11:12:24 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-t_sys_err	rdr_in(char *str, t_info *info)
+t_sys_err	rdr_in(char *str)
 {
 	int	fd;
 

@@ -37,7 +37,7 @@ t_sys_err	get_path(t_info *info, t_u *utils)
 			utils->bin = true;
 		}
 	}
-	ft_close(1);
+	// ft_close(1);
 	return (SYS_SUCCESS);
 }
 
@@ -72,6 +72,7 @@ void	start_executing2(t_info *info)
 		waitpid(info->utils->id, &info->ext, 0);
 	while (wait(NULL) != -1)
 		;
+	*(sig_varible()) = false;
 	if (info->utils->bin)
 		exit_status(info);
 }
@@ -80,14 +81,12 @@ t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
 {
 	while (head)
 	{
-		utils->cmd = collecte_cmds(head, utils);
+		utils->cmd = collecte_cmds(head);
 		if (open_pipe(utils) == SYS_FAIL)
 			return (fail_sys_call(info));
 		while (head && (head->type != PIPE))
 		{
-			if (head->type == AMBIGUOUS)
-				get_next_cmd(info, &head, head->content);
-			else if (head->type != WORD)
+			if (head->type != WORD)
 				if (redirection(head, head->type, info) == SYS_FAIL)
 					return (fail_sys_call(info));
 			if (head)

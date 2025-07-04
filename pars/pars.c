@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/02 12:27:30 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/04 11:13:08 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	joined_node(t_info *info)
 {
 	t_list	*head;
 	int		i;
-	t_list	*help;
 
 	head = ft_lstlast(info->head_cmd);
 	i = 0;
@@ -69,7 +68,7 @@ void	add_is_joined(t_list *head, t_info *info)
 	}
 }
 
-void	change_red(t_info *info)
+bool	change_red(t_info *info)
 {
 	t_list	*head;
 
@@ -77,23 +76,33 @@ void	change_red(t_info *info)
 	while (head)
 	{
 		if (is_redirect(head->content))
-			change_red_help(&head, info);
+		{
+			if (!change_red_help(&head, info))
+			{
+				info->ext = 1;
+				return (false);
+			}
+		}
 		else
 			head = head->next;
 	}
+	return (true);
 }
 
 int	pars(t_info *info)
 {
+	bool	ambiguous;
+
 	if (!check_quotes_error(info))
 	{
 		if (!split_arg(info))
 			return (-1);
 		type_tokens(info->head_cmd);
 		add_is_joined(info->head_cmd, info);
-		change_red(info);
-		if (start_herdoc(info, info->head_cmd) == SYS_FAIL
-			|| info->sigint_herdoc)
+		ambiguous = change_red(info);
+		if (start_herdoc(info, info->head_cmd) == SYS_FAIL)
+			return (fail_sys_call(info));
+		if (!ambiguous || info->sigint_herdoc)
 			return (-1);
 		expand(info);
 		joined_node(info);

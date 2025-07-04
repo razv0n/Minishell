@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 15:35:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/04 11:16:50 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	handle_sig_init(int sig)
 {
+	(void)sig;
 	ft_free_all(NORMAL, 130);
 }
 
@@ -39,7 +40,6 @@ void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 
 t_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 {
-	char		*line;
 	pid_t		id;
 	int			fd;
 	static int	i;
@@ -58,6 +58,7 @@ t_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 		waitpid(id, &info->ext, 0);
 		ft_close(fd);
 		exit_status(info);
+		*(sig_varible()) = false;
 	}
 	if (++i >= info->count_herdoc)
 		i = 0;
@@ -69,7 +70,7 @@ t_sys_err	redirection(t_list *node, int cdt, t_info *info)
 	if (cdt == APPEND)
 		return (rdr_append(node->content));
 	else if (cdt == REDIRECT_IN)
-		return (rdr_in(node->content, info));
+		return (rdr_in(node->content));
 	else if (cdt == HEREDOC)
 		return (rdr_herdoc(info));
 	else if (cdt == REDIRECT_OUT)

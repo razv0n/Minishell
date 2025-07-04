@@ -161,13 +161,21 @@
 // 	return (1);
 // }
 
+#include <sys/stat.h>
 
 int		main()
 {
-	int fd = open("tmp", O_CREAT | O_RDWR, 644);
+	// struct stat s;
+	// stat("l", &s);
+	// if (!S_ISDIR(s.st_mode))
+	// 	printf("is not dir\n");
+	// if (S_ISREG(s.st_mode))
+	// 	printf("in reg\n");
 
-	if (fd == -1)
-		perror(" ");
-	unlink("tmp");
-	close(fd);
+	// int fd = open("tmp", O_CREAT | O_RDWR, 644);
+
+	// if (fd == -1)
+	// 	perror(" ");
+	// unlink("tmp");
+	// close(fd);
 }

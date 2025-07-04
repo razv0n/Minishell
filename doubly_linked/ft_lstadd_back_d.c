@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:24:57 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/02 14:41:13 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/02 23:23:18 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ void	ft_lstclear_not(t_ptr **lst)
 		return ;
 	while (*lst != NULL)
 	{
-		if ((*lst)->type == UNLINK)
-			unlink_path((char **)(*lst)->content);
-		else if ((*lst)->type == CLOSE && *((int *)(*lst)->content) != -2)
+		if ((*lst)->type == CLOSE && *((int *)(*lst)->content) != -2)
 			ft_close(*((int *)(*lst)->content));
 		free((*lst)->content);
 		help = (*lst)->next;

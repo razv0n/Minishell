@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:06:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/18 16:05:29 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/03 16:20:22 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	is_joined(char *s, t_info *info)
 {
 	static int	i;
 
-	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s)
+	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s) //ssdffs"f"
 		&& !check_metacharacter(s - 1))
 		info->joined[i] = true;
 	i++;

@@ -3,7 +3,7 @@ FUNC = utils/ft_syscall.c utils/sig_util.c utils/redr_util.c utils/metacharcter_
 OBG = $(FUNC:.c=.o)
 LIBFT = libft/libft.a
 LINKING = -lreadline
-CFLAGS = -g3
+CFLAGS = -Wall -Wextra -Werror -g3
 CC = cc
 BLUE = \033[33m
 GREEN = \033[32m
@@ -50,11 +50,11 @@ $(LIBFT):
 	@echo "$(BLUE)Compiling $<...$(RESET)"
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o : allocate_free syntax_error//%.c
+%.o : allocate_free syntax_error/%.c
 	@echo "$(BLUE)Compiling $<...$(RESET)"
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o : syntax_error//%.c
+%.o : syntax_error/%.c
 	@echo "$(BLUE)Compiling $<...$(RESET)"
 	$(CC) $(CFLAGS) -c $< -o $@
 clean:

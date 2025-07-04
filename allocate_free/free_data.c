@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/02 15:07:53 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/04 11:13:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_perror(t_error_type msg)
 		perror("");
 }
 
-void	ft_free(t_info *info, t_error_type msg)
+void	ft_free(t_error_type msg)
 {
 	t_ptr	**head;
 	t_ptr	*help;
@@ -42,7 +42,7 @@ void	ft_free(t_info *info, t_error_type msg)
 		{
 			next = help->next;
 			if (help->type == UNLINK)
-				unlink_path((char **)help->content);
+				unlink_path((char **)help->content); 
 			else if (help->type == CLOSE && *(int *)help->content != -2)
 				ft_close(*((int *)help->content));
 			remove_node_single(head, help);
@@ -59,7 +59,7 @@ void	ft_free_all(t_error_type msg, int exit_code)
 	t_ptr	**head;
 
 	head = return_ptr();
-	ft_lstclear_not(head);
+	ft_lstclear_not(head);// FREE ,CLOSE ,UNLINK      SECOUNDFIRST
 	rl_clear_history();
 	ft_perror(msg);
 	exit(exit_code);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/01 16:35:06 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/04 16:56:03 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,13 @@
 
 void	check_access2(t_info *info)
 {
-	if (!*(info->utils->cmd[0]) || ft_strcmp(info->utils->cmd[0], ".")
-		|| ft_strcmp(info->utils->cmd[0], "..") || !info->utils->path
+	if (!info->utils->path)
+	{
+		info->utils->exc = info->utils->cmd[0];
+		return ;
+	}
+	else if (!*(info->utils->cmd[0]) || ft_strcmp(info->utils->cmd[0], ".")
+		|| ft_strcmp(info->utils->cmd[0], "..")
 		|| !complete_check(info->utils->path, info))
 	{
 		info->utils->error = 1;
@@ -33,7 +38,7 @@ void	check_access(t_info *info)
 	slash = ft_strchr(info->utils->cmd[0], '/');
 	if (slash)
 	{
-		if (stat(info->utils->cmd[0], &sb) == -1)
+		if (stat(info->utils->cmd[0], &sb) == -1) // ./main
 			return (check_which_msg(info->utils->cmd[0], info));
 		if (!access(info->utils->cmd[0], F_OK | X_OK) && S_ISREG(sb.st_mode))
 		{

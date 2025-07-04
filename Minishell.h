@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/02 14:55:20 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/04 11:14:50 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,8 @@ void				exit_status(t_info *info);
 bool				check_quotes_error(t_info *info);
 bool				check_error(t_info *info);
 bool				is_redirect(char *c);
-t_sys_err			rdr_in(char *str, t_info *info);
+void	ft_free(t_error_type msg);
+t_sys_err			rdr_in(char *str);
 t_sys_err			rdr_herdoc(t_info *info);
 t_sys_err			rdr_append(char *str);
 t_sys_err			rdr_out(char *str);
@@ -122,7 +123,7 @@ int					ft_dupX(int fd1, int fd2, bool is_dup2);
 char				*go_to_expand(char *str, t_list *head_env);
 int					ft_open(char *str, int flag, int permi);
 t_ptr				*where_is_fd(t_ptr *head, int fd);
-void				change_red_help(t_list **head, t_info *info);
+bool				change_red_help(t_list **head, t_info *info);
 bool				have_space(char *str);
 bool				check_lf_file(t_info *info);
 void				split_variable(t_type_word wich_quote, t_list *node);
@@ -167,7 +168,6 @@ t_ptr				**return_ptr(void);
 void				remove_node_single(t_ptr **head, t_ptr *remove);
 void				ft_lstclear_ptr(t_ptr **lst);
 void				ft_perror(t_error_type msg);
-void				ft_free(t_info *info, t_error_type err);
 int					pars(t_info *info);
 void				setup_signals(void);
 void				ft_lstclear_ptr(t_ptr **lst);
@@ -177,7 +177,7 @@ void				remove_node_doubly(t_list **head, t_list *remove);
 void				ft_lstclear_not(t_ptr **lst);
 t_ptr				*ft_lstnew_ptr(void *content);
 void				ft_lstadd_back_ptr(t_ptr **start, t_ptr *new);
-void				ft_free(t_info *info, t_error_type err);
+char				**collecte_cmds(t_list *head);
 
 /*		>------------------ Execution ------------------<		*/
 t_sys_err			redirection(t_list *node, int cdt, t_info *info);
@@ -185,7 +185,6 @@ void				init_things(t_info *info, t_list *head);
 t_sys_err			execute_cmd(t_info *info, int cdt);
 // int					check_access(t_info *info);
 void				check_access(t_info *info);
-char				**collecte_cmds(t_list *head, t_u *utils);
 char				*add_string(char *s1, char *s2);
 char				**update_path(char *s);
 int					count_pipes(t_list *head);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/27 22:46:01 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/04 23:28:11 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,10 @@ void	split_variable(t_type_word wich_quote, t_list *node)
 			- 1]))
 		node->joined = false;
 	str_split = ft_split_space(node->content);
-	if (!str_split[0])
-		return ;
 	node->content = NULL;
 	node->content = str_split[0];
+	if (!str_split[0])
+		return ;
 	while (str_split[i])
 	{
 		ft_addnode(node, str_split[i]);

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/04 11:14:50 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/05 09:57:19 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef enum err
 	EXIT,
 	ERR_EXECVE,
 	ERR_AMBIGUOUS,
-	SYSCALL
+	SYSCALL,
+	HERE_DOCUMENT
 }					t_error_type;
 
 typedef enum type

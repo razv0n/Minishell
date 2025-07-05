@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/04 11:14:13 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/05 10:18:56 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,19 @@ void	minishell_loop(t_info *info)
 
 	while (1)
 	{
-		init_info(info);
-		str = best_prompt();
-		info->line = readline(str);
-		if (!info->line)
-			ft_free_all(EXIT, 0);
-		add_ptr(info->line, return_ptr(), SECOUND_P, FREE);
-		if (info->line[0])
-			add_history(info->line);
-		if (pars(info) == 1)
-			init_things(info, info->head_cmd);
-		ft_free(1337);
+		if (init_info(info) == SYS_SUCCESS)
+		{
+			str = best_prompt();
+			info->line = readline(str);
+			if (!info->line)
+				ft_free_all(EXIT, 0);
+			add_ptr(info->line, return_ptr(), SECOUND_P, FREE);
+			if (info->line[0])
+				add_history(info->line);
+			if (pars(info) == 1)
+				init_things(info, info->head_cmd);
+		}
+		ft_free(NORMAL);
 	}
 }
 

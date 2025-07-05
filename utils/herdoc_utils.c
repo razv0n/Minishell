@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/03 10:32:30 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/05 09:57:51 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ t_sys_err	start_herdoc(t_info *info, t_list *head)
 	info->count_herdoc = count_herdoc(head);
 	if (!info->count_herdoc)
 		return (SYS_SUCCESS);
+	if (info->count_herdoc > 16)
+		ft_free_all(HERE_DOCUMENT, 2);
 	if (path(info) == SYS_FAIL)
 		return (SYS_FAIL);
 	while (head)
@@ -98,7 +100,7 @@ t_sys_err	start_herdoc(t_info *info, t_list *head)
 			if (herdoc(str, info, is_quotes) == SYS_FAIL)
 				return (SYS_FAIL);
 			if (info->ext == 130)
-				info->sigint_herdoc = true; // opens file 2 run cmds
+				info->sigint_herdoc = true;
 		}
 		head = head->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/04 11:13:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/05 09:59:06 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_perror(t_error_type msg)
 		ft_putstr_fd("Minishell : Memory allocation failed\n", 2);
 	else if (msg == EXIT)
 		ft_putstr_fd("exit\n", 2);
+	else if (msg == HERE_DOCUMENT)
+		ft_putstr_fd("Minishell : maximum here-document count exceeded\n", 2);
 	else if (msg == SYNTAX_ERROR)
 		ft_putstr_fd("Minishell : \033[31msyntax error\033[0m\n", 2);
 	else if (msg == ERR_AMBIGUOUS)

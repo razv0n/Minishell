@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/06 12:23:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 12:29:42 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ t_sys_err	start_herdoc(t_info *info, t_list *head)
 		ft_free_all(HERE_DOCUMENT, 2);
 	if (path(info) == SYS_FAIL)
 		return (SYS_FAIL);
-	printf("the str is : %s\n", info->path_name[0]);
 	while (head)
 	{
 		if (head->type == HEREDOC)

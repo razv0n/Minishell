@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/04 21:52:21 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/05 16:47:08 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,9 @@ bool	change_red_help(t_list **head, t_info *info)
 		if (!str || ((*head)->next->content[0] != '"'
 				&& count_word_space(str) > 1))
 		{
+			(*head)->type = AMBIGUOUS;
+			info->ext = 1;
 			ft_perror(ERR_AMBIGUOUS);
-			return (false);
 		}
 	}
 	if ((*head)->next)

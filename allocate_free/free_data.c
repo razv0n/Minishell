@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/05 09:59:06 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/05 13:57:56 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	ft_free(t_error_type msg)
 	t_ptr	*next;
 
 	head = return_ptr();
+	if(!head)
+		return;
 	help = *head;
 	while (help)
 	{

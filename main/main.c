@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/05 10:18:56 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/05 14:13:51 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_info	*info;
 
+	// close(1);
 	(void)av;
 	if (ac != 1)
 	{

@@ -86,7 +86,9 @@ t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
 			return (fail_sys_call(info));
 		while (head && (head->type != PIPE))
 		{
-			if (head->type != WORD)
+			if (head->type == AMBIGUOUS)
+				get_next_cmd(info, &head);
+			else if (head->type != WORD)
 				if (redirection(head, head->type, info) == SYS_FAIL)
 					return (fail_sys_call(info));
 			if (head)

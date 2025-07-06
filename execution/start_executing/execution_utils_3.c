@@ -6,22 +6,22 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:37:20 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/04 11:14:37 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/05 23:29:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-// void	get_next_cmd(t_info *info, t_list **head, char *file)
-// {
-// 	while (*head)
-// 	{
-// 		if ((*head)->next && (*head)->next->type == PIPE)
-// 			break ;
-// 		*head = (*head)->next;
-// 	}
-// 	info->utils->cmd[0] = NULL;
-// }
+void	get_next_cmd(t_info *info, t_list **head)
+{
+	while (*head)
+	{
+		if ((*head)->next && (*head)->next->type == PIPE)
+			break ;
+		*head = (*head)->next;
+	}
+	info->utils->cmd[0] = NULL;
+}
 
 t_sys_err	back_to_normal(t_info *info)
 {

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:18:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 16:24:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/05 14:12:25 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_dupX(int fd1, int fd2, bool is_dup2)
 	else
 	{
 		fd1 = dup(fd1);
-		if (fd1 == -1)
+		if (fd1 == -1 || fd1 == 0 || fd1 == 1)
 			return (SYS_FAIL);
 		ptr_fd = ft_malloc(sizeof(int), SECOUND_P, CLOSE);
 		*ptr_fd = fd1;

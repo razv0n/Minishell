@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/05 09:57:19 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/05 23:29:51 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,12 @@ t_sys_err			rdr_append(char *str);
 t_sys_err			rdr_out(char *str);
 int					ft_dupX(int fd1, int fd2, bool is_dup2);
 char				*go_to_expand(char *str, t_list *head_env);
+t_sys_err	init_info(t_info *info);
 int					ft_open(char *str, int flag, int permi);
 t_ptr				*where_is_fd(t_ptr *head, int fd);
 bool				change_red_help(t_list **head, t_info *info);
 bool				have_space(char *str);
 bool				check_lf_file(t_info *info);
-void				split_variable(t_type_word wich_quote, t_list *node);
 void				*ft_malloc(size_t size, t_free_type place,
 						t_free_type type);
 char				*check_to_expand(char *str, int *i, t_info *info);
@@ -163,10 +163,10 @@ t_sys_err			ft_close(int fd);
 int					ft_dupX(int fd1, int fd2, bool is_dup2);
 void				ft_lstadd_front_d(t_list **lst, t_list *new);
 void				type_tokens(t_list *head);
-void				init_info(t_info *info);
 void				cpy_env(char **env, t_info *info);
 t_ptr				**return_ptr(void);
 void				remove_node_single(t_ptr **head, t_ptr *remove);
+void				split_variable(t_type_word wich_quote, t_list **node);
 void				ft_lstclear_ptr(t_ptr **lst);
 void				ft_perror(t_error_type msg);
 int					pars(t_info *info);
@@ -200,8 +200,7 @@ int					add_to_export(t_xp **head, char *s, t_info *info);
 void				check_which_msg(char *cmd, t_info *info);
 int					complete_check(char **path, t_info *info);
 t_sys_err			back_to_normal(t_info *info);
-void				get_next_cmd(t_info *info, t_list **head, char *file);
-
+void				get_next_cmd(t_info *info, t_list **head);
 // built-in
 
 void				ft_pwd(t_info *info);

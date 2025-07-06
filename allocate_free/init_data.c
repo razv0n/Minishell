@@ -6,20 +6,23 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:32:59 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/05 10:16:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/05 14:05:31 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-	init_info(t_info *info)
+t_sys_err	init_info(t_info *info)
 {
 	info->head_cmd = NULL;
 	info->joined = NULL;
 	info->fd_in = ft_dupX(0, -1, false);
 	info->fd_out = ft_dupX(1, -1, false);
 	if (info->fd_in == -1 || info->fd_out == -1)
-		return (SYS_FAIL);	
+	{
+		ft_perror(SYSCALL);
+		return (SYS_FAIL);
+	}
 	info->sigint_herdoc = false;
 	return (SYS_SUCCESS);
 }

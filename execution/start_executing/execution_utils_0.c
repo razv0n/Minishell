@@ -45,7 +45,7 @@ t_sys_err	open_pipe(t_u *utils)
 {
 	if (utils->i)
 	{
-		if (ft_dupX(utils->copy, 0, true) == SYS_FAIL)
+		if (ft_dupx(utils->copy, 0, true) == SYS_FAIL)
 			return (SYS_FAIL);
 		ft_close(utils->copy);
 	}
@@ -53,9 +53,9 @@ t_sys_err	open_pipe(t_u *utils)
 	{
 		if (ft_pipe(utils->pi) == SYS_FAIL)
 			return (SYS_FAIL);
-		if (ft_dupX(utils->pi[1], 1, true) == SYS_FAIL)
+		if (ft_dupx(utils->pi[1], 1, true) == SYS_FAIL)
 			return (SYS_FAIL);
-		utils->copy = ft_dupX(utils->pi[0], -1, false);
+		utils->copy = ft_dupx(utils->pi[0], -1, false);
 		if (utils->copy == SYS_FAIL)
 			return (SYS_FAIL);
 		utils->i = true;

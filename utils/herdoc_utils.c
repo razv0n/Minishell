@@ -6,25 +6,11 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/06 12:29:42 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:05:44 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-int	count_herdoc(t_list *head)
-{
-	int	count_herdoc;
-
-	count_herdoc = 0;
-	while (head)
-	{
- 		if (head->type == HEREDOC)
-			count_herdoc++;
-		head = head->next;
-	}
-	return (count_herdoc);
-}
 
 char	*joined_for_herdoc(t_list *head, bool *is_quotes)
 {
@@ -126,7 +112,8 @@ t_sys_err	path(t_info *info)
 	int	i;
 
 	i = 0;
-	info->path_name = ft_malloc(sizeof(char *) * (info->count_herdoc + 1), SECOUND_P, UNLINK);
+	info->path_name = ft_malloc(sizeof(char *) * (info->count_herdoc + 1),
+			SECOUND_P, UNLINK);
 	while (i < info->count_herdoc)
 	{
 		info->path_name[i] = generate_name();

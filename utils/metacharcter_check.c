@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:06:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/03 16:20:22 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:09:08 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 bool	check_metacharcter_skip(const char *c, size_t *i)
 {
-	if ((c[*i] == '<' && c[*i + 1] == '<') || (c[*i] == '>' && c[*i
-			+ 1] == '>'))
+	if ((c[*i] == '<' && c[*i + 1] == '<')
+		|| (c[*i] == '>' && c[*i + 1] == '>'))
 	{
 		(*i)++;
 		return (1);
@@ -24,6 +24,7 @@ bool	check_metacharcter_skip(const char *c, size_t *i)
 		return (1);
 	return (0);
 }
+
 int	check_metacharacter(const char *c)
 {
 	if ((*c == '>' && *(c + 1) == '>') || (*c == '<' && *(c + 1) == '<'))
@@ -39,6 +40,7 @@ bool	check_quotes(char c)
 		return (1);
 	return (0);
 }
+
 bool	is_whitespace(char c)
 {
 	if ((c >= 9 && c <= 13) || c == ' ')
@@ -50,7 +52,8 @@ void	is_joined(char *s, t_info *info)
 {
 	static int	i;
 
-	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s) //ssdffs"f"
+	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s)
+		// ssdffs"f"
 		&& !check_metacharacter(s - 1))
 		info->joined[i] = true;
 	i++;

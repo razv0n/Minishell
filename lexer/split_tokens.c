@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 0000/04/17 11:56:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/03 16:22:06 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:10:43 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool	split_arg(t_info *info)
 		ft_lstadd_back_d(&info->head_cmd, node);
 		i++;
 	}
-	if (check_error(info)) // >>> <<<< | | >|
+	if (check_error(info))
 	{
 		info->ext = 2;
 		return (false);

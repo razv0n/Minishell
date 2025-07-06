@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:18:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/05 14:12:25 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:10:02 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_sys_err	ft_close(int fd)
 		return (SYS_FAIL);
 	node = where_is_fd(*(return_ptr()), fd);
 	if (node)
-		*((int *)node->content) = -2; //
+		*((int *)node->content) = -2;
 	return (SYS_SUCCESS);
 }
 
@@ -38,7 +38,7 @@ t_sys_err	ft_pipe(int pip[2])
 	return (SYS_SUCCESS);
 }
 
-int	ft_dupX(int fd1, int fd2, bool is_dup2)
+int	ft_dupx(int fd1, int fd2, bool is_dup2)
 {
 	int	*ptr_fd;
 
@@ -50,7 +50,7 @@ int	ft_dupX(int fd1, int fd2, bool is_dup2)
 	else
 	{
 		fd1 = dup(fd1);
-		if (fd1 == -1 || fd1 == 0 || fd1 == 1)
+		if (fd1 == -1)
 			return (SYS_FAIL);
 		ptr_fd = ft_malloc(sizeof(int), SECOUND_P, CLOSE);
 		*ptr_fd = fd1;

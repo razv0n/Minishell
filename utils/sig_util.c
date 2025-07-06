@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:36:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/05 15:23:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:07:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,18 @@ bool	*sig_varible(void)
 	static bool	sig_varible;
 
 	return (&sig_varible);
+}
+
+int	count_herdoc(t_list *head)
+{
+	int	count_herdoc;
+
+	count_herdoc = 0;
+	while (head)
+	{
+		if (head->type == HEREDOC)
+			count_herdoc++;
+		head = head->next;
+	}
+	return (count_herdoc);
 }

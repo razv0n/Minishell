@@ -66,7 +66,7 @@ void	ft_lstclear_d(t_list *lst)
 void	ft_lstclear_not(t_ptr **lst)
 {
 	t_ptr	*help;
-	
+
 	if (!lst || !*lst)
 		return ;
 	while (*lst != NULL)

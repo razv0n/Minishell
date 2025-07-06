@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/05 14:13:51 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 14:58:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ void	minishell_loop(t_info *info)
 
 	while (1)
 	{
-		if (init_info(info) == SYS_SUCCESS)
+		str = best_prompt();
+		info->line = readline(str);
+		if (init_info(info) == SYS_FAIL)
 		{
-			str = best_prompt();
-			info->line = readline(str);
 			if (!info->line)
 				ft_free_all(EXIT, 0);
 			add_ptr(info->line, return_ptr(), SECOUND_P, FREE);
@@ -79,7 +79,6 @@ int	main(int ac, char **av, char **env)
 {
 	t_info	*info;
 
-	// close(1);
 	(void)av;
 	if (ac != 1)
 	{

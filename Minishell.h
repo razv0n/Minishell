@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/05 23:29:51 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:15:08 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct export
 	char			*str;
 	struct export	*next;
 	struct export	*prev;
-}					t_xp;
+}			t_xp;
 
 typedef struct s_l
 {
@@ -115,14 +115,14 @@ void				exit_status(t_info *info);
 bool				check_quotes_error(t_info *info);
 bool				check_error(t_info *info);
 bool				is_redirect(char *c);
-void	ft_free(t_error_type msg);
+void				ft_free(t_error_type msg);
 t_sys_err			rdr_in(char *str);
 t_sys_err			rdr_herdoc(t_info *info);
 t_sys_err			rdr_append(char *str);
 t_sys_err			rdr_out(char *str);
-int					ft_dupX(int fd1, int fd2, bool is_dup2);
+int					ft_dupx(int fd1, int fd2, bool is_dup2);
 char				*go_to_expand(char *str, t_list *head_env);
-t_sys_err	init_info(t_info *info);
+t_sys_err			init_info(t_info *info);
 int					ft_open(char *str, int flag, int permi);
 t_ptr				*where_is_fd(t_ptr *head, int fd);
 bool				change_red_help(t_list **head, t_info *info);
@@ -140,6 +140,7 @@ bool				*sig_varible(void);
 void				remove_quote(t_list *head);
 void				remove_the_null(t_list **head);
 t_sys_err			fail_sys_call(t_info *info);
+int					count_herdoc(t_list *head);
 bool				split_arg(t_info *info);
 void				ft_free_all(t_error_type msg, int exit_code);
 void				is_joined(char *s, t_info *info);
@@ -160,7 +161,7 @@ t_sys_err			start_herdoc(t_info *info, t_list *head);
 t_sys_err			path(t_info *info);
 t_sys_err			ft_pipe(int pip[2]);
 t_sys_err			ft_close(int fd);
-int					ft_dupX(int fd1, int fd2, bool is_dup2);
+int					ft_dupx(int fd1, int fd2, bool is_dup2);
 void				ft_lstadd_front_d(t_list **lst, t_list *new);
 void				type_tokens(t_list *head);
 void				cpy_env(char **env, t_info *info);

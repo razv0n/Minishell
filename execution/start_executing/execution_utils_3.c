@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:37:20 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/05 23:29:41 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:10:02 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ t_sys_err	back_to_normal(t_info *info)
 	if (info->utils->exc)
 		info->utils->exc = NULL;
 	if (info->utils->npi == -1)
-		if (ft_dupX(info->fd_in, 0, true) == SYS_FAIL)
+		if (ft_dupx(info->fd_in, 0, true) == SYS_FAIL)
 			return (SYS_FAIL);
-	if (ft_dupX(info->fd_out, 1, true) == SYS_FAIL)
+	if (ft_dupx(info->fd_out, 1, true) == SYS_FAIL)
 		return (SYS_FAIL);
 	return (SYS_SUCCESS);
 }

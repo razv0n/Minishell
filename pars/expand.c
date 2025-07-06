@@ -6,13 +6,13 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/05 14:26:35 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:14:50 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-typedef struct
+typedef struct t_v
 {
 	int		i;
 	char	*prev;
@@ -26,7 +26,7 @@ char	*check_to_expand(char *str, int *i, t_info *info)
 	char	*expanded;
 
 	expanded = NULL;
-	start = *i + 1; // spkip the $
+	start = *i + 1;
 	if (!str[*i])
 		return (NULL);
 	if (ft_isalnum(str[*i + 1]) || str[*i + 1] == '_' || str[*i + 1] == '?')
@@ -131,8 +131,8 @@ void	split_variable(t_type_word wich_quote, t_list **node)
 		return ;
 	if (!(*node)->content[0])
 		return ;
-	if ((*node)->joined && is_whitespace((*node)->content[ft_strlen((*node)->content)
-			- 1]))
+	if ((*node)->joined
+		&& is_whitespace((*node)->content[ft_strlen((*node)->content) - 1]))
 		(*node)->joined = false;
 	str_split = ft_split_space((*node)->content);
 	(*node)->content = NULL;

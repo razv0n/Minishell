@@ -26,7 +26,7 @@ char	*check_to_expand(char *str, int *i, t_info *info)
 	char	*expanded;
 
 	expanded = NULL;
-	start = *i + 1; // spkip the $
+	start = *i + 1; // spkip the $_
 	if (!str[*i])
 		return (NULL);
 	if (ft_isalnum(str[*i + 1]) || str[*i + 1] == '_' || str[*i + 1] == '?')
@@ -62,7 +62,7 @@ void	expand_2(char **str, t_type_word wich_quote, t_info *info)
 		if ((*str)[vb.i] != '$')
 		{
 			vb.buffer[0] = (*str)[vb.i];
-			vb.prev = ft_strjoin(vb.prev, vb.buffer, SECOUND_P);
+			vb.prev = ft_strjoin(vb.prev, vb.buffer, SECOUND_P);//f$tnu
 		}
 		else
 		{
@@ -95,7 +95,7 @@ void	expand(t_info *info)
 		}
 		if (check_quotes(content->content[0]))
 			remove_quotes(&content->content, content);
-		if (ft_strchr(content->content, '$') && content->type != HEREDOC)
+		if (ft_strchr(content->content, '$') && content->type != HEREDOC)//$
 		{
 			expand_2(&content->content, content->quotes_type, info);
 			split_variable(content->quotes_type, content);
@@ -135,10 +135,10 @@ void	split_variable(t_type_word wich_quote, t_list *node)
 			- 1]))
 		node->joined = false;
 	str_split = ft_split_space(node->content);
-	if (!str_split[0])
-		return ;
 	node->content = NULL;
 	node->content = str_split[0];
+	if (!str_split[0]) //?
+		return ;
 	while (str_split[i])
 	{
 		ft_addnode(node, str_split[i]);

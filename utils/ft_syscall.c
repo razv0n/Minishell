@@ -20,7 +20,7 @@ t_sys_err	ft_close(int fd)
 		return (SYS_FAIL);
 	node = where_is_fd(*(return_ptr()), fd);
 	if (node)
-		*((int *)node->content) = -2; //
+		*((int *)node->content) = -2;
 	return (SYS_SUCCESS);
 }
 

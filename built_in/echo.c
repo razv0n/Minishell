@@ -14,13 +14,18 @@
 
 int	check_new_line(char *s)
 {
+	int	i;
+
+	i = 0;
 	if (!s || !*s)
 		return (1);
-	if (*s == '-')
-		s++;
-	while (*s == 'n')
-		s++;
-	return (*s);
+	if (s[i] == '-')
+		i++;
+	while (s[i] && s[i] == 'n')
+		i++;
+	if (!s[i] && i == 1)
+		return (1);
+	return (s[i]);
 }
 
 void	ft_echo(char **arg, t_info *info)
@@ -48,10 +53,3 @@ void	ft_echo(char **arg, t_info *info)
 	if (info->utils->child)
 		ft_free_all(NORMAL, 0);
 }
-
-// int main()
-// {
-// 	char *arg[] = {"echo", "-n n n n n ", "i want to go", NULL};
-// 	ft_echo(arg);
-// 	return (0);
-// }

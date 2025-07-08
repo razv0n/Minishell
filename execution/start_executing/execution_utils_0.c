@@ -34,10 +34,10 @@ t_sys_err	get_path(t_info *info, t_u *utils)
 				if (execute_cmd(info, 1) == SYS_FAIL)
 					return (SYS_FAIL);
 			}
-			utils->bin = true;
+			utils->bin = true; // check if it works without
 		}
 	}
-	ft_close(1);
+	ft_close(1); //
 	return (SYS_SUCCESS);
 }
 
@@ -68,8 +68,8 @@ t_sys_err	open_pipe(t_u *utils)
 
 void	start_executing2(t_info *info)
 {
-	if (info->ext != 127)
-		waitpid(info->utils->id, &info->ext, WUNTRACED);
+	if (info->ext != 127) //
+		waitpid(info->utils->id, &info->ext, WUNTRACED); // change to 0
 	while (wait(NULL) != -1)
 		;
 	if (info->utils->bin)

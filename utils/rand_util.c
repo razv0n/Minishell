@@ -80,7 +80,7 @@ void	change_red_help(t_list **head, t_info *info)
 	t_list	*help;
 	char	*str;
 
-	if ((*head)->next && !ft_strcmp((*head)->content, "<<")
+	if ((*head)->next && !ft_strcmp((*head)->content, "<<") // <<$SD
 		&& ft_strchr((*head)->next->content, '$')
 		&& (*head)->next->content[0] != '\'')
 	{

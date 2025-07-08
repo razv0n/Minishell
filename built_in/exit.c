@@ -108,11 +108,3 @@ void	ft_exit(char **cmd, int *ext, int child)
 	}
 	ft_free_all(NORMAL, *ext);
 }
-
-// int	main(void)
-// {
-// 	char *arg[] = {"", "17", "-9223372036854775809", NULL};
-// 	int ext = 0;
-// 	ft_exit(arg, &ext, 0);
-// 	exit (ext);
-// }

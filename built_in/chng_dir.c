@@ -57,7 +57,6 @@ void	ft_cd_2(t_info *info, char *old)
 	info->cw = pwd;
 	add_ptr(pwd, return_ptr(), FIRST_P, FREE);
 	edit_export(info->head_export, info->head_env, pwd, old);
-	// free(pwd);
 	free(old);
 	info->ext = 0;
 	if (info->utils->child)
@@ -90,15 +89,3 @@ void	ft_cd(t_info *info, char **arg)
 	}
 	ft_cd_2(info, old);
 }
-
-// #include <fcntl.h>
-// int	main(void)
-// {
-// 	char s[100];
-// 	printf("%s\n", getcwd(s, 100));
-// 	char *arg[] = {"cd", "/home/yezzemry/Desktop/youness_br", NULL};
-// 	ft_cd(arg);
-// 	// open("youness", O_RDONLY | O_CREAT, 0777);
-// 	printf("%s\n", getcwd(s, 100));
-// 	return (0);
-// }

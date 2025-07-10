@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:06:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/06 15:09:08 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/10 11:04:45 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,14 @@ bool	is_whitespace(char c)
 	return (0);
 }
 
-void	is_joined(char *s, t_info *info)
+void	is_joined(char *s, int length, t_info *info)
 {
 	static int	i;
 
 	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s)
-		// ssdffs"f"
 		&& !check_metacharacter(s - 1))
 		info->joined[i] = true;
 	i++;
-	if (!*s)
+	if (i == length)
 		i = 0;
 }

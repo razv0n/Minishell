@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/06 15:15:08 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/10 11:05:04 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef enum err
 	ERR_EXECVE,
 	ERR_AMBIGUOUS,
 	SYSCALL,
-	HERE_DOCUMENT
+	HERE_DOCUMENT,
+	CHILD
 }					t_error_type;
 
 typedef enum type
@@ -127,7 +128,6 @@ int					ft_open(char *str, int flag, int permi);
 t_ptr				*where_is_fd(t_ptr *head, int fd);
 bool				change_red_help(t_list **head, t_info *info);
 bool				have_space(char *str);
-bool				check_lf_file(t_info *info);
 void				*ft_malloc(size_t size, t_free_type place,
 						t_free_type type);
 char				*check_to_expand(char *str, int *i, t_info *info);
@@ -143,7 +143,7 @@ t_sys_err			fail_sys_call(t_info *info);
 int					count_herdoc(t_list *head);
 bool				split_arg(t_info *info);
 void				ft_free_all(t_error_type msg, int exit_code);
-void				is_joined(char *s, t_info *info);
+void				is_joined(char *s, int length, t_info *info);
 t_sys_err			herdoc(char *str, t_info *info, t_type_word is_quotes);
 char				*ft_getenv(char *nm_varible, t_list *env);
 void				ft_lstclear_d(t_list *lst);
@@ -156,6 +156,7 @@ bool				check_quotes(char c);
 void				unlink_path(char **path_name);
 void				expand(t_info *info);
 void				expand_2(char **str, t_type_word wich_quote, t_info *info);
+void				ft_lstclear_not(t_ptr **lst, bool child_herdoc);
 void				ft_lstadd_back_d(t_list **start, t_list *new);
 t_sys_err			start_herdoc(t_info *info, t_list *head);
 t_sys_err			path(t_info *info);
@@ -176,7 +177,6 @@ void				ft_lstclear_ptr(t_ptr **lst);
 int					compare(char *s1, char *s2, bool b1, bool b2);
 int					length(char *s);
 void				remove_node_doubly(t_list **head, t_list *remove);
-void				ft_lstclear_not(t_ptr **lst);
 t_ptr				*ft_lstnew_ptr(void *content);
 void				ft_lstadd_back_ptr(t_ptr **start, t_ptr *new);
 char				**collecte_cmds(t_list *head);

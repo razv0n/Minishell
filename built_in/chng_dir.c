@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:40:36 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/06 14:59:11 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/08 13:55:48 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	ft_cd_2(t_info *info, char *old)
 
 	pwd = NULL;
 	pwd = getcwd(pwd, 4096);
+	add_ptr(pwd, return_ptr(), SECOUND_P, FREE);
 	if (!old || !pwd)
 	{
 		ft_putstr_fd("No such file or directory\n", 2);
@@ -55,7 +56,6 @@ void	ft_cd_2(t_info *info, char *old)
 		return ;
 	}
 	info->cw = pwd;
-	add_ptr(pwd, return_ptr(), SECOUND_P, FREE);
 	edit_export(info->head_export, info->head_env, pwd, old);
 	free(old);
 	info->ext = 0;

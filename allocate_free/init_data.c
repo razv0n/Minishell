@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:32:59 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/06 15:10:02 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/09 18:22:04 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	add_ptr(void *ptr, t_ptr **head, t_free_type place, t_free_type type)
 	t_ptr	*new_node;
 
 	new_node = ft_lstnew_ptr(ptr);
-	new_node->place = place;
-	new_node->type = type;
 	if (!new_node)
 		ft_free_all(ERR_MALLOC, 3);
+	new_node->place = place;
+	new_node->type = type;
 	ft_lstadd_back_ptr(head, new_node);
 }
 

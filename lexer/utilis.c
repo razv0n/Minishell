@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/03 16:21:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/10 11:38:21 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct help
 	char	*start;
 	int		index;
 	char	quote;
+	int		word_len;
 }			t_variable_1;
 
 typedef struct count_word_varibles
@@ -122,26 +123,25 @@ static char	*get_next_word(char **s, char **result, t_variable_1 *vb,
 		else
 			(*s)++;
 	}
-	is_joined(*s, info);
+	is_joined(*s, vb->word_len, info);
 	return (add_to_res(s, result, vb));
-}
+} 
 
 char	**ft_split_tokens(t_info *info)
 {
 	char			**result;
-	int				length;
 	t_variable_1	vb;
 	char			*line;
 
 	line = info->line;
 	if (!info)
 		return (NULL);
-	length = count_word(line);
-	result = ft_malloc((length + 1) * sizeof(char *), SECOUND_P, FREE);
-	info->joined = ft_malloc(sizeof(bool) * (length), SECOUND_P, FREE);
-	ft_bzero(info->joined, sizeof(bool) * length);
+	vb.word_len = count_word(line);
+	result = ft_malloc((vb.word_len + 1) * sizeof(char *), SECOUND_P, FREE);
+	info->joined = ft_malloc(sizeof(bool) * (vb.word_len), SECOUND_P, FREE);
+	ft_bzero(info->joined, sizeof(bool) * vb.word_len);
 	vb.index = 0;
-	while (vb.index < length)
+	while (vb.index < vb.word_len)
 	{
 		result[vb.index] = get_next_word(&line, result, &vb, info);
 		vb.index++;

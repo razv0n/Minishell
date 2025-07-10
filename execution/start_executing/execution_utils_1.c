@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/05 15:24:03 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/10 09:46:15 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ t_sys_err	execute_cmd(t_info *info, int cdt)
 	if (!id)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		// sleep(4);
 		if (info->utils->child && info->utils->npi != -1)
 			ft_close(info->utils->copy);
 		ft_close(info->fd_in);

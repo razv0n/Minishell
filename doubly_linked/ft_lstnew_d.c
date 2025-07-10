@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:14:04 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/20 10:31:29 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:12:48 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	remove_node_doubly(t_list **head, t_list *remove)
 		if (*head)
 			(*head)->prev = NULL;
 	}
-	// ft_lstdelone(remove, free);
 }
 
 void	remove_node_single(t_ptr **head, t_ptr *remove)

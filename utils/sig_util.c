@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:36:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/29 11:58:54 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:07:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_sig(int sig)
 		if (*(sig_varible()) == false)
 		{
 			write(1, "\n", 1);
-			rl_replace_line("", 0); //! when i remove it, it work normaly
+			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
 		}
@@ -42,4 +42,18 @@ bool	*sig_varible(void)
 	static bool	sig_varible;
 
 	return (&sig_varible);
+}
+
+int	count_herdoc(t_list *head)
+{
+	int	count_herdoc;
+
+	count_herdoc = 0;
+	while (head)
+	{
+		if (head->type == HEREDOC)
+			count_herdoc++;
+		head = head->next;
+	}
+	return (count_herdoc);
 }

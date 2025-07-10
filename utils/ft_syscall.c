@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:18:46 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 16:24:23 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:10:02 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_sys_err	ft_pipe(int pip[2])
 	return (SYS_SUCCESS);
 }
 
-int	ft_dupX(int fd1, int fd2, bool is_dup2)
+int	ft_dupx(int fd1, int fd2, bool is_dup2)
 {
 	int	*ptr_fd;
 

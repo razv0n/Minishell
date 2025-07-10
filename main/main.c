@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 15:42:04 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 14:58:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 
 char	*best_prompt(void)
 {
-	char	cwd[1024];
+	char	cwd[4096];
 	char	*user;
-	char	prompt[1024];
+	char	prompt[5000];
 	size_t	size;
 	char	*str;
 
@@ -41,7 +41,7 @@ char	*best_prompt(void)
 	if (!user)
 		user = "user";
 	if (!getcwd(cwd, sizeof(cwd)))
-		ft_strlcpy(cwd, "unknown", sizeof(cwd));
+		ft_strlcpy(cwd, "..", sizeof(cwd));
 	prompt[0] = '\0';
 	ft_strlcat(prompt, "\001\033[1;32m\002", size);
 	ft_strlcat(prompt, user, size);
@@ -59,17 +59,19 @@ void	minishell_loop(t_info *info)
 
 	while (1)
 	{
-		init_info(info);
 		str = best_prompt();
 		info->line = readline(str);
 		if (!info->line)
-			ft_free_all(EXIT, 0);
-		add_ptr(info->line, return_ptr(), SECOUND_P, FREE);
-		if (info->line[0])
-			add_history(info->line);
-		if (pars(info) == 1)
-			init_things(info, info->head_cmd);
-		ft_free(info, 1337);
+		ft_free_all(EXIT, info->ext);
+		if (init_info(info) == SYS_SUCCESS)
+		{
+			add_ptr(info->line, return_ptr(), SECOUND_P, FREE);
+			if (info->line[0])
+				add_history(info->line);
+			if (pars(info) == 1)
+				init_things(info, info->head_cmd);
+		}
+		ft_free(NORMAL);
 	}
 }
 
@@ -87,6 +89,6 @@ int	main(int ac, char **av, char **env)
 	info = ft_malloc(sizeof(t_info), FIRST_P, FREE);
 	info->ext = 0;
 	info->cw = NULL;
-	cpy_env(env, info);
+	cpy_env(env, info); // how do you update env (char **) if you set it just once ?
 	minishell_loop(info);
 }

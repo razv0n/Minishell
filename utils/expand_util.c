@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:15:19 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 14:59:06 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:08:26 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*go_to_expand(char *str, t_list *head_env)
 
 char	*cas_in_expand(char *str, int *i, t_info *info)
 {
-	char *itoa_str;
+	char	*itoa_str;
 
 	itoa_str = NULL;
 	if (str[*i] == '?')

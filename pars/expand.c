@@ -6,13 +6,13 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/27 22:46:01 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:14:50 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-typedef struct
+typedef struct t_v
 {
 	int		i;
 	char	*prev;
@@ -26,7 +26,7 @@ char	*check_to_expand(char *str, int *i, t_info *info)
 	char	*expanded;
 
 	expanded = NULL;
-	start = *i + 1; // spkip the $_
+	start = *i + 1;
 	if (!str[*i])
 		return (NULL);
 	if (ft_isalnum(str[*i + 1]) || str[*i + 1] == '_' || str[*i + 1] == '?')
@@ -62,7 +62,7 @@ void	expand_2(char **str, t_type_word wich_quote, t_info *info)
 		if ((*str)[vb.i] != '$')
 		{
 			vb.buffer[0] = (*str)[vb.i];
-			vb.prev = ft_strjoin(vb.prev, vb.buffer, SECOUND_P);//f$tnu
+			vb.prev = ft_strjoin(vb.prev, vb.buffer, SECOUND_P);
 		}
 		else
 		{
@@ -95,10 +95,10 @@ void	expand(t_info *info)
 		}
 		if (check_quotes(content->content[0]))
 			remove_quotes(&content->content, content);
-		if (ft_strchr(content->content, '$') && content->type != HEREDOC)//$
+		if (ft_strchr(content->content, '$') && content->type != HEREDOC)
 		{
 			expand_2(&content->content, content->quotes_type, info);
-			split_variable(content->quotes_type, content);
+			split_variable(content->quotes_type, &content);
 		}
 		content = content->next;
 	}
@@ -120,29 +120,29 @@ void	ft_addnode(t_list *node, char *str)
 	new_node->joined = false;
 }
 
-void	split_variable(t_type_word wich_quote, t_list *node)
+void	split_variable(t_type_word wich_quote, t_list **node)
 {
 	char	**str_split;
 	int		i;
 
 	i = 1;
-	if (!node || !node->content || wich_quote == DOUBLE_Q
+	if (!*node || !(*node)->content || wich_quote == DOUBLE_Q
 		|| wich_quote == SINGLE_Q)
 		return ;
-	if (!node->content[0])
+	if (!(*node)->content[0])
 		return ;
-	if (node->joined && is_whitespace(node->content[ft_strlen(node->content)
-			- 1]))
-		node->joined = false;
-	str_split = ft_split_space(node->content);
-	node->content = NULL;
-	node->content = str_split[0];
-	if (!str_split[0]) //?
+	if ((*node)->joined
+		&& is_whitespace((*node)->content[ft_strlen((*node)->content) - 1]))
+		(*node)->joined = false;
+	str_split = ft_split_space((*node)->content);
+	(*node)->content = NULL;
+	(*node)->content = str_split[0];
+	if (!str_split[0])
 		return ;
 	while (str_split[i])
 	{
-		ft_addnode(node, str_split[i]);
-		node = node->next;
+		ft_addnode((*node), str_split[i]);
+		(*node) = (*node)->next;
 		i++;
 	}
 }

@@ -37,7 +37,7 @@ t_sys_err	get_path(t_info *info, t_u *utils)
 			utils->bin = true; // check if it works without
 		}
 	}
-	ft_close(1); //
+	// ft_close(1);
 	return (SYS_SUCCESS);
 }
 
@@ -45,7 +45,7 @@ t_sys_err	open_pipe(t_u *utils)
 {
 	if (utils->i)
 	{
-		if (ft_dupX(utils->copy, 0, true) == SYS_FAIL)
+		if (ft_dupx(utils->copy, 0, true) == SYS_FAIL)
 			return (SYS_FAIL);
 		ft_close(utils->copy);
 	}
@@ -53,9 +53,9 @@ t_sys_err	open_pipe(t_u *utils)
 	{
 		if (ft_pipe(utils->pi) == SYS_FAIL)
 			return (SYS_FAIL);
-		if (ft_dupX(utils->pi[1], 1, true) == SYS_FAIL)
+		if (ft_dupx(utils->pi[1], 1, true) == SYS_FAIL)
 			return (SYS_FAIL);
-		utils->copy = ft_dupX(utils->pi[0], -1, false);
+		utils->copy = ft_dupx(utils->pi[0], -1, false);
 		if (utils->copy == SYS_FAIL)
 			return (SYS_FAIL);
 		utils->i = true;
@@ -68,27 +68,26 @@ t_sys_err	open_pipe(t_u *utils)
 
 void	start_executing2(t_info *info)
 {
-	if (info->ext != 127) //
-		waitpid(info->utils->id, &info->ext, WUNTRACED); // change to 0
+	// if (info->ext != 127)
+	waitpid(info->utils->id, &info->ext, 0);
 	while (wait(NULL) != -1)
 		;
+	*(sig_varible()) = false;
 	if (info->utils->bin)
 		exit_status(info);
-	if (info->path_name)
-		unlink_path(info);
 }
 
 t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
 {
 	while (head)
 	{
-		utils->cmd = collecte_cmds(head, utils);
+		utils->cmd = collecte_cmds(head);
 		if (open_pipe(utils) == SYS_FAIL)
 			return (fail_sys_call(info));
 		while (head && (head->type != PIPE))
 		{
 			if (head->type == AMBIGUOUS)
-				get_next_cmd(info, &head, head->content);
+				get_next_cmd(info, &head);
 			else if (head->type != WORD)
 				if (redirection(head, head->type, info) == SYS_FAIL)
 					return (fail_sys_call(info));
@@ -120,7 +119,13 @@ void	init_things(t_info *info, t_list *head)
 	if (info->utils->npi)
 		info->utils->child = true;
 	info->utils->path = update_path(ft_getenv("PATH", info->head_env));
-	start_executing(info, head, info->utils);
+	if (start_executing(info, head, info->utils) == SYS_FAIL)
+	{
+		if (ft_dupx(info->fd_in, 0, true) == SYS_FAIL)
+			return ;
+		if (ft_dupx(info->fd_out, 1, true) == SYS_FAIL)
+			return ;
+	}
 	ft_close(info->fd_in);
 	ft_close(info->fd_out);
 }

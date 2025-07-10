@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:13:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/21 18:59:59 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:11:49 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ typedef struct s_quote_state
 	bool	double_quotes;
 }			t_quote_state;
 
-typedef struct quotes_split
+typedef struct t_quotes_split
 {
 	short	single_quotes;
 	short	double_quotes;
 	bool	single_quotes_b;
 	bool	double_quotes_b;
-}			quotes_split;
+}			t_quotes_split;
 
 void	reset_stack(t_quote_state *qs)
 {
@@ -87,6 +87,7 @@ bool	check_quotes_error(t_info *info)
 	if (qs.stack[0])
 	{
 		ft_perror(SYNTAX_ERROR);
+		info->ext = 2;
 		return (true);
 	}
 	return (false);
@@ -94,7 +95,7 @@ bool	check_quotes_error(t_info *info)
 
 bool	quotes_in_split(char quotes)
 {
-	static quotes_split	qs;
+	static t_quotes_split	qs;
 
 	if (quotes == '\'' && !qs.double_quotes_b)
 	{

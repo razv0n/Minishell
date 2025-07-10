@@ -6,13 +6,13 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 12:37:20 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/01 15:35:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:10:02 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Minishell.h"
 
-void	get_next_cmd(t_info *info, t_list **head, char *file)
+void	get_next_cmd(t_info *info, t_list **head)
 {
 	while (*head)
 	{
@@ -29,14 +29,14 @@ t_sys_err	back_to_normal(t_info *info)
 	if (info->utils->exc)
 		info->utils->exc = NULL;
 	if (info->utils->npi == -1)
-		if (ft_dupX(info->fd_in, 0, true) == SYS_FAIL)
+		if (ft_dupx(info->fd_in, 0, true) == SYS_FAIL)
 			return (SYS_FAIL);
-	if (ft_dupX(info->fd_out, 1, true) == SYS_FAIL)
+	if (ft_dupx(info->fd_out, 1, true) == SYS_FAIL)
 		return (SYS_FAIL);
 	return (SYS_SUCCESS);
 }
 
-char	**collecte_cmds(t_list *head, t_u *utils)
+char	**collecte_cmds(t_list *head)
 {
 	int		i;
 	t_list	*tmp;
@@ -73,10 +73,10 @@ int	complete_check(char **path, t_info *info)
 	while (path && path[i])
 	{
 		x = add_string(path[i], info->utils->cmd[0]);
-		if (!access(x, F_OK))
+		stat(x, &sb);
+		if (!access(x, F_OK) && !S_ISDIR(sb.st_mode))
 		{
-			stat(x, &sb);
-			if (!access(x, X_OK) && !S_ISDIR(sb.st_mode))
+			if (!access(x, X_OK))
 			{
 				info->utils->bin = true;
 				*(sig_varible()) = true;
@@ -84,7 +84,7 @@ int	complete_check(char **path, t_info *info)
 				info->permi = false;
 				return (1);
 			}
-			info->permi = true;
+			info->permi = true; // should we output the whole path where permission denied was found like bash or not
 		}
 		i++;
 	}

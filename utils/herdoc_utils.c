@@ -6,25 +6,11 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/01 15:35:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:05:44 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-int	count_herdoc(t_list *head)
-{
-	int	count_herdoc;
-
-	count_herdoc = 0;
-	while (head)
-	{
-		if (head->type == HEREDOC)
-			count_herdoc++;
-		head = head->next;
-	}
-	return (count_herdoc);
-}
 
 char	*joined_for_herdoc(t_list *head, bool *is_quotes)
 {
@@ -67,10 +53,9 @@ char	*generate_name(void)
 		return (NULL);
 	read(fd, buffer, 12);
 	buffer[12] = 0;
-	while (i < 13)
+	while (i < 12)
 	{
-		if (!ft_isprint(buffer[i]))
-			buffer[i] = 'a' + (buffer[i] % 26);
+		buffer[i] = 'a' + (buffer[i] % 26);
 		i++;
 	}
 	path_name = ft_strdup(buffer, SECOUND_P);
@@ -86,6 +71,10 @@ t_sys_err	start_herdoc(t_info *info, t_list *head)
 
 	is_quotes = false;
 	info->count_herdoc = count_herdoc(head);
+	if (!info->count_herdoc)
+		return (SYS_SUCCESS);
+	if (info->count_herdoc > 16)
+		ft_free_all(HERE_DOCUMENT, 2);
 	if (path(info) == SYS_FAIL)
 		return (SYS_FAIL);
 	while (head)
@@ -94,28 +83,28 @@ t_sys_err	start_herdoc(t_info *info, t_list *head)
 		{
 			str = joined_for_herdoc(head, &is_quotes);
 			if (herdoc(str, info, is_quotes) == SYS_FAIL)
-			{
-				info->ext = 1;
 				return (SYS_FAIL);
-			}
 			if (info->ext == 130)
-				info->sigint_herdoc = true; // opens file 2 run cmds
+				info->sigint_herdoc = true;
 		}
 		head = head->next;
 	}
 	return (SYS_SUCCESS);
 }
 
-void	unlink_path(t_info *info)
+void	unlink_path(char **path_name)
 {
 	int	i;
 
 	i = 0;
-	while (info->path_name[i])
+	if (!path_name)
+		return ;
+	while (path_name[i])
 	{
-		unlink(info->path_name[i]);
+		unlink(path_name[i]);
 		i++;
 	}
+	path_name = NULL;
 }
 
 t_sys_err	path(t_info *info)
@@ -123,7 +112,8 @@ t_sys_err	path(t_info *info)
 	int	i;
 
 	i = 0;
-	info->path_name = ft_calloc(sizeof(char *), info->count_herdoc + 1);
+	info->path_name = ft_malloc(sizeof(char *) * (info->count_herdoc + 1),
+			SECOUND_P, UNLINK);
 	while (i < info->count_herdoc)
 	{
 		info->path_name[i] = generate_name();

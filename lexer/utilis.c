@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/29 15:33:45 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/03 16:21:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ typedef struct count_word_varibles
 
 void	check_state_count(t_varibles *vb)
 {
-	if (vb->meta_next && !vb->quotes_next)
+	if (vb->meta_next && !vb->quotes_next)// >" s   f a a  a "
 	{
 		vb->count++;
 		vb->sp = 0;
 		vb->meta_next = false;
 	}
-	else if (vb->quotes_next)
+	else if (vb->quotes_next) // ' D       C'wefwerf
 	{
 		vb->count++;
 		vb->sp = 1;
@@ -64,7 +64,7 @@ static int	count_word(char *str)
 	if (str[0] == '\0')
 		return (0);
 	vb.count = 0;
-	while (str[vb.i])
+	while (str[vb.i])// ls "-la  j n"|>a
 	{
 		vb.meta = check_metacharcter_skip(str, &(vb.i));
 		vb.quotes = quotes_in_split(str[vb.i]);
@@ -129,19 +129,19 @@ static char	*get_next_word(char **s, char **result, t_variable_1 *vb,
 char	**ft_split_tokens(t_info *info)
 {
 	char			**result;
-	int				lenght;
+	int				length;
 	t_variable_1	vb;
 	char			*line;
 
 	line = info->line;
 	if (!info)
 		return (NULL);
-	lenght = count_word(line);
-	result = ft_malloc((lenght + 1) * sizeof(char *), SECOUND_P, FREE);
-	info->joined = ft_malloc(sizeof(bool) * (lenght), SECOUND_P, FREE);
-	ft_bzero(info->joined, sizeof(bool) * lenght);
+	length = count_word(line);
+	result = ft_malloc((length + 1) * sizeof(char *), SECOUND_P, FREE);
+	info->joined = ft_malloc(sizeof(bool) * (length), SECOUND_P, FREE);
+	ft_bzero(info->joined, sizeof(bool) * length);
 	vb.index = 0;
-	while (vb.index < lenght)
+	while (vb.index < length)
 	{
 		result[vb.index] = get_next_word(&line, result, &vb, info);
 		vb.index++;

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/01 15:35:49 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/06 15:10:20 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	exit_status(t_info *info)
 {
 	if (WIFSIGNALED(info->ext))
 		info->ext = 128 + WTERMSIG(info->ext);
-	else
+	else if (WIFEXITED(info->ext))
 		info->ext = WEXITSTATUS(info->ext);
 }
 
@@ -32,29 +32,6 @@ t_ptr	*where_is_fd(t_ptr *head, int fd)
 		head = head->next;
 	}
 	return (return_node);
-}
-
-bool	check_lf_file(t_info *info)
-{
-	struct stat	st;
-
-	if (!info->utils->exc)
-		info->utils->exc = info->utils->cmd[0];
-	if (stat(info->utils->cmd[0], &st) == -1)
-	{
-		info->permi = true;
-		// if (errno == EACCES)
-		return (false);
-	}
-	if (!access(info->utils->cmd[0], F_OK) && ft_strchr(info->utils->cmd[0],
-			'/') && !S_ISDIR(st.st_mode))
-	{
-		if (!access(info->utils->cmd[0], X_OK))
-			*(sig_varible()) = true;
-		return (true);
-	}
-	// errno = ENOENT;
-	return (false);
 }
 
 bool	have_space(char *str)
@@ -75,12 +52,12 @@ bool	have_space(char *str)
 	return (false);
 }
 
-void	change_red_help(t_list **head, t_info *info)
+bool	change_red_help(t_list **head, t_info *info)
 {
 	t_list	*help;
 	char	*str;
 
-	if ((*head)->next && !ft_strcmp((*head)->content, "<<") // <<$SD
+	if ((*head)->next && !ft_strcmp((*head)->content, "<<")
 		&& ft_strchr((*head)->next->content, '$')
 		&& (*head)->next->content[0] != '\'')
 	{
@@ -90,6 +67,7 @@ void	change_red_help(t_list **head, t_info *info)
 				&& count_word_space(str) > 1))
 		{
 			(*head)->type = AMBIGUOUS;
+			info->ext = 1;
 			ft_perror(ERR_AMBIGUOUS);
 		}
 	}
@@ -98,26 +76,12 @@ void	change_red_help(t_list **head, t_info *info)
 	help = (*head)->next;
 	remove_node_doubly(&info->head_cmd, (*head));
 	(*head) = help;
+	return (true);
 }
 
 t_sys_err	fail_sys_call(t_info *info)
 {
 	ft_perror(SYSCALL);
 	info->ext = 1;
-	if (ft_dupX(info->fd_in, 0, true) == SYS_FAIL)
-		return (SYS_FAIL);
-	if (ft_dupX(info->fd_out, 1, true) == SYS_FAIL)
-		return (SYS_FAIL);
 	return (SYS_FAIL);
 }
-
-// bool	check_fd_found(t_ptr *head, int fd)
-// {
-// 	while (head)
-// 	{
-// 		if (head->type == CLOSE && *(int *)head->content == fd)
-// 			return (true);
-// 		head = head->next;
-// 	}
-// 	return (false);
-// }

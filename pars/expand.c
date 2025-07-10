@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/06 15:14:50 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/10 17:15:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,31 +118,36 @@ void	ft_addnode(t_list *node, char *str)
 	new_node->prev = node;
 	new_node->type = WORD;
 	new_node->joined = false;
+	new_node->quotes_type = 1337;
 }
+
+
 
 void	split_variable(t_type_word wich_quote, t_list **node)
 {
 	char	**str_split;
 	int		i;
+	bool	joined;
 
 	i = 1;
-	if (!*node || !(*node)->content || wich_quote == DOUBLE_Q
-		|| wich_quote == SINGLE_Q)
-		return ;
-	if (!(*node)->content[0])
-		return ;
+	joined = true;
+	check_if(wich_quote, *node);
 	if ((*node)->joined
 		&& is_whitespace((*node)->content[ft_strlen((*node)->content) - 1]))
-		(*node)->joined = false;
+		joined = false;
 	str_split = ft_split_space((*node)->content);
-	(*node)->content = NULL;
 	(*node)->content = str_split[0];
+	(*node)->joined = false;
 	if (!str_split[0])
 		return ;
+	if (!str_split[i])
+		(*node)->joined = joined;
 	while (str_split[i])
 	{
 		ft_addnode((*node), str_split[i]);
 		(*node) = (*node)->next;
+		if (!str_split[i + 1])
+			(*node)->joined = joined;
 		i++;
 	}
 }

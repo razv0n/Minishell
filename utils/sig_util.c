@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:36:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/08 18:41:31 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/10 17:17:41 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,12 @@ int	count_herdoc(t_list *head)
 		head = head->next;
 	}
 	return (count_herdoc);
+}
+
+bool	check_if(t_type_word wich_quote, t_list *node)
+{
+	if (!node || !node->content || wich_quote == DOUBLE_Q
+		|| wich_quote == SINGLE_Q || !node->content[0])
+		return (false);
+	return (true);
 }

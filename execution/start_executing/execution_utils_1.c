@@ -19,7 +19,7 @@ void	check_access2(t_info *info)
 		info->utils->exc = info->utils->cmd[0];
 		return ;
 	}
-	else if (!*(info->utils->cmd[0]) || ft_strcmp(info->utils->cmd[0], ".")
+	if (!*(info->utils->cmd[0]) || ft_strcmp(info->utils->cmd[0], ".")
 		|| ft_strcmp(info->utils->cmd[0], "..")
 		|| !complete_check(info->utils->path, info))
 	{

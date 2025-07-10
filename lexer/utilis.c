@@ -35,13 +35,13 @@ typedef struct count_word_varibles
 
 void	check_state_count(t_varibles *vb)
 {
-	if (vb->meta_next && !vb->quotes_next)
+	if (vb->meta_next && !vb->quotes_next)// >" s   f a a  a "
 	{
 		vb->count++;
 		vb->sp = 0;
 		vb->meta_next = false;
 	}
-	else if (vb->quotes_next)
+	else if (vb->quotes_next) // ' D       C'wefwerf
 	{
 		vb->count++;
 		vb->sp = 1;
@@ -65,7 +65,7 @@ static int	count_word(char *str)
 	if (str[0] == '\0')
 		return (0);
 	vb.count = 0;
-	while (str[vb.i])
+	while (str[vb.i])// ls "-la  j n"|>a
 	{
 		vb.meta = check_metacharcter_skip(str, &(vb.i));
 		vb.quotes = quotes_in_split(str[vb.i]);

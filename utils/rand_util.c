@@ -87,9 +87,5 @@ t_sys_err	fail_sys_call(t_info *info)
 {
 	ft_perror(SYSCALL);
 	info->ext = 1;
-	if (ft_dupx(info->fd_in, 0, true) == SYS_FAIL)
-		return (SYS_FAIL);
-	if (ft_dupx(info->fd_out, 1, true) == SYS_FAIL)
-		return (SYS_FAIL);
 	return (SYS_FAIL);
 }

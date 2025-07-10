@@ -62,10 +62,10 @@ void	minishell_loop(t_info *info)
 		*(sig_varible()) = false;
 		str = best_prompt();
 		info->line = readline(str);
+		if (!info->line)
+		ft_free_all(EXIT, info->ext);
 		if (init_info(info) == SYS_SUCCESS)
 		{
-			if (!info->line)
-				ft_free_all(EXIT, info->ext);
 			add_ptr(info->line, return_ptr(), SECOUND_P, FREE);
 			if (info->line[0])
 				add_history(info->line);
@@ -90,6 +90,6 @@ int	main(int ac, char **av, char **env)
 	info = ft_malloc(sizeof(t_info), FIRST_P, FREE);
 	info->ext = 0;
 	info->cw = NULL;
-	cpy_env(env, info);
+	cpy_env(env, info); // how do you update env (char **) if you set it just once ?
 	minishell_loop(info);
 }

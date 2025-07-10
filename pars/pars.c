@@ -17,7 +17,7 @@ void	type_tokens(t_list *head)
 	while (head)
 	{
 		head->quotes_type = 1337;
-		if (ft_strcmp(head->content, "<"))
+		if (ft_strcmp(head->content, "<")) 
 			head->type = REDIRECT_IN;
 		else if (ft_strcmp(head->content, ">"))
 			head->type = REDIRECT_OUT;

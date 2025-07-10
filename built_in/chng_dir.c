@@ -48,11 +48,14 @@ void	ft_cd_2(t_info *info, char *old)
 
 	pwd = NULL;
 	pwd = getcwd(pwd, 4096);
-	add_ptr(pwd, return_ptr(), SECOUND_P, FREE);
+	add_ptr(pwd, return_ptr(), FIRST_P, FREE);
 	if (!old || !pwd)
 	{
-		ft_putstr_fd("No such file or directory\n", 2);
+		// ft_putstr_fd("No such file or directory\n", 2);
+		perror("Minishell ");
 		info->ext = 0;
+		if (info->utils->child)
+			ft_free_all(NORMAL, 0);
 		return ;
 	}
 	info->cw = pwd;
@@ -89,15 +92,3 @@ void	ft_cd(t_info *info, char **arg)
 	}
 	ft_cd_2(info, old);
 }
-
-// #include <fcntl.h>
-// int	main(void)
-// {
-// 	char s[100];
-// 	printf("%s\n", getcwd(s, 100));
-// 	char *arg[] = {"cd", "/home/yezzemry/Desktop/youness_br", NULL};
-// 	ft_cd(arg);
-// 	// open("youness", O_RDONLY | O_CREAT, 0777);
-// 	printf("%s\n", getcwd(s, 100));
-// 	return (0);
-// }

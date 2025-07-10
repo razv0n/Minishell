@@ -19,10 +19,7 @@ t_sys_err	init_info(t_info *info)
 	info->fd_in = ft_dupx(0, -1, false);
 	info->fd_out = ft_dupx(1, -1, false);
 	if (info->fd_in == -1 || info->fd_out == -1)
-	{
-		ft_perror(SYSCALL);
-		return (SYS_FAIL);
-	}
+		return (fail_sys_call(info));
 	info->sigint_herdoc = false;
 	return (SYS_SUCCESS);
 }
@@ -40,7 +37,7 @@ void	add_ptr(void *ptr, t_ptr **head, t_free_type place, t_free_type type)
 
 	new_node = ft_lstnew_ptr(ptr);
 	if (!new_node)
-		ft_free_all(ERR_MALLOC, 3);
+		ft_free_all(ERR_MALLOC, 1);
 	new_node->place = place;
 	new_node->type = type;
 	ft_lstadd_back_ptr(head, new_node);

@@ -73,10 +73,10 @@ int	complete_check(char **path, t_info *info)
 	while (path && path[i])
 	{
 		x = add_string(path[i], info->utils->cmd[0]);
-		if (!access(x, F_OK))
+		stat(x, &sb);
+		if (!access(x, F_OK) && !S_ISDIR(sb.st_mode))
 		{
-			stat(x, &sb);
-			if (!access(x, X_OK) && !S_ISDIR(sb.st_mode))
+			if (!access(x, X_OK))
 			{
 				info->utils->bin = true;
 				*(sig_varible()) = true;
@@ -84,7 +84,7 @@ int	complete_check(char **path, t_info *info)
 				info->permi = false;
 				return (1);
 			}
-			info->permi = true;
+			info->permi = true; // should we output the whole path where permission denied was found like bash or not
 		}
 		i++;
 	}

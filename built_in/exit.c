@@ -23,12 +23,12 @@ char	*check_overflow(char *s, long *res, int sign, int *err)
 		{
 			if (sign == 1)
 			{
-				if ((*res) > 922337203685477580 && s[j] > '7')
+				if (((*res) > 922337203685477580) && s[j] > '7')
 					*err = 1;
 			}
 			else if (sign == -1)
 			{
-				if ((*res) > 922337203685477580 && s[j] > '8')
+				if (((*res) > 922337203685477580) && s[j] > '8')
 					*err = 1;
 			}
 		}
@@ -108,11 +108,3 @@ void	ft_exit(char **cmd, int *ext, int child)
 	}
 	ft_free_all(NORMAL, *ext);
 }
-
-// int	main(void)
-// {
-// 	char *arg[] = {"", "17", "-9223372036854775809", NULL};
-// 	int ext = 0;
-// 	ft_exit(arg, &ext, 0);
-// 	exit (ext);
-// }

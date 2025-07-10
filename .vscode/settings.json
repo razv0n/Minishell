@@ -21,7 +21,11 @@
         "fcntl.h": "c",
         "random": "c",
         "cerrno": "c",
+<<<<<<< HEAD
+        "sysexits.h": "c"
+=======
         "string_view": "c"
+>>>>>>> 811245ac6d34988c7a60e50f0f7cfb70870b1008
     },
     "terminal.integrated.cwd": "",
     "C_Cpp.errorSquiggles": "disabled"

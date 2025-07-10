@@ -18,7 +18,6 @@ void	ft_pwd(t_info *info)
 
 	if (getcwd(s, sizeof(s)) == NULL)
 	{
-		// perror("pwd ");
 		ft_putstr_fd(info->cw, 1);
 		ft_putstr_fd("\n", 1);
 		info->ext = 1;

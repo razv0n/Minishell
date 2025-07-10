@@ -118,7 +118,7 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->child = false;
 	if (info->utils->npi)
 		info->utils->child = true;
-	info->utils->path = update_path(ft_getenv("PATH", info->head_env));
+	// info->utils->path = update_path(ft_getenv("PATH", info->head_env));
 	if (start_executing(info, head, info->utils) == SYS_FAIL)
 	{
 		if (ft_dupx(info->fd_in, 0, true) == SYS_FAIL)

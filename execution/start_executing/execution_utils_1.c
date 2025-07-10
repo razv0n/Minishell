@@ -14,6 +14,7 @@
 
 void	check_access2(t_info *info)
 {
+	info->utils->path = update_path(ft_getenv("PATH", info->head_env));
 	if (!info->utils->path)
 	{
 		info->utils->exc = info->utils->cmd[0];

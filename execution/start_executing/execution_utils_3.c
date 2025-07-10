@@ -59,7 +59,7 @@ char	**collecte_cmds(t_list *head)
 			cmd[i++] = head->content;
 		head = head->next;
 	}
-	cmd[i] = NULL;
+	cmd[i] = NULL; // if calloc sets all the pointers to NULL then this line is useless
 	return (cmd);
 }
 

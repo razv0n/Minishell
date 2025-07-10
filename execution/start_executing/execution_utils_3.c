@@ -22,7 +22,7 @@ void	get_next_cmd(t_info *info, t_list **head)
 	}
 	info->utils->cmd[0] = NULL;
 }
-
+// > "sdfsdf"$a
 t_sys_err	back_to_normal(t_info *info)
 {
 	info->utils->fail = 0;

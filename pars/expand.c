@@ -59,7 +59,7 @@ void	expand_2(char **str, t_type_word wich_quote, t_info *info)
 	vb.buffer[1] = '\0';
 	while ((*str)[vb.i])
 	{
-		if ((*str)[vb.i] != '$')
+		if ((*str)[vb.i] != '$') // $HOME
 		{
 			vb.buffer[0] = (*str)[vb.i];
 			vb.prev = ft_strjoin(vb.prev, vb.buffer, SECOUND_P);

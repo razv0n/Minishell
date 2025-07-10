@@ -48,7 +48,7 @@ char	*generate_name(void)
 	char	*path_name;
 
 	i = 0;
-	fd = ft_open("/dev/random", O_CREAT | O_RDWR, 0);
+	fd = ft_open("/dev/random", O_RDWR, 0);
 	if (fd == SYS_FAIL)
 		return (NULL);
 	read(fd, buffer, 12);

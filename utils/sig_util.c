@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:36:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/06 15:07:41 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/08 18:41:31 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ void	handle_sig(int sig)
 			rl_on_new_line();
 			rl_redisplay();
 		}
-		else
-		{
-			write(1, "\n", 1);
-			*(sig_varible()) = false;
-		}
 	}
 }
 
@@ -40,7 +35,7 @@ void	setup_signals(void)
 bool	*sig_varible(void)
 {
 	static bool	sig_varible;
-
+	
 	return (&sig_varible);
 }
 

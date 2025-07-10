@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/06 15:12:15 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/10 09:39:38 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ void	ft_free_all(t_error_type msg, int exit_code)
 	t_ptr	**head;
 
 	head = return_ptr();
-	ft_lstclear_not(head);
+	if (msg == CHILD)
+		ft_lstclear_not(head, true);
+	else
+		ft_lstclear_not(head, false);
 	rl_clear_history();
 	ft_perror(msg);
 	exit(exit_code);

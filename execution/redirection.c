@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/04 11:16:50 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/10 09:43:32 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handle_sig_init(int sig)
 {
 	(void)sig;
-	ft_free_all(NORMAL, 130);
+	ft_free_all(CHILD, 130);
 }
 
 void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
@@ -35,7 +35,7 @@ void	child_herdoc(t_info *info, t_type_word is_quotes, int fd, char *str)
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
 	}
-	ft_free_all(NORMAL, 0);
+	ft_free_all(CHILD, 0);
 }
 
 t_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)

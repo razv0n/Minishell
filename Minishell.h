@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/10 11:05:04 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/10 17:18:00 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ void				ft_lstadd_front_d(t_list **lst, t_list *new);
 void				type_tokens(t_list *head);
 void				cpy_env(char **env, t_info *info);
 t_ptr				**return_ptr(void);
+bool				check_if(t_type_word wich_quote, t_list *node);
 void				remove_node_single(t_ptr **head, t_ptr *remove);
 void				split_variable(t_type_word wich_quote, t_list **node);
 void				ft_lstclear_ptr(t_ptr **lst);

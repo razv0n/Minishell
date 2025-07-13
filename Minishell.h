@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/13 18:29:43 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/13 19:45:30 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ t_ptr				*where_is_fd(t_ptr *head, int fd);
 bool				have_space(char *str);
 void				*ft_malloc(size_t size, t_free_type place,
 						t_free_type type);
-void				help_norm(char *str, t_list *head);
+void				help_norm(char **str, t_list *head);
 char				*check_to_expand(char *str, int *i, t_info *info);
 char				*cas_in_expand(char *str, int *i, t_info *info);
 char				**ft_split_tokens(t_info *info);
@@ -149,7 +149,7 @@ void				change_red_help(t_list **head, t_info *info);
 char				*ft_getenv(char *nm_varible, t_list *env);
 void				ft_lstclear_d(t_list *lst);
 char				*type_red(t_list *head, t_info *info);
-bool				type_red2(t_list *head, char *str, t_info *info,
+bool				type_red2(t_list *head, char **str, t_info *info,
 						t_type_word wich_quotes);
 bool				is_pipe(char *c);
 bool				check_metacharcter_skip(const char *c, size_t *i);

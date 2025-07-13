@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 12:17:10 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/06 15:10:02 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/13 18:35:48 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,10 @@ t_sys_err	rdr_out(char *str)
 		return (SYS_FAIL);
 	ft_close(fd);
 	return (SYS_SUCCESS);
+}
+
+void	help_norm(char *str, t_list *head)
+{
+	if (check_quotes(str[0]))
+		remove_quotes(&str, head->next);
 }

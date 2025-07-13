@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 11:48:50 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/06/22 21:52:54 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/13 15:33:38 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	count_word_space(char const *str)
 
 	sp = 1;
 	i = 0;
-	if (str[i] == '\0')
+	if (!str || str[i] == '\0')
 		return (0);
 	count = 0;
 	while (str[i])

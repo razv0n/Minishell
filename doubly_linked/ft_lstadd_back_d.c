@@ -72,7 +72,7 @@ void	ft_lstclear_not(t_ptr **lst, bool child_herdoc)
 	while (*lst != NULL)
 	{
 		if (!child_herdoc && (*lst)->type == UNLINK)
-				unlink_path((char **)(*lst)->content);
+			unlink_path((char **)(*lst)->content);
 		else if ((*lst)->type == CLOSE && *((int *)(*lst)->content) != -2)
 			ft_close(*((int *)(*lst)->content));
 		free((*lst)->content);

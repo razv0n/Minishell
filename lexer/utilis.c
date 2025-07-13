@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 06:28:43 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/10 11:38:21 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/13 15:53:45 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ typedef struct count_word_varibles
 
 void	check_state_count(t_varibles *vb)
 {
-	if (vb->meta_next && !vb->quotes_next)// >" s   f a a  a "
+	if (vb->meta_next && !vb->quotes_next)
 	{
 		vb->count++;
 		vb->sp = 0;
 		vb->meta_next = false;
 	}
-	else if (vb->quotes_next) // ' D       C'wefwerf
+	else if (vb->quotes_next)
 	{
 		vb->count++;
 		vb->sp = 1;
@@ -65,7 +65,7 @@ static int	count_word(char *str)
 	if (str[0] == '\0')
 		return (0);
 	vb.count = 0;
-	while (str[vb.i])// ls "-la  j n"|>a
+	while (str[vb.i])
 	{
 		vb.meta = check_metacharcter_skip(str, &(vb.i));
 		vb.quotes = quotes_in_split(str[vb.i]);
@@ -125,7 +125,7 @@ static char	*get_next_word(char **s, char **result, t_variable_1 *vb,
 	}
 	is_joined(*s, vb->word_len, info);
 	return (add_to_res(s, result, vb));
-} 
+}
 
 char	**ft_split_tokens(t_info *info)
 {

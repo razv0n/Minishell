@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:36:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/13 18:35:14 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/13 21:08:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ bool	check_if(t_type_word wich_quote, t_list *node, bool *joined)
 		|| wich_quote == SINGLE_Q || !node->content[0])
 		return (false);
 	if (node->joined
-		&& is_whitespace(node->content[ft_strlen(node->content) - 1]))
+		&& is_whitespace(node->content[ft_strlen(node->content) - 1])
+		&& count_word_space(node->content))
 		*joined = false;
 	if (node->prev && node->prev->joined
 		&& is_whitespace(node->content[0]))

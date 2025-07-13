@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/10 17:15:28 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/13 16:28:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	expand_2(char **str, t_type_word wich_quote, t_info *info)
 	vb.buffer[1] = '\0';
 	while ((*str)[vb.i])
 	{
-		if ((*str)[vb.i] != '$') // $HOME
+		if ((*str)[vb.i] != '$')
 		{
 			vb.buffer[0] = (*str)[vb.i];
 			vb.prev = ft_strjoin(vb.prev, vb.buffer, SECOUND_P);
@@ -128,12 +128,9 @@ void	split_variable(t_type_word wich_quote, t_list **node)
 	bool	joined;
 
 	i = 1;
-	joined = true;
-	if(check_if(wich_quote, *node) == false)
-		return;
-	if ((*node)->joined
-		&& is_whitespace((*node)->content[ft_strlen((*node)->content) - 1]))
-		joined = false;
+	joined = (*node)->joined;
+	if (check_if(wich_quote, *node, &joined) == false)
+		return ;
 	str_split = ft_split_space((*node)->content);
 	(*node)->content = str_split[0];
 	(*node)->joined = false;

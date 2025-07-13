@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/10 18:14:51 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/13 15:49:14 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	main(int ac, char **av, char **env)
 	info = ft_malloc(sizeof(t_info), FIRST_P, FREE);
 	info->ext = 0;
 	info->cw = NULL;
-	cpy_env(env, info);// how do you update env (char **) if you set it just once ?
+	cpy_env(env, info);
+		// how do you update env (char **) if you set it just once ?
 	minishell_loop(info);
 }

@@ -6,13 +6,13 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/09 20:55:42 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/11 16:31:03 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
 
-char	*joined_for_herdoc(t_list *head, bool *is_quotes)
+char	*joined_node_str(t_list *head, bool *is_quotes)
 {
 	char	*str;
 
@@ -81,7 +81,7 @@ t_sys_err	start_herdoc(t_info *info, t_list *head)
 	{
 		if (head->type == HEREDOC)
 		{
-			str = joined_for_herdoc(head, &is_quotes);
+			str = joined_node_str(head, &is_quotes);
 			if (herdoc(str, info, is_quotes) == SYS_FAIL)
 				return (SYS_FAIL);
 			if (info->ext == 130)

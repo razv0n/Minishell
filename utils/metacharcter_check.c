@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:06:28 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/10 11:04:45 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/13 16:19:15 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 bool	check_metacharcter_skip(const char *c, size_t *i)
 {
-	if ((c[*i] == '<' && c[*i + 1] == '<')
-		|| (c[*i] == '>' && c[*i + 1] == '>'))
+	if ((c[*i] == '<' && c[*i + 1] == '<') || (c[*i] == '>'
+			&& c[*i + 1] == '>'))
 	{
 		(*i)++;
 		return (1);
@@ -52,7 +52,7 @@ void	is_joined(char *s, int length, t_info *info)
 {
 	static int	i;
 
-	if (ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s)
+	if (*s && ft_isprint(*s) && !check_metacharacter(s) && !is_whitespace(*s)
 		&& !check_metacharacter(s - 1))
 		info->joined[i] = true;
 	i++;

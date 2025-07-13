@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/08 14:20:30 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/13 17:30:08 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	exit_status(t_info *info)
 	{
 		info->ext = 128 + WTERMSIG(info->ext);
 		if (info->ext == 130)
-			write(1, "\n",1);
+			write(1, "\n", 1);
 	}
 	else if (WIFEXITED(info->ext))
 		info->ext = WEXITSTATUS(info->ext);
@@ -56,31 +56,26 @@ bool	have_space(char *str)
 	return (false);
 }
 
-bool	change_red_help(t_list **head, t_info *info)
+void	change_red_help(t_list **head, t_info *info)
 {
 	t_list	*help;
 	char	*str;
 
-	if ((*head)->next && !ft_strcmp((*head)->content, "<<")
-		&& ft_strchr((*head)->next->content, '$')
-		&& (*head)->next->content[0] != '\'')
+	if ((*head)->next && !ft_strcmp((*head)->content, "<<"))
 	{
-		str = ft_strdup((*head)->next->content, SECOUND_P);
-		expand_2(&str, DOUBLE_Q, info);
-		if (!str || ((*head)->next->content[0] != '"'
-				&& count_word_space(str) > 1))
+		str = type_red((*head)->next, info);
+		if (!str)
 		{
-			(*head)->type = AMBIGUOUS;
+			(*head)->next->type = AMBIGUOUS;
 			info->ext = 1;
 			ft_perror(ERR_AMBIGUOUS);
 		}
 	}
-	if ((*head)->next)
+	if ((*head)->next && (*head)->next->type != AMBIGUOUS)
 		(*head)->next->type = (*head)->type;
 	help = (*head)->next;
 	remove_node_doubly(&info->head_cmd, (*head));
 	(*head) = help;
-	return (true);
 }
 
 t_sys_err	fail_sys_call(t_info *info)

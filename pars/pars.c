@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/05 16:53:51 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/13 15:21:58 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	type_tokens(t_list *head)
 	while (head)
 	{
 		head->quotes_type = 1337;
-		if (ft_strcmp(head->content, "<")) 
+		if (ft_strcmp(head->content, "<"))
 			head->type = REDIRECT_IN;
 		else if (ft_strcmp(head->content, ">"))
 			head->type = REDIRECT_OUT;
@@ -76,10 +76,7 @@ void	change_red(t_info *info)
 	while (head)
 	{
 		if (is_redirect(head->content))
-		{
-			if (!change_red_help(&head, info))
-				info->ext = 1;
-		}
+			change_red_help(&head, info);
 		else
 			head = head->next;
 	}

@@ -41,7 +41,7 @@ t_sys_err	rdr_append(char *str)
 {
 	int	fd;
 
-	fd = ft_open(str, O_CREAT | O_APPEND | O_RDWR, 0766);
+	fd = ft_open(str, O_CREAT | O_APPEND | O_RDWR, 0644);
 	if (fd == SYS_FAIL || ft_dupx(fd, 1, true) == SYS_FAIL)
 		return (SYS_FAIL);
 	ft_close(fd);
@@ -52,7 +52,7 @@ t_sys_err	rdr_out(char *str)
 {
 	int	fd;
 
-	fd = ft_open(str, O_CREAT | O_TRUNC | O_RDWR, 0766);
+	fd = ft_open(str, O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (fd == SYS_FAIL || ft_dupx(fd, 1, true) == SYS_FAIL)
 		return (SYS_FAIL);
 	ft_close(fd);

@@ -121,8 +121,6 @@ void	ft_addnode(t_list *node, char *str)
 	new_node->quotes_type = 1337;
 }
 
-
-
 void	split_variable(t_type_word wich_quote, t_list **node)
 {
 	char	**str_split;
@@ -131,7 +129,8 @@ void	split_variable(t_type_word wich_quote, t_list **node)
 
 	i = 1;
 	joined = true;
-	check_if(wich_quote, *node);
+	if(check_if(wich_quote, *node) == false)
+		return;
 	if ((*node)->joined
 		&& is_whitespace((*node)->content[ft_strlen((*node)->content) - 1]))
 		joined = false;

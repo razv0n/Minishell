@@ -61,13 +61,13 @@ typedef struct utils
 	char			**cmd;
 	char			*exc;
 	char			*str_heredoc;
-	int				check;
+	// int				check;
 	int				copy;
 	int				npi;
 	int				pi[2];
 	bool			i;
 	bool			child;
-	int				fail;
+	// int				fail;
 	char			*str_fail;
 	int				id;
 	int				error;

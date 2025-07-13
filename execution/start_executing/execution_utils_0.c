@@ -15,28 +15,28 @@
 t_sys_err	get_path(t_info *info, t_u *utils)
 {
 	utils->bin = false;
-	if (utils->fail != -1)
+	// if (utils->fail != -1)
+	// {
+	if (!utils->child)
 	{
-		if (!utils->child)
-		{
-			if (check_builtin(info, info->utils->cmd))
-				return (SYS_SUCCESS);
-		}
-		if (utils->cmd[0])
-		{
-			if (utils->child)
-			{
-				if (execute_cmd(info, 0) == SYS_FAIL)
-					return (SYS_FAIL);
-			}
-			else
-			{
-				if (execute_cmd(info, 1) == SYS_FAIL)
-					return (SYS_FAIL);
-			}
-			utils->bin = true; // check if it works without
-		}
+		if (check_builtin(info, info->utils->cmd))
+			return (SYS_SUCCESS);
 	}
+	if (utils->cmd[0])
+	{
+		if (utils->child)
+		{
+			if (execute_cmd(info, 0) == SYS_FAIL)
+				return (SYS_FAIL);
+		}
+		else
+		{
+			if (execute_cmd(info, 1) == SYS_FAIL)
+				return (SYS_FAIL);
+		}
+		utils->bin = true; // check if it works without
+	}
+	// }
 	// ft_close(1);
 	return (SYS_SUCCESS);
 }
@@ -113,7 +113,7 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->i = false;
 	info->utils->bin = false;
 	info->utils->id = 0;
-	info->utils->fail = 0;
+	// info->utils->fail = 0;
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	if (info->utils->npi)

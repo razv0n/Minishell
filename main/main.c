@@ -63,7 +63,7 @@ void	minishell_loop(t_info *info)
 		str = best_prompt();
 		info->line = readline(str);
 		if (!info->line)
-		ft_free_all(EXIT, info->ext);
+			ft_free_all(EXIT, info->ext);
 		if (init_info(info) == SYS_SUCCESS)
 		{
 			add_ptr(info->line, return_ptr(), SECOUND_P, FREE);

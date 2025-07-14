@@ -14,13 +14,13 @@
 
 void	check_access2(t_info *info)
 {
+	info->utils->path = update_path(ft_getenv("PATH", info->head_env));
 	if (!info->utils->path)
 	{
 		info->utils->exc = info->utils->cmd[0];
 		return ;
 	}
-	if (!*(info->utils->cmd[0]) || ft_strcmp(info->utils->cmd[0], ".")
-		|| ft_strcmp(info->utils->cmd[0], "..")
+	if (!*(info->utils->cmd[0])
 		|| !complete_check(info->utils->path, info))
 	{
 		info->utils->error = 1;
@@ -38,7 +38,7 @@ void	check_access(t_info *info)
 	slash = ft_strchr(info->utils->cmd[0], '/');
 	if (slash)
 	{
-		if (stat(info->utils->cmd[0], &sb) == -1) // ./main
+		if (stat(info->utils->cmd[0], &sb) == -1)
 			return (check_which_msg(info->utils->cmd[0], info));
 		if (!access(info->utils->cmd[0], F_OK | X_OK) && S_ISREG(sb.st_mode))
 		{
@@ -111,8 +111,6 @@ t_sys_err	execute_cmd(t_info *info, int cdt)
 {
 	int	id;
 
-	if (cdt && check_builtin(info, info->utils->cmd))
-		return (SYS_SUCCESS);
 	*(sig_varible()) = true;
 	id = fork();
 	if (id == -1)

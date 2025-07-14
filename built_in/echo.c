@@ -42,7 +42,7 @@ void	ft_echo(char **arg, t_info *info)
 	}
 	while (arg[i])
 	{
-		write(STDOUT_FILENO, arg[i], length(arg[i]));
+		write(1, arg[i], length(arg[i]));
 		if (arg[i + 1])
 			write(1, " ", 1);
 		i++;

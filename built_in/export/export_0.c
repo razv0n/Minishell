@@ -17,7 +17,7 @@ int	parse_var(char *s)
 	int	i;
 
 	i = 0;
-	if (!ft_isalpha(s[i]) && !(s[i] == '_'))
+	if (!ft_isalpha(s[i]) && (s[i] != '_'))
 		return (1);
 	while (s[i] && (ft_isalpha(s[i]) || ft_isdigit(s[i]) || s[i] == '_')
 		&& (s[i] != '='))
@@ -67,8 +67,8 @@ void	add_to_export_2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 	else if (!ptr)
 	{
 		node->next = *head;
-		// if ((*head) && (*head)->prev)
-		// 	(*head)->prev = node; // don't know if i should add it
+		if (*head)
+			(*head)->prev = node;
 		*head = node;
 	}
 }

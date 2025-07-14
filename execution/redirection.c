@@ -46,7 +46,7 @@ t_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 
 	if (!info->sigint_herdoc)
 	{
-		*(sig_varible()) = true; // ?
+		*(sig_varible()) = true;
 		fd = ft_open(info->path_name[i], O_CREAT | O_RDWR, 0766);
 		if (fd == SYS_FAIL)
 			return (SYS_FAIL);

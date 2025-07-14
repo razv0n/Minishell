@@ -15,27 +15,21 @@
 t_sys_err	get_path(t_info *info, t_u *utils)
 {
 	utils->bin = false;
-	if (utils->fail != -1)
+	if (utils->cmd[0])
 	{
-		if (!utils->child)
+		if (utils->child)
+		{
+			if (execute_cmd(info, 0) == SYS_FAIL)
+				return (SYS_FAIL);
+		}
+		else
 		{
 			if (check_builtin(info, info->utils->cmd))
 				return (SYS_SUCCESS);
+			else if (execute_cmd(info, 1) == SYS_FAIL)
+				return (SYS_FAIL);
 		}
-		if (utils->cmd[0])
-		{
-			if (utils->child)
-			{
-				if (execute_cmd(info, 0) == SYS_FAIL)
-					return (SYS_FAIL);
-			}
-			else
-			{
-				if (execute_cmd(info, 1) == SYS_FAIL)
-					return (SYS_FAIL);
-			}
-			utils->bin = true;
-		}
+		utils->bin = true;
 	}
 	return (SYS_SUCCESS);
 }
@@ -111,13 +105,11 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->i = false;
 	info->utils->bin = false;
 	info->utils->id = 0;
-	info->utils->fail = 0;
-	info->cmd_err = NULL;
+	// info->utils->fail = 0;
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	if (info->utils->npi)
 		info->utils->child = true;
-	info->utils->path = update_path(ft_getenv("PATH", info->head_env));
 	if (start_executing(info, head, info->utils) == SYS_FAIL)
 	{
 		if (ft_dupx(info->fd_in, 0, true) == SYS_FAIL)

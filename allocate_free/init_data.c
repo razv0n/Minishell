@@ -51,7 +51,7 @@ void	*ft_malloc(size_t size, t_free_type place, t_free_type type)
 	head = return_ptr();
 	ptr = malloc(size);
 	if (!ptr)
-		ft_free_all(ERR_MALLOC, 3);
+		ft_free_all(ERR_MALLOC, 1);
 	add_ptr(ptr, head, place, type);
 	return (ptr);
 }

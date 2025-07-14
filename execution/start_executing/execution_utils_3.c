@@ -25,7 +25,7 @@ void	get_next_cmd(t_info *info, t_list **head)
 
 t_sys_err	back_to_normal(t_info *info)
 {
-	info->utils->fail = 0;
+	// info->utils->fail = 0;
 	if (info->utils->exc)
 		info->utils->exc = NULL;
 	if (info->utils->npi == -1)
@@ -59,7 +59,7 @@ char	**collecte_cmds(t_list *head)
 			cmd[i++] = head->content;
 		head = head->next;
 	}
-	cmd[i] = NULL;
+	cmd[i] = NULL; // if calloc sets all the pointers to NULL then this line is useless
 	return (cmd);
 }
 
@@ -70,7 +70,7 @@ int	complete_check(char **path, t_info *info)
 	struct stat	sb;
 
 	i = 0;
-	while (path && path[i])
+	while (path[i])
 	{
 		x = add_string(path[i], info->utils->cmd[0]);
 		stat(x, &sb);
@@ -84,7 +84,7 @@ int	complete_check(char **path, t_info *info)
 				info->permi = false;
 				return (1);
 			}
-			info->permi = true; // should we output the whole path where permission denied was found like bash or not
+			info->permi = true;
 		}
 		i++;
 	}

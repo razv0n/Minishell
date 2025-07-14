@@ -50,11 +50,6 @@ void	add_to_env(t_list **head, char *s)
 			prev->next = node;
 			node->prev = prev;
 		}
-		else
-		{
-			node->next = (*head)->next;
-			*head = node;
-		}
 	}
 	else
 		ft_lstadd_back_d(head, node);
@@ -66,8 +61,7 @@ void	ft_env(t_list *head_env, char **cmd, t_info *info)
 		return ;
 	if (cmd[1])
 	{
-		ft_putstr_fd(ft_strjoin(ft_strjoin("env: '", cmd[1], SECOUND_P),
-				"': No such file or directory\n", SECOUND_P), 2);
+		ft_putstr_fd("env: with no options or arguments\n", 2);
 		info->ext = 127;
 		if (info->utils->child)
 			ft_free_all(NORMAL, 127);

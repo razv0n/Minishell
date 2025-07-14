@@ -31,14 +31,16 @@ void	edit_export(t_xp *head_exp, t_list *head_env, char *new, char *old)
 	t_xp	*tmp;
 	t_xp	*ptr;
 
+	if (!head_exp)
+		return ;
 	tmp = head_exp;
 	ptr = NULL;
 	oldpwd = ft_strjoin("OLDPWD=", old, FIRST_P);
 	pwd = ft_strjoin("PWD=", new, FIRST_P);
-	where_to_edit(&tmp, &ptr, "OLDPWD=");
-	tmp->str = join_str("declare -x ", oldpwd, 1, NULL);
-	where_to_edit(&tmp, &ptr, "PWD=");
-	tmp->str = join_str("declare -x ", pwd, 1, NULL);
+	if (where_to_edit(&tmp, &ptr, "OLDPWD=") == -1)
+		tmp->str = join_str("declare -x ", oldpwd, 1, NULL);
+	if (where_to_edit(&tmp, &ptr, "PWD=") == -1)
+		tmp->str = join_str("declare -x ", pwd, 1, NULL);
 	edit_env(head_env, pwd, oldpwd);
 }
 
@@ -51,7 +53,6 @@ void	ft_cd_2(t_info *info, char *old)
 	add_ptr(pwd, return_ptr(), FIRST_P, FREE);
 	if (!old || !pwd)
 	{
-		// ft_putstr_fd("No such file or directory\n", 2);
 		perror("Minishell ");
 		info->ext = 0;
 		if (info->utils->child)

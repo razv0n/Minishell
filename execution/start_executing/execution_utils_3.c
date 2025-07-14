@@ -70,7 +70,7 @@ int	complete_check(char **path, t_info *info)
 	struct stat	sb;
 
 	i = 0;
-	while (path && path[i])
+	while (path[i])
 	{
 		x = add_string(path[i], info->utils->cmd[0]);
 		stat(x, &sb);
@@ -84,7 +84,7 @@ int	complete_check(char **path, t_info *info)
 				info->permi = false;
 				return (1);
 			}
-			info->permi = true; // should we output the whole path where permission denied was found like bash or not
+			info->permi = true;
 		}
 		i++;
 	}

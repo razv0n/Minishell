@@ -41,9 +41,15 @@ void	unset_export(t_xp **head, char *s)
 	if (tmp)
 	{
 		if (!p)
+		{
 			*head = (*head)->next;
-		else
-			p->next = tmp->next;
+			if (*head)
+				(*head)->prev = NULL;
+			return ;
+		}
+		p->next = tmp->next;
+		if (tmp->next)
+			tmp->next->prev = p;
 	}
 }
 

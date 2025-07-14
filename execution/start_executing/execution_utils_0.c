@@ -15,13 +15,6 @@
 t_sys_err	get_path(t_info *info, t_u *utils)
 {
 	utils->bin = false;
-	// if (utils->fail != -1)
-	// {
-	if (!utils->child)
-	{
-		if (check_builtin(info, info->utils->cmd))
-			return (SYS_SUCCESS);
-	}
 	if (utils->cmd[0])
 	{
 		if (utils->child)
@@ -31,13 +24,13 @@ t_sys_err	get_path(t_info *info, t_u *utils)
 		}
 		else
 		{
-			if (execute_cmd(info, 1) == SYS_FAIL)
+			if (check_builtin(info, info->utils->cmd))
+				return (SYS_SUCCESS);
+			else if (execute_cmd(info, 1) == SYS_FAIL)
 				return (SYS_FAIL);
 		}
-		utils->bin = true; // check if it works without
+		utils->bin = true;
 	}
-	// }
-	// ft_close(1);
 	return (SYS_SUCCESS);
 }
 

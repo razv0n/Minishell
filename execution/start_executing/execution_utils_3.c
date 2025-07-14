@@ -25,7 +25,6 @@ void	get_next_cmd(t_info *info, t_list **head)
 
 t_sys_err	back_to_normal(t_info *info)
 {
-	// info->utils->fail = 0;
 	if (info->utils->exc)
 		info->utils->exc = NULL;
 	if (info->utils->npi == -1)
@@ -59,7 +58,7 @@ char	**collecte_cmds(t_list *head)
 			cmd[i++] = head->content;
 		head = head->next;
 	}
-	cmd[i] = NULL; // if calloc sets all the pointers to NULL then this line is useless
+	cmd[i] = NULL;
 	return (cmd);
 }
 

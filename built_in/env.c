@@ -40,19 +40,18 @@ void	add_to_env(t_list **head, char *s)
 
 	prev = NULL;
 	cdt = where_to_edit_env(*head, &prev, s);
-	node = ft_lstnew_d(ft_strdup(s, FIRST_P), FIRST_P);
 	if (cdt == -1)
 	{
 		if (prev)
-		{
-			if (prev->next)
-				node->next = prev->next->next;
-			prev->next = node;
-			node->prev = prev;
-		}
+			prev->next->content = ft_strdup(s, FIRST_P);
+		else
+			(*head)->content = ft_strdup(s, FIRST_P);
 	}
 	else
+	{
+		node = ft_lstnew_d(ft_strdup(s, FIRST_P), FIRST_P);
 		ft_lstadd_back_d(head, node);
+	}
 }
 
 void	ft_env(t_list *head_env, char **cmd, t_info *info)

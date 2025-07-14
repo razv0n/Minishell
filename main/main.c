@@ -91,6 +91,5 @@ int	main(int ac, char **av, char **env)
 	info->ext = 0;
 	info->cw = NULL;
 	cpy_env(env, info);
-		// how do you update env (char **) if you set it just once ?
 	minishell_loop(info);
 }

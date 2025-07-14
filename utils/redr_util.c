@@ -20,7 +20,7 @@ t_sys_err	rdr_in(char *str, t_info *info)
 	if (fd == SYS_FAIL)
 		return (fail_sys_call(info, SYS_SUCCESS));
 	if (ft_dupx(fd, 0, true) == SYS_FAIL)
-		return (SYS_FAIL); 
+		return (SYS_FAIL);
 	ft_close(fd);
 	return (SYS_SUCCESS);
 }

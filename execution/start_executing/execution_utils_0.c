@@ -105,7 +105,6 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->i = false;
 	info->utils->bin = false;
 	info->utils->id = 0;
-	// info->utils->fail = 0;
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	if (info->utils->npi)

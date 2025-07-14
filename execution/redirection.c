@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/10 09:43:32 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/14 11:27:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ t_sys_err	redirection(t_list *node, int cdt, t_info *info)
 	if (cdt == APPEND)
 		return (rdr_append(node->content));
 	else if (cdt == REDIRECT_IN)
-		return (rdr_in(node->content));
+		return (rdr_in(node->content, info));
 	else if (cdt == HEREDOC)
 		return (rdr_herdoc(info));
 	else if (cdt == REDIRECT_OUT)
-		return (rdr_out(node->content));
+		return (rdr_out(node->content, info));
 	return (SYS_SUCCESS);
 }

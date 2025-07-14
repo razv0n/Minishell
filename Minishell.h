@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/13 19:45:30 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/14 11:36:04 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,10 @@ bool				check_quotes_error(t_info *info);
 bool				check_error(t_info *info);
 bool				is_redirect(char *c);
 void				ft_free(t_error_type msg);
-t_sys_err			rdr_in(char *str);
+t_sys_err			rdr_in(char *str, t_info *info);
 t_sys_err			rdr_herdoc(t_info *info);
-t_sys_err			rdr_append(char *str);
-t_sys_err			rdr_out(char *str);
+t_sys_err			rdr_append(char *str, t_info *info);
+t_sys_err			rdr_out(char *str, t_info *info);
 int					ft_dupx(int fd1, int fd2, bool is_dup2);
 char				*go_to_expand(char *str, t_list *head_env);
 t_sys_err			init_info(t_info *info);

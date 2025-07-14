@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:17 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/13 15:21:58 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/14 17:53:23 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	pars(t_info *info)
 		add_is_joined(info->head_cmd, info);
 		change_red(info);
 		if (start_herdoc(info, info->head_cmd) == SYS_FAIL)
-			return (fail_sys_call(info));
+			return (fail_sys_call(info, SYS_FAIL));
 		if (info->sigint_herdoc)
 			return (-1);
 		expand(info);

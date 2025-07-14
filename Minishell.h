@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/14 11:36:04 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/14 18:07:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_info
 	char			**env;
 	char			*line;
 	int				ext;
+	char			*cmd_err;
 	int				wt;
 	int				fd_in;
 	int				fd_out;
@@ -139,7 +140,7 @@ bool				quotes_in_split(char quotes);
 bool				*sig_varible(void);
 void				remove_quote(t_list *head);
 void				remove_the_null(t_list **head);
-t_sys_err			fail_sys_call(t_info *info);
+t_sys_err			fail_sys_call(t_info *info, t_sys_err return_value);
 int					count_herdoc(t_list *head);
 bool				split_arg(t_info *info);
 void				ft_free_all(t_error_type msg, int exit_code);
@@ -167,7 +168,6 @@ t_sys_err			start_herdoc(t_info *info, t_list *head);
 t_sys_err			path(t_info *info);
 t_sys_err			ft_pipe(int pip[2]);
 t_sys_err			ft_close(int fd);
-int					ft_dupx(int fd1, int fd2, bool is_dup2);
 void				ft_lstadd_front_d(t_list **lst, t_list *new);
 void				type_tokens(t_list *head);
 void				cpy_env(char **env, t_info *info);
@@ -180,7 +180,6 @@ void				ft_lstclear_ptr(t_ptr **lst);
 void				ft_perror(t_error_type msg);
 int					pars(t_info *info);
 void				setup_signals(void);
-void				ft_lstclear_ptr(t_ptr **lst);
 int					compare(char *s1, char *s2, bool b1, bool b2);
 int					length(char *s);
 void				remove_node_doubly(t_list **head, t_list *remove);
@@ -192,7 +191,6 @@ char				**collecte_cmds(t_list *head);
 t_sys_err			redirection(t_list *node, int cdt, t_info *info);
 void				init_things(t_info *info, t_list *head);
 t_sys_err			execute_cmd(t_info *info, int cdt);
-// int					check_access(t_info *info);
 void				check_access(t_info *info);
 char				*add_string(char *s1, char *s2);
 char				**update_path(char *s);

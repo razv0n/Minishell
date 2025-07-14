@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:23:12 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/10 09:39:38 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/14 17:52:42 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_perror(t_error_type msg)
 	else if (msg == ERR_EXECVE)
 		ft_putstr_fd("Minishell : execve failed: ", 2);
 	else if (msg == SYSCALL)
-		perror("");
+		perror(" ");
 }
 
 void	ft_free(t_error_type msg)

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:09:41 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/13 17:30:08 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/14 17:53:00 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,10 @@ void	change_red_help(t_list **head, t_info *info)
 	(*head) = help;
 }
 
-t_sys_err	fail_sys_call(t_info *info)
+t_sys_err	fail_sys_call(t_info *info, t_sys_err return_value)
 {
+	ft_putstr_fd(info->cmd_err, 2);
 	ft_perror(SYSCALL);
 	info->ext = 1;
-	return (SYS_FAIL);
+	return (return_value);
 }

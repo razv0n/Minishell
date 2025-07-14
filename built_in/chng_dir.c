@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:40:36 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/08 13:55:48 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/14 20:50:10 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void	edit_export(t_xp *head_exp, t_list *head_env, char *new, char *old)
 	ptr = NULL;
 	oldpwd = ft_strjoin("OLDPWD=", old, FIRST_P);
 	pwd = ft_strjoin("PWD=", new, FIRST_P);
-	where_to_edit(&tmp, &ptr, "OLDPWD=");
-	tmp->str = join_str("declare -x ", oldpwd, 1, NULL);
-	where_to_edit(&tmp, &ptr, "PWD=");
-	tmp->str = join_str("declare -x ", pwd, 1, NULL);
+	if (where_to_edit(&tmp, &ptr, "OLDPWD=") == -1)
+		tmp->str = join_str("declare -x ", oldpwd, 1, NULL);
+	if (where_to_edit(&tmp, &ptr, "PWD=") == -1)
+		tmp->str = join_str("declare -x ", pwd, 1, NULL);
 	edit_env(head_env, pwd, oldpwd);
 }
 

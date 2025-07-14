@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:38:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/14 11:27:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/14 17:54:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,9 @@ t_sys_err	herdoc(char *str, t_info *info, t_type_word is_quotes)
 
 t_sys_err	redirection(t_list *node, int cdt, t_info *info)
 {
+	info->cmd_err = node->content;
 	if (cdt == APPEND)
-		return (rdr_append(node->content));
+		return (rdr_append(node->content, info));
 	else if (cdt == REDIRECT_IN)
 		return (rdr_in(node->content, info));
 	else if (cdt == HEREDOC)

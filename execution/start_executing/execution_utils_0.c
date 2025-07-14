@@ -34,10 +34,9 @@ t_sys_err	get_path(t_info *info, t_u *utils)
 				if (execute_cmd(info, 1) == SYS_FAIL)
 					return (SYS_FAIL);
 			}
-			utils->bin = true; // check if it works without
+			utils->bin = true;
 		}
 	}
-	// ft_close(1);
 	return (SYS_SUCCESS);
 }
 
@@ -68,7 +67,6 @@ t_sys_err	open_pipe(t_u *utils)
 
 void	start_executing2(t_info *info)
 {
-	
 	waitpid(info->utils->id, &info->ext, 0);
 	while (wait(NULL) != -1)
 		;
@@ -83,20 +81,20 @@ t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
 	{
 		utils->cmd = collecte_cmds(head);
 		if (open_pipe(utils) == SYS_FAIL)
-			return (fail_sys_call(info));
+			return (fail_sys_call(info, SYS_FAIL));
 		while (head && (head->type != PIPE))
 		{
 			if (head->type == AMBIGUOUS)
 				get_next_cmd(info, &head);
 			else if (head->type != WORD)
 				if (redirection(head, head->type, info) == SYS_FAIL)
-					return (fail_sys_call(info));
+					return (fail_sys_call(info, SYS_FAIL));
 			if (head)
 				head = head->next;
 		}
 		if (get_path(info, utils) == SYS_FAIL
 			|| back_to_normal(info) == SYS_FAIL)
-			return (fail_sys_call(info));
+			return (fail_sys_call(info, SYS_FAIL));
 		if (head)
 			head = head->next;
 	}
@@ -114,6 +112,7 @@ void	init_things(t_info *info, t_list *head)
 	info->utils->bin = false;
 	info->utils->id = 0;
 	info->utils->fail = 0;
+	info->cmd_err = NULL;
 	info->utils->npi = count_pipes(head);
 	info->utils->child = false;
 	if (info->utils->npi)

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 0000/04/17 11:56:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/16 10:08:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/17 15:59:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ bool	type_red(t_list *head, t_info *info)
 	if (ft_strchr(head->content, '$') && head->content[0] != '\'')
 	{
 		expand_2(&str, wich_quotes, info);
+		if(!str)
+			return (false);
 		if (head->quotes_type != DOUBLE_Q && ((count_word_space(str) > 1)
 				|| (head->joined && count_word_space(str) == 1
 					&& is_whitespace(str[ft_strlen(str) - 1]))))

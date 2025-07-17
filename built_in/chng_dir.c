@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:40:36 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/14 20:50:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/16 10:08:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_cd_2(t_info *info, char *old)
 	if (!old || !pwd)
 	{
 		perror("Minishell ");
-		info->ext = 0;
+		*(exit_status_nm()) = 0;
 		if (info->utils->child)
 			ft_free_all(NORMAL, 0);
 		return ;
@@ -62,7 +62,7 @@ void	ft_cd_2(t_info *info, char *old)
 	info->cw = pwd;
 	edit_export(info->head_export, info->head_env, pwd, old);
 	free(old);
-	info->ext = 0;
+	*(exit_status_nm()) = 0;
 	if (info->utils->child)
 		ft_free_all(NORMAL, 0);
 }
@@ -86,7 +86,7 @@ void	ft_cd(t_info *info, char **arg)
 		}
 		if (old)
 			free(old);
-		info->ext = 1;
+		*(exit_status_nm()) = 1;
 		if (info->utils->child)
 			ft_free_all(NORMAL, 1);
 		return ;

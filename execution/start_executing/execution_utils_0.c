@@ -61,7 +61,8 @@ t_sys_err	open_pipe(t_u *utils)
 
 void	start_executing2(t_info *info)
 {
-	waitpid(info->utils->id, &info->ext, 0);
+	if (info->utils->cmd && info->utils->cmd[0])
+		waitpid(info->utils->id, exit_status_nm(), 0);
 	while (wait(NULL) != -1)
 		;
 	*(sig_varible()) = false;
@@ -82,7 +83,10 @@ t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
 				get_next_cmd(info, &head);
 			else if (head->type != WORD)
 				if (redirection(head, head->type, info) == SYS_FAIL)
-					return (fail_sys_call(info, SYS_FAIL));
+				{
+					fail_sys_call(info, SYS_FAIL);
+					get_next_cmd(info, &head);
+				}
 			if (head)
 				head = head->next;
 		}

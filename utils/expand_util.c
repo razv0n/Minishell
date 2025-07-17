@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 22:15:19 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/06 15:08:26 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/16 10:12:22 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ char	*go_to_expand(char *str, t_list *head_env)
 	return (expand);
 }
 
-char	*cas_in_expand(char *str, int *i, t_info *info)
+char	*cas_in_expand(char *str, int *i)
 {
 	char	*itoa_str;
 
 	itoa_str = NULL;
 	if (str[*i] == '?')
-		itoa_str = ft_itoa(info->ext);
+		itoa_str = ft_itoa(*(exit_status_nm()));
 	return (itoa_str);
 }

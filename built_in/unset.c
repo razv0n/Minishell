@@ -93,7 +93,7 @@ void	ft_unset(t_info *info, char **cmd)
 		unset_env(&info->head_env, cmd[i]);
 		i++;
 	}
-	info->ext = 0;
+	*(exit_status_nm()) = 0;
 	if (info->utils->child)
 		ft_free_all(NORMAL, 0);
 }

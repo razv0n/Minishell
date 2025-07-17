@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:35:37 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/10 09:46:15 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/16 10:08:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	check_builtin(t_info *info, char **cmd)
 	}
 	else if (ft_strcmp(cmd[0], "exit"))
 	{
-		ft_exit(cmd, &info->ext, info->utils->child);
+		ft_exit(cmd, &*(exit_status_nm()), info->utils->child);
 		return (1);
 	}
 	else if (ft_strcmp(cmd[0], "env"))

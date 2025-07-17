@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 21:15:28 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/14 08:52:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/16 11:24:59 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void	ft_env(t_list *head_env, char **cmd, t_info *info)
 	if (cmd[1])
 	{
 		ft_putstr_fd("env: with no options or arguments\n", 2);
-		info->ext = 127;
+		*(exit_status_nm()) = 1;
 		if (info->utils->child)
-			ft_free_all(NORMAL, 127);
+			ft_free_all(NORMAL, 1);
 		return ;
 	}
 	while (head_env)
@@ -71,7 +71,7 @@ void	ft_env(t_list *head_env, char **cmd, t_info *info)
 		printf("%s\n", head_env->content);
 		head_env = head_env->next;
 	}
-	info->ext = 0;
+	*(exit_status_nm()) = 0;
 	if (info->utils->child)
 		ft_free_all(NORMAL, 0);
 }

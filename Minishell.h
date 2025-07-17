@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:04:22 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/14 18:07:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/17 12:56:46 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -24,7 +23,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/stat.h>
-# include <termios.h>
 # include <unistd.h>
 # include <wait.h>
 
@@ -95,7 +93,6 @@ typedef struct s_info
 	t_list			*head_cmd;
 	char			**env;
 	char			*line;
-	int				ext;
 	char			*cmd_err;
 	int				wt;
 	int				fd_in;
@@ -111,15 +108,15 @@ typedef struct s_info
 t_list				*ft_lstnew_d(void *content, t_free_type place);
 int					ft_strcmp(char *line, char *str);
 int					check_metacharacter(const char *c);
-void				exit_status(t_info *info);
+void				exit_status();
 bool				check_quotes_error(t_info *info);
 bool				check_error(t_info *info);
 bool				is_redirect(char *c);
 void				ft_free(t_error_type msg);
-t_sys_err			rdr_in(char *str, t_info *info);
+t_sys_err			rdr_in(char *str);
 t_sys_err			rdr_herdoc(t_info *info);
-t_sys_err			rdr_append(char *str, t_info *info);
-t_sys_err			rdr_out(char *str, t_info *info);
+t_sys_err			rdr_append(char *str);
+t_sys_err			rdr_out(char *str);
 int					ft_dupx(int fd1, int fd2, bool is_dup2);
 char				*go_to_expand(char *str, t_list *head_env);
 t_sys_err			init_info(t_info *info);
@@ -128,9 +125,10 @@ t_ptr				*where_is_fd(t_ptr *head, int fd);
 bool				have_space(char *str);
 void				*ft_malloc(size_t size, t_free_type place,
 						t_free_type type);
+int					*exit_status_nm();
 void				help_norm(char **str, t_list *head);
 char				*check_to_expand(char *str, int *i, t_info *info);
-char				*cas_in_expand(char *str, int *i, t_info *info);
+char				*cas_in_expand(char *str, int *i);
 char				**ft_split_tokens(t_info *info);
 void				add_ptr(void *ptr, t_ptr **head, t_free_type place,
 						t_free_type type);
@@ -147,7 +145,7 @@ t_sys_err			herdoc(char *str, t_info *info, t_type_word is_quotes);
 void				change_red_help(t_list **head, t_info *info);
 char				*ft_getenv(char *nm_varible, t_list *env);
 void				ft_lstclear_d(t_list *lst);
-char				*type_red(t_list *head, t_info *info);
+bool				type_red(t_list *head, t_info *info);
 bool				type_red2(t_list *head, char **str, t_info *info,
 						t_type_word wich_quotes);
 bool				is_pipe(char *c);
@@ -200,7 +198,7 @@ void				add_to_env(t_list **head, char *s);
 char				*join_str(char *s1, char *s2, int cdt, int *equal);
 void				attach_node(t_xp **head, char *s);
 t_xp				*create_node(char *s);
-int					add_to_export(t_xp **head, char *s, t_info *info);
+int					add_to_export(t_xp **head, char *s);
 void				check_which_msg(char *cmd, t_info *info);
 int					complete_check(char **path, t_info *info);
 t_sys_err			back_to_normal(t_info *info);

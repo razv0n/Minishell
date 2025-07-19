@@ -93,9 +93,7 @@ void	ft_cd(t_info *info, char **arg)
 		perror(" ");
 		if (old)
 			free(old);
-		*(exit_status_nm()) = 1;
-		if (info->utils->child)
-			ft_free_all(NORMAL, 1);
+		exit_from_func(1, info->utils->child)
 		return ;
 	}
 	ft_cd_2(info, old);

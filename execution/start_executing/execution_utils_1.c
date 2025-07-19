@@ -96,7 +96,7 @@ int	check_builtin(t_info *info, char **cmd)
 	}
 	else if (ft_strcmp(cmd[0], "env"))
 	{
-		ft_env(info->head_env, info->utils->cmd, info);
+		ft_env(info->head_env, info);
 		return (1);
 	}
 	else

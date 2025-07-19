@@ -54,18 +54,10 @@ void	add_to_env(t_list **head, char *s)
 	}
 }
 
-void	ft_env(t_list *head_env, char **cmd, t_info *info)
+void	ft_env(t_list *head_env, t_info *info)
 {
 	if (head_env == NULL)
 		return ;
-	if (cmd[1])
-	{
-		ft_putstr_fd("env: with no options or arguments\n", 2);
-		info->ext = 127;
-		if (info->utils->child)
-			ft_free_all(NORMAL, 127);
-		return ;
-	}
 	while (head_env)
 	{
 		printf("%s\n", head_env->content);

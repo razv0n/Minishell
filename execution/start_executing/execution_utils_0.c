@@ -94,6 +94,8 @@ t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
 	}
 	start_executing2(info);
 	return (SYS_SUCCESS);
+
+	
 }
 
 void	init_things(t_info *info, t_list *head)

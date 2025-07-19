@@ -209,7 +209,7 @@ void				get_next_cmd(t_info *info, t_list **head);
 
 void				ft_pwd(t_info *info);
 void				ft_cd(t_info *info, char **arg);
-void				ft_env(t_list *head_env, char **cmd, t_info *info);
+void				ft_env(t_list *head_env, t_info *info);
 void				ft_export(t_xp **head, t_info *info);
 void				ft_unset(t_info *info, char **cmd);
 void				ft_echo(char **cmd, t_info *info);

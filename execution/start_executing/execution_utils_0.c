@@ -59,14 +59,16 @@ t_sys_err	open_pipe(t_u *utils)
 	return (SYS_SUCCESS);
 }
 
-void	start_executing2(t_info *info)
+t_sys_err	start_executing2(t_info *info)
 {
-	waitpid(info->utils->id, &info->ext, 0);
+	if (info->utils->cmd && info->utils->cmd[0])
+		waitpid(info->utils->id, exit_status_nm(), 0);
 	while (wait(NULL) != -1)
 		;
 	*(sig_varible()) = false;
 	if (info->utils->bin)
-		exit_status(info);
+		exit_status();
+	return (SYS_SUCCESS);
 }
 
 t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
@@ -80,9 +82,12 @@ t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
 		{
 			if (head->type == AMBIGUOUS)
 				get_next_cmd(info, &head);
-			else if (head->type != WORD)
-				if (redirection(head, head->type, info) == SYS_FAIL)
-					return (fail_sys_call(info, SYS_FAIL));
+			else if (head->type != WORD
+				&& (redirection(head, head->type, info) == SYS_FAIL))
+			{
+				fail_sys_call(info, SYS_FAIL);
+				get_next_cmd(info, &head);
+			}
 			if (head)
 				head = head->next;
 		}
@@ -92,10 +97,7 @@ t_sys_err	start_executing(t_info *info, t_list *head, t_u *utils)
 		if (head)
 			head = head->next;
 	}
-	start_executing2(info);
-	return (SYS_SUCCESS);
-
-	
+	return (start_executing2(info));
 }
 
 void	init_things(t_info *info, t_list *head)

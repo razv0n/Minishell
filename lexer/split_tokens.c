@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 0000/04/17 11:56:05 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/13 21:33:00 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/17 15:59:28 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ void	remove_the_null(t_list **head)
 	while (help)
 	{
 		if (!help->content && help->type != AMBIGUOUS)
-			remove_node_doubly(head, help);
+		{
+			if (help->quotes_type == SINGLE_Q || help->quotes_type == DOUBLE_Q)
+				help->content = ft_strdup("", SECOUND_P);
+			else
+				remove_node_doubly(head, help);
+		}
 		help = help->next;
 	}
 }
@@ -53,13 +58,13 @@ bool	split_arg(t_info *info)
 	}
 	if (check_error(info))
 	{
-		info->ext = 2;
+		*(exit_status_nm()) = 2;
 		return (false);
 	}
 	return (true);
 }
 
-char	*type_red(t_list *head, t_info *info)
+bool	type_red(t_list *head, t_info *info)
 {
 	char		*str;
 	t_type_word	wich_quotes;
@@ -71,14 +76,16 @@ char	*type_red(t_list *head, t_info *info)
 	if (ft_strchr(head->content, '$') && head->content[0] != '\'')
 	{
 		expand_2(&str, wich_quotes, info);
+		if (!str)
+			return (false);
 		if (head->quotes_type != DOUBLE_Q && ((count_word_space(str) > 1)
 				|| (head->joined && count_word_space(str) == 1
 					&& is_whitespace(str[ft_strlen(str) - 1]))))
-			return (NULL);
+			return (false);
 	}
 	if (type_red2(head, &str, info, wich_quotes) == false)
-		return (NULL);
-	return (str);
+		return (false);
+	return (true);
 }
 
 bool	type_red2(t_list *head, char **str, t_info *info,

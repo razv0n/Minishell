@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 20:24:54 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/13 21:28:59 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/16 10:30:51 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*check_to_expand(char *str, int *i, t_info *info)
 				(*i)++;
 		}
 		else
-			return (cas_in_expand(str, i, info));
+			return (cas_in_expand(str, i));
 		--(*i);
 		expanded = ft_substr(str, start, *i - start + 1);
 		return (go_to_expand(expanded, info->head_env));
@@ -80,19 +80,10 @@ void	expand_2(char **str, t_type_word wich_quote, t_info *info)
 void	expand(t_info *info)
 {
 	t_list	*content;
-	t_list	*next_node;
 
 	content = info->head_cmd;
 	while (content)
 	{
-		if (content->content[0] == '$' && !content->content[1] && content->next
-			&& content->joined && check_quotes(content->next->content[0]))
-		{
-			next_node = content->next;
-			remove_node_doubly(&info->head_cmd, content);
-			content = next_node;
-			continue ;
-		}
 		if (check_quotes(content->content[0]))
 			remove_quotes(&content->content, content);
 		if (ft_strchr(content->content, '$') && content->type != HEREDOC)

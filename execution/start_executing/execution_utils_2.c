@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 14:36:22 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/20 10:31:41 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/15 14:44:04 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	**update_path(char *s)
 {
 	char	**path;
 	int		i;
-	char	*tmp;
 
 	if (!s)
 		return (NULL);
@@ -63,7 +62,6 @@ char	**update_path(char *s)
 	i = 0;
 	while (path[i])
 	{
-		tmp = path[i];
 		path[i] = add_string(path[i], "/");
 		i++;
 	}

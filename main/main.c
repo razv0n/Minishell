@@ -6,27 +6,11 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/14 18:41:19 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/16 10:08:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Minishell.h"
-
-// void    print_stack(t_list *head)
-// {
-//     while(head)
-//     {
-//         printf("%s\n",head->content);
-//         head = head->next;
-//     }
-// }
-
-// int is_input_from_pipe(void)
-// {
-//     struct stat statbuf;
-//     fstat(STDIN_FILENO, &statbuf);
-//     return (S_ISFIFO(statbuf.st_mode));
-// }
 
 char	*best_prompt(void)
 {
@@ -63,7 +47,7 @@ void	minishell_loop(t_info *info)
 		str = best_prompt();
 		info->line = readline(str);
 		if (!info->line)
-			ft_free_all(EXIT, info->ext);
+			ft_free_all(EXIT, *(exit_status_nm()));
 		if (init_info(info) == SYS_SUCCESS)
 		{
 			add_ptr(info->line, return_ptr(), SECOUND_P, FREE);
@@ -88,7 +72,7 @@ int	main(int ac, char **av, char **env)
 	}
 	setup_signals();
 	info = ft_malloc(sizeof(t_info), FIRST_P, FREE);
-	info->ext = 0;
+	*(exit_status_nm()) = 0;
 	info->cw = NULL;
 	cpy_env(env, info);
 	minishell_loop(info);

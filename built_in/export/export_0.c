@@ -73,7 +73,7 @@ void	add_to_export_2(t_xp **head, t_xp *node, t_xp *ptr, int cdt)
 	}
 }
 
-int	add_to_export(t_xp **head, char *s, t_info *info)
+int	add_to_export(t_xp **head, char *s)
 {
 	t_xp	*tmp;
 	t_xp	*node;
@@ -86,7 +86,7 @@ int	add_to_export(t_xp **head, char *s, t_info *info)
 	{
 		ft_putstr_fd(ft_strjoin(ft_strjoin("export: `", s, SECOUND_P),
 				"': not a valid identifier\n", SECOUND_P), 2);
-		info->ext = 1;
+		*(exit_status_nm()) = 1;
 		return (0);
 	}
 	tmp = *head;

@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 21:26:42 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/13 15:52:55 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/16 13:02:32 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*check_overflow(char *s, long *res, int sign, int *err)
 	int	j;
 
 	j = 0;
-	while (s[j] >= '0' && s[j] <= '9')
+	while (s[j] >= '0' && s[j] <= '9' && j < 19)
 	{
 		if (j == 18)
 		{
@@ -32,9 +32,6 @@ char	*check_overflow(char *s, long *res, int sign, int *err)
 					*err = 1;
 			}
 		}
-		// if ((((*res) * sign) > 922337203685477580)
-		// 	|| (((*res) * sign) < -922337203685477580))
-		// 	*err = 1;
 		*res = (*res) * 10 + s[j] - 48;
 		j++;
 	}

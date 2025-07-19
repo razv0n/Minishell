@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:00:04 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/06/20 10:31:11 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/16 10:22:47 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ void	ft_export(t_xp **head, t_info *info)
 	i = 1;
 	while (info->utils->cmd[i])
 	{
-		cdt = add_to_export(head, info->utils->cmd[i], info);
+		cdt = add_to_export(head, info->utils->cmd[i]);
 		if (cdt)
 			add_to_env(&info->head_env, info->utils->cmd[i]);
 		if (!info->utils->cmd[i + 1])
 		{
 			if (info->utils->child)
-				ft_free_all(NORMAL, info->ext);
+				ft_free_all(NORMAL, *(exit_status_nm()));
 			return ;
 		}
 		i++;
 	}
 	print_export(*head);
-	info->ext = 0;
+	*(exit_status_nm()) = 0;
 	if (info->utils->child)
 		ft_free_all(NORMAL, 0);
 }

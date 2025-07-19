@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:40:36 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/14 20:50:10 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/16 10:08:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_cd_2(t_info *info, char *old)
 	if (!old || !pwd)
 	{
 		perror("Minishell ");
-		info->ext = 0;
+		*(exit_status_nm()) = 0;
 		if (info->utils->child)
 			ft_free_all(NORMAL, 0);
 		return ;
@@ -62,9 +62,16 @@ void	ft_cd_2(t_info *info, char *old)
 	info->cw = pwd;
 	edit_export(info->head_export, info->head_env, pwd, old);
 	free(old);
-	info->ext = 0;
+	*(exit_status_nm()) = 0;
 	if (info->utils->child)
 		ft_free_all(NORMAL, 0);
+}
+
+void	exit_from_func(int ext, bool child)
+{
+	*(exit_status_nm()) = ext;
+	if (child)
+		ft_free_all(NORMAL, ext);
 }
 
 void	ft_cd(t_info *info, char **arg)
@@ -73,20 +80,20 @@ void	ft_cd(t_info *info, char **arg)
 
 	old = NULL;
 	if (!arg[1])
-		return ;
+		return (exit_from_func(0, info->utils->child));
+	if (arg[2])
+	{
+		ft_putstr_fd("cd : too many arguments\n", 2);
+		return (exit_from_func(1, info->utils->child));
+	}
 	old = getcwd(old, 4096);
 	if (chdir(arg[1]) == -1)
 	{
-		if (arg[2])
-			ft_putstr_fd("cd: too many arguments\n", 2);
-		else
-		{
-			ft_putstr_fd(ft_strjoin("cd: ", arg[1], SECOUND_P), 2);
-			perror(" ");
-		}
+		ft_putstr_fd(ft_strjoin("cd: ", arg[1], SECOUND_P), 2);
+		perror(" ");
 		if (old)
 			free(old);
-		info->ext = 1;
+		*(exit_status_nm()) = 1;
 		if (info->utils->child)
 			ft_free_all(NORMAL, 1);
 		return ;

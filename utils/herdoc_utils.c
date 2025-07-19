@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 10:26:05 by yezzemry          #+#    #+#             */
-/*   Updated: 2025/07/11 16:31:03 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/16 10:08:07 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_sys_err	start_herdoc(t_info *info, t_list *head)
 			str = joined_node_str(head, &is_quotes);
 			if (herdoc(str, info, is_quotes) == SYS_FAIL)
 				return (SYS_FAIL);
-			if (info->ext == 130)
+			if (*(exit_status_nm()) == 130)
 				info->sigint_herdoc = true;
 		}
 		head = head->next;

@@ -93,7 +93,7 @@ void	ft_cd(t_info *info, char **arg)
 		perror(" ");
 		if (old)
 			free(old);
-		exit_from_func(1, info->utils->child)
+		exit_from_func(1, info->utils->child);
 		return ;
 	}
 	ft_cd_2(info, old);

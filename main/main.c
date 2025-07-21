@@ -6,7 +6,7 @@
 /*   By: mfahmi <mfahmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:30:15 by mfahmi            #+#    #+#             */
-/*   Updated: 2025/07/16 10:08:07 by mfahmi           ###   ########.fr       */
+/*   Updated: 2025/07/20 14:23:11 by mfahmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ int	main(int ac, char **av, char **env)
 	t_info	*info;
 
 	(void)av;
+	if (!isatty(0) || !isatty(1) || !isatty(2))
+	{
+		ft_putstr_fd("minishell: please open STD FD(s)\n", 2);
+		exit(1);
+	}
 	if (ac != 1)
 	{
 		ft_putstr_fd("minishell: cannot run this\n", 2);

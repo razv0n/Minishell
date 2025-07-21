@@ -80,7 +80,6 @@ t_sys_err	fail_sys_call(t_info *info, t_sys_err return_value)
 {
 	ft_putstr_fd(info->cmd_err, 2);
 	ft_perror(SYSCALL);
-	if (!info->utils->child)
-		*(exit_status_nm()) = 1;
+	*(exit_status_nm()) = 1;
 	return (return_value);
 }
